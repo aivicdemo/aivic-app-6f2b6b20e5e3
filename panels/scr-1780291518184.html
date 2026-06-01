@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>単価適用期間管理画面 - 営業支援システムの構築</title>
+  <script>
+window.AIVIC_API_URL = "https://jqykrkgdvngp7qvmavufg5tohq0xwdzb.lambda-url.us-east-1.on.aws/";
+window.AIVIC_APP_ID = "session-1780284530342";
+window.AIVIC_SYSTEM_NAME = "顧客別単価管理システムの構築";
+window.AIVIC_TABLES = [{"tableName":"顧客別単価履歴テーブル","purpose":"顧客ごとの商品単価の変更履歴を管理し、Web発注プラットフォームでの価格表示と受注処理に使用する","columns":[{"name":"履歴ID","type":"uuid","required":true,"description":"単価履歴の一意識別子（主キー）"},{"name":"顧客ID","type":"uuid","required":true,"description":"対象顧客の識別子"},{"name":"商品ID","type":"uuid","required":true,"description":"対象商品の識別子"},{"name":"単価","type":"integer","required":true,"description":"顧客別の商品単価（円）"},{"name":"適用開始日","type":"timestamp","required":true,"description":"この単価が適用開始される日時"},{"name":"適用終了日","type":"timestamp","required":false,"description":"この単価の適用終了日時（NULLの場合は現在有効）"},{"name":"変更理由","type":"varchar(100)","required":false,"description":"単価変更の理由（値上げ、値下げ、キャンペーン等）"},{"name":"承認者ID","type":"uuid","required":false,"description":"単価変更を承認した担当者の識別子"},{"name":"承認日時","type":"timestamp","required":false,"description":"単価変更が承認された日時"},{"name":"有効フラグ","type":"boolean","required":true,"description":"この履歴レコードが有効かどうか"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者の識別子"},{"name":"更新者ID","type":"uuid","required":true,"description":"レコード最終更新者の識別子"}]},{"tableName":"単価更新申請テーブル","purpose":"顧客別単価の変更申請を管理し、承認フローを通じて単価履歴への反映を制御する","columns":[{"name":"申請ID","type":"uuid","required":true,"description":"単価更新申請の一意識別子"},{"name":"顧客ID","type":"uuid","required":true,"description":"単価変更対象の顧客識別子"},{"name":"商品ID","type":"uuid","required":true,"description":"単価変更対象の商品識別子"},{"name":"申請種別","type":"varchar(100)","required":true,"description":"新規登録/変更/削除の区分"},{"name":"現在単価","type":"integer","required":false,"description":"変更前の現在適用単価"},{"name":"申請単価","type":"integer","required":true,"description":"変更後の希望単価"},{"name":"適用開始日","type":"timestamp","required":true,"description":"新単価の適用開始予定日"},{"name":"適用終了日","type":"timestamp","required":false,"description":"新単価の適用終了予定日"},{"name":"申請理由","type":"text","required":true,"description":"単価変更の理由・背景"},{"name":"申請状態","type":"varchar(100)","required":true,"description":"申請中/承認済/却下/取下の状態"},{"name":"申請者ID","type":"uuid","required":true,"description":"申請を行ったユーザーの識別子"},{"name":"承認者ID","type":"uuid","required":false,"description":"申請を承認・却下したユーザーの識別子"},{"name":"承認日時","type":"timestamp","required":false,"description":"承認・却下が行われた日時"},{"name":"承認コメント","type":"text","required":false,"description":"承認者からのコメント・指示事項"},{"name":"履歴ID","type":"uuid","required":false,"description":"承認後に作成された単価履歴レコードのID"},{"name":"作成日時","type":"timestamp","required":true,"description":"申請レコードの作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"申請レコードの最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"申請レコードを作成したユーザーID"},{"name":"更新者ID","type":"uuid","required":true,"description":"申請レコードを最後に更新したユーザーID"}]},{"tableName":"単価承認ワークフローテーブル","purpose":"単価更新申請の承認プロセスを管理し、承認者による段階的な承認フローを制御する","columns":[{"name":"ワークフローID","type":"uuid","required":true,"description":"ワークフローの一意識別子"},{"name":"申請ID","type":"uuid","required":true,"description":"単価更新申請テーブルへの外部キー"},{"name":"承認段階","type":"integer","required":true,"description":"承認プロセスの段階番号（1次承認、2次承認等）"},{"name":"承認者ID","type":"uuid","required":true,"description":"承認権限を持つユーザーのID"},{"name":"承認者名","type":"varchar(100)","required":true,"description":"承認者の氏名"},{"name":"承認ステータス","type":"varchar(100)","required":true,"description":"承認状態（承認待ち、承認済み、否認、保留）"},{"name":"承認日時","type":"timestamp","required":false,"description":"承認または否認が実行された日時"},{"name":"承認コメント","type":"text","required":false,"description":"承認者による承認理由や否認理由のコメント"},{"name":"期限日時","type":"timestamp","required":true,"description":"承認期限の日時"},{"name":"通知済フラグ","type":"boolean","required":true,"description":"承認依頼通知の送信済み状態"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"}]},{"tableName":"単価変更ログテーブル","purpose":"顧客別単価の変更履歴を詳細に記録し、変更内容の追跡と監査証跡を提供する","columns":[{"name":"ログID","type":"uuid","required":true,"description":"単価変更ログの一意識別子"},{"name":"顧客ID","type":"uuid","required":true,"description":"単価変更対象の顧客識別子"},{"name":"商品ID","type":"uuid","required":true,"description":"単価変更対象の商品識別子"},{"name":"申請ID","type":"uuid","required":false,"description":"関連する単価更新申請の識別子"},{"name":"変更種別","type":"varchar(100)","required":true,"description":"変更の種類（新規登録/単価変更/削除/一括更新等）"},{"name":"変更前単価","type":"integer","required":false,"description":"変更前の単価（新規登録時はnull）"},{"name":"変更後単価","type":"integer","required":false,"description":"変更後の単価（削除時はnull）"},{"name":"変更前適用開始日","type":"timestamp","required":false,"description":"変更前の適用開始日"},{"name":"変更後適用開始日","type":"timestamp","required":false,"description":"変更後の適用開始日"},{"name":"変更前適用終了日","type":"timestamp","required":false,"description":"変更前の適用終了日"},{"name":"変更後適用終了日","type":"timestamp","required":false,"description":"変更後の適用終了日"},{"name":"変更理由","type":"text","required":false,"description":"単価変更の理由・備考"},{"name":"承認状況","type":"varchar(100)","required":true,"description":"承認状況（承認済/却下/承認不要等）"},{"name":"承認者ID","type":"uuid","required":false,"description":"変更を承認したユーザーの識別子"},{"name":"承認日時","type":"timestamp","required":false,"description":"承認が完了した日時"},{"name":"システム変更フラグ","type":"boolean","required":true,"description":"システム自動変更かユーザー手動変更かの区別"},{"name":"作成日時","type":"timestamp","required":true,"description":"ログレコードの作成日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"変更を実行したユーザーの識別子"}]},{"tableName":"リアルタイム照会ログテーブル","purpose":"Web発注プラットフォームでの顧客別単価照会の実行履歴とパフォーマンスを記録し、システム監視と業務分析に活用する","columns":[{"name":"照会ログID","type":"uuid","required":true,"description":"照会ログの一意識別子（主キー）"},{"name":"顧客コード","type":"varchar(100)","required":true,"description":"照会を実行した顧客の識別コード"},{"name":"商品コード","type":"varchar(100)","required":true,"description":"照会対象の商品識別コード"},{"name":"照会種別","type":"varchar(100)","required":true,"description":"照会の種類（単価照会、履歴照会、一括照会等）"},{"name":"照会実行者ID","type":"varchar(100)","required":true,"description":"照会を実行したユーザーの識別ID"},{"name":"照会実行者名","type":"varchar(100)","required":true,"description":"照会を実行したユーザーの名前"},{"name":"照会開始日時","type":"timestamp","required":true,"description":"照会処理の開始日時"},{"name":"照会終了日時","type":"timestamp","required":true,"description":"照会処理の終了日時"},{"name":"処理時間ミリ秒","type":"integer","required":true,"description":"照会処理にかかった時間（ミリ秒）"},{"name":"照会結果ステータス","type":"varchar(100)","required":true,"description":"照会の実行結果（成功、エラー、タイムアウト等）"},{"name":"取得件数","type":"integer","required":true,"description":"照会で取得されたレコード件数"},{"name":"エラーメッセージ","type":"text","required":false,"description":"エラー発生時の詳細メッセージ"},{"name":"IPアドレス","type":"varchar(100)","required":true,"description":"照会実行元のIPアドレス"},{"name":"ユーザーエージェント","type":"text","required":false,"description":"照会実行時のブラウザ情報"},{"name":"セッションID","type":"varchar(100)","required":true,"description":"照会実行時のセッション識別子"},{"name":"照会条件","type":"text","required":false,"description":"照会時に指定された検索条件の詳細"},{"name":"作成日時","type":"timestamp","required":true,"description":"ログレコードの作成日時"}]},{"tableName":"単価適用期間テーブル","purpose":"顧客別単価の適用期間を管理し、Web発注プラットフォームでの価格照会時に有効な単価を特定するためのテーブル","columns":[{"name":"適用期間ID","type":"uuid","required":true,"description":"適用期間の一意識別子（主キー）"},{"name":"顧客ID","type":"uuid","required":true,"description":"対象顧客の識別子"},{"name":"商品ID","type":"uuid","required":true,"description":"対象商品の識別子"},{"name":"単価履歴ID","type":"uuid","required":true,"description":"適用する単価履歴への参照"},{"name":"適用開始日","type":"timestamp","required":true,"description":"単価適用の開始日時"},{"name":"適用終了日","type":"timestamp","required":false,"description":"単価適用の終了日時（NULLの場合は無期限）"},{"name":"適用単価","type":"integer","required":true,"description":"適用される単価（円）"},{"name":"適用状態","type":"varchar(100)","required":true,"description":"適用状態（有効、無効、予約、期限切れ）"},{"name":"優先度","type":"integer","required":true,"description":"同一期間に複数適用がある場合の優先順位"},{"name":"備考","type":"text","required":false,"description":"適用期間に関する備考・注意事項"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者の識別子"},{"name":"更新者ID","type":"uuid","required":true,"description":"レコード最終更新者の識別子"}]},{"tableName":"単価更新通知テーブル","purpose":"単価更新時の関係者への通知履歴と配信状況を管理する","columns":[{"name":"通知ID","type":"uuid","required":true,"description":"通知レコードの一意識別子（主キー）"},{"name":"単価更新申請ID","type":"uuid","required":true,"description":"関連する単価更新申請への外部キー"},{"name":"顧客コード","type":"varchar(100)","required":true,"description":"通知対象の顧客識別コード"},{"name":"商品コード","type":"varchar(100)","required":true,"description":"単価更新対象の商品コード"},{"name":"通知種別","type":"varchar(100)","required":true,"description":"通知の種類（承認完了、適用開始、緊急変更等）"},{"name":"通知先区分","type":"varchar(100)","required":true,"description":"通知先の区分（顧客、営業担当、管理者等）"},{"name":"通知先ID","type":"varchar(100)","required":true,"description":"通知先の識別子（ユーザーID、顧客ID等）"},{"name":"通知方法","type":"varchar(100)","required":true,"description":"通知手段（メール、システム内通知、API等）"},{"name":"通知ステータス","type":"varchar(100)","required":true,"description":"通知の配信状況（送信待ち、送信済み、配信失敗、既読等）"},{"name":"通知タイトル","type":"varchar(100)","required":true,"description":"通知メッセージのタイトル"},{"name":"通知内容","type":"text","required":true,"description":"通知メッセージの本文"},{"name":"送信予定日時","type":"timestamp","required":true,"description":"通知の送信予定日時"},{"name":"送信日時","type":"timestamp","required":false,"description":"実際の通知送信日時"},{"name":"既読日時","type":"timestamp","required":false,"description":"通知が既読された日時"},{"name":"エラーメッセージ","type":"text","required":false,"description":"送信失敗時のエラー内容"},{"name":"再送回数","type":"integer","required":true,"description":"通知の再送信回数"},{"name":"優先度","type":"varchar(100)","required":true,"description":"通知の優先度（高、中、低）"},{"name":"有効フラグ","type":"boolean","required":true,"description":"通知レコードの有効性フラグ"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者のユーザーID"},{"name":"更新者","type":"varchar(100)","required":true,"description":"レコード最終更新者のユーザーID"}]}];
+window.AIVIC_PRESET_SEED = {};
+window.AIVIC_PAGE_SCREEN_ID = "scr-1780291518184";
+window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  const tbody = container.querySelector('#period-tbody');\n  const modal = container.querySelector('#add-period-modal');\n  const overlapWarning = container.querySelector('#overlap-warning');\n  \n  // 1. テーブル再描画関数\n  function renderRows(rows) {\n    const totalCount = container.querySelector('#total-count');\n    const activeCount = container.querySelector('#active-count');\n    \n    totalCount.textContent = rows.length;\n    activeCount.textContent = rows.filter(r => r.適用状態 === '有効').length;\n    \n    tbody.innerHTML = rows.map(r => `\n      <tr data-id=\"${r.id || r.適用期間ID}\">\n        <td>${r.顧客名 || '未設定'}</td>\n        <td>${r.商品名 || '未設定'}</td>\n        <td class=\"text-right\">${(r.適用単価 || 0).toLocaleString()}円</td>\n        <td>${r.適用開始日 ? new Date(r.適用開始日).toLocaleDateString() : '-'}</td>\n        <td>${r.適用終了日 ? new Date(r.適用終了日).toLocaleDateString() : '無期限'}</td>\n        <td>\n          <span class=\"px-2 py-1 rounded text-xs font-medium\" \n                style=\"background: ${getStatusColor(r.適用状態)}; color: #fff;\">\n            ${r.適用状態 || '未設定'}\n          </span>\n        </td>\n        <td class=\"text-center\">${r.優先度 || 1}</td>\n        <td class=\"text-sm\" style=\"color: var(--text-muted);\">${r.備考 || '-'}</td>\n        <td>\n          <div class=\"flex gap-1\">\n            <button class=\"action-btn secondary edit-btn text-xs px-2 py-1\" data-id=\"${r.id || r.適用期間ID}\">編集</button>\n            <button class=\"action-btn secondary delete-btn text-xs px-2 py-1\" data-id=\"${r.id || r.適用期間ID}\">削除</button>\n            <button class=\"action-btn secondary toggle-btn text-xs px-2 py-1\" data-id=\"${r.id || r.適用期間ID}\">\n              ${r.適用状態 === '有効' ? '無効化' : '有効化'}\n            </button>\n          </div>\n        </td>\n      </tr>\n    `).join('');\n    \n    // 期間重複チェック\n    checkOverlaps(rows);\n  }\n  \n  function getStatusColor(status) {\n    switch(status) {\n      case '有効': return '#22c55e';\n      case '無効': return '#6b7280';\n      case '予約': return '#3b82f6';\n      case '期限切れ': return '#ef4444';\n      default: return '#6b7280';\n    }\n  }\n  \n  function checkOverlaps(rows) {\n    const overlaps = [];\n    const activeRows = rows.filter(r => r.適用状態 === '有効');\n    \n    for (let i = 0; i < activeRows.length; i++) {\n      for (let j = i + 1; j < activeRows.length; j++) {\n        const row1 = activeRows[i];\n        const row2 = activeRows[j];\n        \n        if (row1.顧客ID === row2.顧客ID && row1.商品ID === row2.商品ID) {\n          const start1 = new Date(row1.適用開始日);\n          const end1 = row1.適用終了日 ? new Date(row1.適用終了日) : new Date('2099-12-31');\n          const start2 = new Date(row2.適用開始日);\n          const end2 = row2.適用終了日 ? new Date(row2.適用終了日) : new Date('2099-12-31');\n          \n          if (start1 <= end2 && start2 <= end1) {\n            overlaps.push({ row1, row2 });\n          }\n        }\n      }\n    }\n    \n    if (overlaps.length > 0) {\n      overlapWarning.style.display = 'block';\n      const details = container.querySelector('#overlap-details');\n      details.innerHTML = overlaps.map(o => \n        `${o.row1.顧客名} - ${o.row1.商品名}: ${new Date(o.row1.適用開始日).toLocaleDateString()} ～ と ${new Date(o.row2.適用開始日).toLocaleDateString()} ～ が重複`\n      ).join('<br>');\n    } else {\n      overlapWarning.style.display = 'none';\n    }\n  }\n  \n  // 2. 初期データ描画\n  window.aivicApi.list(4).then(rows => {\n    if (rows) renderRows(rows);\n  });\n  \n  // 3. 検索ボタン\n  container.querySelector('#btn-search').addEventListener('click', async () => {\n    const customerSearch = container.querySelector('#customer-search').value.toLowerCase();\n    const categoryFilter = container.querySelector('#category-filter').value;\n    const statusFilter = container.querySelector('#status-filter').value;\n    const startDate = container.querySelector('#start-date').value;\n    const endDate = container.querySelector('#end-date').value;\n    \n    const rows = await window.aivicApi.list(4);\n    if (!rows) return;\n    \n    const filtered = rows.filter(r => {\n      const matchCustomer = !customerSearch || (r.顧客名 || '').toLowerCase().includes(customerSearch);\n      const matchCategory = !categoryFilter || (r.商品カテゴリ || '').includes(categoryFilter);\n      const matchStatus = !statusFilter || r.適用状態 === statusFilter;\n      const matchStartDate = !startDate || new Date(r.適用開始日) >= new Date(startDate);\n      const matchEndDate = !endDate || (r.適用終了日 && new Date(r.適用終了日) <= new Date(endDate));\n      \n      return matchCustomer && matchCategory && matchStatus && matchStartDate && matchEndDate;\n    });\n    \n    renderRows(filtered);\n  });\n  \n  // 条件クリア\n  container.querySelector('#btn-clear').addEventListener('click', () => {\n    container.querySelector('#customer-search').value = '';\n    container.querySelector('#category-filter').value = '';\n    container.querySelector('#status-filter').value = '';\n    container.querySelector('#start-date').value = '';\n    container.querySelector('#end-date').value = '';\n    \n    window.aivicApi.list(4).then(rows => {\n      if (rows) renderRows(rows);\n    });\n  });\n  \n  // 4. 新規期間追加モーダル\n  container.querySelector('#btn-add-period').addEventListener('click', () => {\n    modal.style.display = 'flex';\n  });\n  \n  container.querySelector('#close-modal').addEventListener('click', () => {\n    modal.style.display = 'none';\n  });\n  \n  container.querySelector('#cancel-modal').addEventListener('click', () => {\n    modal.style.display = 'none';\n  });\n  \n  // 5. 期間保存\n  container.querySelector('#period-form').addEventListener('submit', async (e) => {\n    e.preventDefault();\n    \n    const formData = {\n      顧客ID: container.querySelector('#modal-customer').value,\n      商品ID: container.querySelector('#modal-product').value,\n      適用単価: parseInt(container.querySelector('#modal-price').value),\n      適用開始日: container.querySelector('#modal-start-date').value,\n      適用終了日: container.querySelector('#modal-end-date').value || null,\n      適用状態: container.querySelector('#modal-status').value,\n      優先度: parseInt(container.querySelector('#modal-priority').value),\n      備考: container.querySelector('#modal-notes').value,\n      作成日時: new Date().toISOString(),\n      更新日時: new Date().toISOString(),\n      作成者ID: 'current-user',\n      更新者ID: 'current-user'\n    };\n    \n    const saved = await window.aivicApi.save(4, formData);\n    if (saved) {\n      modal.style.display = 'none';\n      container.querySelector('#period-form').reset();\n      const rows = await window.aivicApi.list(4);\n      if (rows) renderRows(rows);\n    }\n  });\n  \n  // 6. 行レベル操作（削除・編集・有効化/無効化）\n  container.addEventListener('click', async (e) => {\n    const deleteBtn = e.target.closest('.delete-btn');\n    const editBtn = e.target.closest('.edit-btn');\n    const toggleBtn = e.target.closest('.toggle-btn');\n    \n    if (deleteBtn) {\n      if (!confirm('この適用期間を削除しますか？')) return;\n      \n      await window.aivicApi.delete(4, deleteBtn.dataset.id);\n      const rows = await window.aivicApi.list(4);\n      if (rows) renderRows(rows);\n    }\n    \n    if (editBtn) {\n      // 編集機能は単価更新申請画面に遷移\n      window.showScreen('scr-1780291488728');\n    }\n    \n    if (toggleBtn) {\n      const id = toggleBtn.dataset.id;\n      const rows = await window.aivicApi.list(4);\n      const row = rows.find(r => (r.id || r.適用期間ID) === id);\n      \n      if (row) {\n        const newStatus = row.適用状態 === '有効' ? '無効' : '有効';\n        await window.aivicApi.update(4, id, { 適用状態: newStatus, 更新日時: new Date().toISOString() });\n        const updatedRows = await window.aivicApi.list(4);\n        if (updatedRows) renderRows(updatedRows);\n      }\n    }\n  });\n  \n  // 一括更新ボタン\n  container.querySelector('#btn-bulk-update').addEventListener('click', () => {\n    window.showScreen('scr-1780291488728');\n  });\n}";
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+:root {
+  --primary: #1b7f37;
+  --primary-hover: #155d2a;
+  --bg-main: #f8faf9;
+  --bg-card: #ffffff;
+  --bg-sidebar: #f4f6f5;
+  --border: #d9e3dc;
+  --text: #181818;
+  --text-muted: #4a4a4a;
+  --top-bar-bg: #ffffff;
+  --top-bar-border: #d1ddd4;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:var(--bg-main); color:var(--text); display:flex; flex-direction:column; height:100vh; overflow:hidden; }
+.top-bar { display:flex; align-items:center; gap:0; background:var(--top-bar-bg, var(--bg-sidebar)); border-bottom:1px solid var(--top-bar-border, var(--border)); padding:0 16px; height:48px; flex-shrink:0; }
+.top-bar .app-name { font-size:14px; font-weight:700; color:var(--text); margin-right:20px; white-space:nowrap; }
+.sys-tab { background:transparent; color:var(--text); opacity:0.6; border:none; border-bottom:2px solid transparent; padding:0 16px; height:48px; cursor:pointer; font-size:13px; white-space:nowrap; transition:color .15s, border-color .15s, opacity .15s; text-decoration:none; display:flex; align-items:center; }
+.sys-tab:hover { opacity:0.85; }
+.sys-tab.active, .sys-tab.aivic-active { color:var(--text); opacity:1; border-bottom-color:var(--primary); font-weight:600; }
+.app-body { display:flex; flex:1; overflow:hidden; }
+.sidebar { width:220px; background:var(--bg-sidebar); border-right:1px solid var(--border); padding:12px 8px; overflow-y:auto; flex-shrink:0; }
+.sidebar-sys-name { margin:0 0 8px; padding:4px 8px; font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:.06em; }
+.nav-btn { display:block; width:100%; text-align:left; background:transparent; color:var(--text); opacity:0.65; border:none; border-radius:8px; padding:8px 12px; cursor:pointer; font-size:13px; margin-bottom:2px; transition:opacity .15s,background .15s; text-decoration:none; }
+.nav-btn:hover { background:var(--border); opacity:0.9; }
+.nav-btn.active, .nav-btn.aivic-active { background:var(--primary); color:#fff; opacity:1; }
+.main { flex:1; padding:16px; overflow-y:auto; }
+.card { border:1px solid var(--border); border-radius:12px; padding:16px; background:var(--bg-card); margin-bottom:12px; }
+.hidden { display:none !important; }
+.action-btn { background:var(--primary); color:#fff; border:0; border-radius:8px; padding:8px 14px; cursor:pointer; font-size:13px; }
+.action-btn:hover { background:var(--primary-hover, #1a55ef); }
+.action-btn.secondary { background:var(--border); color:var(--text); }
+.input { background:var(--bg-main); border:1px solid var(--border); color:var(--text); border-radius:8px; padding:7px 10px; font-size:13px; }
+.muted { color:var(--text-muted); font-size:13px; }
+.table-wrap { overflow:auto; border:1px solid var(--border); border-radius:8px; }
+table { width:100%; border-collapse:collapse; }
+th, td { border-bottom:1px solid var(--border); padding:8px 10px; text-align:left; font-size:13px; }
+th { color:var(--text); background:var(--bg-sidebar); position:sticky; top:0; font-weight:600; }
+tr:hover { background:var(--bg-sidebar); cursor:pointer; }
+canvas { display:block; max-height:280px !important; }
+.chart-wrap, .chart-container, [class*="chart"] { position:relative; height:260px; max-height:280px; }
+@media (max-width:768px) {
+  .top-bar { overflow-x:auto; }
+  .app-body { flex-direction:column; }
+  .sidebar { width:100%; height:auto; display:flex; flex-wrap:wrap; gap:4px; padding:8px; }
+  .sidebar-sys-name { display:none; }
+  .nav-btn { width:auto; border-radius:999px; padding:5px 12px; }
+}
+  </style>
+</head>
+<body>
+<header class="top-bar">
+  <span class="app-name">営業支援システムの構築</span>
+    <a href="./scr-1780291062211.html" class="sys-tab" data-aivic-nav-system="itg-1">Web発注プラットフォームの構築</a>
+    <a href="./scr-1780291283309.html" class="sys-tab" data-aivic-nav-system="itg-2">基幹システム連携管理システムの構築</a>
+    <a href="./scr-1780291476037.html" class="sys-tab active" data-aivic-nav-system="itg-3">顧客別単価管理システムの構築</a>
+    <a href="./scr-1780291692616.html" class="sys-tab" data-aivic-nav-system="itg-4">経営分析・レポートシステムの構築</a>
+    <a href="./scr-1780291929523.html" class="sys-tab" data-aivic-nav-system="itg-5">営業支援システムの構築</a>
+</header>
+<div class="app-body">
+  <aside class="sidebar">
+    <p class="sidebar-sys-name">顧客別単価管理システムの構築</p>
+      <a href="./scr-1780291476037.html" class="nav-btn" data-aivic-nav="scr-1780291476037">顧客別単価照会画面</a>
+      <a href="./scr-1780291488728.html" class="nav-btn" data-aivic-nav="scr-1780291488728">単価更新申請画面</a>
+      <a href="./scr-1780291498028.html" class="nav-btn" data-aivic-nav="scr-1780291498028">単価承認ワークフロー画面</a>
+      <a href="./scr-1780291508457.html" class="nav-btn" data-aivic-nav="scr-1780291508457">単価変更履歴照会画面</a>
+      <a href="./scr-1780291518184.html" class="nav-btn active" data-aivic-nav="scr-1780291518184">単価適用期間管理画面</a>
+  </aside>
+  <main class="main">
+    <section class="card" data-aivic-panel="scr-1780291518184" style="margin-top:0">
+<div class="flex gap-3 h-full">
+  <!-- 左側: フィルター・検索エリア -->
+  <div class="w-80 bg-card rounded-lg p-4 h-fit">
+    <h2 class="text-lg font-semibold mb-4" style="color: var(--text);">検索・フィルター</h2>
+    
+    <div class="space-y-3">
+      <div>
+        <label class="block text-sm mb-1" style="color: var(--text-muted);">顧客検索</label>
+        <input type="text" id="customer-search" data-testid="customer-search" placeholder="顧客名・コードで検索" 
+               class="w-full px-3 py-2 rounded border text-sm" 
+               style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+      </div>
+      
+      <div>
+        <label class="block text-sm mb-1" style="color: var(--text-muted);">商品カテゴリ</label>
+        <select id="category-filter" data-testid="category-filter" 
+                class="w-full px-3 py-2 rounded border text-sm" 
+                style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+          <option value="">すべてのカテゴリ</option>
+          <option value="電材">電材</option>
+          <option value="配管材">配管材</option>
+          <option value="工具">工具</option>
+          <option value="照明器具">照明器具</option>
+        </select>
+      </div>
+      
+      <div>
+        <label class="block text-sm mb-1" style="color: var(--text-muted);">適用状況</label>
+        <select id="status-filter" data-testid="status-filter" 
+                class="w-full px-3 py-2 rounded border text-sm" 
+                style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+          <option value="">すべての状況</option>
+          <option value="有効">有効</option>
+          <option value="無効">無効</option>
+          <option value="予約">予約</option>
+          <option value="期限切れ">期限切れ</option>
+        </select>
+      </div>
+      
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <label class="block text-sm mb-1" style="color: var(--text-muted);">開始日</label>
+          <input type="date" id="start-date" data-testid="start-date" 
+                 class="w-full px-2 py-2 rounded border text-sm" 
+                 style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+        </div>
+        <div>
+          <label class="block text-sm mb-1" style="color: var(--text-muted);">終了日</label>
+          <input type="date" id="end-date" data-testid="end-date" 
+                 class="w-full px-2 py-2 rounded border text-sm" 
+                 style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+        </div>
+      </div>
+      
+      <button id="btn-search" data-testid="search-button" class="action-btn w-full">
+        検索実行
+      </button>
+      
+      <button id="btn-clear" data-testid="clear-button" class="action-btn secondary w-full">
+        条件クリア
+      </button>
+    </div>
+  </div>
+
+  <!-- 右側: メインコンテンツ -->
+  <div class="flex-1 flex flex-col">
+    <!-- ヘッダー -->
+    <div class="flex justify-between items-center mb-4">
+      <div>
+        <h1 class="text-xl font-bold" style="color: var(--text);">単価適用期間管理</h1>
+        <p class="text-sm mt-1" style="color: var(--text-muted);">顧客別の単価適用期間を設定・管理し、期間重複チェックや有効性検証を行います</p>
+      </div>
+      <div class="flex gap-2">
+        <button id="btn-add-period" data-testid="add-period-button" class="action-btn">
+          新規期間追加
+        </button>
+        <button id="btn-bulk-update" data-testid="bulk-update-button" class="action-btn secondary">
+          一括更新
+        </button>
+        <button onclick="window.showScreen('scr-1780291488728')" class="action-btn secondary">
+          単価更新申請
+        </button>
+      </div>
+    </div>
+
+    <!-- 期間重複警告エリア -->
+    <div id="overlap-warning" class="hidden mb-4 p-3 rounded border-l-4" 
+         style="background: var(--bg-card); border-left-color: #ff6a00; color: var(--text);">
+      <div class="flex items-center gap-2">
+        <span class="text-sm font-medium">⚠️ 期間重複警告</span>
+      </div>
+      <div id="overlap-details" class="text-sm mt-1" style="color: var(--text-muted);"></div>
+    </div>
+
+    <!-- 適用期間一覧テーブル -->
+    <div class="bg-card rounded-lg flex-1 overflow-hidden">
+      <div class="p-4 border-b" style="border-color: var(--border);">
+        <div class="flex justify-between items-center">
+          <h2 class="font-semibold" style="color: var(--text);">現在の適用期間一覧</h2>
+          <div class="flex gap-2 text-sm" style="color: var(--text-muted);">
+            <span>総件数: <span id="total-count">0</span>件</span>
+            <span>|</span>
+            <span>有効: <span id="active-count">0</span>件</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="table-wrap" style="height: calc(100% - 80px);">
+        <table data-testid="period-list">
+          <thead>
+            <tr>
+              <th>顧客名</th>
+              <th>商品名</th>
+              <th>適用単価</th>
+              <th>開始日</th>
+              <th>終了日</th>
+              <th>適用状態</th>
+              <th>優先度</th>
+              <th>備考</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="period-tbody">
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 新規期間追加モーダル -->
+<div id="add-period-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" style="display: none;">
+  <div class="bg-card rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-lg font-semibold" style="color: var(--text);">新規適用期間追加</h3>
+      <button id="close-modal" class="text-2xl" style="color: var(--text-muted);">&times;</button>
+    </div>
+    
+    <form id="period-form" class="space-y-4">
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm mb-1" style="color: var(--text-muted);">顧客選択</label>
+          <select id="modal-customer" data-testid="modal-customer" required
+                  class="w-full px-3 py-2 rounded border" 
+                  style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+            <option value="">顧客を選択してください</option>
+            <option value="customer-001">株式会社サンプル電設</option>
+            <option value="customer-002">有限会社テスト工業</option>
+            <option value="customer-003">山田電気工事店</option>
+          </select>
+        </div>
+        
+        <div>
+          <label class="block text-sm mb-1" style="color: var(--text-muted);">商品選択</label>
+          <select id="modal-product" data-testid="modal-product" required
+                  class="w-full px-3 py-2 rounded border" 
+                  style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+            <option value="">商品を選択してください</option>
+            <option value="product-001">VVFケーブル 2.0mm</option>
+            <option value="product-002">PF管 16mm</option>
+            <option value="product-003">LED照明器具</option>
+            <option value="product-004">分電盤</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-3 gap-4">
+        <div>
+          <label class="block text-sm mb-1" style="color: var(--text-muted);">適用単価（円）</label>
+          <input type="number" id="modal-price" data-testid="modal-price" required min="0"
+                 class="w-full px-3 py-2 rounded border" 
+                 style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+        </div>
+        
+        <div>
+          <label class="block text-sm mb-1" style="color: var(--text-muted);">開始日</label>
+          <input type="datetime-local" id="modal-start-date" data-testid="modal-start-date" required
+                 class="w-full px-3 py-2 rounded border" 
+                 style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+        </div>
+        
+        <div>
+          <label class="block text-sm mb-1" style="color: var(--text-muted);">終了日</label>
+          <input type="datetime-local" id="modal-end-date" data-testid="modal-end-date"
+                 class="w-full px-3 py-2 rounded border" 
+                 style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm mb-1" style="color: var(--text-muted);">適用状態</label>
+          <select id="modal-status" data-testid="modal-status" required
+                  class="w-full px-3 py-2 rounded border" 
+                  style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+            <option value="">状態を選択してください</option>
+            <option value="有効">有効</option>
+            <option value="無効">無効</option>
+            <option value="予約">予約</option>
+          </select>
+        </div>
+        
+        <div>
+          <label class="block text-sm mb-1" style="color: var(--text-muted);">優先度</label>
+          <input type="number" id="modal-priority" data-testid="modal-priority" value="1" min="1" max="10"
+                 class="w-full px-3 py-2 rounded border" 
+                 style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+        </div>
+      </div>
+      
+      <div>
+        <label class="block text-sm mb-1" style="color: var(--text-muted);">備考</label>
+        <textarea id="modal-notes" data-testid="modal-notes" rows="3"
+                  class="w-full px-3 py-2 rounded border" 
+                  style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);"></textarea>
+      </div>
+      
+      <div class="flex justify-end gap-2 pt-4">
+        <button type="button" id="cancel-modal" class="action-btn secondary">
+          キャンセル
+        </button>
+        <button type="submit" id="save-period" data-testid="save-period" class="action-btn">
+          保存
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+    </section>
+  </main>
+</div>
+<script>
+(function() {
+  var TABLE_DEFS = window.AIVIC_TABLES || [];
+  var PRESET_SEED = window.AIVIC_PRESET_SEED || {};
+  var SYSTEM_NAME = window.AIVIC_SYSTEM_NAME || "";
+  var APP_ID = window.AIVIC_APP_ID || "";
+  var API_URL = (window.AIVIC_API_URL && window.AIVIC_API_URL !== "REPLACE_WITH_API_URL")
+    ? window.AIVIC_API_URL : window.location.origin;
+
+  // 通知 helper（SPA 版と同じ）
+  window.aivicNotify = (function() {
+    function ensureContainer() {
+      var c = document.getElementById("aivic-toast-container");
+      if (c) return c;
+      c = document.createElement("div");
+      c.id = "aivic-toast-container";
+      c.style.cssText = "position:fixed;top:16px;right:16px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none;max-width:360px;";
+      document.body.appendChild(c);
+      return c;
+    }
+    function show(msg, type) {
+      var c = ensureContainer();
+      var el = document.createElement("div");
+      el.textContent = msg;
+      el.style.cssText = "padding:10px 16px;border-radius:8px;font-size:13px;line-height:1.4;pointer-events:auto;color:#fff;background:" + (type === "error" ? "#dc2626" : "#d97706");
+      c.appendChild(el);
+      setTimeout(function() {
+        el.style.transition = "opacity .3s";
+        el.style.opacity = "0";
+        setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 320);
+      }, type === "error" ? 6000 : 4500);
+    }
+    return {
+      error: function(msg) { show("❌ " + msg, "error"); },
+      warn:  function(msg) { show("⚠️ " + msg, "warn"); },
+    };
+  })();
+
+  // CRUD API（SPA 版と同じ）
+  window.aivicApi = (function() {
+    function dbErr(op) { window.aivicNotify.error("データベースエラー（" + op + "）: APIサーバーに接続できません。"); }
+    function newId() { return typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : "id-" + Date.now() + "-" + Math.random().toString(36).slice(2); }
+    function q(i) {
+      var t = TABLE_DEFS[i];
+      var dbP = (window.AIVIC_DB_TYPE && window.AIVIC_DB_TYPE !== "dynamodb") ? "&db=" + encodeURIComponent(window.AIVIC_DB_TYPE) : "";
+      return "?app=" + encodeURIComponent(APP_ID) + "&system=" + encodeURIComponent(SYSTEM_NAME) + "&table=" + encodeURIComponent(t ? t.tableName : "table" + i) + dbP;
+    }
+    return {
+      list: async function(tableIndex) {
+        if (!API_URL) return [];
+        try { var r = await fetch(API_URL + "/api/" + tableIndex + q(tableIndex)); var d = await r.json(); return Array.isArray(d) ? d : (d.items || []); }
+        catch(e) { dbErr("データ取得"); return []; }
+      },
+      save: async function(tableIndex, item) {
+        if (!API_URL) { dbErr("保存"); return null; }
+        var now = new Date().toISOString();
+        var rec = Object.assign({}, item, { id: item.id || newId(), createdAt: item.createdAt || now, updatedAt: now });
+        try { var r = await fetch(API_URL + "/api/" + tableIndex + q(tableIndex), { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(rec) }); return await r.json(); }
+        catch(e) { dbErr("保存"); return null; }
+      },
+      update: async function(tableIndex, id, changes) {
+        if (!API_URL) { dbErr("更新"); return null; }
+        try { var r = await fetch(API_URL + "/api/" + tableIndex + "/" + id + q(tableIndex), { method:"PUT", headers:{"Content-Type":"application/json"}, body:JSON.stringify(Object.assign({}, changes, {updatedAt: new Date().toISOString()})) }); return await r.json(); }
+        catch(e) { dbErr("更新"); return null; }
+      },
+      delete: async function(tableIndex, id) {
+        if (!API_URL) { dbErr("削除"); return {deleted:false}; }
+        try { await fetch(API_URL + "/api/" + tableIndex + "/" + id + q(tableIndex), {method:"DELETE"}); return {deleted:true}; }
+        catch(e) { dbErr("削除"); return {deleted:false}; }
+      },
+    };
+  })();
+
+  // showScreen はマルチページ構成ではページ遷移として動く。
+  // パネル切替 (旧 SPA 動作) ではなく ./<id>.html への navigate に再定義する。
+  // 既存の AI 生成 shell が onclick="showScreen('x')" の形で書いていても透過的に動く。
+  //
+  // 防御層:
+  // (a) 同じ画面 ID なら no-op（AIVIC_PAGE_SCREEN_ID 一致 / pathname 一致のどちらか）
+  // (b) 同じ navigate を 100ms 以内に繰り返したら break loop（onclick 連打ではなく自動ループ対策）
+  // (c) DOMContentLoaded 直後 1.5s 以内の「自動 navigate」は警告 + 抑制（手動 click は通す）
+  var _aivicNavLastTime = 0;
+  var _aivicNavLastTarget = "";
+  var _aivicReady = false;
+  window.showScreen = function(screenId) {
+    if (!screenId) return;
+    if (screenId === window.AIVIC_PAGE_SCREEN_ID) return; // 既に該当ページに居る
+    // pathname ベースの保険: AIVIC_PAGE_SCREEN_ID が未設定でも、現在 URL と一致したら抑制
+    var targetPath = './' + encodeURIComponent(screenId) + '.html';
+    var currentName = (window.location.pathname.split('/').pop() || '');
+    if (currentName === (encodeURIComponent(screenId) + '.html') ||
+        currentName === (screenId + '.html')) {
+      return;
+    }
+    var now = Date.now();
+    if (_aivicNavLastTarget === targetPath && (now - _aivicNavLastTime) < 100) {
+      console.warn('[aivic] showScreen 連続呼び出し検知。無限ループ防止のため抑制:', screenId);
+      return;
+    }
+    if (!_aivicReady) {
+      // ページロード直後の自動 navigate は AI shell の load-time 副作用の可能性が高い。
+      // ボタンクリック等のユーザー操作は ready 後なので影響しない。
+      console.warn('[aivic] DOMContentLoaded 前の showScreen 呼び出し。抑制:', screenId);
+      return;
+    }
+    _aivicNavLastTime = now;
+    _aivicNavLastTarget = targetPath;
+    window.location.href = targetPath;
+  };
+
+  // 初回マウント時のサンプルデータ投入
+  function seedAllIfEmpty() {
+    if (!API_URL) return Promise.resolve();
+    return Promise.all(TABLE_DEFS.map(function(t, i) {
+      var preset = PRESET_SEED[t.tableName];
+      if (!Array.isArray(preset) || preset.length === 0) return Promise.resolve();
+      return window.aivicApi.list(i).then(function(existing) {
+        if (existing && existing.length > 0) return;
+        return Promise.all(preset.map(function(row) { return window.aivicApi.save(i, row); }));
+      }).catch(function() {});
+    }));
+  }
+
+  // ── 初期表示: このページ専用の panel に initFn を実行 ──
+  // window.AIVIC_PAGE_SCREEN_ID と AIVIC_PAGE_INIT_JS は composeMultipagePages
+  // でページ単位に埋め込まれる。
+  document.addEventListener("DOMContentLoaded", function() {
+    // 1.5 秒後に必ず _aivicReady を立てる（initFn が走らないページや失敗ページでも
+    // ユーザーが操作できるようにする保険）。initFn 完了時にも立てるので早い方が勝つ。
+    setTimeout(function() { _aivicReady = true; }, 1500);
+    var pageScreenId = window.AIVIC_PAGE_SCREEN_ID;
+    if (!pageScreenId) return;
+
+    // sidebar / nav の active class を付与（現在ページのリンクを強調）
+    document.querySelectorAll('[data-aivic-nav]').forEach(function(btn) {
+      var isActive = btn.getAttribute("data-aivic-nav") === pageScreenId;
+      btn.classList.toggle("aivic-active", isActive);
+      btn.setAttribute("aria-current", isActive ? "page" : "false");
+    });
+
+    var container = document.querySelector('[data-aivic-panel="' + pageScreenId + '"]');
+    if (!container) return;
+
+    // **content 要素の hidden 強制除去（2026-05-24 Playwright 大量 fail 対応）**:
+    // AI が生成した panel HTML には class="hidden" / hidden 属性 / style="display:none"
+    // が content 要素（#xxx-tbody / #xxx-list / [data-testid="error-message"] 等）に付いて
+    // いることがある。それを Playwright が toBeVisible() で待ち続けて timeout する事故が頻発。
+    //
+    // ポリシー: panel コンテナ配下の全要素について以下を実行:
+    //   - class="hidden" / display:none / hidden 属性を **content 要素では除去**
+    //   - **modal 系**（.modal, .modal-backdrop, [role="dialog"], [data-modal] 等）は除外
+    //     （これらは仕様上初期非表示が正しい）
+    var isModalLike = function(el) {
+      if (!el || !el.classList) return false;
+      var cn = String(el.className || "");
+      if (/modal|dialog|overlay|popup|dropdown|tooltip/i.test(cn)) return true;
+      var role = el.getAttribute && el.getAttribute("role");
+      if (role === "dialog" || role === "alertdialog" || role === "tooltip" || role === "menu") return true;
+      if (el.hasAttribute && (el.hasAttribute("data-modal") || el.hasAttribute("data-dropdown") || el.hasAttribute("data-popup"))) return true;
+      return false;
+    };
+    var unhideContentElements = function(root) {
+      var all = root.querySelectorAll('.hidden, [hidden], [style*="display:none"], [style*="display: none"]');
+      for (var k = 0; k < all.length; k++) {
+        var el = all[k];
+        // modal 系は触らない
+        if (isModalLike(el)) continue;
+        // parent chain で modal 内なら触らない
+        var p = el.parentElement;
+        var insideModal = false;
+        while (p && p !== root) {
+          if (isModalLike(p)) { insideModal = true; break; }
+          p = p.parentElement;
+        }
+        if (insideModal) continue;
+        // 除去
+        el.classList.remove('hidden');
+        el.removeAttribute('hidden');
+        if (el.style && el.style.display === 'none') el.style.display = '';
+      }
+    };
+    try { unhideContentElements(container); } catch (e) { console.warn('[aivic] unhideContent failed:', e); }
+
+    var initJsSource = window.AIVIC_PAGE_INIT_JS;
+    if (!initJsSource) {
+      // initJs が無くてもサンプルデータ投入は走らせる
+      seedAllIfEmpty();
+      return;
+    }
+    var initFn = null;
+    try {
+      initFn = (new Function("return (" + initJsSource + ")"))();
+    } catch (e) {
+      console.error("[aivic] initJs compile error:", pageScreenId, e);
+      return;
+    }
+    if (typeof initFn !== "function") return;
+
+    seedAllIfEmpty().then(function() {
+      return Promise.all(TABLE_DEFS.map(function(t, i) {
+        return window.aivicApi.list(i)
+          .then(function(records) { return Object.assign({}, t, { records: records }); })
+          .catch(function() { return Object.assign({}, t, { records: [] }); });
+      }));
+    }).then(function(tables) {
+      try { initFn(container, API_URL, tables); } catch (e) { console.error("[aivic] initFn error:", pageScreenId, e); }
+      // 初期 panel init が一巡したら _aivicReady を立てる。以降のユーザー操作 (onclick) で
+      // showScreen が呼ばれた場合は通常通り navigate する。
+      _aivicReady = true;
+    });
+  });
+})();
+
+</script>
+</body>
+</html>

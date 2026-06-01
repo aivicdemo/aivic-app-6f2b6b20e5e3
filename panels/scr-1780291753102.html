@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>レポート生成履歴画面 - 営業支援システムの構築</title>
+  <script>
+window.AIVIC_API_URL = "https://jqykrkgdvngp7qvmavufg5tohq0xwdzb.lambda-url.us-east-1.on.aws/";
+window.AIVIC_APP_ID = "session-1780284530342";
+window.AIVIC_SYSTEM_NAME = "経営分析・レポートシステムの構築";
+window.AIVIC_TABLES = [{"tableName":"発注データ","purpose":"Web発注プラットフォームにおける発注情報を管理し、発注から承認・処理完了までの一連の業務フローを支援する","columns":[{"name":"発注ID","type":"uuid","required":true,"description":"発注データの一意識別子"},{"name":"発注番号","type":"varchar(100)","required":true,"description":"業務で使用する発注番号"},{"name":"発注者ID","type":"uuid","required":true,"description":"発注を行ったユーザーのID（ログインユーザーマスタ参照）"},{"name":"発注日","type":"timestamp","required":true,"description":"発注が行われた日時"},{"name":"希望納期","type":"timestamp","required":true,"description":"発注者が希望する納期"},{"name":"発注先名","type":"varchar(100)","required":true,"description":"発注先の会社名・店舗名"},{"name":"発注先担当者","type":"varchar(100)","required":false,"description":"発注先の担当者名"},{"name":"発注先連絡先","type":"varchar(100)","required":false,"description":"発注先の電話番号・メールアドレス等"},{"name":"発注金額","type":"integer","required":true,"description":"発注の総金額"},{"name":"発注ステータス","type":"varchar(100)","required":true,"description":"発注の処理状況（下書き・承認待ち・承認済み・発注済み・完了・キャンセル等）"},{"name":"承認者ID","type":"uuid","required":false,"description":"発注を承認したユーザーのID"},{"name":"承認日時","type":"timestamp","required":false,"description":"承認が行われた日時"},{"name":"発注理由","type":"text","required":false,"description":"発注の理由・目的"},{"name":"備考","type":"text","required":false,"description":"発注に関する補足情報"},{"name":"緊急フラグ","type":"boolean","required":true,"description":"緊急発注かどうかの判定"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"},{"name":"更新者ID","type":"uuid","required":true,"description":"レコード最終更新者のユーザーID"}]},{"tableName":"発注明細データ","purpose":"発注データに紐づく商品明細情報を管理し、Web発注プラットフォームでの明細単位での操作・表示・検索を実現する","columns":[{"name":"発注明細ID","type":"uuid","required":true,"description":"発注明細の一意識別子（主キー）"},{"name":"発注ID","type":"uuid","required":true,"description":"発注データテーブルへの外部キー"},{"name":"明細番号","type":"integer","required":true,"description":"発注内での明細の連番"},{"name":"商品コード","type":"varchar(100)","required":true,"description":"発注する商品の識別コード"},{"name":"商品名","type":"varchar(100)","required":true,"description":"発注する商品の名称"},{"name":"規格","type":"varchar(100)","required":false,"description":"商品の規格・仕様"},{"name":"発注数量","type":"integer","required":true,"description":"発注する数量"},{"name":"単位","type":"varchar(100)","required":true,"description":"数量の単位（個、箱、kg等）"},{"name":"単価","type":"integer","required":true,"description":"商品の単価（円）"},{"name":"金額","type":"integer","required":true,"description":"明細の合計金額（単価×数量）"},{"name":"希望納期","type":"timestamp","required":false,"description":"明細単位での希望納期"},{"name":"明細ステータス","type":"varchar(100)","required":true,"description":"明細の処理状況（未処理、処理中、完了等）"},{"name":"備考","type":"text","required":false,"description":"明細に関する特記事項"},{"name":"削除フラグ","type":"boolean","required":true,"description":"論理削除フラグ"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"},{"name":"更新者ID","type":"uuid","required":true,"description":"レコード最終更新者のユーザーID"}]},{"tableName":"通知履歴","purpose":"システムからユーザーへの通知送信履歴を管理し、通知の配信状況や既読状態を追跡する","columns":[{"name":"通知履歴ID","type":"uuid","required":true,"description":"通知履歴の一意識別子（主キー）"},{"name":"通知設定ID","type":"uuid","required":true,"description":"システム通知設定マスタへの外部キー"},{"name":"受信者ユーザーID","type":"uuid","required":true,"description":"通知を受信するユーザーのID（ログインユーザーマスタへの外部キー）"},{"name":"通知タイトル","type":"varchar(100)","required":true,"description":"通知のタイトル"},{"name":"通知内容","type":"text","required":true,"description":"通知の詳細メッセージ内容"},{"name":"通知種別","type":"varchar(100)","required":true,"description":"通知の種別（発注完了、エラー発生、システムメンテナンス等）"},{"name":"優先度","type":"varchar(100)","required":true,"description":"通知の優先度（高、中、低）"},{"name":"送信方法","type":"varchar(100)","required":true,"description":"通知の送信方法（画面通知、メール、両方）"},{"name":"送信状態","type":"varchar(100)","required":true,"description":"送信処理の状態（送信待ち、送信中、送信完了、送信失敗）"},{"name":"既読フラグ","type":"boolean","required":true,"description":"ユーザーが通知を既読したかどうか"},{"name":"関連データID","type":"uuid","required":false,"description":"通知に関連するデータのID（発注データID、連携処理履歴ID等）"},{"name":"関連データ種別","type":"varchar(100)","required":false,"description":"関連データの種別（発注データ、連携処理履歴等）"},{"name":"送信予定日時","type":"timestamp","required":true,"description":"通知の送信予定日時"},{"name":"送信日時","type":"timestamp","required":false,"description":"実際に通知が送信された日時"},{"name":"既読日時","type":"timestamp","required":false,"description":"ユーザーが通知を既読した日時"},{"name":"エラーメッセージ","type":"text","required":false,"description":"送信失敗時のエラーメッセージ"},{"name":"再送回数","type":"integer","required":true,"description":"通知の再送信回数"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"uuid","required":true,"description":"レコード作成者のユーザーID"}]},{"tableName":"プロジェクトマスタ","purpose":"Web発注プラットフォームにおけるプロジェクト情報を管理し、発注データとの紐付けや検索・絞り込み、進捗管理を行う","columns":[{"name":"プロジェクトID","type":"uuid","required":true,"description":"プロジェクトの一意識別子（主キー）"},{"name":"プロジェクトコード","type":"varchar(100)","required":true,"description":"プロジェクトの業務コード（検索・絞り込み用）"},{"name":"プロジェクト名","type":"varchar(100)","required":true,"description":"プロジェクトの名称"},{"name":"プロジェクト説明","type":"text","required":false,"description":"プロジェクトの詳細説明"},{"name":"開始日","type":"timestamp","required":true,"description":"プロジェクト開始予定日"},{"name":"終了日","type":"timestamp","required":false,"description":"プロジェクト終了予定日"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"プロジェクトの状態（計画中/進行中/完了/中止等）"},{"name":"予算","type":"integer","required":false,"description":"プロジェクト予算額"},{"name":"責任者ID","type":"uuid","required":true,"description":"プロジェクト責任者のユーザーID"},{"name":"部門コード","type":"varchar(100)","required":true,"description":"所属部門コード（検索・絞り込み用）"},{"name":"優先度","type":"integer","required":true,"description":"プロジェクトの優先度（1-5等）"},{"name":"有効フラグ","type":"boolean","required":true,"description":"プロジェクトの有効/無効状態"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"},{"name":"更新者ID","type":"uuid","required":true,"description":"レコード最終更新者のユーザーID"}]},{"tableName":"単価変動履歴","purpose":"商品・サービスの単価変動を時系列で記録し、価格推移の分析と発注時の適正価格判断を支援する","columns":[{"name":"単価変動履歴ID","type":"uuid","required":true,"description":"単価変動履歴の一意識別子"},{"name":"商品コード","type":"varchar(100)","required":true,"description":"単価変動対象の商品識別コード"},{"name":"商品名","type":"varchar(100)","required":true,"description":"商品名称"},{"name":"供給業者ID","type":"uuid","required":true,"description":"単価を提供する供給業者の識別子"},{"name":"供給業者名","type":"varchar(100)","required":true,"description":"供給業者名称"},{"name":"変動前単価","type":"integer","required":false,"description":"変動前の単価（初回登録時はnull）"},{"name":"変動後単価","type":"integer","required":true,"description":"変動後の単価"},{"name":"変動率","type":"integer","required":false,"description":"変動率（パーセント、小数点2桁まで整数化）"},{"name":"変動理由","type":"varchar(100)","required":false,"description":"単価変動の理由（原材料費高騰、為替変動等）"},{"name":"適用開始日","type":"timestamp","required":true,"description":"新単価の適用開始日時"},{"name":"適用終了日","type":"timestamp","required":false,"description":"単価の適用終了日時（現在適用中の場合はnull）"},{"name":"通貨コード","type":"varchar(100)","required":true,"description":"単価の通貨（JPY、USD等）"},{"name":"単位","type":"varchar(100)","required":true,"description":"単価の単位（個、kg、m等）"},{"name":"変動種別","type":"varchar(100)","required":true,"description":"変動の種別（値上げ、値下げ、新規設定）"},{"name":"承認状態","type":"varchar(100)","required":true,"description":"単価変動の承認状態（申請中、承認済、却下）"},{"name":"承認者ID","type":"uuid","required":false,"description":"単価変動を承認したユーザーID"},{"name":"承認日時","type":"timestamp","required":false,"description":"承認された日時"},{"name":"備考","type":"text","required":false,"description":"単価変動に関する補足情報"},{"name":"作成者ID","type":"uuid","required":true,"description":"履歴レコードを作成したユーザーID"},{"name":"作成日時","type":"timestamp","required":true,"description":"履歴レコードの作成日時"},{"name":"更新者ID","type":"uuid","required":false,"description":"履歴レコードを最後に更新したユーザーID"},{"name":"更新日時","type":"timestamp","required":false,"description":"履歴レコードの最終更新日時"}]},{"tableName":"競合他社単価データ","purpose":"Web発注プラットフォームにおける競合他社の単価情報を管理し、自社単価との比較分析や価格競争力の評価を行うためのデータを格納する","columns":[{"name":"競合単価ID","type":"uuid","required":true,"description":"競合他社単価データの一意識別子"},{"name":"競合他社名","type":"varchar(100)","required":true,"description":"競合他社の会社名"},{"name":"商品コード","type":"varchar(100)","required":true,"description":"対象商品の識別コード"},{"name":"商品名","type":"varchar(100)","required":true,"description":"対象商品の名称"},{"name":"カテゴリ","type":"varchar(100)","required":true,"description":"商品カテゴリ分類"},{"name":"競合単価","type":"integer","required":true,"description":"競合他社の販売単価（円）"},{"name":"自社単価","type":"integer","required":true,"description":"自社の販売単価（円）"},{"name":"単価差額","type":"integer","required":true,"description":"競合単価と自社単価の差額（円）"},{"name":"競争優位性","type":"varchar(100)","required":true,"description":"価格競争力の評価（優位/劣位/同等）"},{"name":"調査日","type":"timestamp","required":true,"description":"競合単価を調査した日付"},{"name":"情報源","type":"varchar(100)","required":true,"description":"単価情報の取得元（Webサイト/カタログ/営業情報等）"},{"name":"備考","type":"text","required":false,"description":"調査時の特記事項や補足情報"},{"name":"有効フラグ","type":"boolean","required":true,"description":"データの有効性フラグ"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者"},{"name":"更新者","type":"varchar(100)","required":true,"description":"レコード最終更新者"}]},{"tableName":"原価率設定マスタ","purpose":"プロジェクトや商品カテゴリ別の原価率を管理し、発注時の価格妥当性判断や経営分析に使用する基準値を設定する","columns":[{"name":"原価率設定ID","type":"uuid","required":true,"description":"原価率設定の一意識別子（主キー）"},{"name":"プロジェクトID","type":"uuid","required":false,"description":"対象プロジェクトID（プロジェクトマスタとの外部キー）"},{"name":"商品カテゴリコード","type":"varchar(100)","required":false,"description":"商品カテゴリの分類コード"},{"name":"商品カテゴリ名","type":"varchar(100)","required":false,"description":"商品カテゴリの名称"},{"name":"仕入先コード","type":"varchar(100)","required":false,"description":"特定仕入先向けの設定時に使用"},{"name":"標準原価率","type":"integer","required":true,"description":"標準的な原価率（パーセント値×100で格納）"},{"name":"最低原価率","type":"integer","required":false,"description":"許容される最低原価率（パーセント値×100で格納）"},{"name":"最高原価率","type":"integer","required":false,"description":"許容される最高原価率（パーセント値×100で格納）"},{"name":"適用開始日","type":"timestamp","required":true,"description":"この原価率設定の適用開始日時"},{"name":"適用終了日","type":"timestamp","required":false,"description":"この原価率設定の適用終了日時"},{"name":"有効フラグ","type":"boolean","required":true,"description":"設定の有効/無効状態"},{"name":"備考","type":"text","required":false,"description":"原価率設定に関する補足説明"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者"},{"name":"更新者","type":"varchar(100)","required":true,"description":"レコード最終更新者"}]},{"tableName":"分析レポート設定","purpose":"経営分析レポートの設定情報を管理し、レポート生成の条件や出力形式を定義する","columns":[{"name":"レポート設定ID","type":"uuid","required":true,"description":"レポート設定の一意識別子（主キー）"},{"name":"レポート名","type":"varchar(100)","required":true,"description":"レポートの名称"},{"name":"レポート種別","type":"varchar(100)","required":true,"description":"発注分析、原価分析、競合分析等のレポート種別"},{"name":"対象期間種別","type":"varchar(100)","required":true,"description":"日次、週次、月次、四半期、年次等の期間種別"},{"name":"対象開始日","type":"timestamp","required":false,"description":"分析対象期間の開始日"},{"name":"対象終了日","type":"timestamp","required":false,"description":"分析対象期間の終了日"},{"name":"プロジェクトID","type":"uuid","required":false,"description":"特定プロジェクトに絞り込む場合のプロジェクト識別子"},{"name":"出力形式","type":"varchar(100)","required":true,"description":"PDF、Excel、CSV等の出力形式"},{"name":"自動生成フラグ","type":"boolean","required":true,"description":"定期的な自動生成を行うかどうか"},{"name":"生成頻度","type":"varchar(100)","required":false,"description":"自動生成の場合の頻度（毎日、毎週月曜日等）"},{"name":"通知先メールアドレス","type":"varchar(100)","required":false,"description":"レポート完成時の通知先"},{"name":"有効フラグ","type":"boolean","required":true,"description":"設定が有効かどうか"},{"name":"作成者ID","type":"uuid","required":true,"description":"設定を作成したユーザーの識別子"},{"name":"作成日時","type":"timestamp","required":true,"description":"設定作成日時"},{"name":"更新者ID","type":"uuid","required":false,"description":"設定を最後に更新したユーザーの識別子"},{"name":"更新日時","type":"timestamp","required":false,"description":"設定最終更新日時"}]},{"tableName":"レポート生成履歴","purpose":"経営分析レポートの生成実行履歴を管理し、レポート作成状況の追跡と再実行を可能にする","columns":[{"name":"レポート生成履歴ID","type":"uuid","required":true,"description":"レポート生成履歴の一意識別子"},{"name":"レポート設定ID","type":"uuid","required":true,"description":"分析レポート設定テーブルへの外部キー"},{"name":"レポート名","type":"varchar(100)","required":true,"description":"生成されたレポートの名称"},{"name":"レポート種別","type":"varchar(100)","required":true,"description":"原価分析、売上分析、競合分析等のレポート分類"},{"name":"生成開始日時","type":"timestamp","required":true,"description":"レポート生成処理の開始日時"},{"name":"生成完了日時","type":"timestamp","required":false,"description":"レポート生成処理の完了日時"},{"name":"生成ステータス","type":"varchar(100)","required":true,"description":"実行中、完了、エラー、キャンセル等の処理状況"},{"name":"対象期間開始日","type":"timestamp","required":true,"description":"レポート分析対象データの期間開始日"},{"name":"対象期間終了日","type":"timestamp","required":true,"description":"レポート分析対象データの期間終了日"},{"name":"対象プロジェクトID","type":"uuid","required":false,"description":"特定プロジェクト対象の場合のプロジェクトID"},{"name":"出力形式","type":"varchar(100)","required":true,"description":"PDF、Excel、CSV等の出力ファイル形式"},{"name":"ファイルパス","type":"varchar(100)","required":false,"description":"生成されたレポートファイルの保存場所"},{"name":"ファイルサイズ","type":"integer","required":false,"description":"生成されたレポートファイルのサイズ（バイト）"},{"name":"エラーメッセージ","type":"text","required":false,"description":"生成エラー時の詳細エラー内容"},{"name":"実行種別","type":"varchar(100)","required":true,"description":"手動実行、自動実行、再実行等の実行方法"},{"name":"処理時間秒","type":"integer","required":false,"description":"レポート生成にかかった処理時間（秒）"},{"name":"ダウンロード回数","type":"integer","required":true,"description":"生成されたレポートのダウンロード回数"},{"name":"最終ダウンロード日時","type":"timestamp","required":false,"description":"レポートが最後にダウンロードされた日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レポート生成を実行したユーザーID"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"}]},{"tableName":"通知設定マスタ","purpose":"Web発注プラットフォームにおける各種通知の設定情報を管理し、発注状況、単価変動、承認フロー等の業務イベントに応じた通知条件と配信先を定義する","columns":[{"name":"通知設定ID","type":"uuid","required":true,"description":"通知設定の一意識別子（主キー）"},{"name":"通知種別","type":"varchar(100)","required":true,"description":"通知の種類（発注承認依頼、発注完了、単価変動アラート、納期遅延警告、原価率異常等）"},{"name":"通知名","type":"varchar(100)","required":true,"description":"通知設定の名称"},{"name":"対象プロジェクトID","type":"uuid","required":false,"description":"特定プロジェクトに限定する場合のプロジェクトID"},{"name":"発動条件","type":"text","required":true,"description":"通知が発動される条件（金額閾値、期間、ステータス変更等の条件式）"},{"name":"通知先種別","type":"varchar(100)","required":true,"description":"通知先の種類（メール、システム内通知、Slack等）"},{"name":"通知先アドレス","type":"varchar(100)","required":false,"description":"メールアドレスやSlackチャンネル等の通知先"},{"name":"通知対象ユーザー","type":"varchar(100)","required":false,"description":"通知対象となるユーザーまたはロール"},{"name":"通知タイミング","type":"varchar(100)","required":true,"description":"通知のタイミング（即座、日次、週次等）"},{"name":"メッセージテンプレート","type":"text","required":true,"description":"通知メッセージのテンプレート"},{"name":"優先度","type":"integer","required":true,"description":"通知の優先度（1:高、2:中、3:低）"},{"name":"有効フラグ","type":"boolean","required":true,"description":"通知設定の有効/無効状態"},{"name":"有効期間開始日","type":"timestamp","required":false,"description":"通知設定の有効期間開始日時"},{"name":"有効期間終了日","type":"timestamp","required":false,"description":"通知設定の有効期間終了日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"通知設定を作成したユーザー"},{"name":"作成日時","type":"timestamp","required":true,"description":"通知設定の作成日時"},{"name":"更新者","type":"varchar(100)","required":false,"description":"通知設定を最後に更新したユーザー"},{"name":"更新日時","type":"timestamp","required":false,"description":"通知設定の最終更新日時"}]},{"tableName":"システム利用ログ","purpose":"Web発注プラットフォームの利用状況を記録し、システムの使用実績やユーザー行動を分析するためのログデータを管理する","columns":[{"name":"ログID","type":"uuid","required":true,"description":"システム利用ログの一意識別子"},{"name":"ユーザーID","type":"varchar(100)","required":true,"description":"操作を行ったユーザーの識別子"},{"name":"セッションID","type":"varchar(100)","required":true,"description":"ユーザーのログインセッション識別子"},{"name":"アクセス日時","type":"timestamp","required":true,"description":"システムにアクセスした日時"},{"name":"操作種別","type":"varchar(100)","required":true,"description":"実行された操作の種類（ログイン、発注登録、検索、レポート生成等）"},{"name":"画面名","type":"varchar(100)","required":true,"description":"アクセスした画面・機能名"},{"name":"IPアドレス","type":"varchar(100)","required":true,"description":"アクセス元のIPアドレス"},{"name":"ユーザーエージェント","type":"text","required":false,"description":"ブラウザ情報"},{"name":"処理結果","type":"varchar(100)","required":true,"description":"操作の結果（成功、失敗、エラー等）"},{"name":"エラーメッセージ","type":"text","required":false,"description":"エラーが発生した場合のエラー内容"},{"name":"処理時間","type":"integer","required":false,"description":"処理にかかった時間（ミリ秒）"},{"name":"参照URL","type":"text","required":false,"description":"アクセス前のページURL"},{"name":"対象データID","type":"varchar(100)","required":false,"description":"操作対象となったデータの識別子（発注ID、レポートID等）"}]}];
+window.AIVIC_PRESET_SEED = {};
+window.AIVIC_PAGE_SCREEN_ID = "scr-1780291753102";
+window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  let currentReports = tables[0]?.records || [];\n  let selectedReportId = null;\n\n  // ファイルサイズをフォーマット\n  function formatFileSize(bytes) {\n    if (!bytes) return '-';\n    const sizes = ['B', 'KB', 'MB', 'GB'];\n    const i = Math.floor(Math.log(bytes) / Math.log(1024));\n    return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];\n  }\n\n  // 日時をフォーマット\n  function formatDateTime(dateStr) {\n    if (!dateStr) return '-';\n    const date = new Date(dateStr);\n    return date.toLocaleDateString('ja-JP') + ' ' + date.toLocaleTimeString('ja-JP', {hour: '2-digit', minute: '2-digit'});\n  }\n\n  // ステータスバッジを生成\n  function getStatusBadge(status) {\n    const statusColors = {\n      '完了': 'background: rgba(34, 197, 94, 0.1); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.3);',\n      '実行中': 'background: rgba(59, 130, 246, 0.1); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.3);',\n      'エラー': 'background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3);',\n      'キャンセル': 'background: rgba(107, 114, 128, 0.1); color: #6b7280; border: 1px solid rgba(107, 114, 128, 0.3);'\n    };\n    const style = statusColors[status] || 'background: rgba(107, 114, 128, 0.1); color: #6b7280; border: 1px solid rgba(107, 114, 128, 0.3);';\n    return `<span class=\"px-2 py-1 rounded text-xs\" style=\"${style}\">${status}</span>`;\n  }\n\n  // テーブル再描画関数\n  function renderRows(rows) {\n    const tbody = container.querySelector('#report-history-tbody');\n    tbody.innerHTML = rows.map(r => `\n      <tr data-id=\"${r.レポート生成履歴ID || r.id}\" class=\"hover:bg-opacity-50 cursor-pointer\" \n          style=\"border-bottom: 1px solid var(--border);\">\n        <td class=\"py-2 px-3 text-sm\" style=\"color: var(--text);\">${r.レポート名 || ''}</td>\n        <td class=\"py-2 px-3 text-sm\" style=\"color: var(--text);\">${r.レポート種別 || ''}</td>\n        <td class=\"py-2 px-3 text-sm\" style=\"color: var(--text);\">${formatDateTime(r.生成開始日時)}</td>\n        <td class=\"py-2 px-3 text-sm\">${getStatusBadge(r.生成ステータス || '')}</td>\n        <td class=\"py-2 px-3 text-sm\" style=\"color: var(--text);\">${formatFileSize(r.ファイルサイズ)}</td>\n        <td class=\"py-2 px-3 text-sm\" style=\"color: var(--text);\">${r.作成者名 || '-'}</td>\n        <td class=\"py-2 px-3 text-sm\">\n          <button class=\"action-btn secondary text-xs px-2 py-1 view-detail-btn\" data-id=\"${r.レポート生成履歴ID || r.id}\"\n                  style=\"background: transparent; border: 1px solid rgba(255,255,255,0.18); color: var(--text); border-radius: 3px;\">\n            詳細\n          </button>\n        </td>\n      </tr>\n    `).join('');\n  }\n\n  // 初期データ描画\n  renderRows(currentReports);\n\n  // 検索機能\n  container.querySelector('#btn-search').addEventListener('click', async () => {\n    const startDate = container.querySelector('#start-date').value;\n    const endDate = container.querySelector('#end-date').value;\n    const reportType = container.querySelector('#report-type-filter').value;\n    const status = container.querySelector('#status-filter').value;\n\n    try {\n      const allRows = await window.aivicApi.list(0);\n      if (!allRows) return;\n\n      let filteredRows = allRows.filter(r => {\n        let match = true;\n        \n        if (startDate && r.生成開始日時) {\n          const recordDate = new Date(r.生成開始日時).toISOString().split('T')[0];\n          match = match && recordDate >= startDate;\n        }\n        \n        if (endDate && r.生成開始日時) {\n          const recordDate = new Date(r.生成開始日時).toISOString().split('T')[0];\n          match = match && recordDate <= endDate;\n        }\n        \n        if (reportType) {\n          match = match && (r.レポート種別 || '').includes(reportType);\n        }\n        \n        if (status) {\n          match = match && (r.生成ステータス || '') === status;\n        }\n        \n        return match;\n      });\n\n      currentReports = filteredRows;\n      renderRows(filteredRows);\n    } catch (error) {\n      console.error('検索エラー:', error);\n    }\n  });\n\n  // CSVエクスポート機能\n  container.querySelector('#btn-export').addEventListener('click', async () => {\n    try {\n      const allRows = await window.aivicApi.list(0);\n      if (!allRows || allRows.length === 0) {\n        alert('エクスポートするデータがありません');\n        return;\n      }\n\n      const headers = ['レポート名', 'レポート種別', '生成開始日時', '生成完了日時', '生成ステータス', 'ファイルサイズ', '処理時間秒', 'ダウンロード回数', '作成者名'];\n      const csvContent = '\\uFEFF' + [\n        headers.join(','),\n        ...allRows.map(r => [\n          `\"${r.レポート名 || ''}\"`,\n          `\"${r.レポート種別 || ''}\"`,\n          `\"${r.生成開始日時 || ''}\"`,\n          `\"${r.生成完了日時 || ''}\"`,\n          `\"${r.生成ステータス || ''}\"`,\n          r.ファイルサイズ || 0,\n          r.処理時間秒 || 0,\n          r.ダウンロード回数 || 0,\n          `\"${r.作成者名 || ''}\"`\n        ].join(','))\n      ].join('\\n');\n\n      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });\n      const link = document.createElement('a');\n      link.href = URL.createObjectURL(blob);\n      link.download = `レポート生成履歴_${new Date().toISOString().split('T')[0]}.csv`;\n      link.click();\n    } catch (error) {\n      console.error('CSVエクスポートエラー:', error);\n      alert('CSVエクスポートに失敗しました');\n    }\n  });\n\n  // 詳細表示機能\n  container.addEventListener('click', (e) => {\n    const viewBtn = e.target.closest('.view-detail-btn');\n    if (viewBtn) {\n      const reportId = viewBtn.dataset.id;\n      const report = currentReports.find(r => (r.レポート生成履歴ID || r.id) === reportId);\n      if (report) {\n        showReportDetail(report);\n      }\n    }\n\n    // 行クリックでも詳細表示\n    const row = e.target.closest('tr[data-id]');\n    if (row && !e.target.closest('button')) {\n      const reportId = row.dataset.id;\n      const report = currentReports.find(r => (r.レポート生成履歴ID || r.id) === reportId);\n      if (report) {\n        showReportDetail(report);\n      }\n    }\n  });\n\n  // レポート詳細表示\n  function showReportDetail(report) {\n    selectedReportId = report.レポート生成履歴ID || report.id;\n    \n    container.querySelector('#detail-report-name').textContent = report.レポート名 || '';\n    container.querySelector('#detail-report-type').textContent = report.レポート種別 || '';\n    container.querySelector('#detail-start-time').textContent = formatDateTime(report.生成開始日時);\n    container.querySelector('#detail-end-time').textContent = formatDateTime(report.生成完了日時);\n    \n    const startDate = report.対象期間開始日 ? new Date(report.対象期間開始日).toLocaleDateString('ja-JP') : '';\n    const endDate = report.対象期間終了日 ? new Date(report.対象期間終了日).toLocaleDateString('ja-JP') : '';\n    container.querySelector('#detail-target-period').textContent = startDate && endDate ? `${startDate} ～ ${endDate}` : '-';\n    \n    container.querySelector('#detail-process-time').textContent = report.処理時間秒 ? `${report.処理時間秒}秒` : '-';\n    container.querySelector('#detail-file-size').textContent = formatFileSize(report.ファイルサイズ);\n    container.querySelector('#detail-download-count').textContent = `${report.ダウンロード回数 || 0}回`;\n\n    // エラーメッセージの表示制御\n    const errorSection = container.querySelector('#error-section');\n    if (report.生成ステータス === 'エラー' && report.エラーメッセージ) {\n      container.querySelector('#detail-error-message').textContent = report.エラーメッセージ;\n      errorSection.style.display = 'block';\n    } else {\n      errorSection.style.display = 'none';\n    }\n\n    // ダウンロードボタンの有効/無効制御\n    const downloadBtn = container.querySelector('#download-report');\n    downloadBtn.disabled = report.生成ステータス !== '完了';\n    if (downloadBtn.disabled) {\n      downloadBtn.style.opacity = '0.5';\n      downloadBtn.style.cursor = 'not-allowed';\n    } else {\n      downloadBtn.style.opacity = '1';\n      downloadBtn.style.cursor = 'pointer';\n    }\n\n    container.querySelector('#report-detail-modal').style.display = 'flex';\n  }\n\n  // モーダル閉じる\n  container.querySelector('#close-modal').addEventListener('click', () => {\n    container.querySelector('#report-detail-modal').style.display = 'none';\n  });\n\n  // モーダル背景クリックで閉じる\n  container.querySelector('#report-detail-modal').addEventListener('click', (e) => {\n    if (e.target === container.querySelector('#report-detail-modal')) {\n      container.querySelector('#report-detail-modal').style.display = 'none';\n    }\n  });\n\n  // ダウンロード機能\n  container.querySelector('#download-report').addEventListener('click', async () => {\n    if (!selectedReportId) return;\n    \n    try {\n      const report = currentReports.find(r => (r.レポート生成履歴ID || r.id) === selectedReportId);\n      if (report && report.生成ステータス === '完了') {\n        // ダウンロード回数を更新\n        const updatedReport = await window.aivicApi.update(0, selectedReportId, {\n          ダウンロード回数: (report.ダウンロード回数 || 0) + 1,\n          最終ダウンロード日時: new Date().toISOString()\n        });\n        \n        if (updatedReport) {\n          // 実際のファイルダウンロード処理（模擬）\n          alert(`レポート「${report.レポート名}」をダウンロードしました`);\n          \n          // 一覧を更新\n          const refreshedRows = await window.aivicApi.list(0);\n          if (refreshedRows) {\n            currentReports = refreshedRows;\n            renderRows(refreshedRows);\n          }\n          \n          container.querySelector('#report-detail-modal').style.display = 'none';\n        }\n      }\n    } catch (error) {\n      console.error('ダウンロードエラー:', error);\n      alert('ダウンロードに失敗しました');\n    }\n  });\n\n  // 削除機能\n  container.querySelector('#delete-report').addEventListener('click', async () => {\n    if (!selectedReportId) return;\n    \n    if (!confirm('このレポートを削除しますか？')) return;\n    \n    try {\n      await window.aivicApi.delete(0, selectedReportId);\n      \n      // 一覧を更新\n      const refreshedRows = await window.aivicApi.list(0);\n      if (refreshedRows) {\n        currentReports = refreshedRows;\n        renderRows(refreshedRows);\n      }\n      \n      container.querySelector('#report-detail-modal').style.display = 'none';\n      alert('レポートを削除しました');\n    } catch (error) {\n      console.error('削除エラー:', error);\n      alert('削除に失敗しました');\n    }\n  });\n}";
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+:root {
+  --primary: #1b7f37;
+  --primary-hover: #155d2a;
+  --bg-main: #f8faf9;
+  --bg-card: #ffffff;
+  --bg-sidebar: #f4f6f5;
+  --border: #d9e3dc;
+  --text: #181818;
+  --text-muted: #4a4a4a;
+  --top-bar-bg: #ffffff;
+  --top-bar-border: #d1ddd4;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:var(--bg-main); color:var(--text); display:flex; flex-direction:column; height:100vh; overflow:hidden; }
+.top-bar { display:flex; align-items:center; gap:0; background:var(--top-bar-bg, var(--bg-sidebar)); border-bottom:1px solid var(--top-bar-border, var(--border)); padding:0 16px; height:48px; flex-shrink:0; }
+.top-bar .app-name { font-size:14px; font-weight:700; color:var(--text); margin-right:20px; white-space:nowrap; }
+.sys-tab { background:transparent; color:var(--text); opacity:0.6; border:none; border-bottom:2px solid transparent; padding:0 16px; height:48px; cursor:pointer; font-size:13px; white-space:nowrap; transition:color .15s, border-color .15s, opacity .15s; text-decoration:none; display:flex; align-items:center; }
+.sys-tab:hover { opacity:0.85; }
+.sys-tab.active, .sys-tab.aivic-active { color:var(--text); opacity:1; border-bottom-color:var(--primary); font-weight:600; }
+.app-body { display:flex; flex:1; overflow:hidden; }
+.sidebar { width:220px; background:var(--bg-sidebar); border-right:1px solid var(--border); padding:12px 8px; overflow-y:auto; flex-shrink:0; }
+.sidebar-sys-name { margin:0 0 8px; padding:4px 8px; font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:.06em; }
+.nav-btn { display:block; width:100%; text-align:left; background:transparent; color:var(--text); opacity:0.65; border:none; border-radius:8px; padding:8px 12px; cursor:pointer; font-size:13px; margin-bottom:2px; transition:opacity .15s,background .15s; text-decoration:none; }
+.nav-btn:hover { background:var(--border); opacity:0.9; }
+.nav-btn.active, .nav-btn.aivic-active { background:var(--primary); color:#fff; opacity:1; }
+.main { flex:1; padding:16px; overflow-y:auto; }
+.card { border:1px solid var(--border); border-radius:12px; padding:16px; background:var(--bg-card); margin-bottom:12px; }
+.hidden { display:none !important; }
+.action-btn { background:var(--primary); color:#fff; border:0; border-radius:8px; padding:8px 14px; cursor:pointer; font-size:13px; }
+.action-btn:hover { background:var(--primary-hover, #1a55ef); }
+.action-btn.secondary { background:var(--border); color:var(--text); }
+.input { background:var(--bg-main); border:1px solid var(--border); color:var(--text); border-radius:8px; padding:7px 10px; font-size:13px; }
+.muted { color:var(--text-muted); font-size:13px; }
+.table-wrap { overflow:auto; border:1px solid var(--border); border-radius:8px; }
+table { width:100%; border-collapse:collapse; }
+th, td { border-bottom:1px solid var(--border); padding:8px 10px; text-align:left; font-size:13px; }
+th { color:var(--text); background:var(--bg-sidebar); position:sticky; top:0; font-weight:600; }
+tr:hover { background:var(--bg-sidebar); cursor:pointer; }
+canvas { display:block; max-height:280px !important; }
+.chart-wrap, .chart-container, [class*="chart"] { position:relative; height:260px; max-height:280px; }
+@media (max-width:768px) {
+  .top-bar { overflow-x:auto; }
+  .app-body { flex-direction:column; }
+  .sidebar { width:100%; height:auto; display:flex; flex-wrap:wrap; gap:4px; padding:8px; }
+  .sidebar-sys-name { display:none; }
+  .nav-btn { width:auto; border-radius:999px; padding:5px 12px; }
+}
+  </style>
+</head>
+<body>
+<header class="top-bar">
+  <span class="app-name">営業支援システムの構築</span>
+    <a href="./scr-1780291062211.html" class="sys-tab" data-aivic-nav-system="itg-1">Web発注プラットフォームの構築</a>
+    <a href="./scr-1780291283309.html" class="sys-tab" data-aivic-nav-system="itg-2">基幹システム連携管理システムの構築</a>
+    <a href="./scr-1780291476037.html" class="sys-tab" data-aivic-nav-system="itg-3">顧客別単価管理システムの構築</a>
+    <a href="./scr-1780291692616.html" class="sys-tab active" data-aivic-nav-system="itg-4">経営分析・レポートシステムの構築</a>
+    <a href="./scr-1780291929523.html" class="sys-tab" data-aivic-nav-system="itg-5">営業支援システムの構築</a>
+</header>
+<div class="app-body">
+  <aside class="sidebar">
+    <p class="sidebar-sys-name">経営分析・レポートシステムの構築</p>
+      <a href="./scr-1780291692616.html" class="nav-btn" data-aivic-nav="scr-1780291692616">発注データ管理画面</a>
+      <a href="./scr-1780291703557.html" class="nav-btn" data-aivic-nav="scr-1780291703557">プロジェクト別原価率分析画面</a>
+      <a href="./scr-1780291714087.html" class="nav-btn" data-aivic-nav="scr-1780291714087">単価変動分析画面</a>
+      <a href="./scr-1780291724287.html" class="nav-btn" data-aivic-nav="scr-1780291724287">競合他社単価比較分析画面</a>
+      <a href="./scr-1780291732920.html" class="nav-btn" data-aivic-nav="scr-1780291732920">導入効果レポート画面</a>
+      <a href="./scr-1780291753102.html" class="nav-btn active" data-aivic-nav="scr-1780291753102">レポート生成履歴画面</a>
+  </aside>
+  <main class="main">
+    <section class="card" data-aivic-panel="scr-1780291753102" style="margin-top:0">
+<div class="p-4">
+  <!-- ヘッダー -->
+  <div class="mb-4">
+    <h1 class="text-xl font-semibold mb-2" style="color: var(--text);">レポート生成履歴</h1>
+    <p class="text-sm" style="color: var(--text-muted);">過去に生成された分析レポートの履歴を管理します</p>
+  </div>
+
+  <!-- 検索・フィルタエリア -->
+  <div class="card mb-4">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
+      <div>
+        <label class="block text-xs mb-1" style="color: var(--text-muted);">期間（開始）</label>
+        <input type="date" id="start-date" data-testid="start-date" class="input w-full text-sm px-2 py-1.5" 
+               style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; color: var(--text);">
+      </div>
+      <div>
+        <label class="block text-xs mb-1" style="color: var(--text-muted);">期間（終了）</label>
+        <input type="date" id="end-date" data-testid="end-date" class="input w-full text-sm px-2 py-1.5"
+               style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; color: var(--text);">
+      </div>
+      <div>
+        <label class="block text-xs mb-1" style="color: var(--text-muted);">レポート種別</label>
+        <select id="report-type-filter" data-testid="report-type-filter" class="input w-full text-sm px-2 py-1.5"
+                style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; color: var(--text);">
+          <option value="">すべて</option>
+          <option value="原価分析">原価分析</option>
+          <option value="売上分析">売上分析</option>
+          <option value="競合分析">競合分析</option>
+          <option value="発注分析">発注分析</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs mb-1" style="color: var(--text-muted);">ステータス</label>
+        <select id="status-filter" data-testid="status-filter" class="input w-full text-sm px-2 py-1.5"
+                style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; color: var(--text);">
+          <option value="">すべて</option>
+          <option value="完了">完了</option>
+          <option value="実行中">実行中</option>
+          <option value="エラー">エラー</option>
+          <option value="キャンセル">キャンセル</option>
+        </select>
+      </div>
+    </div>
+    <div class="flex gap-2">
+      <button id="btn-search" data-testid="search-button" class="action-btn text-sm px-3 py-1.5"
+              style="background: var(--primary); color: #fff; border: none; border-radius: 4px;">
+        検索
+      </button>
+      <button id="btn-export" data-testid="export-button" class="action-btn secondary text-sm px-3 py-1.5"
+              style="background: transparent; border: 1px solid rgba(255,255,255,0.18); color: var(--text); border-radius: 4px;">
+        CSVエクスポート
+      </button>
+    </div>
+  </div>
+
+  <!-- レポート履歴一覧テーブル -->
+  <div class="card">
+    <div class="table-wrap">
+      <table data-testid="report-history-list" class="w-full">
+        <thead>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <th class="text-left py-2 px-3 text-sm font-medium" style="color: var(--text);">レポート名</th>
+            <th class="text-left py-2 px-3 text-sm font-medium" style="color: var(--text);">種別</th>
+            <th class="text-left py-2 px-3 text-sm font-medium" style="color: var(--text);">生成日時</th>
+            <th class="text-left py-2 px-3 text-sm font-medium" style="color: var(--text);">ステータス</th>
+            <th class="text-left py-2 px-3 text-sm font-medium" style="color: var(--text);">ファイルサイズ</th>
+            <th class="text-left py-2 px-3 text-sm font-medium" style="color: var(--text);">生成者</th>
+            <th class="text-left py-2 px-3 text-sm font-medium" style="color: var(--text);">操作</th>
+          </tr>
+        </thead>
+        <tbody id="report-history-tbody">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- レポート詳細モーダル -->
+  <div id="report-detail-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" style="display: none;">
+    <div class="card max-w-2xl w-full mx-4 max-h-[80vh] overflow-y-auto">
+      <div class="flex justify-between items-center mb-4 pb-3" style="border-bottom: 1px solid var(--border);">
+        <h2 class="text-lg font-semibold" style="color: var(--text);">レポート詳細</h2>
+        <button id="close-modal" class="text-xl" style="color: var(--text-muted);">&times;</button>
+      </div>
+      <div id="modal-content">
+        <div class="grid grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="block text-xs mb-1" style="color: var(--text-muted);">レポート名</label>
+            <div id="detail-report-name" class="text-sm py-1" style="color: var(--text);"></div>
+          </div>
+          <div>
+            <label class="block text-xs mb-1" style="color: var(--text-muted);">レポート種別</label>
+            <div id="detail-report-type" class="text-sm py-1" style="color: var(--text);"></div>
+          </div>
+          <div>
+            <label class="block text-xs mb-1" style="color: var(--text-muted);">生成開始日時</label>
+            <div id="detail-start-time" class="text-sm py-1" style="color: var(--text);"></div>
+          </div>
+          <div>
+            <label class="block text-xs mb-1" style="color: var(--text-muted);">生成完了日時</label>
+            <div id="detail-end-time" class="text-sm py-1" style="color: var(--text);"></div>
+          </div>
+          <div>
+            <label class="block text-xs mb-1" style="color: var(--text-muted);">対象期間</label>
+            <div id="detail-target-period" class="text-sm py-1" style="color: var(--text);"></div>
+          </div>
+          <div>
+            <label class="block text-xs mb-1" style="color: var(--text-muted);">処理時間</label>
+            <div id="detail-process-time" class="text-sm py-1" style="color: var(--text);"></div>
+          </div>
+          <div>
+            <label class="block text-xs mb-1" style="color: var(--text-muted);">ファイルサイズ</label>
+            <div id="detail-file-size" class="text-sm py-1" style="color: var(--text);"></div>
+          </div>
+          <div>
+            <label class="block text-xs mb-1" style="color: var(--text-muted);">ダウンロード回数</label>
+            <div id="detail-download-count" class="text-sm py-1" style="color: var(--text);"></div>
+          </div>
+        </div>
+        <div id="error-section" class="mb-4" style="display: none;">
+          <label class="block text-xs mb-1" style="color: var(--text-muted);">エラーメッセージ</label>
+          <div id="detail-error-message" class="text-sm py-2 px-3 rounded" 
+               style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: var(--text);"></div>
+        </div>
+        <div class="flex gap-2 pt-3" style="border-top: 1px solid var(--border);">
+          <button id="download-report" class="action-btn text-sm px-3 py-1.5"
+                  style="background: var(--primary); color: #fff; border: none; border-radius: 4px;">
+            ダウンロード
+          </button>
+          <button id="delete-report" class="action-btn secondary text-sm px-3 py-1.5"
+                  style="background: transparent; border: 1px solid rgba(239, 68, 68, 0.5); color: #ef4444; border-radius: 4px;">
+            削除
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </section>
+  </main>
+</div>
+<script>
+(function() {
+  var TABLE_DEFS = window.AIVIC_TABLES || [];
+  var PRESET_SEED = window.AIVIC_PRESET_SEED || {};
+  var SYSTEM_NAME = window.AIVIC_SYSTEM_NAME || "";
+  var APP_ID = window.AIVIC_APP_ID || "";
+  var API_URL = (window.AIVIC_API_URL && window.AIVIC_API_URL !== "REPLACE_WITH_API_URL")
+    ? window.AIVIC_API_URL : window.location.origin;
+
+  // 通知 helper（SPA 版と同じ）
+  window.aivicNotify = (function() {
+    function ensureContainer() {
+      var c = document.getElementById("aivic-toast-container");
+      if (c) return c;
+      c = document.createElement("div");
+      c.id = "aivic-toast-container";
+      c.style.cssText = "position:fixed;top:16px;right:16px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none;max-width:360px;";
+      document.body.appendChild(c);
+      return c;
+    }
+    function show(msg, type) {
+      var c = ensureContainer();
+      var el = document.createElement("div");
+      el.textContent = msg;
+      el.style.cssText = "padding:10px 16px;border-radius:8px;font-size:13px;line-height:1.4;pointer-events:auto;color:#fff;background:" + (type === "error" ? "#dc2626" : "#d97706");
+      c.appendChild(el);
+      setTimeout(function() {
+        el.style.transition = "opacity .3s";
+        el.style.opacity = "0";
+        setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 320);
+      }, type === "error" ? 6000 : 4500);
+    }
+    return {
+      error: function(msg) { show("❌ " + msg, "error"); },
+      warn:  function(msg) { show("⚠️ " + msg, "warn"); },
+    };
+  })();
+
+  // CRUD API（SPA 版と同じ）
+  window.aivicApi = (function() {
+    function dbErr(op) { window.aivicNotify.error("データベースエラー（" + op + "）: APIサーバーに接続できません。"); }
+    function newId() { return typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : "id-" + Date.now() + "-" + Math.random().toString(36).slice(2); }
+    function q(i) {
+      var t = TABLE_DEFS[i];
+      var dbP = (window.AIVIC_DB_TYPE && window.AIVIC_DB_TYPE !== "dynamodb") ? "&db=" + encodeURIComponent(window.AIVIC_DB_TYPE) : "";
+      return "?app=" + encodeURIComponent(APP_ID) + "&system=" + encodeURIComponent(SYSTEM_NAME) + "&table=" + encodeURIComponent(t ? t.tableName : "table" + i) + dbP;
+    }
+    return {
+      list: async function(tableIndex) {
+        if (!API_URL) return [];
+        try { var r = await fetch(API_URL + "/api/" + tableIndex + q(tableIndex)); var d = await r.json(); return Array.isArray(d) ? d : (d.items || []); }
+        catch(e) { dbErr("データ取得"); return []; }
+      },
+      save: async function(tableIndex, item) {
+        if (!API_URL) { dbErr("保存"); return null; }
+        var now = new Date().toISOString();
+        var rec = Object.assign({}, item, { id: item.id || newId(), createdAt: item.createdAt || now, updatedAt: now });
+        try { var r = await fetch(API_URL + "/api/" + tableIndex + q(tableIndex), { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(rec) }); return await r.json(); }
+        catch(e) { dbErr("保存"); return null; }
+      },
+      update: async function(tableIndex, id, changes) {
+        if (!API_URL) { dbErr("更新"); return null; }
+        try { var r = await fetch(API_URL + "/api/" + tableIndex + "/" + id + q(tableIndex), { method:"PUT", headers:{"Content-Type":"application/json"}, body:JSON.stringify(Object.assign({}, changes, {updatedAt: new Date().toISOString()})) }); return await r.json(); }
+        catch(e) { dbErr("更新"); return null; }
+      },
+      delete: async function(tableIndex, id) {
+        if (!API_URL) { dbErr("削除"); return {deleted:false}; }
+        try { await fetch(API_URL + "/api/" + tableIndex + "/" + id + q(tableIndex), {method:"DELETE"}); return {deleted:true}; }
+        catch(e) { dbErr("削除"); return {deleted:false}; }
+      },
+    };
+  })();
+
+  // showScreen はマルチページ構成ではページ遷移として動く。
+  // パネル切替 (旧 SPA 動作) ではなく ./<id>.html への navigate に再定義する。
+  // 既存の AI 生成 shell が onclick="showScreen('x')" の形で書いていても透過的に動く。
+  //
+  // 防御層:
+  // (a) 同じ画面 ID なら no-op（AIVIC_PAGE_SCREEN_ID 一致 / pathname 一致のどちらか）
+  // (b) 同じ navigate を 100ms 以内に繰り返したら break loop（onclick 連打ではなく自動ループ対策）
+  // (c) DOMContentLoaded 直後 1.5s 以内の「自動 navigate」は警告 + 抑制（手動 click は通す）
+  var _aivicNavLastTime = 0;
+  var _aivicNavLastTarget = "";
+  var _aivicReady = false;
+  window.showScreen = function(screenId) {
+    if (!screenId) return;
+    if (screenId === window.AIVIC_PAGE_SCREEN_ID) return; // 既に該当ページに居る
+    // pathname ベースの保険: AIVIC_PAGE_SCREEN_ID が未設定でも、現在 URL と一致したら抑制
+    var targetPath = './' + encodeURIComponent(screenId) + '.html';
+    var currentName = (window.location.pathname.split('/').pop() || '');
+    if (currentName === (encodeURIComponent(screenId) + '.html') ||
+        currentName === (screenId + '.html')) {
+      return;
+    }
+    var now = Date.now();
+    if (_aivicNavLastTarget === targetPath && (now - _aivicNavLastTime) < 100) {
+      console.warn('[aivic] showScreen 連続呼び出し検知。無限ループ防止のため抑制:', screenId);
+      return;
+    }
+    if (!_aivicReady) {
+      // ページロード直後の自動 navigate は AI shell の load-time 副作用の可能性が高い。
+      // ボタンクリック等のユーザー操作は ready 後なので影響しない。
+      console.warn('[aivic] DOMContentLoaded 前の showScreen 呼び出し。抑制:', screenId);
+      return;
+    }
+    _aivicNavLastTime = now;
+    _aivicNavLastTarget = targetPath;
+    window.location.href = targetPath;
+  };
+
+  // 初回マウント時のサンプルデータ投入
+  function seedAllIfEmpty() {
+    if (!API_URL) return Promise.resolve();
+    return Promise.all(TABLE_DEFS.map(function(t, i) {
+      var preset = PRESET_SEED[t.tableName];
+      if (!Array.isArray(preset) || preset.length === 0) return Promise.resolve();
+      return window.aivicApi.list(i).then(function(existing) {
+        if (existing && existing.length > 0) return;
+        return Promise.all(preset.map(function(row) { return window.aivicApi.save(i, row); }));
+      }).catch(function() {});
+    }));
+  }
+
+  // ── 初期表示: このページ専用の panel に initFn を実行 ──
+  // window.AIVIC_PAGE_SCREEN_ID と AIVIC_PAGE_INIT_JS は composeMultipagePages
+  // でページ単位に埋め込まれる。
+  document.addEventListener("DOMContentLoaded", function() {
+    // 1.5 秒後に必ず _aivicReady を立てる（initFn が走らないページや失敗ページでも
+    // ユーザーが操作できるようにする保険）。initFn 完了時にも立てるので早い方が勝つ。
+    setTimeout(function() { _aivicReady = true; }, 1500);
+    var pageScreenId = window.AIVIC_PAGE_SCREEN_ID;
+    if (!pageScreenId) return;
+
+    // sidebar / nav の active class を付与（現在ページのリンクを強調）
+    document.querySelectorAll('[data-aivic-nav]').forEach(function(btn) {
+      var isActive = btn.getAttribute("data-aivic-nav") === pageScreenId;
+      btn.classList.toggle("aivic-active", isActive);
+      btn.setAttribute("aria-current", isActive ? "page" : "false");
+    });
+
+    var container = document.querySelector('[data-aivic-panel="' + pageScreenId + '"]');
+    if (!container) return;
+
+    // **content 要素の hidden 強制除去（2026-05-24 Playwright 大量 fail 対応）**:
+    // AI が生成した panel HTML には class="hidden" / hidden 属性 / style="display:none"
+    // が content 要素（#xxx-tbody / #xxx-list / [data-testid="error-message"] 等）に付いて
+    // いることがある。それを Playwright が toBeVisible() で待ち続けて timeout する事故が頻発。
+    //
+    // ポリシー: panel コンテナ配下の全要素について以下を実行:
+    //   - class="hidden" / display:none / hidden 属性を **content 要素では除去**
+    //   - **modal 系**（.modal, .modal-backdrop, [role="dialog"], [data-modal] 等）は除外
+    //     （これらは仕様上初期非表示が正しい）
+    var isModalLike = function(el) {
+      if (!el || !el.classList) return false;
+      var cn = String(el.className || "");
+      if (/modal|dialog|overlay|popup|dropdown|tooltip/i.test(cn)) return true;
+      var role = el.getAttribute && el.getAttribute("role");
+      if (role === "dialog" || role === "alertdialog" || role === "tooltip" || role === "menu") return true;
+      if (el.hasAttribute && (el.hasAttribute("data-modal") || el.hasAttribute("data-dropdown") || el.hasAttribute("data-popup"))) return true;
+      return false;
+    };
+    var unhideContentElements = function(root) {
+      var all = root.querySelectorAll('.hidden, [hidden], [style*="display:none"], [style*="display: none"]');
+      for (var k = 0; k < all.length; k++) {
+        var el = all[k];
+        // modal 系は触らない
+        if (isModalLike(el)) continue;
+        // parent chain で modal 内なら触らない
+        var p = el.parentElement;
+        var insideModal = false;
+        while (p && p !== root) {
+          if (isModalLike(p)) { insideModal = true; break; }
+          p = p.parentElement;
+        }
+        if (insideModal) continue;
+        // 除去
+        el.classList.remove('hidden');
+        el.removeAttribute('hidden');
+        if (el.style && el.style.display === 'none') el.style.display = '';
+      }
+    };
+    try { unhideContentElements(container); } catch (e) { console.warn('[aivic] unhideContent failed:', e); }
+
+    var initJsSource = window.AIVIC_PAGE_INIT_JS;
+    if (!initJsSource) {
+      // initJs が無くてもサンプルデータ投入は走らせる
+      seedAllIfEmpty();
+      return;
+    }
+    var initFn = null;
+    try {
+      initFn = (new Function("return (" + initJsSource + ")"))();
+    } catch (e) {
+      console.error("[aivic] initJs compile error:", pageScreenId, e);
+      return;
+    }
+    if (typeof initFn !== "function") return;
+
+    seedAllIfEmpty().then(function() {
+      return Promise.all(TABLE_DEFS.map(function(t, i) {
+        return window.aivicApi.list(i)
+          .then(function(records) { return Object.assign({}, t, { records: records }); })
+          .catch(function() { return Object.assign({}, t, { records: [] }); });
+      }));
+    }).then(function(tables) {
+      try { initFn(container, API_URL, tables); } catch (e) { console.error("[aivic] initFn error:", pageScreenId, e); }
+      // 初期 panel init が一巡したら _aivicReady を立てる。以降のユーザー操作 (onclick) で
+      // showScreen が呼ばれた場合は通常通り navigate する。
+      _aivicReady = true;
+    });
+  });
+})();
+
+</script>
+</body>
+</html>

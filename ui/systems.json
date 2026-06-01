@@ -1,0 +1,5378 @@
+[
+  {
+    "systemId": "itg-1",
+    "systemName": "Web発注プラットフォームの構築",
+    "screens": [
+      {
+        "id": "scr-1780291062211",
+        "name": "商品検索・比較画面",
+        "purpose": "顧客が商品を検索し、複数の商品を比較検討して最適な商品を選択できるようにする",
+        "items": [
+          "商品検索ボックス",
+          "カテゴリ選択ドロップダウン",
+          "価格帯指定スライダー",
+          "在庫状況フィルター",
+          "商品一覧表示エリア",
+          "商品画像サムネイル",
+          "商品名表示",
+          "単価表示",
+          "在庫数表示",
+          "商品詳細リンク",
+          "比較対象選択チェックボックス",
+          "比較実行ボタン"
+        ]
+      },
+      {
+        "id": "scr-1780291074387",
+        "name": "発注入力・確認画面",
+        "purpose": "顧客が商品を選択して発注内容を入力し、発注前に内容を確認するための画面",
+        "items": [
+          "顧客情報表示エリア",
+          "商品カテゴリ選択ドロップダウン",
+          "商品検索テキストボックス",
+          "商品検索ボタン",
+          "商品一覧表示テーブル",
+          "商品選択チェックボックス",
+          "商品名表示ラベル",
+          "商品仕様表示エリア",
+          "在庫数表示ラベル",
+          "単価表示ラベル",
+          "発注数量入力フィールド",
+          "小計金額表示ラベル"
+        ]
+      },
+      {
+        "id": "scr-1780291083221",
+        "name": "発注履歴検索・表示画面",
+        "purpose": "過去の発注履歴を検索・絞り込み条件で抽出し、一覧表示して詳細確認や再発注を可能にする画面",
+        "items": [
+          "発注日期間指定（開始日・終了日）",
+          "発注番号入力フィールド",
+          "商品名検索フィールド",
+          "商品カテゴリ選択ドロップダウン",
+          "発注ステータス選択（未確定・確定・出荷済・完了・キャンセル）",
+          "検索実行ボタン",
+          "検索条件クリアボタン",
+          "発注履歴一覧テーブル（発注番号・発注日・商品名・数量・単価・金額・ステータス）",
+          "ページネーション",
+          "表示件数選択（10件・50件・100件）",
+          "発注詳細表示リンク",
+          "再発注ボタン"
+        ]
+      }
+    ],
+    "tableDefinitions": [
+      {
+        "tableName": "顧客マスタ",
+        "purpose": "Web発注プラットフォームで発注を行う顧客の基本情報を管理する",
+        "columns": [
+          {
+            "name": "顧客ID",
+            "type": "uuid",
+            "required": true,
+            "description": "顧客を一意に識別するID（主キー）"
+          },
+          {
+            "name": "顧客コード",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "業務で使用する顧客識別コード"
+          },
+          {
+            "name": "顧客名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "顧客の正式名称"
+          },
+          {
+            "name": "顧客名カナ",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "顧客名のカナ表記（検索・ソート用）"
+          },
+          {
+            "name": "郵便番号",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "顧客の郵便番号"
+          },
+          {
+            "name": "住所",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "顧客の住所"
+          },
+          {
+            "name": "電話番号",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "顧客の電話番号"
+          },
+          {
+            "name": "FAX番号",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "顧客のFAX番号"
+          },
+          {
+            "name": "メールアドレス",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "顧客のメールアドレス"
+          },
+          {
+            "name": "担当者名",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "顧客側の担当者名"
+          },
+          {
+            "name": "有効フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "顧客が有効かどうか（取引停止等の管理）"
+          },
+          {
+            "name": "備考",
+            "type": "text",
+            "required": false,
+            "description": "顧客に関する備考・特記事項"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード作成者"
+          },
+          {
+            "name": "更新者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード最終更新者"
+          }
+        ]
+      },
+      {
+        "tableName": "商品マスタ",
+        "purpose": "Web発注プラットフォームで販売する商品の基本情報を管理する",
+        "columns": [
+          {
+            "name": "商品ID",
+            "type": "uuid",
+            "required": true,
+            "description": "商品の一意識別子（主キー）"
+          },
+          {
+            "name": "商品コード",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "商品の業務用コード（検索・絞り込みで使用）"
+          },
+          {
+            "name": "商品名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "商品の名称（一覧・詳細画面で表示）"
+          },
+          {
+            "name": "商品説明",
+            "type": "text",
+            "required": false,
+            "description": "商品の詳細説明（詳細画面で表示）"
+          },
+          {
+            "name": "カテゴリID",
+            "type": "uuid",
+            "required": true,
+            "description": "商品カテゴリの識別子（検索・絞り込みで使用）"
+          },
+          {
+            "name": "単価",
+            "type": "integer",
+            "required": true,
+            "description": "商品の販売単価（発注計算で使用）"
+          },
+          {
+            "name": "単位",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "商品の販売単位（個、箱、kg等）"
+          },
+          {
+            "name": "在庫数",
+            "type": "integer",
+            "required": true,
+            "description": "現在の在庫数量（発注可能数チェックで使用）"
+          },
+          {
+            "name": "最小発注数",
+            "type": "integer",
+            "required": true,
+            "description": "最小発注可能数量（入力チェックで使用）"
+          },
+          {
+            "name": "販売状態",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "販売中、販売停止、廃番等のステータス"
+          },
+          {
+            "name": "表示順",
+            "type": "integer",
+            "required": true,
+            "description": "一覧画面での表示順序"
+          },
+          {
+            "name": "公開フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "Web画面での公開可否"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード作成者"
+          },
+          {
+            "name": "更新者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード最終更新者"
+          }
+        ]
+      },
+      {
+        "tableName": "商品カテゴリマスタ",
+        "purpose": "Web発注プラットフォームで商品を分類・整理するためのカテゴリ情報を管理する",
+        "columns": [
+          {
+            "name": "カテゴリID",
+            "type": "uuid",
+            "required": true,
+            "description": "商品カテゴリの一意識別子（主キー）"
+          },
+          {
+            "name": "カテゴリコード",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "カテゴリの業務コード（ユニーク）"
+          },
+          {
+            "name": "カテゴリ名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "カテゴリの表示名称"
+          },
+          {
+            "name": "親カテゴリID",
+            "type": "uuid",
+            "required": false,
+            "description": "階層構造の親カテゴリID（自己参照外部キー）"
+          },
+          {
+            "name": "表示順序",
+            "type": "integer",
+            "required": true,
+            "description": "画面表示時のソート順"
+          },
+          {
+            "name": "説明",
+            "type": "text",
+            "required": false,
+            "description": "カテゴリの詳細説明"
+          },
+          {
+            "name": "有効フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "カテゴリの有効/無効状態"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード作成者の識別子"
+          },
+          {
+            "name": "更新者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード最終更新者の識別子"
+          }
+        ]
+      },
+      {
+        "tableName": "顧客別単価マスタ",
+        "purpose": "特定の顧客に対する商品の個別単価を管理し、Web発注時の価格計算に使用する",
+        "columns": [
+          {
+            "name": "顧客別単価ID",
+            "type": "uuid",
+            "required": true,
+            "description": "顧客別単価の一意識別子（主キー）"
+          },
+          {
+            "name": "顧客ID",
+            "type": "uuid",
+            "required": true,
+            "description": "顧客マスタへの外部キー"
+          },
+          {
+            "name": "商品ID",
+            "type": "uuid",
+            "required": true,
+            "description": "商品マスタへの外部キー"
+          },
+          {
+            "name": "単価",
+            "type": "integer",
+            "required": true,
+            "description": "顧客別の商品単価（税抜）"
+          },
+          {
+            "name": "適用開始日",
+            "type": "timestamp",
+            "required": true,
+            "description": "この単価の適用開始日時"
+          },
+          {
+            "name": "適用終了日",
+            "type": "timestamp",
+            "required": false,
+            "description": "この単価の適用終了日時（NULLの場合は無期限）"
+          },
+          {
+            "name": "最小発注数量",
+            "type": "integer",
+            "required": false,
+            "description": "この単価が適用される最小発注数量"
+          },
+          {
+            "name": "最大発注数量",
+            "type": "integer",
+            "required": false,
+            "description": "この単価が適用される最大発注数量"
+          },
+          {
+            "name": "有効フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "単価設定の有効/無効状態"
+          },
+          {
+            "name": "備考",
+            "type": "text",
+            "required": false,
+            "description": "単価設定に関する備考や特記事項"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード作成者の識別子"
+          },
+          {
+            "name": "更新者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード最終更新者の識別子"
+          }
+        ]
+      },
+      {
+        "tableName": "在庫マスタ",
+        "purpose": "Web発注プラットフォームにおける商品の在庫数量と在庫状況を管理し、発注可能数量の制御と在庫切れ通知を行う",
+        "columns": [
+          {
+            "name": "在庫ID",
+            "type": "uuid",
+            "required": true,
+            "description": "在庫レコードの一意識別子（主キー）"
+          },
+          {
+            "name": "商品ID",
+            "type": "uuid",
+            "required": true,
+            "description": "商品マスタへの外部キー"
+          },
+          {
+            "name": "倉庫コード",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "在庫を保管している倉庫・拠点の識別コード"
+          },
+          {
+            "name": "現在在庫数",
+            "type": "integer",
+            "required": true,
+            "description": "現時点での実際の在庫数量"
+          },
+          {
+            "name": "引当済数量",
+            "type": "integer",
+            "required": true,
+            "description": "受注により引当済みで出荷待ちの数量"
+          },
+          {
+            "name": "発注可能数量",
+            "type": "integer",
+            "required": true,
+            "description": "Web発注で注文可能な数量（現在在庫数-引当済数量-安全在庫数）"
+          },
+          {
+            "name": "安全在庫数",
+            "type": "integer",
+            "required": true,
+            "description": "最低限確保しておく在庫数量"
+          },
+          {
+            "name": "在庫状態",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "在庫の状態（在庫あり/在庫僅少/在庫切れ/入荷待ち/販売停止）"
+          },
+          {
+            "name": "入荷予定日",
+            "type": "timestamp",
+            "required": false,
+            "description": "次回入荷予定日（在庫切れ時の入荷見込み表示用）"
+          },
+          {
+            "name": "入荷予定数量",
+            "type": "integer",
+            "required": false,
+            "description": "次回入荷予定の数量"
+          },
+          {
+            "name": "最終入荷日",
+            "type": "timestamp",
+            "required": false,
+            "description": "最後に入荷があった日付"
+          },
+          {
+            "name": "最終出荷日",
+            "type": "timestamp",
+            "required": false,
+            "description": "最後に出荷があった日付"
+          },
+          {
+            "name": "在庫切れ通知フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "在庫切れ時に通知を送信するかのフラグ"
+          },
+          {
+            "name": "Web表示フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "Web発注画面に表示するかのフラグ"
+          },
+          {
+            "name": "備考",
+            "type": "text",
+            "required": false,
+            "description": "在庫に関する特記事項やメモ"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード作成者"
+          },
+          {
+            "name": "更新者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード最終更新者"
+          }
+        ]
+      },
+      {
+        "tableName": "発注履歴",
+        "purpose": "Web発注プラットフォームにおける顧客からの発注情報を記録・管理し、受注処理、出荷指示、売上分析等の業務を支援する",
+        "columns": [
+          {
+            "name": "発注ID",
+            "type": "uuid",
+            "required": true,
+            "description": "発注を一意に識別するID（主キー）"
+          },
+          {
+            "name": "発注番号",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "顧客向け表示用の発注番号"
+          },
+          {
+            "name": "顧客ID",
+            "type": "uuid",
+            "required": true,
+            "description": "発注した顧客のID（顧客マスタへの外部キー）"
+          },
+          {
+            "name": "商品ID",
+            "type": "uuid",
+            "required": true,
+            "description": "発注された商品のID（商品マスタへの外部キー）"
+          },
+          {
+            "name": "発注数量",
+            "type": "integer",
+            "required": true,
+            "description": "発注された商品の数量"
+          },
+          {
+            "name": "単価",
+            "type": "integer",
+            "required": true,
+            "description": "発注時点での商品単価（顧客別単価を適用）"
+          },
+          {
+            "name": "小計金額",
+            "type": "integer",
+            "required": true,
+            "description": "発注数量×単価で算出される小計金額"
+          },
+          {
+            "name": "発注ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "発注の処理状況（受注、出荷準備中、出荷済み、完了、キャンセル等）"
+          },
+          {
+            "name": "発注日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "顧客が発注を行った日時"
+          },
+          {
+            "name": "希望納期",
+            "type": "timestamp",
+            "required": false,
+            "description": "顧客が指定した希望納期"
+          },
+          {
+            "name": "出荷予定日",
+            "type": "timestamp",
+            "required": false,
+            "description": "出荷予定として設定された日付"
+          },
+          {
+            "name": "出荷日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "実際に出荷された日時"
+          },
+          {
+            "name": "配送先名",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "配送先の名称"
+          },
+          {
+            "name": "配送先住所",
+            "type": "text",
+            "required": false,
+            "description": "配送先の住所"
+          },
+          {
+            "name": "配送先電話番号",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "配送先の電話番号"
+          },
+          {
+            "name": "備考",
+            "type": "text",
+            "required": false,
+            "description": "発注に関する特記事項や要望"
+          },
+          {
+            "name": "キャンセル理由",
+            "type": "text",
+            "required": false,
+            "description": "発注がキャンセルされた場合の理由"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコードが作成された日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコードが最後に更新された日時"
+          },
+          {
+            "name": "作成者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコードを作成したユーザー"
+          },
+          {
+            "name": "更新者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコードを最後に更新したユーザー"
+          }
+        ]
+      },
+      {
+        "tableName": "発注明細",
+        "purpose": "発注の商品別明細情報を管理し、発注数量・単価・金額の詳細を記録する",
+        "columns": [
+          {
+            "name": "発注明細ID",
+            "type": "uuid",
+            "required": true,
+            "description": "発注明細の一意識別子（主キー）"
+          },
+          {
+            "name": "発注履歴ID",
+            "type": "uuid",
+            "required": true,
+            "description": "発注履歴テーブルへの外部キー"
+          },
+          {
+            "name": "商品ID",
+            "type": "uuid",
+            "required": true,
+            "description": "商品マスタへの外部キー"
+          },
+          {
+            "name": "発注数量",
+            "type": "integer",
+            "required": true,
+            "description": "発注する商品の数量"
+          },
+          {
+            "name": "単価",
+            "type": "integer",
+            "required": true,
+            "description": "発注時点での商品単価（円）"
+          },
+          {
+            "name": "小計金額",
+            "type": "integer",
+            "required": true,
+            "description": "発注数量×単価の小計金額（円）"
+          },
+          {
+            "name": "明細番号",
+            "type": "integer",
+            "required": true,
+            "description": "発注内での明細の連番"
+          },
+          {
+            "name": "備考",
+            "type": "text",
+            "required": false,
+            "description": "明細に対する特記事項や要望"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "明細レコードの作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "明細レコードの最終更新日時"
+          }
+        ]
+      },
+      {
+        "tableName": "商品仕様マスタ",
+        "purpose": "商品の詳細仕様情報を管理し、Web発注時の商品選択や仕様確認に使用する",
+        "columns": [
+          {
+            "name": "商品仕様ID",
+            "type": "uuid",
+            "required": true,
+            "description": "商品仕様の一意識別子（主キー）"
+          },
+          {
+            "name": "商品ID",
+            "type": "uuid",
+            "required": true,
+            "description": "商品マスタへの外部キー"
+          },
+          {
+            "name": "仕様名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "仕様項目名（サイズ、色、材質等）"
+          },
+          {
+            "name": "仕様値",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "仕様の具体的な値"
+          },
+          {
+            "name": "表示順序",
+            "type": "integer",
+            "required": true,
+            "description": "Web画面での仕様表示順序"
+          },
+          {
+            "name": "必須選択フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "発注時に必須選択が必要かどうか"
+          },
+          {
+            "name": "Web表示フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "Web発注画面に表示するかどうか"
+          },
+          {
+            "name": "仕様説明",
+            "type": "text",
+            "required": false,
+            "description": "仕様の詳細説明文"
+          },
+          {
+            "name": "有効フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "仕様が有効かどうか"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード作成者"
+          },
+          {
+            "name": "更新者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード最終更新者"
+          }
+        ]
+      },
+      {
+        "tableName": "ログインユーザー",
+        "purpose": "Web発注プラットフォームにログインするユーザーの認証情報と基本情報を管理する",
+        "columns": [
+          {
+            "name": "ユーザーID",
+            "type": "uuid",
+            "required": true,
+            "description": "ログインユーザーの一意識別子（主キー）"
+          },
+          {
+            "name": "顧客ID",
+            "type": "uuid",
+            "required": true,
+            "description": "所属する顧客の識別子（顧客マスタへの外部キー）"
+          },
+          {
+            "name": "ログインID",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "ログイン時に使用するユーザー識別子（ユニーク）"
+          },
+          {
+            "name": "パスワードハッシュ",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "暗号化されたパスワード"
+          },
+          {
+            "name": "ユーザー名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "ユーザーの表示名"
+          },
+          {
+            "name": "メールアドレス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "通知送信先メールアドレス"
+          },
+          {
+            "name": "権限レベル",
+            "type": "integer",
+            "required": true,
+            "description": "ユーザーの権限レベル（1:一般、2:管理者等）"
+          },
+          {
+            "name": "有効フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "ユーザーアカウントの有効/無効状態"
+          },
+          {
+            "name": "最終ログイン日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "最後にログインした日時"
+          },
+          {
+            "name": "パスワード変更日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "パスワードを最後に変更した日時"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード作成者"
+          },
+          {
+            "name": "更新者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード最終更新者"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "systemId": "itg-2",
+    "systemName": "基幹システム連携管理システムの構築",
+    "screens": [
+      {
+        "id": "scr-1780291283309",
+        "name": "発注データ管理画面",
+        "purpose": "Web発注プラットフォームにおける発注データの一元管理、基幹システムとの連携状況監視、データ検証結果の確認、エラー対応を行う管理画面",
+        "items": [
+          "発注データ一覧表示エリア",
+          "発注番号検索フィールド",
+          "発注日期間指定フィールド",
+          "発注ステータス絞り込みドロップダウン",
+          "連携状況フィルター",
+          "検索実行ボタン",
+          "検索条件クリアボタン",
+          "発注データ詳細表示モーダル",
+          "発注明細データ表示テーブル",
+          "基幹システム連携状況表示エリア",
+          "データ検証結果表示パネル",
+          "連携エラー詳細表示エリア"
+        ]
+      },
+      {
+        "id": "scr-1780291294438",
+        "name": "基幹システム連携処理画面",
+        "purpose": "Web発注プラットフォームと基幹システム間のデータ連携処理を実行・監視し、発注データの同期状況やエラー対応を管理する",
+        "items": [
+          "連携処理実行ボタン",
+          "連携対象システム選択ドロップダウン",
+          "連携処理種別選択（手動/自動/スケジュール）",
+          "処理対象期間指定（開始日時・終了日時）",
+          "連携処理状況表示エリア",
+          "進行中処理一覧テーブル",
+          "処理完了件数表示",
+          "エラー件数表示",
+          "連携処理履歴一覧",
+          "エラーログ詳細表示エリア",
+          "データ検証結果表示",
+          "再処理実行ボタン"
+        ]
+      },
+      {
+        "id": "scr-1780291305048",
+        "name": "連携エラー分析画面",
+        "purpose": "基幹システム連携で発生したエラーの詳細分析と原因特定、対処方法の検討を行う画面",
+        "items": [
+          "エラー発生期間選択カレンダー",
+          "エラー種別フィルター（データ検証エラー、通信エラー、システムエラー等）",
+          "連携対象システム選択ドロップダウン",
+          "エラー件数サマリー表示エリア",
+          "エラー発生傾向グラフ（時系列）",
+          "エラー分類別円グラフ",
+          "エラー一覧テーブル（発生日時、エラー種別、対象データ、エラー内容）",
+          "エラー詳細表示モーダル",
+          "エラーログダウンロードボタン",
+          "再処理実行ボタン",
+          "エラー対応状況更新フォーム",
+          "関連する発注データ表示リンク"
+        ]
+      },
+      {
+        "id": "scr-1780291315061",
+        "name": "データ検証結果画面",
+        "purpose": "発注データの検証処理結果を表示し、エラー内容の確認と対応状況の管理を行う画面",
+        "items": [
+          "検証結果一覧テーブル",
+          "検証ステータス表示",
+          "エラー件数サマリー",
+          "検証日時表示",
+          "発注データ識別情報",
+          "エラー詳細表示エリア",
+          "エラー種別フィルター",
+          "検証ルール名表示",
+          "対応状況選択ドロップダウン",
+          "エラー内容詳細テキスト",
+          "再検証実行ボタン",
+          "CSV出力ボタン"
+        ]
+      },
+      {
+        "id": "scr-1780291323940",
+        "name": "連携処理履歴画面",
+        "purpose": "基幹システムとの連携処理の実行履歴を一覧表示し、処理状況の確認、エラー詳細の参照、再実行などの管理を行う画面",
+        "items": [
+          "連携処理履歴一覧テーブル",
+          "処理日時範囲指定フィールド",
+          "連携種別選択ドロップダウン",
+          "処理ステータス絞り込みチェックボックス",
+          "発注番号検索フィールド",
+          "検索実行ボタン",
+          "検索条件クリアボタン",
+          "処理詳細表示モーダル",
+          "エラーログ詳細表示エリア",
+          "データ検証結果表示エリア",
+          "再実行ボタン",
+          "CSV出力ボタン"
+        ]
+      },
+      {
+        "id": "scr-1780291334265",
+        "name": "システム通知管理画面",
+        "purpose": "システム通知の設定管理、通知履歴の確認、通知条件の設定変更を行い、Web発注プラットフォームにおける各種システム通知を統合管理する",
+        "items": [
+          "通知設定一覧表示エリア",
+          "通知種別選択ドロップダウン",
+          "通知対象ユーザー選択チェックボックス",
+          "通知条件設定入力フィールド",
+          "通知タイミング設定ラジオボタン",
+          "通知メッセージテンプレート編集エリア",
+          "通知履歴検索フォーム",
+          "通知履歴一覧テーブル",
+          "通知ステータス表示ラベル",
+          "通知有効/無効切り替えスイッチ",
+          "通知テスト送信ボタン",
+          "通知設定保存ボタン"
+        ]
+      }
+    ],
+    "tableDefinitions": [
+      {
+        "tableName": "ログインユーザーマスタ",
+        "purpose": "Web発注プラットフォームにログインするユーザーの認証情報と基本属性を管理する",
+        "columns": [
+          {
+            "name": "ユーザーID",
+            "type": "uuid",
+            "required": true,
+            "description": "ユーザーを一意に識別するID"
+          },
+          {
+            "name": "ログインID",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "ログイン時に使用するID"
+          },
+          {
+            "name": "パスワードハッシュ",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "暗号化されたパスワード"
+          },
+          {
+            "name": "ユーザー名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "画面表示用のユーザー名"
+          },
+          {
+            "name": "メールアドレス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "通知送信先メールアドレス"
+          },
+          {
+            "name": "ユーザー種別",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "発注者、受注者、管理者等の区分"
+          },
+          {
+            "name": "所属組織ID",
+            "type": "uuid",
+            "required": false,
+            "description": "所属する組織のID"
+          },
+          {
+            "name": "権限レベル",
+            "type": "integer",
+            "required": true,
+            "description": "システム内での権限レベル"
+          },
+          {
+            "name": "アカウント状態",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "有効、無効、停止等の状態"
+          },
+          {
+            "name": "最終ログイン日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "最後にログインした日時"
+          },
+          {
+            "name": "パスワード変更日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "パスワードを最後に変更した日時"
+          },
+          {
+            "name": "有効フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "レコードの有効性を示すフラグ"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード作成者"
+          },
+          {
+            "name": "更新者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード最終更新者"
+          }
+        ]
+      },
+      {
+        "tableName": "発注データ",
+        "purpose": "Web発注プラットフォームにおける発注情報を管理し、発注から承認・処理完了までの一連の業務フローを支援する",
+        "columns": [
+          {
+            "name": "発注ID",
+            "type": "uuid",
+            "required": true,
+            "description": "発注データの一意識別子"
+          },
+          {
+            "name": "発注番号",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "業務で使用する発注番号"
+          },
+          {
+            "name": "発注者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "発注を行ったユーザーのID（ログインユーザーマスタ参照）"
+          },
+          {
+            "name": "発注日",
+            "type": "timestamp",
+            "required": true,
+            "description": "発注が行われた日時"
+          },
+          {
+            "name": "希望納期",
+            "type": "timestamp",
+            "required": true,
+            "description": "発注者が希望する納期"
+          },
+          {
+            "name": "発注先名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "発注先の会社名・店舗名"
+          },
+          {
+            "name": "発注先担当者",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "発注先の担当者名"
+          },
+          {
+            "name": "発注先連絡先",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "発注先の電話番号・メールアドレス等"
+          },
+          {
+            "name": "発注金額",
+            "type": "integer",
+            "required": true,
+            "description": "発注の総金額"
+          },
+          {
+            "name": "発注ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "発注の処理状況（下書き・承認待ち・承認済み・発注済み・完了・キャンセル等）"
+          },
+          {
+            "name": "承認者ID",
+            "type": "uuid",
+            "required": false,
+            "description": "発注を承認したユーザーのID"
+          },
+          {
+            "name": "承認日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "承認が行われた日時"
+          },
+          {
+            "name": "発注理由",
+            "type": "text",
+            "required": false,
+            "description": "発注の理由・目的"
+          },
+          {
+            "name": "備考",
+            "type": "text",
+            "required": false,
+            "description": "発注に関する補足情報"
+          },
+          {
+            "name": "緊急フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "緊急発注かどうかの判定"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード作成者のユーザーID"
+          },
+          {
+            "name": "更新者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード最終更新者のユーザーID"
+          }
+        ]
+      },
+      {
+        "tableName": "発注明細データ",
+        "purpose": "発注データに紐づく商品明細情報を管理し、Web発注プラットフォームでの明細単位での操作・表示・検索を実現する",
+        "columns": [
+          {
+            "name": "発注明細ID",
+            "type": "uuid",
+            "required": true,
+            "description": "発注明細の一意識別子（主キー）"
+          },
+          {
+            "name": "発注ID",
+            "type": "uuid",
+            "required": true,
+            "description": "発注データテーブルへの外部キー"
+          },
+          {
+            "name": "明細番号",
+            "type": "integer",
+            "required": true,
+            "description": "発注内での明細の連番"
+          },
+          {
+            "name": "商品コード",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "発注する商品の識別コード"
+          },
+          {
+            "name": "商品名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "発注する商品の名称"
+          },
+          {
+            "name": "規格",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "商品の規格・仕様"
+          },
+          {
+            "name": "発注数量",
+            "type": "integer",
+            "required": true,
+            "description": "発注する数量"
+          },
+          {
+            "name": "単位",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "数量の単位（個、箱、kg等）"
+          },
+          {
+            "name": "単価",
+            "type": "integer",
+            "required": true,
+            "description": "商品の単価（円）"
+          },
+          {
+            "name": "金額",
+            "type": "integer",
+            "required": true,
+            "description": "明細の合計金額（単価×数量）"
+          },
+          {
+            "name": "希望納期",
+            "type": "timestamp",
+            "required": false,
+            "description": "明細単位での希望納期"
+          },
+          {
+            "name": "明細ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "明細の処理状況（未処理、処理中、完了等）"
+          },
+          {
+            "name": "備考",
+            "type": "text",
+            "required": false,
+            "description": "明細に関する特記事項"
+          },
+          {
+            "name": "削除フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "論理削除フラグ"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード作成者のユーザーID"
+          },
+          {
+            "name": "更新者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード最終更新者のユーザーID"
+          }
+        ]
+      },
+      {
+        "tableName": "基幹システム連携設定マスタ",
+        "purpose": "Web発注プラットフォームと基幹システム間のデータ連携設定を管理するマスタテーブル",
+        "columns": [
+          {
+            "name": "連携設定ID",
+            "type": "uuid",
+            "required": true,
+            "description": "連携設定の一意識別子（主キー）"
+          },
+          {
+            "name": "連携システム名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "連携対象の基幹システム名"
+          },
+          {
+            "name": "連携種別",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "連携の種別（発注データ送信、在庫データ受信等）"
+          },
+          {
+            "name": "接続方式",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "連携方式（API、FTP、DB直接接続等）"
+          },
+          {
+            "name": "接続先URL",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "API接続時のエンドポイントURL"
+          },
+          {
+            "name": "認証方式",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "認証方式（API Key、OAuth、Basic認証等）"
+          },
+          {
+            "name": "実行頻度",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "連携実行の頻度（リアルタイム、毎時、日次等）"
+          },
+          {
+            "name": "データ形式",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "連携データの形式（JSON、XML、CSV等）"
+          },
+          {
+            "name": "有効フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "連携設定の有効/無効状態"
+          },
+          {
+            "name": "優先順位",
+            "type": "integer",
+            "required": true,
+            "description": "複数連携がある場合の実行優先順位"
+          },
+          {
+            "name": "タイムアウト秒数",
+            "type": "integer",
+            "required": true,
+            "description": "連携処理のタイムアウト時間（秒）"
+          },
+          {
+            "name": "リトライ回数",
+            "type": "integer",
+            "required": true,
+            "description": "連携失敗時の最大リトライ回数"
+          },
+          {
+            "name": "エラー通知先",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "連携エラー時の通知先メールアドレス"
+          },
+          {
+            "name": "備考",
+            "type": "text",
+            "required": false,
+            "description": "連携設定に関する補足情報"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "設定を作成したユーザーのID"
+          },
+          {
+            "name": "更新者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "設定を最後に更新したユーザーのID"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "設定の作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "設定の最終更新日時"
+          }
+        ]
+      },
+      {
+        "tableName": "データ検証ルールマスタ",
+        "purpose": "Web発注プラットフォームから基幹システムへのデータ連携時に適用する検証ルールを管理するマスタテーブル",
+        "columns": [
+          {
+            "name": "検証ルールID",
+            "type": "uuid",
+            "required": true,
+            "description": "検証ルールの一意識別子（主キー）"
+          },
+          {
+            "name": "ルール名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "検証ルールの名称"
+          },
+          {
+            "name": "対象テーブル名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "検証対象となるテーブル名"
+          },
+          {
+            "name": "対象カラム名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "検証対象となるカラム名"
+          },
+          {
+            "name": "検証タイプ",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "検証の種類（必須チェック、形式チェック、範囲チェック、重複チェック等）"
+          },
+          {
+            "name": "検証条件",
+            "type": "text",
+            "required": true,
+            "description": "具体的な検証条件の設定値"
+          },
+          {
+            "name": "エラーメッセージ",
+            "type": "text",
+            "required": true,
+            "description": "検証エラー時に表示するメッセージ"
+          },
+          {
+            "name": "実行順序",
+            "type": "integer",
+            "required": true,
+            "description": "同一カラムに複数ルールがある場合の実行順序"
+          },
+          {
+            "name": "有効フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "ルールの有効/無効状態"
+          },
+          {
+            "name": "適用開始日",
+            "type": "timestamp",
+            "required": false,
+            "description": "ルールの適用開始日時"
+          },
+          {
+            "name": "適用終了日",
+            "type": "timestamp",
+            "required": false,
+            "description": "ルールの適用終了日時"
+          },
+          {
+            "name": "備考",
+            "type": "text",
+            "required": false,
+            "description": "ルールに関する補足説明"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード作成者のユーザーID"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "更新者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード最終更新者のユーザーID"
+          }
+        ]
+      },
+      {
+        "tableName": "連携処理履歴",
+        "purpose": "基幹システムとの連携処理の実行履歴を記録し、処理状況の監視、エラー対応、再処理判定を行うための履歴管理テーブル",
+        "columns": [
+          {
+            "name": "連携処理履歴ID",
+            "type": "uuid",
+            "required": true,
+            "description": "連携処理履歴の一意識別子（主キー）"
+          },
+          {
+            "name": "連携設定ID",
+            "type": "uuid",
+            "required": true,
+            "description": "基幹システム連携設定マスタへの外部キー"
+          },
+          {
+            "name": "処理種別",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "連携処理の種別（発注データ送信、在庫データ取得、受注データ送信等）"
+          },
+          {
+            "name": "処理ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "処理の実行状況（実行中、成功、失敗、中断、再試行中）"
+          },
+          {
+            "name": "対象データID",
+            "type": "uuid",
+            "required": false,
+            "description": "連携対象となったデータのID（発注データID等）"
+          },
+          {
+            "name": "処理開始日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "連携処理の開始日時"
+          },
+          {
+            "name": "処理終了日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "連携処理の終了日時"
+          },
+          {
+            "name": "処理件数",
+            "type": "integer",
+            "required": false,
+            "description": "処理対象となったデータ件数"
+          },
+          {
+            "name": "成功件数",
+            "type": "integer",
+            "required": false,
+            "description": "正常に処理されたデータ件数"
+          },
+          {
+            "name": "エラー件数",
+            "type": "integer",
+            "required": false,
+            "description": "エラーが発生したデータ件数"
+          },
+          {
+            "name": "エラーメッセージ",
+            "type": "text",
+            "required": false,
+            "description": "処理中に発生したエラーの詳細メッセージ"
+          },
+          {
+            "name": "リクエストデータ",
+            "type": "text",
+            "required": false,
+            "description": "基幹システムに送信したリクエストデータの内容"
+          },
+          {
+            "name": "レスポンスデータ",
+            "type": "text",
+            "required": false,
+            "description": "基幹システムから受信したレスポンスデータの内容"
+          },
+          {
+            "name": "再試行回数",
+            "type": "integer",
+            "required": true,
+            "description": "処理の再試行実行回数（初回は0）"
+          },
+          {
+            "name": "次回再試行日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "エラー時の次回再試行予定日時"
+          },
+          {
+            "name": "処理実行者ID",
+            "type": "uuid",
+            "required": false,
+            "description": "手動実行時の実行者（ログインユーザーマスタへの外部キー）"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          }
+        ]
+      },
+      {
+        "tableName": "連携エラーログ",
+        "purpose": "基幹システム連携処理で発生したエラーの詳細情報を記録し、エラー分析・対応履歴管理・再処理判定を行うためのログテーブル",
+        "columns": [
+          {
+            "name": "エラーログID",
+            "type": "uuid",
+            "required": true,
+            "description": "エラーログの一意識別子（主キー）"
+          },
+          {
+            "name": "連携処理履歴ID",
+            "type": "uuid",
+            "required": true,
+            "description": "連携処理履歴テーブルへの外部キー"
+          },
+          {
+            "name": "発注データID",
+            "type": "uuid",
+            "required": false,
+            "description": "エラー対象の発注データID（該当する場合）"
+          },
+          {
+            "name": "エラー発生日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "エラーが発生した日時"
+          },
+          {
+            "name": "エラー種別",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "システムエラー、データ検証エラー、通信エラー、認証エラー等"
+          },
+          {
+            "name": "エラーコード",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "システム固有のエラーコード"
+          },
+          {
+            "name": "エラーメッセージ",
+            "type": "text",
+            "required": true,
+            "description": "エラーの詳細メッセージ"
+          },
+          {
+            "name": "エラー発生箇所",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "データ変換処理、API送信、レスポンス受信等"
+          },
+          {
+            "name": "処理対象データ",
+            "type": "text",
+            "required": false,
+            "description": "エラー発生時の処理対象データの内容"
+          },
+          {
+            "name": "スタックトレース",
+            "type": "text",
+            "required": false,
+            "description": "システムエラー時の詳細なスタックトレース情報"
+          },
+          {
+            "name": "重要度",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "緊急、高、中、低"
+          },
+          {
+            "name": "対応状況",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "未対応、対応中、対応完了、保留"
+          },
+          {
+            "name": "対応者ID",
+            "type": "uuid",
+            "required": false,
+            "description": "エラー対応を行うユーザーのID"
+          },
+          {
+            "name": "対応開始日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "エラー対応を開始した日時"
+          },
+          {
+            "name": "対応完了日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "エラー対応が完了した日時"
+          },
+          {
+            "name": "対応内容",
+            "type": "text",
+            "required": false,
+            "description": "実施した対応内容の詳細"
+          },
+          {
+            "name": "再処理要否",
+            "type": "boolean",
+            "required": true,
+            "description": "エラー解決後に再処理が必要かどうか"
+          },
+          {
+            "name": "再処理実行日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "再処理を実行した日時"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          }
+        ]
+      },
+      {
+        "tableName": "データ検証結果",
+        "purpose": "発注データの基幹システム連携前後における各種検証処理の実行結果を記録し、データ品質管理と問題追跡を行う",
+        "columns": [
+          {
+            "name": "検証結果ID",
+            "type": "uuid",
+            "required": true,
+            "description": "データ検証結果の一意識別子（主キー）"
+          },
+          {
+            "name": "連携処理履歴ID",
+            "type": "uuid",
+            "required": true,
+            "description": "関連する連携処理履歴への外部キー"
+          },
+          {
+            "name": "発注データID",
+            "type": "uuid",
+            "required": false,
+            "description": "検証対象の発注データへの外部キー"
+          },
+          {
+            "name": "検証ルールID",
+            "type": "uuid",
+            "required": true,
+            "description": "適用された検証ルールへの外部キー"
+          },
+          {
+            "name": "検証種別",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "検証の種類（形式チェック、業務ルールチェック、整合性チェック等）"
+          },
+          {
+            "name": "検証項目名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "検証を行った具体的な項目名"
+          },
+          {
+            "name": "検証結果",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "検証結果（成功、警告、エラー）"
+          },
+          {
+            "name": "検証メッセージ",
+            "type": "text",
+            "required": false,
+            "description": "検証結果の詳細メッセージ"
+          },
+          {
+            "name": "検証前値",
+            "type": "text",
+            "required": false,
+            "description": "検証前のデータ値"
+          },
+          {
+            "name": "検証後値",
+            "type": "text",
+            "required": false,
+            "description": "検証後のデータ値（補正された場合）"
+          },
+          {
+            "name": "重要度",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "検証結果の重要度（高、中、低）"
+          },
+          {
+            "name": "処理継続可否",
+            "type": "boolean",
+            "required": true,
+            "description": "この検証結果で処理を継続可能かどうか"
+          },
+          {
+            "name": "検証実行日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "検証を実行した日時"
+          },
+          {
+            "name": "検証実行者ID",
+            "type": "uuid",
+            "required": false,
+            "description": "検証を実行したユーザーID（自動実行の場合はnull）"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          }
+        ]
+      },
+      {
+        "tableName": "発注ステータス履歴",
+        "purpose": "発注データのステータス変更履歴を時系列で管理し、発注処理の進捗状況と変更経緯を追跡する",
+        "columns": [
+          {
+            "name": "履歴ID",
+            "type": "uuid",
+            "required": true,
+            "description": "発注ステータス履歴の一意識別子"
+          },
+          {
+            "name": "発注ID",
+            "type": "uuid",
+            "required": true,
+            "description": "対象発注データの識別子"
+          },
+          {
+            "name": "変更前ステータス",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "変更前の発注ステータス（初回登録時はnull）"
+          },
+          {
+            "name": "変更後ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "変更後の発注ステータス（下書き、承認待ち、承認済み、発注済み、完了、キャンセル等）"
+          },
+          {
+            "name": "変更理由",
+            "type": "text",
+            "required": false,
+            "description": "ステータス変更の理由やコメント"
+          },
+          {
+            "name": "処理区分",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "変更処理の種別（手動変更、自動処理、基幹システム連携等）"
+          },
+          {
+            "name": "連携処理ID",
+            "type": "uuid",
+            "required": false,
+            "description": "基幹システム連携による変更の場合の連携処理履歴ID"
+          },
+          {
+            "name": "変更者ID",
+            "type": "uuid",
+            "required": false,
+            "description": "ステータスを変更したユーザーID（システム自動処理の場合はnull）"
+          },
+          {
+            "name": "変更日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "ステータス変更が発生した日時"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "履歴レコードの作成日時"
+          }
+        ]
+      },
+      {
+        "tableName": "システム通知設定",
+        "purpose": "Web発注プラットフォームにおける各種通知の設定を管理し、発注処理や基幹システム連携の状況に応じた適切な通知を実現する",
+        "columns": [
+          {
+            "name": "通知設定ID",
+            "type": "uuid",
+            "required": true,
+            "description": "通知設定の一意識別子（主キー）"
+          },
+          {
+            "name": "通知種別",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "通知の種別（発注完了、連携エラー、承認依頼、期限切れ警告等）"
+          },
+          {
+            "name": "通知名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "通知設定の名称"
+          },
+          {
+            "name": "通知対象者種別",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "通知対象者の種別（発注者、承認者、システム管理者、全ユーザー等）"
+          },
+          {
+            "name": "通知方法",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "通知方法（メール、システム内通知、両方等）"
+          },
+          {
+            "name": "件名テンプレート",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "通知メールの件名テンプレート"
+          },
+          {
+            "name": "本文テンプレート",
+            "type": "text",
+            "required": false,
+            "description": "通知メールの本文テンプレート"
+          },
+          {
+            "name": "発生条件",
+            "type": "text",
+            "required": true,
+            "description": "通知が発生する条件の説明"
+          },
+          {
+            "name": "優先度",
+            "type": "integer",
+            "required": true,
+            "description": "通知の優先度（1:高、2:中、3:低）"
+          },
+          {
+            "name": "有効フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "通知設定の有効/無効状態"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード作成者のユーザーID"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "更新者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード最終更新者のユーザーID"
+          }
+        ]
+      },
+      {
+        "tableName": "通知履歴",
+        "purpose": "システムからユーザーへの通知送信履歴を管理し、通知の配信状況や既読状態を追跡する",
+        "columns": [
+          {
+            "name": "通知履歴ID",
+            "type": "uuid",
+            "required": true,
+            "description": "通知履歴の一意識別子（主キー）"
+          },
+          {
+            "name": "通知設定ID",
+            "type": "uuid",
+            "required": true,
+            "description": "システム通知設定マスタへの外部キー"
+          },
+          {
+            "name": "受信者ユーザーID",
+            "type": "uuid",
+            "required": true,
+            "description": "通知を受信するユーザーのID（ログインユーザーマスタへの外部キー）"
+          },
+          {
+            "name": "通知タイトル",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "通知のタイトル"
+          },
+          {
+            "name": "通知内容",
+            "type": "text",
+            "required": true,
+            "description": "通知の詳細メッセージ内容"
+          },
+          {
+            "name": "通知種別",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "通知の種別（発注完了、エラー発生、システムメンテナンス等）"
+          },
+          {
+            "name": "優先度",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "通知の優先度（高、中、低）"
+          },
+          {
+            "name": "送信方法",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "通知の送信方法（画面通知、メール、両方）"
+          },
+          {
+            "name": "送信状態",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "送信処理の状態（送信待ち、送信中、送信完了、送信失敗）"
+          },
+          {
+            "name": "既読フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "ユーザーが通知を既読したかどうか"
+          },
+          {
+            "name": "関連データID",
+            "type": "uuid",
+            "required": false,
+            "description": "通知に関連するデータのID（発注データID、連携処理履歴ID等）"
+          },
+          {
+            "name": "関連データ種別",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "関連データの種別（発注データ、連携処理履歴等）"
+          },
+          {
+            "name": "送信予定日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "通知の送信予定日時"
+          },
+          {
+            "name": "送信日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "実際に通知が送信された日時"
+          },
+          {
+            "name": "既読日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "ユーザーが通知を既読した日時"
+          },
+          {
+            "name": "エラーメッセージ",
+            "type": "text",
+            "required": false,
+            "description": "送信失敗時のエラーメッセージ"
+          },
+          {
+            "name": "再送回数",
+            "type": "integer",
+            "required": true,
+            "description": "通知の再送信回数"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード作成者のユーザーID"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "systemId": "itg-3",
+    "systemName": "顧客別単価管理システムの構築",
+    "screens": [
+      {
+        "id": "scr-1780291476037",
+        "name": "顧客別単価照会画面",
+        "purpose": "顧客ごとの商品単価情報をリアルタイムで照会し、現在適用中の単価、履歴、承認状況を一元的に確認できる画面",
+        "items": [
+          "顧客検索フィールド",
+          "商品コード検索フィールド",
+          "商品名検索フィールド",
+          "適用期間指定（開始日）",
+          "適用期間指定（終了日）",
+          "単価状況フィルター（有効/無効/承認待ち）",
+          "検索実行ボタン",
+          "検索条件クリアボタン",
+          "単価一覧テーブル",
+          "現在単価表示エリア",
+          "単価履歴表示エリア",
+          "承認状況表示アイコン"
+        ]
+      },
+      {
+        "id": "scr-1780291488728",
+        "name": "単価更新申請画面",
+        "purpose": "顧客別の商品単価変更を申請し、承認ワークフローを開始するための画面",
+        "items": [
+          "顧客選択ドロップダウン",
+          "商品検索・選択機能",
+          "現在単価表示フィールド",
+          "新単価入力フィールド",
+          "適用開始日選択カレンダー",
+          "適用終了日選択カレンダー",
+          "変更理由入力テキストエリア",
+          "添付ファイルアップロード機能",
+          "承認者選択ドロップダウン",
+          "緊急度選択ラジオボタン",
+          "申請内容確認プレビュー",
+          "一時保存ボタン"
+        ]
+      },
+      {
+        "id": "scr-1780291498028",
+        "name": "単価承認ワークフロー画面",
+        "purpose": "単価変更申請の承認プロセスを管理し、承認者が申請内容を確認・承認・差戻しを行うためのワークフロー画面",
+        "items": [
+          "承認待ち申請一覧表",
+          "申請詳細情報パネル",
+          "現在単価・変更後単価比較表示",
+          "申請理由・変更根拠入力欄",
+          "承認者コメント入力欄",
+          "承認ボタン",
+          "差戻しボタン",
+          "保留ボタン",
+          "申請履歴タブ",
+          "承認フロー進捗表示",
+          "緊急度・優先度表示",
+          "申請者情報表示"
+        ]
+      },
+      {
+        "id": "scr-1780291508457",
+        "name": "単価変更履歴照会画面",
+        "purpose": "顧客別の単価変更履歴を時系列で照会し、変更内容、承認状況、適用期間等の詳細情報を確認できる画面",
+        "items": [
+          "顧客検索フィールド",
+          "商品コード検索フィールド",
+          "変更日期間指定カレンダー",
+          "承認状況フィルター",
+          "単価変更履歴一覧テーブル",
+          "変更前単価表示欄",
+          "変更後単価表示欄",
+          "変更理由表示欄",
+          "申請者情報表示欄",
+          "承認者情報表示欄",
+          "適用開始日表示欄",
+          "適用終了日表示欄"
+        ]
+      },
+      {
+        "id": "scr-1780291518184",
+        "name": "単価適用期間管理画面",
+        "purpose": "顧客別の単価適用期間を設定・管理し、期間重複チェックや有効性検証を行い、適切な単価運用を支援する",
+        "items": [
+          "顧客検索フィールド",
+          "商品カテゴリ選択ドロップダウン",
+          "適用期間開始日カレンダー",
+          "適用期間終了日カレンダー",
+          "現在の適用期間一覧テーブル",
+          "期間重複警告表示エリア",
+          "新規期間追加ボタン",
+          "期間編集ボタン",
+          "期間削除ボタン",
+          "期間有効化/無効化トグル",
+          "適用状況フィルター",
+          "期間検索ボタン"
+        ]
+      }
+    ],
+    "tableDefinitions": [
+      {
+        "tableName": "顧客別単価履歴テーブル",
+        "purpose": "顧客ごとの商品単価の変更履歴を管理し、Web発注プラットフォームでの価格表示と受注処理に使用する",
+        "columns": [
+          {
+            "name": "履歴ID",
+            "type": "uuid",
+            "required": true,
+            "description": "単価履歴の一意識別子（主キー）"
+          },
+          {
+            "name": "顧客ID",
+            "type": "uuid",
+            "required": true,
+            "description": "対象顧客の識別子"
+          },
+          {
+            "name": "商品ID",
+            "type": "uuid",
+            "required": true,
+            "description": "対象商品の識別子"
+          },
+          {
+            "name": "単価",
+            "type": "integer",
+            "required": true,
+            "description": "顧客別の商品単価（円）"
+          },
+          {
+            "name": "適用開始日",
+            "type": "timestamp",
+            "required": true,
+            "description": "この単価が適用開始される日時"
+          },
+          {
+            "name": "適用終了日",
+            "type": "timestamp",
+            "required": false,
+            "description": "この単価の適用終了日時（NULLの場合は現在有効）"
+          },
+          {
+            "name": "変更理由",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "単価変更の理由（値上げ、値下げ、キャンペーン等）"
+          },
+          {
+            "name": "承認者ID",
+            "type": "uuid",
+            "required": false,
+            "description": "単価変更を承認した担当者の識別子"
+          },
+          {
+            "name": "承認日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "単価変更が承認された日時"
+          },
+          {
+            "name": "有効フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "この履歴レコードが有効かどうか"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード作成者の識別子"
+          },
+          {
+            "name": "更新者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード最終更新者の識別子"
+          }
+        ]
+      },
+      {
+        "tableName": "単価更新申請テーブル",
+        "purpose": "顧客別単価の変更申請を管理し、承認フローを通じて単価履歴への反映を制御する",
+        "columns": [
+          {
+            "name": "申請ID",
+            "type": "uuid",
+            "required": true,
+            "description": "単価更新申請の一意識別子"
+          },
+          {
+            "name": "顧客ID",
+            "type": "uuid",
+            "required": true,
+            "description": "単価変更対象の顧客識別子"
+          },
+          {
+            "name": "商品ID",
+            "type": "uuid",
+            "required": true,
+            "description": "単価変更対象の商品識別子"
+          },
+          {
+            "name": "申請種別",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "新規登録/変更/削除の区分"
+          },
+          {
+            "name": "現在単価",
+            "type": "integer",
+            "required": false,
+            "description": "変更前の現在適用単価"
+          },
+          {
+            "name": "申請単価",
+            "type": "integer",
+            "required": true,
+            "description": "変更後の希望単価"
+          },
+          {
+            "name": "適用開始日",
+            "type": "timestamp",
+            "required": true,
+            "description": "新単価の適用開始予定日"
+          },
+          {
+            "name": "適用終了日",
+            "type": "timestamp",
+            "required": false,
+            "description": "新単価の適用終了予定日"
+          },
+          {
+            "name": "申請理由",
+            "type": "text",
+            "required": true,
+            "description": "単価変更の理由・背景"
+          },
+          {
+            "name": "申請状態",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "申請中/承認済/却下/取下の状態"
+          },
+          {
+            "name": "申請者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "申請を行ったユーザーの識別子"
+          },
+          {
+            "name": "承認者ID",
+            "type": "uuid",
+            "required": false,
+            "description": "申請を承認・却下したユーザーの識別子"
+          },
+          {
+            "name": "承認日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "承認・却下が行われた日時"
+          },
+          {
+            "name": "承認コメント",
+            "type": "text",
+            "required": false,
+            "description": "承認者からのコメント・指示事項"
+          },
+          {
+            "name": "履歴ID",
+            "type": "uuid",
+            "required": false,
+            "description": "承認後に作成された単価履歴レコードのID"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "申請レコードの作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "申請レコードの最終更新日時"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "申請レコードを作成したユーザーID"
+          },
+          {
+            "name": "更新者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "申請レコードを最後に更新したユーザーID"
+          }
+        ]
+      },
+      {
+        "tableName": "単価承認ワークフローテーブル",
+        "purpose": "単価更新申請の承認プロセスを管理し、承認者による段階的な承認フローを制御する",
+        "columns": [
+          {
+            "name": "ワークフローID",
+            "type": "uuid",
+            "required": true,
+            "description": "ワークフローの一意識別子"
+          },
+          {
+            "name": "申請ID",
+            "type": "uuid",
+            "required": true,
+            "description": "単価更新申請テーブルへの外部キー"
+          },
+          {
+            "name": "承認段階",
+            "type": "integer",
+            "required": true,
+            "description": "承認プロセスの段階番号（1次承認、2次承認等）"
+          },
+          {
+            "name": "承認者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "承認権限を持つユーザーのID"
+          },
+          {
+            "name": "承認者名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "承認者の氏名"
+          },
+          {
+            "name": "承認ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "承認状態（承認待ち、承認済み、否認、保留）"
+          },
+          {
+            "name": "承認日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "承認または否認が実行された日時"
+          },
+          {
+            "name": "承認コメント",
+            "type": "text",
+            "required": false,
+            "description": "承認者による承認理由や否認理由のコメント"
+          },
+          {
+            "name": "期限日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "承認期限の日時"
+          },
+          {
+            "name": "通知済フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "承認依頼通知の送信済み状態"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード作成者のユーザーID"
+          }
+        ]
+      },
+      {
+        "tableName": "単価変更ログテーブル",
+        "purpose": "顧客別単価の変更履歴を詳細に記録し、変更内容の追跡と監査証跡を提供する",
+        "columns": [
+          {
+            "name": "ログID",
+            "type": "uuid",
+            "required": true,
+            "description": "単価変更ログの一意識別子"
+          },
+          {
+            "name": "顧客ID",
+            "type": "uuid",
+            "required": true,
+            "description": "単価変更対象の顧客識別子"
+          },
+          {
+            "name": "商品ID",
+            "type": "uuid",
+            "required": true,
+            "description": "単価変更対象の商品識別子"
+          },
+          {
+            "name": "申請ID",
+            "type": "uuid",
+            "required": false,
+            "description": "関連する単価更新申請の識別子"
+          },
+          {
+            "name": "変更種別",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "変更の種類（新規登録/単価変更/削除/一括更新等）"
+          },
+          {
+            "name": "変更前単価",
+            "type": "integer",
+            "required": false,
+            "description": "変更前の単価（新規登録時はnull）"
+          },
+          {
+            "name": "変更後単価",
+            "type": "integer",
+            "required": false,
+            "description": "変更後の単価（削除時はnull）"
+          },
+          {
+            "name": "変更前適用開始日",
+            "type": "timestamp",
+            "required": false,
+            "description": "変更前の適用開始日"
+          },
+          {
+            "name": "変更後適用開始日",
+            "type": "timestamp",
+            "required": false,
+            "description": "変更後の適用開始日"
+          },
+          {
+            "name": "変更前適用終了日",
+            "type": "timestamp",
+            "required": false,
+            "description": "変更前の適用終了日"
+          },
+          {
+            "name": "変更後適用終了日",
+            "type": "timestamp",
+            "required": false,
+            "description": "変更後の適用終了日"
+          },
+          {
+            "name": "変更理由",
+            "type": "text",
+            "required": false,
+            "description": "単価変更の理由・備考"
+          },
+          {
+            "name": "承認状況",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "承認状況（承認済/却下/承認不要等）"
+          },
+          {
+            "name": "承認者ID",
+            "type": "uuid",
+            "required": false,
+            "description": "変更を承認したユーザーの識別子"
+          },
+          {
+            "name": "承認日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "承認が完了した日時"
+          },
+          {
+            "name": "システム変更フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "システム自動変更かユーザー手動変更かの区別"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "ログレコードの作成日時"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "変更を実行したユーザーの識別子"
+          }
+        ]
+      },
+      {
+        "tableName": "リアルタイム照会ログテーブル",
+        "purpose": "Web発注プラットフォームでの顧客別単価照会の実行履歴とパフォーマンスを記録し、システム監視と業務分析に活用する",
+        "columns": [
+          {
+            "name": "照会ログID",
+            "type": "uuid",
+            "required": true,
+            "description": "照会ログの一意識別子（主キー）"
+          },
+          {
+            "name": "顧客コード",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "照会を実行した顧客の識別コード"
+          },
+          {
+            "name": "商品コード",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "照会対象の商品識別コード"
+          },
+          {
+            "name": "照会種別",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "照会の種類（単価照会、履歴照会、一括照会等）"
+          },
+          {
+            "name": "照会実行者ID",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "照会を実行したユーザーの識別ID"
+          },
+          {
+            "name": "照会実行者名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "照会を実行したユーザーの名前"
+          },
+          {
+            "name": "照会開始日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "照会処理の開始日時"
+          },
+          {
+            "name": "照会終了日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "照会処理の終了日時"
+          },
+          {
+            "name": "処理時間ミリ秒",
+            "type": "integer",
+            "required": true,
+            "description": "照会処理にかかった時間（ミリ秒）"
+          },
+          {
+            "name": "照会結果ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "照会の実行結果（成功、エラー、タイムアウト等）"
+          },
+          {
+            "name": "取得件数",
+            "type": "integer",
+            "required": true,
+            "description": "照会で取得されたレコード件数"
+          },
+          {
+            "name": "エラーメッセージ",
+            "type": "text",
+            "required": false,
+            "description": "エラー発生時の詳細メッセージ"
+          },
+          {
+            "name": "IPアドレス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "照会実行元のIPアドレス"
+          },
+          {
+            "name": "ユーザーエージェント",
+            "type": "text",
+            "required": false,
+            "description": "照会実行時のブラウザ情報"
+          },
+          {
+            "name": "セッションID",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "照会実行時のセッション識別子"
+          },
+          {
+            "name": "照会条件",
+            "type": "text",
+            "required": false,
+            "description": "照会時に指定された検索条件の詳細"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "ログレコードの作成日時"
+          }
+        ]
+      },
+      {
+        "tableName": "単価適用期間テーブル",
+        "purpose": "顧客別単価の適用期間を管理し、Web発注プラットフォームでの価格照会時に有効な単価を特定するためのテーブル",
+        "columns": [
+          {
+            "name": "適用期間ID",
+            "type": "uuid",
+            "required": true,
+            "description": "適用期間の一意識別子（主キー）"
+          },
+          {
+            "name": "顧客ID",
+            "type": "uuid",
+            "required": true,
+            "description": "対象顧客の識別子"
+          },
+          {
+            "name": "商品ID",
+            "type": "uuid",
+            "required": true,
+            "description": "対象商品の識別子"
+          },
+          {
+            "name": "単価履歴ID",
+            "type": "uuid",
+            "required": true,
+            "description": "適用する単価履歴への参照"
+          },
+          {
+            "name": "適用開始日",
+            "type": "timestamp",
+            "required": true,
+            "description": "単価適用の開始日時"
+          },
+          {
+            "name": "適用終了日",
+            "type": "timestamp",
+            "required": false,
+            "description": "単価適用の終了日時（NULLの場合は無期限）"
+          },
+          {
+            "name": "適用単価",
+            "type": "integer",
+            "required": true,
+            "description": "適用される単価（円）"
+          },
+          {
+            "name": "適用状態",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "適用状態（有効、無効、予約、期限切れ）"
+          },
+          {
+            "name": "優先度",
+            "type": "integer",
+            "required": true,
+            "description": "同一期間に複数適用がある場合の優先順位"
+          },
+          {
+            "name": "備考",
+            "type": "text",
+            "required": false,
+            "description": "適用期間に関する備考・注意事項"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード作成者の識別子"
+          },
+          {
+            "name": "更新者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード最終更新者の識別子"
+          }
+        ]
+      },
+      {
+        "tableName": "単価更新通知テーブル",
+        "purpose": "単価更新時の関係者への通知履歴と配信状況を管理する",
+        "columns": [
+          {
+            "name": "通知ID",
+            "type": "uuid",
+            "required": true,
+            "description": "通知レコードの一意識別子（主キー）"
+          },
+          {
+            "name": "単価更新申請ID",
+            "type": "uuid",
+            "required": true,
+            "description": "関連する単価更新申請への外部キー"
+          },
+          {
+            "name": "顧客コード",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "通知対象の顧客識別コード"
+          },
+          {
+            "name": "商品コード",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "単価更新対象の商品コード"
+          },
+          {
+            "name": "通知種別",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "通知の種類（承認完了、適用開始、緊急変更等）"
+          },
+          {
+            "name": "通知先区分",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "通知先の区分（顧客、営業担当、管理者等）"
+          },
+          {
+            "name": "通知先ID",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "通知先の識別子（ユーザーID、顧客ID等）"
+          },
+          {
+            "name": "通知方法",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "通知手段（メール、システム内通知、API等）"
+          },
+          {
+            "name": "通知ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "通知の配信状況（送信待ち、送信済み、配信失敗、既読等）"
+          },
+          {
+            "name": "通知タイトル",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "通知メッセージのタイトル"
+          },
+          {
+            "name": "通知内容",
+            "type": "text",
+            "required": true,
+            "description": "通知メッセージの本文"
+          },
+          {
+            "name": "送信予定日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "通知の送信予定日時"
+          },
+          {
+            "name": "送信日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "実際の通知送信日時"
+          },
+          {
+            "name": "既読日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "通知が既読された日時"
+          },
+          {
+            "name": "エラーメッセージ",
+            "type": "text",
+            "required": false,
+            "description": "送信失敗時のエラー内容"
+          },
+          {
+            "name": "再送回数",
+            "type": "integer",
+            "required": true,
+            "description": "通知の再送信回数"
+          },
+          {
+            "name": "優先度",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "通知の優先度（高、中、低）"
+          },
+          {
+            "name": "有効フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "通知レコードの有効性フラグ"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード作成者のユーザーID"
+          },
+          {
+            "name": "更新者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード最終更新者のユーザーID"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "systemId": "itg-4",
+    "systemName": "経営分析・レポートシステムの構築",
+    "screens": [
+      {
+        "id": "scr-1780291692616",
+        "name": "発注データ管理画面",
+        "purpose": "発注データの一覧表示、検索・絞り込み、詳細確認、編集・削除、および発注状況の管理を行う画面",
+        "items": [
+          "発注データ一覧テーブル",
+          "発注番号検索ボックス",
+          "発注日期間指定フィルター",
+          "プロジェクト選択ドロップダウン",
+          "発注ステータス絞り込みチェックボックス",
+          "発注者名検索フィールド",
+          "金額範囲指定フィルター",
+          "新規発注登録ボタン",
+          "一括操作選択チェックボックス",
+          "発注詳細表示ボタン",
+          "発注編集ボタン",
+          "発注削除ボタン"
+        ]
+      },
+      {
+        "id": "scr-1780291703557",
+        "name": "プロジェクト別原価率分析画面",
+        "purpose": "各プロジェクトの原価率を分析し、収益性の評価と改善点の特定を行うための画面",
+        "items": [
+          "プロジェクト選択ドロップダウン",
+          "期間指定カレンダー",
+          "原価率閾値設定スライダー",
+          "プロジェクト一覧テーブル",
+          "原価率グラフ表示エリア",
+          "目標原価率入力フィールド",
+          "実績原価率表示ラベル",
+          "差異分析結果表示パネル",
+          "コスト内訳円グラフ",
+          "競合他社比較チャート",
+          "アラート通知設定ボタン",
+          "詳細分析ボタン"
+        ]
+      },
+      {
+        "id": "scr-1780291714087",
+        "name": "単価変動分析画面",
+        "purpose": "商品・サービスの単価変動を時系列で分析し、価格トレンドの把握と適正価格設定の意思決定を支援する",
+        "items": [
+          "期間選択カレンダー",
+          "商品カテゴリ選択ドロップダウン",
+          "プロジェクト選択ドロップダウン",
+          "単価変動グラフ表示エリア",
+          "変動率表示パネル",
+          "競合他社単価比較チャート",
+          "単価変動履歴一覧テーブル",
+          "変動要因分析パネル",
+          "原価率推移グラフ",
+          "アラート設定ボタン",
+          "レポート出力ボタン",
+          "データ更新ボタン"
+        ]
+      },
+      {
+        "id": "scr-1780291724287",
+        "name": "競合他社単価比較分析画面",
+        "purpose": "自社と競合他社の単価を比較分析し、価格競争力の把握と適正価格設定の意思決定を支援する",
+        "items": [
+          "プロジェクト選択ドロップダウン",
+          "分析期間設定カレンダー",
+          "競合他社選択チェックボックス",
+          "商品・サービスカテゴリ選択",
+          "単価比較グラフ表示エリア",
+          "競合他社単価一覧テーブル",
+          "自社単価表示欄",
+          "価格差分析結果表示",
+          "市場平均単価表示",
+          "価格競争力指標メーター",
+          "単価変動トレンドグラフ",
+          "分析条件絞り込みパネル"
+        ]
+      },
+      {
+        "id": "scr-1780291732920",
+        "name": "導入効果レポート画面",
+        "purpose": "Web発注プラットフォーム導入による業務効率化、コスト削減、品質向上などの定量的・定性的効果を可視化し、投資対効果を測定・報告するための画面",
+        "items": [
+          "期間選択カレンダー",
+          "レポート種別選択ドロップダウン",
+          "部門・プロジェクト絞り込みフィルター",
+          "導入前後比較チャート",
+          "発注処理時間短縮率表示",
+          "コスト削減効果グラフ",
+          "発注精度向上率メーター",
+          "システム利用率推移グラフ",
+          "ROI計算結果表示パネル",
+          "主要KPI一覧テーブル",
+          "効果詳細データグリッド",
+          "レポート出力ボタン"
+        ]
+      },
+      {
+        "id": "scr-1780291753102",
+        "name": "レポート生成履歴画面",
+        "purpose": "過去に生成された分析レポートの履歴を一覧表示し、レポートの再表示、ダウンロード、削除などの管理を行う画面",
+        "items": [
+          "レポート生成履歴一覧テーブル",
+          "レポート名表示エリア",
+          "生成日時表示エリア",
+          "レポート種別表示エリア",
+          "生成ステータス表示エリア",
+          "ファイルサイズ表示エリア",
+          "生成者名表示エリア",
+          "期間指定検索フィールド",
+          "レポート種別絞り込みドロップダウン",
+          "生成者絞り込みドロップダウン",
+          "ステータス絞り込みドロップダウン",
+          "検索実行ボタン"
+        ]
+      }
+    ],
+    "tableDefinitions": [
+      {
+        "tableName": "発注データ",
+        "purpose": "Web発注プラットフォームにおける発注情報を管理し、発注から承認・処理完了までの一連の業務フローを支援する",
+        "columns": [
+          {
+            "name": "発注ID",
+            "type": "uuid",
+            "required": true,
+            "description": "発注データの一意識別子"
+          },
+          {
+            "name": "発注番号",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "業務で使用する発注番号"
+          },
+          {
+            "name": "発注者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "発注を行ったユーザーのID（ログインユーザーマスタ参照）"
+          },
+          {
+            "name": "発注日",
+            "type": "timestamp",
+            "required": true,
+            "description": "発注が行われた日時"
+          },
+          {
+            "name": "希望納期",
+            "type": "timestamp",
+            "required": true,
+            "description": "発注者が希望する納期"
+          },
+          {
+            "name": "発注先名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "発注先の会社名・店舗名"
+          },
+          {
+            "name": "発注先担当者",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "発注先の担当者名"
+          },
+          {
+            "name": "発注先連絡先",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "発注先の電話番号・メールアドレス等"
+          },
+          {
+            "name": "発注金額",
+            "type": "integer",
+            "required": true,
+            "description": "発注の総金額"
+          },
+          {
+            "name": "発注ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "発注の処理状況（下書き・承認待ち・承認済み・発注済み・完了・キャンセル等）"
+          },
+          {
+            "name": "承認者ID",
+            "type": "uuid",
+            "required": false,
+            "description": "発注を承認したユーザーのID"
+          },
+          {
+            "name": "承認日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "承認が行われた日時"
+          },
+          {
+            "name": "発注理由",
+            "type": "text",
+            "required": false,
+            "description": "発注の理由・目的"
+          },
+          {
+            "name": "備考",
+            "type": "text",
+            "required": false,
+            "description": "発注に関する補足情報"
+          },
+          {
+            "name": "緊急フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "緊急発注かどうかの判定"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード作成者のユーザーID"
+          },
+          {
+            "name": "更新者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード最終更新者のユーザーID"
+          }
+        ]
+      },
+      {
+        "tableName": "発注明細データ",
+        "purpose": "発注データに紐づく商品明細情報を管理し、Web発注プラットフォームでの明細単位での操作・表示・検索を実現する",
+        "columns": [
+          {
+            "name": "発注明細ID",
+            "type": "uuid",
+            "required": true,
+            "description": "発注明細の一意識別子（主キー）"
+          },
+          {
+            "name": "発注ID",
+            "type": "uuid",
+            "required": true,
+            "description": "発注データテーブルへの外部キー"
+          },
+          {
+            "name": "明細番号",
+            "type": "integer",
+            "required": true,
+            "description": "発注内での明細の連番"
+          },
+          {
+            "name": "商品コード",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "発注する商品の識別コード"
+          },
+          {
+            "name": "商品名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "発注する商品の名称"
+          },
+          {
+            "name": "規格",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "商品の規格・仕様"
+          },
+          {
+            "name": "発注数量",
+            "type": "integer",
+            "required": true,
+            "description": "発注する数量"
+          },
+          {
+            "name": "単位",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "数量の単位（個、箱、kg等）"
+          },
+          {
+            "name": "単価",
+            "type": "integer",
+            "required": true,
+            "description": "商品の単価（円）"
+          },
+          {
+            "name": "金額",
+            "type": "integer",
+            "required": true,
+            "description": "明細の合計金額（単価×数量）"
+          },
+          {
+            "name": "希望納期",
+            "type": "timestamp",
+            "required": false,
+            "description": "明細単位での希望納期"
+          },
+          {
+            "name": "明細ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "明細の処理状況（未処理、処理中、完了等）"
+          },
+          {
+            "name": "備考",
+            "type": "text",
+            "required": false,
+            "description": "明細に関する特記事項"
+          },
+          {
+            "name": "削除フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "論理削除フラグ"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード作成者のユーザーID"
+          },
+          {
+            "name": "更新者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード最終更新者のユーザーID"
+          }
+        ]
+      },
+      {
+        "tableName": "通知履歴",
+        "purpose": "システムからユーザーへの通知送信履歴を管理し、通知の配信状況や既読状態を追跡する",
+        "columns": [
+          {
+            "name": "通知履歴ID",
+            "type": "uuid",
+            "required": true,
+            "description": "通知履歴の一意識別子（主キー）"
+          },
+          {
+            "name": "通知設定ID",
+            "type": "uuid",
+            "required": true,
+            "description": "システム通知設定マスタへの外部キー"
+          },
+          {
+            "name": "受信者ユーザーID",
+            "type": "uuid",
+            "required": true,
+            "description": "通知を受信するユーザーのID（ログインユーザーマスタへの外部キー）"
+          },
+          {
+            "name": "通知タイトル",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "通知のタイトル"
+          },
+          {
+            "name": "通知内容",
+            "type": "text",
+            "required": true,
+            "description": "通知の詳細メッセージ内容"
+          },
+          {
+            "name": "通知種別",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "通知の種別（発注完了、エラー発生、システムメンテナンス等）"
+          },
+          {
+            "name": "優先度",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "通知の優先度（高、中、低）"
+          },
+          {
+            "name": "送信方法",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "通知の送信方法（画面通知、メール、両方）"
+          },
+          {
+            "name": "送信状態",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "送信処理の状態（送信待ち、送信中、送信完了、送信失敗）"
+          },
+          {
+            "name": "既読フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "ユーザーが通知を既読したかどうか"
+          },
+          {
+            "name": "関連データID",
+            "type": "uuid",
+            "required": false,
+            "description": "通知に関連するデータのID（発注データID、連携処理履歴ID等）"
+          },
+          {
+            "name": "関連データ種別",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "関連データの種別（発注データ、連携処理履歴等）"
+          },
+          {
+            "name": "送信予定日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "通知の送信予定日時"
+          },
+          {
+            "name": "送信日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "実際に通知が送信された日時"
+          },
+          {
+            "name": "既読日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "ユーザーが通知を既読した日時"
+          },
+          {
+            "name": "エラーメッセージ",
+            "type": "text",
+            "required": false,
+            "description": "送信失敗時のエラーメッセージ"
+          },
+          {
+            "name": "再送回数",
+            "type": "integer",
+            "required": true,
+            "description": "通知の再送信回数"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード作成者のユーザーID"
+          }
+        ]
+      },
+      {
+        "tableName": "プロジェクトマスタ",
+        "purpose": "Web発注プラットフォームにおけるプロジェクト情報を管理し、発注データとの紐付けや検索・絞り込み、進捗管理を行う",
+        "columns": [
+          {
+            "name": "プロジェクトID",
+            "type": "uuid",
+            "required": true,
+            "description": "プロジェクトの一意識別子（主キー）"
+          },
+          {
+            "name": "プロジェクトコード",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "プロジェクトの業務コード（検索・絞り込み用）"
+          },
+          {
+            "name": "プロジェクト名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "プロジェクトの名称"
+          },
+          {
+            "name": "プロジェクト説明",
+            "type": "text",
+            "required": false,
+            "description": "プロジェクトの詳細説明"
+          },
+          {
+            "name": "開始日",
+            "type": "timestamp",
+            "required": true,
+            "description": "プロジェクト開始予定日"
+          },
+          {
+            "name": "終了日",
+            "type": "timestamp",
+            "required": false,
+            "description": "プロジェクト終了予定日"
+          },
+          {
+            "name": "ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "プロジェクトの状態（計画中/進行中/完了/中止等）"
+          },
+          {
+            "name": "予算",
+            "type": "integer",
+            "required": false,
+            "description": "プロジェクト予算額"
+          },
+          {
+            "name": "責任者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "プロジェクト責任者のユーザーID"
+          },
+          {
+            "name": "部門コード",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "所属部門コード（検索・絞り込み用）"
+          },
+          {
+            "name": "優先度",
+            "type": "integer",
+            "required": true,
+            "description": "プロジェクトの優先度（1-5等）"
+          },
+          {
+            "name": "有効フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "プロジェクトの有効/無効状態"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード作成者のユーザーID"
+          },
+          {
+            "name": "更新者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード最終更新者のユーザーID"
+          }
+        ]
+      },
+      {
+        "tableName": "単価変動履歴",
+        "purpose": "商品・サービスの単価変動を時系列で記録し、価格推移の分析と発注時の適正価格判断を支援する",
+        "columns": [
+          {
+            "name": "単価変動履歴ID",
+            "type": "uuid",
+            "required": true,
+            "description": "単価変動履歴の一意識別子"
+          },
+          {
+            "name": "商品コード",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "単価変動対象の商品識別コード"
+          },
+          {
+            "name": "商品名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "商品名称"
+          },
+          {
+            "name": "供給業者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "単価を提供する供給業者の識別子"
+          },
+          {
+            "name": "供給業者名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "供給業者名称"
+          },
+          {
+            "name": "変動前単価",
+            "type": "integer",
+            "required": false,
+            "description": "変動前の単価（初回登録時はnull）"
+          },
+          {
+            "name": "変動後単価",
+            "type": "integer",
+            "required": true,
+            "description": "変動後の単価"
+          },
+          {
+            "name": "変動率",
+            "type": "integer",
+            "required": false,
+            "description": "変動率（パーセント、小数点2桁まで整数化）"
+          },
+          {
+            "name": "変動理由",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "単価変動の理由（原材料費高騰、為替変動等）"
+          },
+          {
+            "name": "適用開始日",
+            "type": "timestamp",
+            "required": true,
+            "description": "新単価の適用開始日時"
+          },
+          {
+            "name": "適用終了日",
+            "type": "timestamp",
+            "required": false,
+            "description": "単価の適用終了日時（現在適用中の場合はnull）"
+          },
+          {
+            "name": "通貨コード",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "単価の通貨（JPY、USD等）"
+          },
+          {
+            "name": "単位",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "単価の単位（個、kg、m等）"
+          },
+          {
+            "name": "変動種別",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "変動の種別（値上げ、値下げ、新規設定）"
+          },
+          {
+            "name": "承認状態",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "単価変動の承認状態（申請中、承認済、却下）"
+          },
+          {
+            "name": "承認者ID",
+            "type": "uuid",
+            "required": false,
+            "description": "単価変動を承認したユーザーID"
+          },
+          {
+            "name": "承認日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "承認された日時"
+          },
+          {
+            "name": "備考",
+            "type": "text",
+            "required": false,
+            "description": "単価変動に関する補足情報"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "履歴レコードを作成したユーザーID"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "履歴レコードの作成日時"
+          },
+          {
+            "name": "更新者ID",
+            "type": "uuid",
+            "required": false,
+            "description": "履歴レコードを最後に更新したユーザーID"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "履歴レコードの最終更新日時"
+          }
+        ]
+      },
+      {
+        "tableName": "競合他社単価データ",
+        "purpose": "Web発注プラットフォームにおける競合他社の単価情報を管理し、自社単価との比較分析や価格競争力の評価を行うためのデータを格納する",
+        "columns": [
+          {
+            "name": "競合単価ID",
+            "type": "uuid",
+            "required": true,
+            "description": "競合他社単価データの一意識別子"
+          },
+          {
+            "name": "競合他社名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "競合他社の会社名"
+          },
+          {
+            "name": "商品コード",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "対象商品の識別コード"
+          },
+          {
+            "name": "商品名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "対象商品の名称"
+          },
+          {
+            "name": "カテゴリ",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "商品カテゴリ分類"
+          },
+          {
+            "name": "競合単価",
+            "type": "integer",
+            "required": true,
+            "description": "競合他社の販売単価（円）"
+          },
+          {
+            "name": "自社単価",
+            "type": "integer",
+            "required": true,
+            "description": "自社の販売単価（円）"
+          },
+          {
+            "name": "単価差額",
+            "type": "integer",
+            "required": true,
+            "description": "競合単価と自社単価の差額（円）"
+          },
+          {
+            "name": "競争優位性",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "価格競争力の評価（優位/劣位/同等）"
+          },
+          {
+            "name": "調査日",
+            "type": "timestamp",
+            "required": true,
+            "description": "競合単価を調査した日付"
+          },
+          {
+            "name": "情報源",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "単価情報の取得元（Webサイト/カタログ/営業情報等）"
+          },
+          {
+            "name": "備考",
+            "type": "text",
+            "required": false,
+            "description": "調査時の特記事項や補足情報"
+          },
+          {
+            "name": "有効フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "データの有効性フラグ"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード作成者"
+          },
+          {
+            "name": "更新者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード最終更新者"
+          }
+        ]
+      },
+      {
+        "tableName": "原価率設定マスタ",
+        "purpose": "プロジェクトや商品カテゴリ別の原価率を管理し、発注時の価格妥当性判断や経営分析に使用する基準値を設定する",
+        "columns": [
+          {
+            "name": "原価率設定ID",
+            "type": "uuid",
+            "required": true,
+            "description": "原価率設定の一意識別子（主キー）"
+          },
+          {
+            "name": "プロジェクトID",
+            "type": "uuid",
+            "required": false,
+            "description": "対象プロジェクトID（プロジェクトマスタとの外部キー）"
+          },
+          {
+            "name": "商品カテゴリコード",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "商品カテゴリの分類コード"
+          },
+          {
+            "name": "商品カテゴリ名",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "商品カテゴリの名称"
+          },
+          {
+            "name": "仕入先コード",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "特定仕入先向けの設定時に使用"
+          },
+          {
+            "name": "標準原価率",
+            "type": "integer",
+            "required": true,
+            "description": "標準的な原価率（パーセント値×100で格納）"
+          },
+          {
+            "name": "最低原価率",
+            "type": "integer",
+            "required": false,
+            "description": "許容される最低原価率（パーセント値×100で格納）"
+          },
+          {
+            "name": "最高原価率",
+            "type": "integer",
+            "required": false,
+            "description": "許容される最高原価率（パーセント値×100で格納）"
+          },
+          {
+            "name": "適用開始日",
+            "type": "timestamp",
+            "required": true,
+            "description": "この原価率設定の適用開始日時"
+          },
+          {
+            "name": "適用終了日",
+            "type": "timestamp",
+            "required": false,
+            "description": "この原価率設定の適用終了日時"
+          },
+          {
+            "name": "有効フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "設定の有効/無効状態"
+          },
+          {
+            "name": "備考",
+            "type": "text",
+            "required": false,
+            "description": "原価率設定に関する補足説明"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード作成者"
+          },
+          {
+            "name": "更新者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード最終更新者"
+          }
+        ]
+      },
+      {
+        "tableName": "分析レポート設定",
+        "purpose": "経営分析レポートの設定情報を管理し、レポート生成の条件や出力形式を定義する",
+        "columns": [
+          {
+            "name": "レポート設定ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レポート設定の一意識別子（主キー）"
+          },
+          {
+            "name": "レポート名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レポートの名称"
+          },
+          {
+            "name": "レポート種別",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "発注分析、原価分析、競合分析等のレポート種別"
+          },
+          {
+            "name": "対象期間種別",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "日次、週次、月次、四半期、年次等の期間種別"
+          },
+          {
+            "name": "対象開始日",
+            "type": "timestamp",
+            "required": false,
+            "description": "分析対象期間の開始日"
+          },
+          {
+            "name": "対象終了日",
+            "type": "timestamp",
+            "required": false,
+            "description": "分析対象期間の終了日"
+          },
+          {
+            "name": "プロジェクトID",
+            "type": "uuid",
+            "required": false,
+            "description": "特定プロジェクトに絞り込む場合のプロジェクト識別子"
+          },
+          {
+            "name": "出力形式",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "PDF、Excel、CSV等の出力形式"
+          },
+          {
+            "name": "自動生成フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "定期的な自動生成を行うかどうか"
+          },
+          {
+            "name": "生成頻度",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "自動生成の場合の頻度（毎日、毎週月曜日等）"
+          },
+          {
+            "name": "通知先メールアドレス",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "レポート完成時の通知先"
+          },
+          {
+            "name": "有効フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "設定が有効かどうか"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "設定を作成したユーザーの識別子"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "設定作成日時"
+          },
+          {
+            "name": "更新者ID",
+            "type": "uuid",
+            "required": false,
+            "description": "設定を最後に更新したユーザーの識別子"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "設定最終更新日時"
+          }
+        ]
+      },
+      {
+        "tableName": "レポート生成履歴",
+        "purpose": "経営分析レポートの生成実行履歴を管理し、レポート作成状況の追跡と再実行を可能にする",
+        "columns": [
+          {
+            "name": "レポート生成履歴ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レポート生成履歴の一意識別子"
+          },
+          {
+            "name": "レポート設定ID",
+            "type": "uuid",
+            "required": true,
+            "description": "分析レポート設定テーブルへの外部キー"
+          },
+          {
+            "name": "レポート名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "生成されたレポートの名称"
+          },
+          {
+            "name": "レポート種別",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "原価分析、売上分析、競合分析等のレポート分類"
+          },
+          {
+            "name": "生成開始日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レポート生成処理の開始日時"
+          },
+          {
+            "name": "生成完了日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "レポート生成処理の完了日時"
+          },
+          {
+            "name": "生成ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "実行中、完了、エラー、キャンセル等の処理状況"
+          },
+          {
+            "name": "対象期間開始日",
+            "type": "timestamp",
+            "required": true,
+            "description": "レポート分析対象データの期間開始日"
+          },
+          {
+            "name": "対象期間終了日",
+            "type": "timestamp",
+            "required": true,
+            "description": "レポート分析対象データの期間終了日"
+          },
+          {
+            "name": "対象プロジェクトID",
+            "type": "uuid",
+            "required": false,
+            "description": "特定プロジェクト対象の場合のプロジェクトID"
+          },
+          {
+            "name": "出力形式",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "PDF、Excel、CSV等の出力ファイル形式"
+          },
+          {
+            "name": "ファイルパス",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "生成されたレポートファイルの保存場所"
+          },
+          {
+            "name": "ファイルサイズ",
+            "type": "integer",
+            "required": false,
+            "description": "生成されたレポートファイルのサイズ（バイト）"
+          },
+          {
+            "name": "エラーメッセージ",
+            "type": "text",
+            "required": false,
+            "description": "生成エラー時の詳細エラー内容"
+          },
+          {
+            "name": "実行種別",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "手動実行、自動実行、再実行等の実行方法"
+          },
+          {
+            "name": "処理時間秒",
+            "type": "integer",
+            "required": false,
+            "description": "レポート生成にかかった処理時間（秒）"
+          },
+          {
+            "name": "ダウンロード回数",
+            "type": "integer",
+            "required": true,
+            "description": "生成されたレポートのダウンロード回数"
+          },
+          {
+            "name": "最終ダウンロード日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "レポートが最後にダウンロードされた日時"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レポート生成を実行したユーザーID"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          }
+        ]
+      },
+      {
+        "tableName": "通知設定マスタ",
+        "purpose": "Web発注プラットフォームにおける各種通知の設定情報を管理し、発注状況、単価変動、承認フロー等の業務イベントに応じた通知条件と配信先を定義する",
+        "columns": [
+          {
+            "name": "通知設定ID",
+            "type": "uuid",
+            "required": true,
+            "description": "通知設定の一意識別子（主キー）"
+          },
+          {
+            "name": "通知種別",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "通知の種類（発注承認依頼、発注完了、単価変動アラート、納期遅延警告、原価率異常等）"
+          },
+          {
+            "name": "通知名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "通知設定の名称"
+          },
+          {
+            "name": "対象プロジェクトID",
+            "type": "uuid",
+            "required": false,
+            "description": "特定プロジェクトに限定する場合のプロジェクトID"
+          },
+          {
+            "name": "発動条件",
+            "type": "text",
+            "required": true,
+            "description": "通知が発動される条件（金額閾値、期間、ステータス変更等の条件式）"
+          },
+          {
+            "name": "通知先種別",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "通知先の種類（メール、システム内通知、Slack等）"
+          },
+          {
+            "name": "通知先アドレス",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "メールアドレスやSlackチャンネル等の通知先"
+          },
+          {
+            "name": "通知対象ユーザー",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "通知対象となるユーザーまたはロール"
+          },
+          {
+            "name": "通知タイミング",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "通知のタイミング（即座、日次、週次等）"
+          },
+          {
+            "name": "メッセージテンプレート",
+            "type": "text",
+            "required": true,
+            "description": "通知メッセージのテンプレート"
+          },
+          {
+            "name": "優先度",
+            "type": "integer",
+            "required": true,
+            "description": "通知の優先度（1:高、2:中、3:低）"
+          },
+          {
+            "name": "有効フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "通知設定の有効/無効状態"
+          },
+          {
+            "name": "有効期間開始日",
+            "type": "timestamp",
+            "required": false,
+            "description": "通知設定の有効期間開始日時"
+          },
+          {
+            "name": "有効期間終了日",
+            "type": "timestamp",
+            "required": false,
+            "description": "通知設定の有効期間終了日時"
+          },
+          {
+            "name": "作成者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "通知設定を作成したユーザー"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "通知設定の作成日時"
+          },
+          {
+            "name": "更新者",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "通知設定を最後に更新したユーザー"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "通知設定の最終更新日時"
+          }
+        ]
+      },
+      {
+        "tableName": "システム利用ログ",
+        "purpose": "Web発注プラットフォームの利用状況を記録し、システムの使用実績やユーザー行動を分析するためのログデータを管理する",
+        "columns": [
+          {
+            "name": "ログID",
+            "type": "uuid",
+            "required": true,
+            "description": "システム利用ログの一意識別子"
+          },
+          {
+            "name": "ユーザーID",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "操作を行ったユーザーの識別子"
+          },
+          {
+            "name": "セッションID",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "ユーザーのログインセッション識別子"
+          },
+          {
+            "name": "アクセス日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "システムにアクセスした日時"
+          },
+          {
+            "name": "操作種別",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "実行された操作の種類（ログイン、発注登録、検索、レポート生成等）"
+          },
+          {
+            "name": "画面名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "アクセスした画面・機能名"
+          },
+          {
+            "name": "IPアドレス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "アクセス元のIPアドレス"
+          },
+          {
+            "name": "ユーザーエージェント",
+            "type": "text",
+            "required": false,
+            "description": "ブラウザ情報"
+          },
+          {
+            "name": "処理結果",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "操作の結果（成功、失敗、エラー等）"
+          },
+          {
+            "name": "エラーメッセージ",
+            "type": "text",
+            "required": false,
+            "description": "エラーが発生した場合のエラー内容"
+          },
+          {
+            "name": "処理時間",
+            "type": "integer",
+            "required": false,
+            "description": "処理にかかった時間（ミリ秒）"
+          },
+          {
+            "name": "参照URL",
+            "type": "text",
+            "required": false,
+            "description": "アクセス前のページURL"
+          },
+          {
+            "name": "対象データID",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "操作対象となったデータの識別子（発注ID、レポートID等）"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "systemId": "itg-5",
+    "systemName": "営業支援システムの構築",
+    "screens": [
+      {
+        "id": "scr-1780291929523",
+        "name": "発注データ管理画面",
+        "purpose": "発注データの一覧表示、検索・絞り込み、詳細確認、編集・削除を行い、発注状況の管理と分析を効率的に実施する",
+        "items": [
+          "発注データ一覧テーブル",
+          "発注番号検索ボックス",
+          "発注日期間指定フィルター",
+          "発注ステータス絞り込みドロップダウン",
+          "顧客名絞り込みドロップダウン",
+          "商品カテゴリ絞り込みドロップダウン",
+          "金額範囲指定フィルター",
+          "検索実行ボタン",
+          "フィルタークリアボタン",
+          "新規発注登録ボタン",
+          "発注データ詳細表示モーダル",
+          "発注データ編集ボタン"
+        ]
+      },
+      {
+        "id": "scr-1780291942656",
+        "name": "月次集計・分析画面",
+        "purpose": "月次の発注データと市場価格データを集計・分析し、購買パターンや価格戦略の効果を可視化して経営判断を支援する",
+        "items": [
+          "月次期間選択ドロップダウン",
+          "分析対象カテゴリ選択チェックボックス",
+          "集計データ表示テーブル",
+          "月次売上推移グラフ",
+          "購買パターン分析チャート",
+          "価格戦略効果分析グラフ",
+          "顧客別単価比較表",
+          "市場価格変動トレンドグラフ",
+          "分析結果サマリーカード",
+          "前月比較指標表示エリア",
+          "分析レポート生成ボタン",
+          "データエクスポートボタン"
+        ]
+      },
+      {
+        "id": "scr-1780291952461",
+        "name": "購買パターン分析画面",
+        "purpose": "顧客の購買行動や発注傾向を分析し、営業戦略の最適化と売上向上のための洞察を提供する",
+        "items": [
+          "分析期間選択カレンダー",
+          "顧客セグメント選択ドロップダウン",
+          "商品カテゴリ絞り込みフィルター",
+          "購買頻度分析チャート",
+          "季節性トレンドグラフ",
+          "顧客別購買金額ランキング表",
+          "リピート率分析表",
+          "購買間隔分析ヒストグラム",
+          "商品別売上構成比円グラフ",
+          "価格感度分析散布図",
+          "購買パターン分類結果表示エリア",
+          "異常値検知アラート表示"
+        ]
+      },
+      {
+        "id": "scr-1780291970530",
+        "name": "価格戦略分析画面",
+        "purpose": "市場価格データと発注データを分析し、競合他社との価格比較、顧客別単価分析、価格戦略の最適化提案を行い、営業戦略の意思決定を支援する",
+        "items": [
+          "分析期間選択カレンダー",
+          "商品カテゴリ選択ドロップダウン",
+          "顧客セグメント選択チェックボックス",
+          "価格分析実行ボタン",
+          "市場価格推移グラフ",
+          "競合価格比較チャート",
+          "顧客別単価分析テーブル",
+          "価格戦略提案パネル",
+          "利益率シミュレーター",
+          "価格感度分析結果表示エリア",
+          "分析結果エクスポートボタン",
+          "レポート保存ボタン"
+        ]
+      },
+      {
+        "id": "scr-1780291980452",
+        "name": "顧客別単価比較分析画面",
+        "purpose": "顧客ごとの商品単価を比較分析し、価格戦略の最適化と営業活動の効率化を支援する",
+        "items": [
+          "顧客選択ドロップダウン",
+          "商品カテゴリ選択",
+          "分析期間指定カレンダー",
+          "単価比較グラフ表示エリア",
+          "顧客別単価一覧テーブル",
+          "市場価格との差異表示",
+          "価格ランキング表示",
+          "単価推移トレンドグラフ",
+          "価格戦略提案パネル",
+          "分析条件絞り込みフィルター",
+          "データエクスポートボタン",
+          "レポート生成ボタン"
+        ]
+      },
+      {
+        "id": "scr-1780291989558",
+        "name": "単価交渉履歴管理画面",
+        "purpose": "顧客との単価交渉の履歴を一元管理し、交渉経緯の追跡、価格戦略の分析、次回交渉の準備を効率的に行うための画面",
+        "items": [
+          "交渉履歴一覧テーブル",
+          "顧客名検索フィールド",
+          "商品カテゴリ絞り込みドロップダウン",
+          "交渉期間指定カレンダー",
+          "交渉ステータス絞り込みチェックボックス",
+          "新規交渉登録ボタン",
+          "交渉詳細表示モーダル",
+          "交渉経緯入力テキストエリア",
+          "提示単価入力フィールド",
+          "回答単価入力フィールド",
+          "交渉担当者選択ドロップダウン",
+          "次回フォロー日設定カレンダー"
+        ]
+      }
+    ],
+    "tableDefinitions": [
+      {
+        "tableName": "市場価格データ",
+        "purpose": "営業支援システムにおける商品・サービスの市場価格情報を管理し、Web発注プラットフォームでの価格表示・比較・発注判断に活用する",
+        "columns": [
+          {
+            "name": "価格データID",
+            "type": "uuid",
+            "required": true,
+            "description": "市場価格データの一意識別子"
+          },
+          {
+            "name": "商品コード",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "価格対象商品の識別コード"
+          },
+          {
+            "name": "商品名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "価格対象商品の名称"
+          },
+          {
+            "name": "供給業者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "価格を提供する業者の識別子"
+          },
+          {
+            "name": "供給業者名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "価格を提供する業者名"
+          },
+          {
+            "name": "単価",
+            "type": "integer",
+            "required": true,
+            "description": "商品の単価（円）"
+          },
+          {
+            "name": "単位",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "価格の単位（個、kg、m等）"
+          },
+          {
+            "name": "最小発注数量",
+            "type": "integer",
+            "required": true,
+            "description": "発注可能な最小数量"
+          },
+          {
+            "name": "価格適用開始日",
+            "type": "timestamp",
+            "required": true,
+            "description": "この価格が有効になる開始日時"
+          },
+          {
+            "name": "価格適用終了日",
+            "type": "timestamp",
+            "required": false,
+            "description": "この価格が無効になる終了日時"
+          },
+          {
+            "name": "価格ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "価格の状態（有効、無効、期限切れ等）"
+          },
+          {
+            "name": "納期日数",
+            "type": "integer",
+            "required": true,
+            "description": "発注から納品までの標準日数"
+          },
+          {
+            "name": "品質グレード",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "商品の品質等級"
+          },
+          {
+            "name": "備考",
+            "type": "text",
+            "required": false,
+            "description": "価格に関する補足情報"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード作成者の識別子"
+          },
+          {
+            "name": "更新者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード最終更新者の識別子"
+          }
+        ]
+      },
+      {
+        "tableName": "月次集計データ",
+        "purpose": "Web発注プラットフォームにおける月次の発注実績、売上、市場動向等を集計し、営業支援のための分析データを提供する",
+        "columns": [
+          {
+            "name": "集計ID",
+            "type": "uuid",
+            "required": true,
+            "description": "月次集計データの一意識別子"
+          },
+          {
+            "name": "集計年月",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "集計対象の年月（YYYY-MM形式）"
+          },
+          {
+            "name": "顧客ID",
+            "type": "uuid",
+            "required": false,
+            "description": "集計対象顧客の識別子（全体集計の場合はNULL）"
+          },
+          {
+            "name": "商品カテゴリID",
+            "type": "uuid",
+            "required": false,
+            "description": "集計対象商品カテゴリの識別子（全体集計の場合はNULL）"
+          },
+          {
+            "name": "発注件数",
+            "type": "integer",
+            "required": true,
+            "description": "当月の発注件数"
+          },
+          {
+            "name": "発注総額",
+            "type": "integer",
+            "required": true,
+            "description": "当月の発注総金額"
+          },
+          {
+            "name": "平均発注単価",
+            "type": "integer",
+            "required": true,
+            "description": "当月の平均発注単価"
+          },
+          {
+            "name": "前月比発注件数",
+            "type": "integer",
+            "required": false,
+            "description": "前月との発注件数比較（増減数）"
+          },
+          {
+            "name": "前月比発注総額",
+            "type": "integer",
+            "required": false,
+            "description": "前月との発注総額比較（増減額）"
+          },
+          {
+            "name": "市場価格平均",
+            "type": "integer",
+            "required": false,
+            "description": "当月の市場価格平均値"
+          },
+          {
+            "name": "価格競争力指数",
+            "type": "integer",
+            "required": false,
+            "description": "市場価格に対する自社価格の競争力指数"
+          },
+          {
+            "name": "新規顧客数",
+            "type": "integer",
+            "required": true,
+            "description": "当月の新規顧客獲得数"
+          },
+          {
+            "name": "リピート顧客数",
+            "type": "integer",
+            "required": true,
+            "description": "当月のリピート顧客数"
+          },
+          {
+            "name": "集計ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "集計処理の状態（処理中/完了/エラー）"
+          },
+          {
+            "name": "集計完了日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "集計処理が完了した日時"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード作成者（システム自動集計の場合は'SYSTEM'）"
+          }
+        ]
+      },
+      {
+        "tableName": "購買パターン分析結果",
+        "purpose": "Web発注プラットフォームにおける購買パターンの分析結果を管理し、発注提案や在庫最適化の判断材料を提供する",
+        "columns": [
+          {
+            "name": "分析結果ID",
+            "type": "uuid",
+            "required": true,
+            "description": "購買パターン分析結果の一意識別子"
+          },
+          {
+            "name": "分析対象期間開始日",
+            "type": "timestamp",
+            "required": true,
+            "description": "分析対象となる期間の開始日"
+          },
+          {
+            "name": "分析対象期間終了日",
+            "type": "timestamp",
+            "required": true,
+            "description": "分析対象となる期間の終了日"
+          },
+          {
+            "name": "商品カテゴリ",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "分析対象の商品カテゴリ"
+          },
+          {
+            "name": "商品コード",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "特定商品の分析の場合の商品コード"
+          },
+          {
+            "name": "取引先コード",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "特定取引先の分析の場合の取引先コード"
+          },
+          {
+            "name": "平均発注間隔日数",
+            "type": "integer",
+            "required": true,
+            "description": "過去の発注データから算出した平均発注間隔"
+          },
+          {
+            "name": "平均発注数量",
+            "type": "integer",
+            "required": true,
+            "description": "過去の発注データから算出した平均発注数量"
+          },
+          {
+            "name": "季節変動係数",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "季節による需要変動の係数（春夏秋冬別）"
+          },
+          {
+            "name": "価格感度指数",
+            "type": "integer",
+            "required": true,
+            "description": "市場価格変動に対する発注量の感度を数値化"
+          },
+          {
+            "name": "推奨発注タイミング",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "分析結果に基づく推奨発注タイミング"
+          },
+          {
+            "name": "推奨発注数量",
+            "type": "integer",
+            "required": true,
+            "description": "分析結果に基づく推奨発注数量"
+          },
+          {
+            "name": "信頼度スコア",
+            "type": "integer",
+            "required": true,
+            "description": "分析結果の信頼度を0-100で表現"
+          },
+          {
+            "name": "分析アルゴリズム",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "使用した分析アルゴリズムの種別"
+          },
+          {
+            "name": "適用開始日",
+            "type": "timestamp",
+            "required": true,
+            "description": "この分析結果を適用開始する日付"
+          },
+          {
+            "name": "適用終了日",
+            "type": "timestamp",
+            "required": false,
+            "description": "この分析結果の適用終了日（更新時に設定）"
+          },
+          {
+            "name": "ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "分析結果のステータス（有効/無効/検証中）"
+          },
+          {
+            "name": "備考",
+            "type": "text",
+            "required": false,
+            "description": "分析結果に関する補足情報や注意事項"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "分析を実行したユーザーまたはシステム"
+          }
+        ]
+      },
+      {
+        "tableName": "価格戦略分析結果",
+        "purpose": "Web発注プラットフォームにおける価格戦略の分析結果を管理し、営業支援システムでの価格決定や提案活動に活用する",
+        "columns": [
+          {
+            "name": "分析結果ID",
+            "type": "uuid",
+            "required": true,
+            "description": "価格戦略分析結果の一意識別子"
+          },
+          {
+            "name": "分析対象期間開始日",
+            "type": "timestamp",
+            "required": true,
+            "description": "価格戦略分析の対象期間の開始日"
+          },
+          {
+            "name": "分析対象期間終了日",
+            "type": "timestamp",
+            "required": true,
+            "description": "価格戦略分析の対象期間の終了日"
+          },
+          {
+            "name": "商品カテゴリ",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "分析対象の商品カテゴリ"
+          },
+          {
+            "name": "顧客セグメント",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "分析対象の顧客セグメント"
+          },
+          {
+            "name": "現在価格",
+            "type": "integer",
+            "required": true,
+            "description": "現在の販売価格"
+          },
+          {
+            "name": "推奨価格",
+            "type": "integer",
+            "required": true,
+            "description": "分析結果に基づく推奨販売価格"
+          },
+          {
+            "name": "市場平均価格",
+            "type": "integer",
+            "required": true,
+            "description": "市場における平均価格"
+          },
+          {
+            "name": "競合最低価格",
+            "type": "integer",
+            "required": true,
+            "description": "競合他社の最低価格"
+          },
+          {
+            "name": "価格弾力性",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "価格変動に対する需要の弾力性"
+          },
+          {
+            "name": "売上予測増減率",
+            "type": "integer",
+            "required": true,
+            "description": "推奨価格適用時の売上増減率（％）"
+          },
+          {
+            "name": "利益率予測",
+            "type": "integer",
+            "required": true,
+            "description": "推奨価格適用時の予測利益率（％）"
+          },
+          {
+            "name": "分析手法",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "使用した価格分析手法"
+          },
+          {
+            "name": "信頼度",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "分析結果の信頼度レベル"
+          },
+          {
+            "name": "適用開始予定日",
+            "type": "timestamp",
+            "required": false,
+            "description": "推奨価格の適用開始予定日"
+          },
+          {
+            "name": "適用終了予定日",
+            "type": "timestamp",
+            "required": false,
+            "description": "推奨価格の適用終了予定日"
+          },
+          {
+            "name": "承認状況",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "価格戦略の承認状況"
+          },
+          {
+            "name": "承認者ID",
+            "type": "uuid",
+            "required": false,
+            "description": "価格戦略を承認した担当者ID"
+          },
+          {
+            "name": "承認日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "価格戦略が承認された日時"
+          },
+          {
+            "name": "備考",
+            "type": "text",
+            "required": false,
+            "description": "価格戦略に関する補足情報や注意事項"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "分析結果を作成した担当者ID"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "分析結果の作成日時"
+          },
+          {
+            "name": "更新者ID",
+            "type": "uuid",
+            "required": false,
+            "description": "分析結果を最後に更新した担当者ID"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "分析結果の最終更新日時"
+          }
+        ]
+      },
+      {
+        "tableName": "顧客別単価比較分析結果",
+        "purpose": "顧客ごとの単価を市場価格と比較分析し、価格戦略立案と営業活動に活用するための分析結果を管理する",
+        "columns": [
+          {
+            "name": "分析結果ID",
+            "type": "uuid",
+            "required": true,
+            "description": "分析結果の一意識別子"
+          },
+          {
+            "name": "顧客ID",
+            "type": "uuid",
+            "required": true,
+            "description": "対象顧客の識別子"
+          },
+          {
+            "name": "商品ID",
+            "type": "uuid",
+            "required": true,
+            "description": "対象商品の識別子"
+          },
+          {
+            "name": "分析対象期間開始日",
+            "type": "timestamp",
+            "required": true,
+            "description": "分析対象とする期間の開始日"
+          },
+          {
+            "name": "分析対象期間終了日",
+            "type": "timestamp",
+            "required": true,
+            "description": "分析対象とする期間の終了日"
+          },
+          {
+            "name": "顧客単価",
+            "type": "integer",
+            "required": true,
+            "description": "該当顧客への販売単価"
+          },
+          {
+            "name": "市場平均単価",
+            "type": "integer",
+            "required": true,
+            "description": "市場における平均単価"
+          },
+          {
+            "name": "単価差額",
+            "type": "integer",
+            "required": true,
+            "description": "顧客単価と市場平均単価の差額"
+          },
+          {
+            "name": "単価差率",
+            "type": "integer",
+            "required": true,
+            "description": "市場平均単価に対する差額の割合（％）"
+          },
+          {
+            "name": "取引数量",
+            "type": "integer",
+            "required": true,
+            "description": "分析期間中の取引数量"
+          },
+          {
+            "name": "売上金額",
+            "type": "integer",
+            "required": true,
+            "description": "分析期間中の売上金額"
+          },
+          {
+            "name": "価格競争力ランク",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "市場価格との比較による競争力ランク（高・中・低等）"
+          },
+          {
+            "name": "価格改定推奨フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "価格改定が推奨されるかどうか"
+          },
+          {
+            "name": "推奨価格",
+            "type": "integer",
+            "required": false,
+            "description": "分析結果に基づく推奨販売価格"
+          },
+          {
+            "name": "分析コメント",
+            "type": "text",
+            "required": false,
+            "description": "分析結果に対する補足コメント"
+          },
+          {
+            "name": "営業担当者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "該当顧客の営業担当者"
+          },
+          {
+            "name": "承認状態",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "分析結果の承認状態（未承認・承認済等）"
+          },
+          {
+            "name": "承認者ID",
+            "type": "uuid",
+            "required": false,
+            "description": "分析結果を承認した管理者"
+          },
+          {
+            "name": "承認日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "承認された日時"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード作成者"
+          }
+        ]
+      },
+      {
+        "tableName": "分析レポート",
+        "purpose": "Web発注プラットフォームで生成される各種分析レポートの管理と配信を行う",
+        "columns": [
+          {
+            "name": "レポートID",
+            "type": "uuid",
+            "required": true,
+            "description": "分析レポートの一意識別子"
+          },
+          {
+            "name": "レポート名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レポートの表示名"
+          },
+          {
+            "name": "レポート種別",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "購買パターン分析、価格戦略分析、顧客別単価比較等の種別"
+          },
+          {
+            "name": "対象期間開始日",
+            "type": "timestamp",
+            "required": true,
+            "description": "分析対象期間の開始日"
+          },
+          {
+            "name": "対象期間終了日",
+            "type": "timestamp",
+            "required": true,
+            "description": "分析対象期間の終了日"
+          },
+          {
+            "name": "顧客ID",
+            "type": "uuid",
+            "required": false,
+            "description": "顧客別レポートの場合の対象顧客"
+          },
+          {
+            "name": "レポート内容",
+            "type": "text",
+            "required": true,
+            "description": "分析結果の詳細内容"
+          },
+          {
+            "name": "ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "作成中、完了、エラー等の処理状況"
+          },
+          {
+            "name": "公開フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "顧客への公開可否"
+          },
+          {
+            "name": "通知済フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "関係者への通知完了フラグ"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レポート作成者の識別子"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レポート作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "最終更新日時"
+          }
+        ]
+      },
+      {
+        "tableName": "システム操作履歴",
+        "purpose": "Web発注プラットフォームにおけるユーザーの操作履歴を記録し、システム利用状況の分析や監査証跡として活用する",
+        "columns": [
+          {
+            "name": "操作履歴ID",
+            "type": "uuid",
+            "required": true,
+            "description": "操作履歴の一意識別子"
+          },
+          {
+            "name": "ユーザーID",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "操作を実行したユーザーの識別子"
+          },
+          {
+            "name": "ユーザー名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "操作を実行したユーザーの名前"
+          },
+          {
+            "name": "操作種別",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "実行された操作の種別（ログイン、発注、検索、詳細表示、データ更新等）"
+          },
+          {
+            "name": "画面名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "操作が実行された画面名"
+          },
+          {
+            "name": "機能名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "実行された機能名"
+          },
+          {
+            "name": "対象データID",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "操作対象となったデータの識別子（発注ID、商品ID等）"
+          },
+          {
+            "name": "操作内容",
+            "type": "text",
+            "required": false,
+            "description": "操作の詳細内容や変更内容"
+          },
+          {
+            "name": "IPアドレス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "操作元のIPアドレス"
+          },
+          {
+            "name": "ユーザーエージェント",
+            "type": "text",
+            "required": false,
+            "description": "操作に使用されたブラウザ情報"
+          },
+          {
+            "name": "処理結果",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "操作の処理結果（成功、失敗、エラー等）"
+          },
+          {
+            "name": "エラーメッセージ",
+            "type": "text",
+            "required": false,
+            "description": "エラー発生時のエラーメッセージ"
+          },
+          {
+            "name": "処理時間",
+            "type": "integer",
+            "required": false,
+            "description": "処理にかかった時間（ミリ秒）"
+          },
+          {
+            "name": "操作日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "操作が実行された日時"
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>単価承認ワークフロー画面 - 営業支援システムの構築</title>
+  <script>
+window.AIVIC_API_URL = "https://jqykrkgdvngp7qvmavufg5tohq0xwdzb.lambda-url.us-east-1.on.aws/";
+window.AIVIC_APP_ID = "session-1780284530342";
+window.AIVIC_SYSTEM_NAME = "顧客別単価管理システムの構築";
+window.AIVIC_TABLES = [{"tableName":"顧客別単価履歴テーブル","purpose":"顧客ごとの商品単価の変更履歴を管理し、Web発注プラットフォームでの価格表示と受注処理に使用する","columns":[{"name":"履歴ID","type":"uuid","required":true,"description":"単価履歴の一意識別子（主キー）"},{"name":"顧客ID","type":"uuid","required":true,"description":"対象顧客の識別子"},{"name":"商品ID","type":"uuid","required":true,"description":"対象商品の識別子"},{"name":"単価","type":"integer","required":true,"description":"顧客別の商品単価（円）"},{"name":"適用開始日","type":"timestamp","required":true,"description":"この単価が適用開始される日時"},{"name":"適用終了日","type":"timestamp","required":false,"description":"この単価の適用終了日時（NULLの場合は現在有効）"},{"name":"変更理由","type":"varchar(100)","required":false,"description":"単価変更の理由（値上げ、値下げ、キャンペーン等）"},{"name":"承認者ID","type":"uuid","required":false,"description":"単価変更を承認した担当者の識別子"},{"name":"承認日時","type":"timestamp","required":false,"description":"単価変更が承認された日時"},{"name":"有効フラグ","type":"boolean","required":true,"description":"この履歴レコードが有効かどうか"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者の識別子"},{"name":"更新者ID","type":"uuid","required":true,"description":"レコード最終更新者の識別子"}]},{"tableName":"単価更新申請テーブル","purpose":"顧客別単価の変更申請を管理し、承認フローを通じて単価履歴への反映を制御する","columns":[{"name":"申請ID","type":"uuid","required":true,"description":"単価更新申請の一意識別子"},{"name":"顧客ID","type":"uuid","required":true,"description":"単価変更対象の顧客識別子"},{"name":"商品ID","type":"uuid","required":true,"description":"単価変更対象の商品識別子"},{"name":"申請種別","type":"varchar(100)","required":true,"description":"新規登録/変更/削除の区分"},{"name":"現在単価","type":"integer","required":false,"description":"変更前の現在適用単価"},{"name":"申請単価","type":"integer","required":true,"description":"変更後の希望単価"},{"name":"適用開始日","type":"timestamp","required":true,"description":"新単価の適用開始予定日"},{"name":"適用終了日","type":"timestamp","required":false,"description":"新単価の適用終了予定日"},{"name":"申請理由","type":"text","required":true,"description":"単価変更の理由・背景"},{"name":"申請状態","type":"varchar(100)","required":true,"description":"申請中/承認済/却下/取下の状態"},{"name":"申請者ID","type":"uuid","required":true,"description":"申請を行ったユーザーの識別子"},{"name":"承認者ID","type":"uuid","required":false,"description":"申請を承認・却下したユーザーの識別子"},{"name":"承認日時","type":"timestamp","required":false,"description":"承認・却下が行われた日時"},{"name":"承認コメント","type":"text","required":false,"description":"承認者からのコメント・指示事項"},{"name":"履歴ID","type":"uuid","required":false,"description":"承認後に作成された単価履歴レコードのID"},{"name":"作成日時","type":"timestamp","required":true,"description":"申請レコードの作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"申請レコードの最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"申請レコードを作成したユーザーID"},{"name":"更新者ID","type":"uuid","required":true,"description":"申請レコードを最後に更新したユーザーID"}]},{"tableName":"単価承認ワークフローテーブル","purpose":"単価更新申請の承認プロセスを管理し、承認者による段階的な承認フローを制御する","columns":[{"name":"ワークフローID","type":"uuid","required":true,"description":"ワークフローの一意識別子"},{"name":"申請ID","type":"uuid","required":true,"description":"単価更新申請テーブルへの外部キー"},{"name":"承認段階","type":"integer","required":true,"description":"承認プロセスの段階番号（1次承認、2次承認等）"},{"name":"承認者ID","type":"uuid","required":true,"description":"承認権限を持つユーザーのID"},{"name":"承認者名","type":"varchar(100)","required":true,"description":"承認者の氏名"},{"name":"承認ステータス","type":"varchar(100)","required":true,"description":"承認状態（承認待ち、承認済み、否認、保留）"},{"name":"承認日時","type":"timestamp","required":false,"description":"承認または否認が実行された日時"},{"name":"承認コメント","type":"text","required":false,"description":"承認者による承認理由や否認理由のコメント"},{"name":"期限日時","type":"timestamp","required":true,"description":"承認期限の日時"},{"name":"通知済フラグ","type":"boolean","required":true,"description":"承認依頼通知の送信済み状態"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"}]},{"tableName":"単価変更ログテーブル","purpose":"顧客別単価の変更履歴を詳細に記録し、変更内容の追跡と監査証跡を提供する","columns":[{"name":"ログID","type":"uuid","required":true,"description":"単価変更ログの一意識別子"},{"name":"顧客ID","type":"uuid","required":true,"description":"単価変更対象の顧客識別子"},{"name":"商品ID","type":"uuid","required":true,"description":"単価変更対象の商品識別子"},{"name":"申請ID","type":"uuid","required":false,"description":"関連する単価更新申請の識別子"},{"name":"変更種別","type":"varchar(100)","required":true,"description":"変更の種類（新規登録/単価変更/削除/一括更新等）"},{"name":"変更前単価","type":"integer","required":false,"description":"変更前の単価（新規登録時はnull）"},{"name":"変更後単価","type":"integer","required":false,"description":"変更後の単価（削除時はnull）"},{"name":"変更前適用開始日","type":"timestamp","required":false,"description":"変更前の適用開始日"},{"name":"変更後適用開始日","type":"timestamp","required":false,"description":"変更後の適用開始日"},{"name":"変更前適用終了日","type":"timestamp","required":false,"description":"変更前の適用終了日"},{"name":"変更後適用終了日","type":"timestamp","required":false,"description":"変更後の適用終了日"},{"name":"変更理由","type":"text","required":false,"description":"単価変更の理由・備考"},{"name":"承認状況","type":"varchar(100)","required":true,"description":"承認状況（承認済/却下/承認不要等）"},{"name":"承認者ID","type":"uuid","required":false,"description":"変更を承認したユーザーの識別子"},{"name":"承認日時","type":"timestamp","required":false,"description":"承認が完了した日時"},{"name":"システム変更フラグ","type":"boolean","required":true,"description":"システム自動変更かユーザー手動変更かの区別"},{"name":"作成日時","type":"timestamp","required":true,"description":"ログレコードの作成日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"変更を実行したユーザーの識別子"}]},{"tableName":"リアルタイム照会ログテーブル","purpose":"Web発注プラットフォームでの顧客別単価照会の実行履歴とパフォーマンスを記録し、システム監視と業務分析に活用する","columns":[{"name":"照会ログID","type":"uuid","required":true,"description":"照会ログの一意識別子（主キー）"},{"name":"顧客コード","type":"varchar(100)","required":true,"description":"照会を実行した顧客の識別コード"},{"name":"商品コード","type":"varchar(100)","required":true,"description":"照会対象の商品識別コード"},{"name":"照会種別","type":"varchar(100)","required":true,"description":"照会の種類（単価照会、履歴照会、一括照会等）"},{"name":"照会実行者ID","type":"varchar(100)","required":true,"description":"照会を実行したユーザーの識別ID"},{"name":"照会実行者名","type":"varchar(100)","required":true,"description":"照会を実行したユーザーの名前"},{"name":"照会開始日時","type":"timestamp","required":true,"description":"照会処理の開始日時"},{"name":"照会終了日時","type":"timestamp","required":true,"description":"照会処理の終了日時"},{"name":"処理時間ミリ秒","type":"integer","required":true,"description":"照会処理にかかった時間（ミリ秒）"},{"name":"照会結果ステータス","type":"varchar(100)","required":true,"description":"照会の実行結果（成功、エラー、タイムアウト等）"},{"name":"取得件数","type":"integer","required":true,"description":"照会で取得されたレコード件数"},{"name":"エラーメッセージ","type":"text","required":false,"description":"エラー発生時の詳細メッセージ"},{"name":"IPアドレス","type":"varchar(100)","required":true,"description":"照会実行元のIPアドレス"},{"name":"ユーザーエージェント","type":"text","required":false,"description":"照会実行時のブラウザ情報"},{"name":"セッションID","type":"varchar(100)","required":true,"description":"照会実行時のセッション識別子"},{"name":"照会条件","type":"text","required":false,"description":"照会時に指定された検索条件の詳細"},{"name":"作成日時","type":"timestamp","required":true,"description":"ログレコードの作成日時"}]},{"tableName":"単価適用期間テーブル","purpose":"顧客別単価の適用期間を管理し、Web発注プラットフォームでの価格照会時に有効な単価を特定するためのテーブル","columns":[{"name":"適用期間ID","type":"uuid","required":true,"description":"適用期間の一意識別子（主キー）"},{"name":"顧客ID","type":"uuid","required":true,"description":"対象顧客の識別子"},{"name":"商品ID","type":"uuid","required":true,"description":"対象商品の識別子"},{"name":"単価履歴ID","type":"uuid","required":true,"description":"適用する単価履歴への参照"},{"name":"適用開始日","type":"timestamp","required":true,"description":"単価適用の開始日時"},{"name":"適用終了日","type":"timestamp","required":false,"description":"単価適用の終了日時（NULLの場合は無期限）"},{"name":"適用単価","type":"integer","required":true,"description":"適用される単価（円）"},{"name":"適用状態","type":"varchar(100)","required":true,"description":"適用状態（有効、無効、予約、期限切れ）"},{"name":"優先度","type":"integer","required":true,"description":"同一期間に複数適用がある場合の優先順位"},{"name":"備考","type":"text","required":false,"description":"適用期間に関する備考・注意事項"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者の識別子"},{"name":"更新者ID","type":"uuid","required":true,"description":"レコード最終更新者の識別子"}]},{"tableName":"単価更新通知テーブル","purpose":"単価更新時の関係者への通知履歴と配信状況を管理する","columns":[{"name":"通知ID","type":"uuid","required":true,"description":"通知レコードの一意識別子（主キー）"},{"name":"単価更新申請ID","type":"uuid","required":true,"description":"関連する単価更新申請への外部キー"},{"name":"顧客コード","type":"varchar(100)","required":true,"description":"通知対象の顧客識別コード"},{"name":"商品コード","type":"varchar(100)","required":true,"description":"単価更新対象の商品コード"},{"name":"通知種別","type":"varchar(100)","required":true,"description":"通知の種類（承認完了、適用開始、緊急変更等）"},{"name":"通知先区分","type":"varchar(100)","required":true,"description":"通知先の区分（顧客、営業担当、管理者等）"},{"name":"通知先ID","type":"varchar(100)","required":true,"description":"通知先の識別子（ユーザーID、顧客ID等）"},{"name":"通知方法","type":"varchar(100)","required":true,"description":"通知手段（メール、システム内通知、API等）"},{"name":"通知ステータス","type":"varchar(100)","required":true,"description":"通知の配信状況（送信待ち、送信済み、配信失敗、既読等）"},{"name":"通知タイトル","type":"varchar(100)","required":true,"description":"通知メッセージのタイトル"},{"name":"通知内容","type":"text","required":true,"description":"通知メッセージの本文"},{"name":"送信予定日時","type":"timestamp","required":true,"description":"通知の送信予定日時"},{"name":"送信日時","type":"timestamp","required":false,"description":"実際の通知送信日時"},{"name":"既読日時","type":"timestamp","required":false,"description":"通知が既読された日時"},{"name":"エラーメッセージ","type":"text","required":false,"description":"送信失敗時のエラー内容"},{"name":"再送回数","type":"integer","required":true,"description":"通知の再送信回数"},{"name":"優先度","type":"varchar(100)","required":true,"description":"通知の優先度（高、中、低）"},{"name":"有効フラグ","type":"boolean","required":true,"description":"通知レコードの有効性フラグ"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者のユーザーID"},{"name":"更新者","type":"varchar(100)","required":true,"description":"レコード最終更新者のユーザーID"}]}];
+window.AIVIC_PRESET_SEED = {};
+window.AIVIC_PAGE_SCREEN_ID = "scr-1780291498028";
+window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  let selectedApplicationId = null;\n  let currentApplications = [];\n\n  // 緊急度バッジの生成\n  function getPriorityBadge(priority) {\n    const colors = {\n      '高': { bg: 'rgba(239,68,68,0.15)', color: '#ef4444' },\n      '中': { bg: 'rgba(245,158,11,0.15)', color: '#f59e0b' },\n      '低': { bg: 'rgba(107,114,128,0.15)', color: '#6b7280' }\n    };\n    const style = colors[priority] || colors['低'];\n    return `<span style=\"padding: 2px 6px; border-radius: 3px; font-size: 11px; font-weight: 500; background: ${style.bg}; color: ${style.color};\">${priority}</span>`;\n  }\n\n  // 変更率の計算と表示\n  function getChangeRate(current, newPrice) {\n    if (!current || current === 0) return '-';\n    const rate = ((newPrice - current) / current * 100);\n    const color = rate > 0 ? '#ef4444' : rate < 0 ? '#22c55e' : '#6b7280';\n    const sign = rate > 0 ? '+' : '';\n    return `<span style=\"color: ${color}; font-weight: 500;\">${sign}${rate.toFixed(1)}%</span>`;\n  }\n\n  // 承認フロー進捗の表示\n  function renderApprovalFlow(workflows) {\n    const flowContainer = container.querySelector('#approval-flow');\n    if (!workflows || workflows.length === 0) {\n      flowContainer.innerHTML = '<div style=\"color: var(--text-muted); font-size: 13px;\">承認フローが設定されていません</div>';\n      return;\n    }\n\n    flowContainer.innerHTML = workflows.map(wf => {\n      const statusColors = {\n        '承認済み': { bg: 'rgba(34,197,94,0.15)', color: '#22c55e' },\n        '承認待ち': { bg: 'rgba(245,158,11,0.15)', color: '#f59e0b' },\n        '否認': { bg: 'rgba(239,68,68,0.15)', color: '#ef4444' },\n        '保留': { bg: 'rgba(107,114,128,0.15)', color: '#6b7280' }\n      };\n      const style = statusColors[wf.承認ステータス] || statusColors['承認待ち'];\n      \n      return `\n        <div style=\"display: flex; justify-content: space-between; align-items: center; padding: 8px; background: rgba(0,0,0,0.1); border-radius: 4px;\">\n          <div>\n            <div style=\"font-size: 13px; color: var(--text); font-weight: 500;\">${wf.承認段階}次承認: ${wf.承認者名}</div>\n            ${wf.承認日時 ? `<div style=\"font-size: 11px; color: var(--text-muted);\">${new Date(wf.承認日時).toLocaleString()}</div>` : ''}\n          </div>\n          <span style=\"padding: 2px 8px; border-radius: 3px; font-size: 11px; font-weight: 500; background: ${style.bg}; color: ${style.color};\">${wf.承認ステータス}</span>\n        </div>\n      `;\n    }).join('');\n  }\n\n  // 申請一覧の再描画\n  function renderApplications(applications) {\n    const tbody = container.querySelector('#workflow-tbody');\n    if (!applications || applications.length === 0) {\n      tbody.innerHTML = '<tr><td colspan=\"10\" style=\"text-align: center; color: var(--text-muted); padding: 20px;\">承認待ちの申請はありません</td></tr>';\n      return;\n    }\n\n    tbody.innerHTML = applications.map(app => {\n      const changeRate = getChangeRate(app.現在単価, app.申請単価);\n      const deadline = new Date(app.期限日時 || Date.now() + 7*24*60*60*1000);\n      const isOverdue = deadline < new Date();\n      const deadlineColor = isOverdue ? '#ef4444' : '#f59e0b';\n      \n      return `\n        <tr data-id=\"${app.申請ID}\" style=\"cursor: pointer;\" class=\"application-row\">\n          <td>${getPriorityBadge(app.優先度 || '中')}</td>\n          <td style=\"font-size: 12px;\">${new Date(app.作成日時).toLocaleDateString()}</td>\n          <td style=\"font-weight: 500;\">${app.顧客名 || '顧客' + app.顧客ID?.slice(-4)}</td>\n          <td>${app.商品名 || '商品' + app.商品ID?.slice(-4)}</td>\n          <td style=\"text-align: right;\">¥${(app.現在単価 || 0).toLocaleString()}</td>\n          <td style=\"text-align: right;\">¥${(app.申請単価 || 0).toLocaleString()}</td>\n          <td style=\"text-align: center;\">${changeRate}</td>\n          <td style=\"text-align: center;\">${app.承認段階 || 1}次</td>\n          <td style=\"font-size: 11px; color: ${deadlineColor};\">${deadline.toLocaleDateString()}</td>\n          <td><button class=\"action-btn secondary select-btn\" data-id=\"${app.申請ID}\" style=\"padding: 4px 8px; font-size: 11px;\">選択</button></td>\n        </tr>\n      `;\n    }).join('');\n  }\n\n  // 申請詳細の表示\n  function showApplicationDetail(applicationId) {\n    const app = currentApplications.find(a => a.申請ID === applicationId);\n    if (!app) return;\n\n    selectedApplicationId = applicationId;\n    \n    // 詳細情報の表示\n    container.querySelector('#detail-applicant').textContent = app.申請者名 || 'ユーザー' + app.申請者ID?.slice(-4);\n    container.querySelector('#detail-date').textContent = new Date(app.作成日時).toLocaleString();\n    container.querySelector('#detail-customer').textContent = app.顧客名 || '顧客' + app.顧客ID?.slice(-4);\n    container.querySelector('#detail-product').textContent = app.商品名 || '商品' + app.商品ID?.slice(-4);\n    container.querySelector('#detail-current-price').textContent = '¥' + (app.現在単価 || 0).toLocaleString();\n    container.querySelector('#detail-new-price').textContent = '¥' + (app.申請単価 || 0).toLocaleString();\n    container.querySelector('#detail-change-rate').innerHTML = getChangeRate(app.現在単価, app.申請単価);\n    container.querySelector('#detail-reason').textContent = app.申請理由 || '理由が入力されていません';\n\n    // 承認フローの表示（ダミーデータ）\n    const workflows = [\n      {\n        承認段階: 1,\n        承認者名: '田中 一郎',\n        承認ステータス: '承認待ち',\n        承認日時: null\n      }\n    ];\n    renderApprovalFlow(workflows);\n\n    // パネルの表示切り替え\n    container.querySelector('#no-selection').style.display = 'none';\n    container.querySelector('#approval-panel').style.display = 'block';\n  }\n\n  // 承認アクション実行\n  async function executeApprovalAction(action) {\n    if (!selectedApplicationId) return;\n\n    const comment = container.querySelector('#approval-comment').value.trim();\n    if (!comment) {\n      alert('コメントを入力してください');\n      return;\n    }\n\n    const statusMap = {\n      'approve': '承認済',\n      'reject': '却下',\n      'hold': '保留'\n    };\n\n    try {\n      // 単価更新申請テーブルの更新\n      const updated = await window.aivicApi.update(1, selectedApplicationId, {\n        申請状態: statusMap[action],\n        承認者ID: 'current-user-id',\n        承認日時: new Date().toISOString(),\n        承認コメント: comment\n      });\n\n      if (updated) {\n        // ワークフローテーブルの更新\n        await window.aivicApi.update(2, selectedApplicationId, {\n          承認ステータス: statusMap[action],\n          承認日時: new Date().toISOString(),\n          承認コメント: comment\n        });\n\n        alert(`申請を${action === 'approve' ? '承認' : action === 'reject' ? '差戻し' : '保留'}しました`);\n        \n        // 一覧を再読み込み\n        const applications = await window.aivicApi.list(1);\n        if (applications) {\n          currentApplications = applications.filter(app => \n            ['申請中', '承認待ち', '保留'].includes(app.申請状態)\n          );\n          renderApplications(currentApplications);\n        }\n\n        // 詳細パネルを閉じる\n        container.querySelector('#no-selection').style.display = 'block';\n        container.querySelector('#approval-panel').style.display = 'none';\n        selectedApplicationId = null;\n        container.querySelector('#approval-comment').value = '';\n      }\n    } catch (error) {\n      console.error('承認処理エラー:', error);\n      alert('承認処理中にエラーが発生しました');\n    }\n  }\n\n  // 初期データの読み込みと描画\n  async function loadInitialData() {\n    try {\n      const applications = await window.aivicApi.list(1);\n      if (applications) {\n        // 承認待ちの申請のみフィルタ\n        currentApplications = applications.filter(app => \n          ['申請中', '承認待ち', '保留'].includes(app.申請状態)\n        );\n        renderApplications(currentApplications);\n      } else {\n        // API未接続時は初期データを使用\n        currentApplications = (tables[1]?.records || []).filter(app => \n          ['申請中', '承認待ち', '保留'].includes(app.申請状態)\n        );\n        renderApplications(currentApplications);\n      }\n    } catch (error) {\n      console.error('データ読み込みエラー:', error);\n      currentApplications = (tables[1]?.records || []).filter(app => \n        ['申請中', '承認待ち', '保留'].includes(app.申請状態)\n      );\n      renderApplications(currentApplications);\n    }\n  }\n\n  // 検索機能\n  container.querySelector('#btn-search').addEventListener('click', async () => {\n    const keyword = container.querySelector('#search-input').value.trim();\n    const statusFilter = container.querySelector('#status-filter').value;\n\n    try {\n      const applications = await window.aivicApi.list(1);\n      if (applications) {\n        let filtered = applications.filter(app => \n          ['申請中', '承認待ち', '保留'].includes(app.申請状態)\n        );\n\n        if (keyword) {\n          filtered = filtered.filter(app => \n            JSON.stringify(app).toLowerCase().includes(keyword.toLowerCase())\n          );\n        }\n\n        if (statusFilter) {\n          filtered = filtered.filter(app => app.申請状態 === statusFilter);\n        }\n\n        currentApplications = filtered;\n        renderApplications(currentApplications);\n      }\n    } catch (error) {\n      console.error('検索エラー:', error);\n    }\n  });\n\n  // 申請選択のイベントリスナー\n  container.addEventListener('click', (e) => {\n    const selectBtn = e.target.closest('.select-btn');\n    const row = e.target.closest('.application-row');\n    \n    if (selectBtn || row) {\n      const applicationId = selectBtn ? selectBtn.dataset.id : row.dataset.id;\n      if (applicationId) {\n        showApplicationDetail(applicationId);\n      }\n    }\n  });\n\n  // 承認アクションボタンのイベントリスナー\n  container.querySelector('#btn-approve').addEventListener('click', () => {\n    executeApprovalAction('approve');\n  });\n\n  container.querySelector('#btn-reject').addEventListener('click', () => {\n    executeApprovalAction('reject');\n  });\n\n  container.querySelector('#btn-hold').addEventListener('click', () => {\n    executeApprovalAction('hold');\n  });\n\n  // モーダルの制御\n  const modal = container.querySelector('#confirm-modal');\n  container.querySelector('#modal-cancel').addEventListener('click', () => {\n    modal.style.display = 'none';\n  });\n\n  // 初期データの読み込み\n  loadInitialData();\n}";
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+:root {
+  --primary: #1b7f37;
+  --primary-hover: #155d2a;
+  --bg-main: #f8faf9;
+  --bg-card: #ffffff;
+  --bg-sidebar: #f4f6f5;
+  --border: #d9e3dc;
+  --text: #181818;
+  --text-muted: #4a4a4a;
+  --top-bar-bg: #ffffff;
+  --top-bar-border: #d1ddd4;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:var(--bg-main); color:var(--text); display:flex; flex-direction:column; height:100vh; overflow:hidden; }
+.top-bar { display:flex; align-items:center; gap:0; background:var(--top-bar-bg, var(--bg-sidebar)); border-bottom:1px solid var(--top-bar-border, var(--border)); padding:0 16px; height:48px; flex-shrink:0; }
+.top-bar .app-name { font-size:14px; font-weight:700; color:var(--text); margin-right:20px; white-space:nowrap; }
+.sys-tab { background:transparent; color:var(--text); opacity:0.6; border:none; border-bottom:2px solid transparent; padding:0 16px; height:48px; cursor:pointer; font-size:13px; white-space:nowrap; transition:color .15s, border-color .15s, opacity .15s; text-decoration:none; display:flex; align-items:center; }
+.sys-tab:hover { opacity:0.85; }
+.sys-tab.active, .sys-tab.aivic-active { color:var(--text); opacity:1; border-bottom-color:var(--primary); font-weight:600; }
+.app-body { display:flex; flex:1; overflow:hidden; }
+.sidebar { width:220px; background:var(--bg-sidebar); border-right:1px solid var(--border); padding:12px 8px; overflow-y:auto; flex-shrink:0; }
+.sidebar-sys-name { margin:0 0 8px; padding:4px 8px; font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:.06em; }
+.nav-btn { display:block; width:100%; text-align:left; background:transparent; color:var(--text); opacity:0.65; border:none; border-radius:8px; padding:8px 12px; cursor:pointer; font-size:13px; margin-bottom:2px; transition:opacity .15s,background .15s; text-decoration:none; }
+.nav-btn:hover { background:var(--border); opacity:0.9; }
+.nav-btn.active, .nav-btn.aivic-active { background:var(--primary); color:#fff; opacity:1; }
+.main { flex:1; padding:16px; overflow-y:auto; }
+.card { border:1px solid var(--border); border-radius:12px; padding:16px; background:var(--bg-card); margin-bottom:12px; }
+.hidden { display:none !important; }
+.action-btn { background:var(--primary); color:#fff; border:0; border-radius:8px; padding:8px 14px; cursor:pointer; font-size:13px; }
+.action-btn:hover { background:var(--primary-hover, #1a55ef); }
+.action-btn.secondary { background:var(--border); color:var(--text); }
+.input { background:var(--bg-main); border:1px solid var(--border); color:var(--text); border-radius:8px; padding:7px 10px; font-size:13px; }
+.muted { color:var(--text-muted); font-size:13px; }
+.table-wrap { overflow:auto; border:1px solid var(--border); border-radius:8px; }
+table { width:100%; border-collapse:collapse; }
+th, td { border-bottom:1px solid var(--border); padding:8px 10px; text-align:left; font-size:13px; }
+th { color:var(--text); background:var(--bg-sidebar); position:sticky; top:0; font-weight:600; }
+tr:hover { background:var(--bg-sidebar); cursor:pointer; }
+canvas { display:block; max-height:280px !important; }
+.chart-wrap, .chart-container, [class*="chart"] { position:relative; height:260px; max-height:280px; }
+@media (max-width:768px) {
+  .top-bar { overflow-x:auto; }
+  .app-body { flex-direction:column; }
+  .sidebar { width:100%; height:auto; display:flex; flex-wrap:wrap; gap:4px; padding:8px; }
+  .sidebar-sys-name { display:none; }
+  .nav-btn { width:auto; border-radius:999px; padding:5px 12px; }
+}
+  </style>
+</head>
+<body>
+<header class="top-bar">
+  <span class="app-name">営業支援システムの構築</span>
+    <a href="./scr-1780291062211.html" class="sys-tab" data-aivic-nav-system="itg-1">Web発注プラットフォームの構築</a>
+    <a href="./scr-1780291283309.html" class="sys-tab" data-aivic-nav-system="itg-2">基幹システム連携管理システムの構築</a>
+    <a href="./scr-1780291476037.html" class="sys-tab active" data-aivic-nav-system="itg-3">顧客別単価管理システムの構築</a>
+    <a href="./scr-1780291692616.html" class="sys-tab" data-aivic-nav-system="itg-4">経営分析・レポートシステムの構築</a>
+    <a href="./scr-1780291929523.html" class="sys-tab" data-aivic-nav-system="itg-5">営業支援システムの構築</a>
+</header>
+<div class="app-body">
+  <aside class="sidebar">
+    <p class="sidebar-sys-name">顧客別単価管理システムの構築</p>
+      <a href="./scr-1780291476037.html" class="nav-btn" data-aivic-nav="scr-1780291476037">顧客別単価照会画面</a>
+      <a href="./scr-1780291488728.html" class="nav-btn" data-aivic-nav="scr-1780291488728">単価更新申請画面</a>
+      <a href="./scr-1780291498028.html" class="nav-btn active" data-aivic-nav="scr-1780291498028">単価承認ワークフロー画面</a>
+      <a href="./scr-1780291508457.html" class="nav-btn" data-aivic-nav="scr-1780291508457">単価変更履歴照会画面</a>
+      <a href="./scr-1780291518184.html" class="nav-btn" data-aivic-nav="scr-1780291518184">単価適用期間管理画面</a>
+  </aside>
+  <main class="main">
+    <section class="card" data-aivic-panel="scr-1780291498028" style="margin-top:0">
+<div class="workflow-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+  <div>
+    <h2 style="margin: 0; font-size: 20px; color: var(--text);">単価承認ワークフロー</h2>
+    <p style="margin: 4px 0 0 0; font-size: 13px; color: var(--text-muted);">単価変更申請の承認・差戻し・保留を管理</p>
+  </div>
+  <div style="display: flex; gap: 8px;">
+    <button class="action-btn secondary" data-testid="history-button" onclick="window.showScreen('scr-1780291508457')">変更履歴</button>
+    <button class="action-btn secondary" data-testid="period-management-button" onclick="window.showScreen('scr-1780291518184')">適用期間管理</button>
+  </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 400px; gap: 16px; height: calc(100vh - 200px);">
+  <!-- 左側: 承認待ち申請一覧 -->
+  <div class="card" style="padding: 16px; overflow: hidden; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+      <h3 style="margin: 0; font-size: 16px; color: var(--text);">承認待ち申請一覧</h3>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <select data-testid="status-filter" id="status-filter" style="padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;">
+          <option value="">全ステータス</option>
+          <option value="承認待ち">承認待ち</option>
+          <option value="保留">保留</option>
+          <option value="否認">否認</option>
+        </select>
+        <input type="text" id="search-input" data-testid="search-input" placeholder="顧客名・商品名で検索" style="padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px; width: 180px;">
+        <button class="action-btn secondary" id="btn-search" data-testid="search-button">検索</button>
+      </div>
+    </div>
+    
+    <div class="table-wrap" style="flex: 1; overflow-y: auto;">
+      <table data-testid="workflow-list">
+        <thead>
+          <tr>
+            <th style="width: 80px;">緊急度</th>
+            <th style="width: 120px;">申請日</th>
+            <th>顧客名</th>
+            <th>商品名</th>
+            <th style="width: 80px;">現在単価</th>
+            <th style="width: 80px;">申請単価</th>
+            <th style="width: 80px;">変更率</th>
+            <th style="width: 90px;">承認段階</th>
+            <th style="width: 80px;">期限</th>
+            <th style="width: 60px;">操作</th>
+          </tr>
+        </thead>
+        <tbody id="workflow-tbody">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 右側: 申請詳細・承認パネル -->
+  <div class="card" style="padding: 16px; overflow-y: auto; display: flex; flex-direction: column;">
+    <div id="no-selection" style="text-align: center; color: var(--text-muted); margin-top: 60px;">
+      <p>申請を選択してください</p>
+    </div>
+    
+    <div id="approval-panel" style="display: none;">
+      <!-- 申請詳細情報 -->
+      <div style="margin-bottom: 20px;">
+        <h3 style="margin: 0 0 12px 0; font-size: 16px; color: var(--text);">申請詳細</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 13px;">
+          <div>
+            <label style="color: var(--text-muted); font-size: 11px;">申請者</label>
+            <div id="detail-applicant" style="color: var(--text); font-weight: 500;"></div>
+          </div>
+          <div>
+            <label style="color: var(--text-muted); font-size: 11px;">申請日時</label>
+            <div id="detail-date" style="color: var(--text);"></div>
+          </div>
+          <div>
+            <label style="color: var(--text-muted); font-size: 11px;">顧客名</label>
+            <div id="detail-customer" style="color: var(--text); font-weight: 500;"></div>
+          </div>
+          <div>
+            <label style="color: var(--text-muted); font-size: 11px;">商品名</label>
+            <div id="detail-product" style="color: var(--text);"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 単価比較 -->
+      <div style="margin-bottom: 20px;">
+        <h4 style="margin: 0 0 8px 0; font-size: 14px; color: var(--text);">単価変更内容</h4>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; text-align: center;">
+          <div style="padding: 8px; background: rgba(0,0,0,0.15); border-radius: 4px;">
+            <div style="font-size: 11px; color: var(--text-muted);">現在単価</div>
+            <div id="detail-current-price" style="font-size: 16px; font-weight: 600; color: var(--text);"></div>
+          </div>
+          <div style="padding: 8px; background: rgba(34,197,94,0.15); border-radius: 4px;">
+            <div style="font-size: 11px; color: var(--text-muted);">申請単価</div>
+            <div id="detail-new-price" style="font-size: 16px; font-weight: 600; color: #22c55e;"></div>
+          </div>
+          <div style="padding: 8px; background: rgba(0,0,0,0.15); border-radius: 4px;">
+            <div style="font-size: 11px; color: var(--text-muted);">変更率</div>
+            <div id="detail-change-rate" style="font-size: 16px; font-weight: 600; color: var(--text);"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 申請理由 -->
+      <div style="margin-bottom: 20px;">
+        <h4 style="margin: 0 0 8px 0; font-size: 14px; color: var(--text);">申請理由</h4>
+        <div id="detail-reason" style="padding: 8px; background: rgba(0,0,0,0.15); border-radius: 4px; font-size: 13px; color: var(--text); min-height: 40px;"></div>
+      </div>
+
+      <!-- 承認フロー進捗 -->
+      <div style="margin-bottom: 20px;">
+        <h4 style="margin: 0 0 8px 0; font-size: 14px; color: var(--text);">承認フロー進捗</h4>
+        <div id="approval-flow" style="display: flex; flex-direction: column; gap: 6px;">
+        </div>
+      </div>
+
+      <!-- 承認者コメント入力 -->
+      <div style="margin-bottom: 20px;">
+        <label for="approval-comment" style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">承認者コメント</label>
+        <textarea id="approval-comment" data-testid="approval-comment" rows="3" placeholder="承認・差戻し理由を入力してください" style="width: 100%; padding: 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px; resize: vertical;"></textarea>
+      </div>
+
+      <!-- 承認アクションボタン -->
+      <div style="display: flex; gap: 8px;">
+        <button class="action-btn" id="btn-approve" data-testid="approve-button" style="flex: 1; background: #22c55e; color: #fff;">承認</button>
+        <button class="action-btn secondary" id="btn-reject" data-testid="reject-button" style="flex: 1;">差戻し</button>
+        <button class="action-btn secondary" id="btn-hold" data-testid="hold-button" style="flex: 1;">保留</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 承認確認モーダル -->
+<div id="confirm-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center;">
+  <div class="card" style="padding: 24px; width: 400px; max-width: 90vw;">
+    <h3 id="modal-title" style="margin: 0 0 12px 0; font-size: 16px; color: var(--text);"></h3>
+    <p id="modal-message" style="margin: 0 0 20px 0; font-size: 14px; color: var(--text-muted);"></p>
+    <div style="display: flex; gap: 8px; justify-content: flex-end;">
+      <button class="action-btn secondary" id="modal-cancel">キャンセル</button>
+      <button class="action-btn" id="modal-confirm">実行</button>
+    </div>
+  </div>
+</div>
+    </section>
+  </main>
+</div>
+<script>
+(function() {
+  var TABLE_DEFS = window.AIVIC_TABLES || [];
+  var PRESET_SEED = window.AIVIC_PRESET_SEED || {};
+  var SYSTEM_NAME = window.AIVIC_SYSTEM_NAME || "";
+  var APP_ID = window.AIVIC_APP_ID || "";
+  var API_URL = (window.AIVIC_API_URL && window.AIVIC_API_URL !== "REPLACE_WITH_API_URL")
+    ? window.AIVIC_API_URL : window.location.origin;
+
+  // 通知 helper（SPA 版と同じ）
+  window.aivicNotify = (function() {
+    function ensureContainer() {
+      var c = document.getElementById("aivic-toast-container");
+      if (c) return c;
+      c = document.createElement("div");
+      c.id = "aivic-toast-container";
+      c.style.cssText = "position:fixed;top:16px;right:16px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none;max-width:360px;";
+      document.body.appendChild(c);
+      return c;
+    }
+    function show(msg, type) {
+      var c = ensureContainer();
+      var el = document.createElement("div");
+      el.textContent = msg;
+      el.style.cssText = "padding:10px 16px;border-radius:8px;font-size:13px;line-height:1.4;pointer-events:auto;color:#fff;background:" + (type === "error" ? "#dc2626" : "#d97706");
+      c.appendChild(el);
+      setTimeout(function() {
+        el.style.transition = "opacity .3s";
+        el.style.opacity = "0";
+        setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 320);
+      }, type === "error" ? 6000 : 4500);
+    }
+    return {
+      error: function(msg) { show("❌ " + msg, "error"); },
+      warn:  function(msg) { show("⚠️ " + msg, "warn"); },
+    };
+  })();
+
+  // CRUD API（SPA 版と同じ）
+  window.aivicApi = (function() {
+    function dbErr(op) { window.aivicNotify.error("データベースエラー（" + op + "）: APIサーバーに接続できません。"); }
+    function newId() { return typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : "id-" + Date.now() + "-" + Math.random().toString(36).slice(2); }
+    function q(i) {
+      var t = TABLE_DEFS[i];
+      var dbP = (window.AIVIC_DB_TYPE && window.AIVIC_DB_TYPE !== "dynamodb") ? "&db=" + encodeURIComponent(window.AIVIC_DB_TYPE) : "";
+      return "?app=" + encodeURIComponent(APP_ID) + "&system=" + encodeURIComponent(SYSTEM_NAME) + "&table=" + encodeURIComponent(t ? t.tableName : "table" + i) + dbP;
+    }
+    return {
+      list: async function(tableIndex) {
+        if (!API_URL) return [];
+        try { var r = await fetch(API_URL + "/api/" + tableIndex + q(tableIndex)); var d = await r.json(); return Array.isArray(d) ? d : (d.items || []); }
+        catch(e) { dbErr("データ取得"); return []; }
+      },
+      save: async function(tableIndex, item) {
+        if (!API_URL) { dbErr("保存"); return null; }
+        var now = new Date().toISOString();
+        var rec = Object.assign({}, item, { id: item.id || newId(), createdAt: item.createdAt || now, updatedAt: now });
+        try { var r = await fetch(API_URL + "/api/" + tableIndex + q(tableIndex), { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(rec) }); return await r.json(); }
+        catch(e) { dbErr("保存"); return null; }
+      },
+      update: async function(tableIndex, id, changes) {
+        if (!API_URL) { dbErr("更新"); return null; }
+        try { var r = await fetch(API_URL + "/api/" + tableIndex + "/" + id + q(tableIndex), { method:"PUT", headers:{"Content-Type":"application/json"}, body:JSON.stringify(Object.assign({}, changes, {updatedAt: new Date().toISOString()})) }); return await r.json(); }
+        catch(e) { dbErr("更新"); return null; }
+      },
+      delete: async function(tableIndex, id) {
+        if (!API_URL) { dbErr("削除"); return {deleted:false}; }
+        try { await fetch(API_URL + "/api/" + tableIndex + "/" + id + q(tableIndex), {method:"DELETE"}); return {deleted:true}; }
+        catch(e) { dbErr("削除"); return {deleted:false}; }
+      },
+    };
+  })();
+
+  // showScreen はマルチページ構成ではページ遷移として動く。
+  // パネル切替 (旧 SPA 動作) ではなく ./<id>.html への navigate に再定義する。
+  // 既存の AI 生成 shell が onclick="showScreen('x')" の形で書いていても透過的に動く。
+  //
+  // 防御層:
+  // (a) 同じ画面 ID なら no-op（AIVIC_PAGE_SCREEN_ID 一致 / pathname 一致のどちらか）
+  // (b) 同じ navigate を 100ms 以内に繰り返したら break loop（onclick 連打ではなく自動ループ対策）
+  // (c) DOMContentLoaded 直後 1.5s 以内の「自動 navigate」は警告 + 抑制（手動 click は通す）
+  var _aivicNavLastTime = 0;
+  var _aivicNavLastTarget = "";
+  var _aivicReady = false;
+  window.showScreen = function(screenId) {
+    if (!screenId) return;
+    if (screenId === window.AIVIC_PAGE_SCREEN_ID) return; // 既に該当ページに居る
+    // pathname ベースの保険: AIVIC_PAGE_SCREEN_ID が未設定でも、現在 URL と一致したら抑制
+    var targetPath = './' + encodeURIComponent(screenId) + '.html';
+    var currentName = (window.location.pathname.split('/').pop() || '');
+    if (currentName === (encodeURIComponent(screenId) + '.html') ||
+        currentName === (screenId + '.html')) {
+      return;
+    }
+    var now = Date.now();
+    if (_aivicNavLastTarget === targetPath && (now - _aivicNavLastTime) < 100) {
+      console.warn('[aivic] showScreen 連続呼び出し検知。無限ループ防止のため抑制:', screenId);
+      return;
+    }
+    if (!_aivicReady) {
+      // ページロード直後の自動 navigate は AI shell の load-time 副作用の可能性が高い。
+      // ボタンクリック等のユーザー操作は ready 後なので影響しない。
+      console.warn('[aivic] DOMContentLoaded 前の showScreen 呼び出し。抑制:', screenId);
+      return;
+    }
+    _aivicNavLastTime = now;
+    _aivicNavLastTarget = targetPath;
+    window.location.href = targetPath;
+  };
+
+  // 初回マウント時のサンプルデータ投入
+  function seedAllIfEmpty() {
+    if (!API_URL) return Promise.resolve();
+    return Promise.all(TABLE_DEFS.map(function(t, i) {
+      var preset = PRESET_SEED[t.tableName];
+      if (!Array.isArray(preset) || preset.length === 0) return Promise.resolve();
+      return window.aivicApi.list(i).then(function(existing) {
+        if (existing && existing.length > 0) return;
+        return Promise.all(preset.map(function(row) { return window.aivicApi.save(i, row); }));
+      }).catch(function() {});
+    }));
+  }
+
+  // ── 初期表示: このページ専用の panel に initFn を実行 ──
+  // window.AIVIC_PAGE_SCREEN_ID と AIVIC_PAGE_INIT_JS は composeMultipagePages
+  // でページ単位に埋め込まれる。
+  document.addEventListener("DOMContentLoaded", function() {
+    // 1.5 秒後に必ず _aivicReady を立てる（initFn が走らないページや失敗ページでも
+    // ユーザーが操作できるようにする保険）。initFn 完了時にも立てるので早い方が勝つ。
+    setTimeout(function() { _aivicReady = true; }, 1500);
+    var pageScreenId = window.AIVIC_PAGE_SCREEN_ID;
+    if (!pageScreenId) return;
+
+    // sidebar / nav の active class を付与（現在ページのリンクを強調）
+    document.querySelectorAll('[data-aivic-nav]').forEach(function(btn) {
+      var isActive = btn.getAttribute("data-aivic-nav") === pageScreenId;
+      btn.classList.toggle("aivic-active", isActive);
+      btn.setAttribute("aria-current", isActive ? "page" : "false");
+    });
+
+    var container = document.querySelector('[data-aivic-panel="' + pageScreenId + '"]');
+    if (!container) return;
+
+    // **content 要素の hidden 強制除去（2026-05-24 Playwright 大量 fail 対応）**:
+    // AI が生成した panel HTML には class="hidden" / hidden 属性 / style="display:none"
+    // が content 要素（#xxx-tbody / #xxx-list / [data-testid="error-message"] 等）に付いて
+    // いることがある。それを Playwright が toBeVisible() で待ち続けて timeout する事故が頻発。
+    //
+    // ポリシー: panel コンテナ配下の全要素について以下を実行:
+    //   - class="hidden" / display:none / hidden 属性を **content 要素では除去**
+    //   - **modal 系**（.modal, .modal-backdrop, [role="dialog"], [data-modal] 等）は除外
+    //     （これらは仕様上初期非表示が正しい）
+    var isModalLike = function(el) {
+      if (!el || !el.classList) return false;
+      var cn = String(el.className || "");
+      if (/modal|dialog|overlay|popup|dropdown|tooltip/i.test(cn)) return true;
+      var role = el.getAttribute && el.getAttribute("role");
+      if (role === "dialog" || role === "alertdialog" || role === "tooltip" || role === "menu") return true;
+      if (el.hasAttribute && (el.hasAttribute("data-modal") || el.hasAttribute("data-dropdown") || el.hasAttribute("data-popup"))) return true;
+      return false;
+    };
+    var unhideContentElements = function(root) {
+      var all = root.querySelectorAll('.hidden, [hidden], [style*="display:none"], [style*="display: none"]');
+      for (var k = 0; k < all.length; k++) {
+        var el = all[k];
+        // modal 系は触らない
+        if (isModalLike(el)) continue;
+        // parent chain で modal 内なら触らない
+        var p = el.parentElement;
+        var insideModal = false;
+        while (p && p !== root) {
+          if (isModalLike(p)) { insideModal = true; break; }
+          p = p.parentElement;
+        }
+        if (insideModal) continue;
+        // 除去
+        el.classList.remove('hidden');
+        el.removeAttribute('hidden');
+        if (el.style && el.style.display === 'none') el.style.display = '';
+      }
+    };
+    try { unhideContentElements(container); } catch (e) { console.warn('[aivic] unhideContent failed:', e); }
+
+    var initJsSource = window.AIVIC_PAGE_INIT_JS;
+    if (!initJsSource) {
+      // initJs が無くてもサンプルデータ投入は走らせる
+      seedAllIfEmpty();
+      return;
+    }
+    var initFn = null;
+    try {
+      initFn = (new Function("return (" + initJsSource + ")"))();
+    } catch (e) {
+      console.error("[aivic] initJs compile error:", pageScreenId, e);
+      return;
+    }
+    if (typeof initFn !== "function") return;
+
+    seedAllIfEmpty().then(function() {
+      return Promise.all(TABLE_DEFS.map(function(t, i) {
+        return window.aivicApi.list(i)
+          .then(function(records) { return Object.assign({}, t, { records: records }); })
+          .catch(function() { return Object.assign({}, t, { records: [] }); });
+      }));
+    }).then(function(tables) {
+      try { initFn(container, API_URL, tables); } catch (e) { console.error("[aivic] initFn error:", pageScreenId, e); }
+      // 初期 panel init が一巡したら _aivicReady を立てる。以降のユーザー操作 (onclick) で
+      // showScreen が呼ばれた場合は通常通り navigate する。
+      _aivicReady = true;
+    });
+  });
+})();
+
+</script>
+</body>
+</html>

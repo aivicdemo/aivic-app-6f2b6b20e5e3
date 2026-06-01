@@ -1,0 +1,945 @@
+{
+  "systemId": "itg-1",
+  "systemName": "Web発注プラットフォームの構築",
+  "cssTheme": ":root {\n  --primary: #1b7f37;\n  --primary-hover: #155d2a;\n  --bg-main: #f4f6f9;\n  --bg-card: #ffffff;\n  --bg-sidebar: #f0f3f5;\n  --border: #d8dde6;\n  --text: #181818;\n  --text-muted: #3e3e3c;\n  --top-bar-bg: #ffffff;\n  --top-bar-border: #e5e5e5;\n}",
+  "screens": [
+    {
+      "id": "scr-1780291062211",
+      "name": "商品検索・比較画面",
+      "purpose": "顧客が商品を検索し、複数の商品を比較検討して最適な商品を選択できるようにする",
+      "items": [
+        "商品検索ボックス",
+        "カテゴリ選択ドロップダウン",
+        "価格帯指定スライダー",
+        "在庫状況フィルター",
+        "商品一覧表示エリア",
+        "商品画像サムネイル",
+        "商品名表示",
+        "単価表示",
+        "在庫数表示",
+        "商品詳細リンク",
+        "比較対象選択チェックボックス",
+        "比較実行ボタン"
+      ]
+    },
+    {
+      "id": "scr-1780291074387",
+      "name": "発注入力・確認画面",
+      "purpose": "顧客が商品を選択して発注内容を入力し、発注前に内容を確認するための画面",
+      "items": [
+        "顧客情報表示エリア",
+        "商品カテゴリ選択ドロップダウン",
+        "商品検索テキストボックス",
+        "商品検索ボタン",
+        "商品一覧表示テーブル",
+        "商品選択チェックボックス",
+        "商品名表示ラベル",
+        "商品仕様表示エリア",
+        "在庫数表示ラベル",
+        "単価表示ラベル",
+        "発注数量入力フィールド",
+        "小計金額表示ラベル"
+      ]
+    },
+    {
+      "id": "scr-1780291083221",
+      "name": "発注履歴検索・表示画面",
+      "purpose": "過去の発注履歴を検索・絞り込み条件で抽出し、一覧表示して詳細確認や再発注を可能にする画面",
+      "items": [
+        "発注日期間指定（開始日・終了日）",
+        "発注番号入力フィールド",
+        "商品名検索フィールド",
+        "商品カテゴリ選択ドロップダウン",
+        "発注ステータス選択（未確定・確定・出荷済・完了・キャンセル）",
+        "検索実行ボタン",
+        "検索条件クリアボタン",
+        "発注履歴一覧テーブル（発注番号・発注日・商品名・数量・単価・金額・ステータス）",
+        "ページネーション",
+        "表示件数選択（10件・50件・100件）",
+        "発注詳細表示リンク",
+        "再発注ボタン"
+      ]
+    }
+  ],
+  "screenPanels": [
+    {
+      "screenId": "scr-1780291062211",
+      "panelHtml": "<div class=\"flex gap-3 h-full\">\n  <!-- 検索フィルタサイドバー -->\n  <div class=\"w-80 bg-card rounded-lg p-4 h-fit\">\n    <h3 class=\"text-lg font-semibold mb-4\" style=\"color: var(--text);\">商品検索</h3>\n    \n    <!-- 検索ボックス -->\n    <div class=\"mb-4\">\n      <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">商品名・コード</label>\n      <input \n        type=\"text\" \n        id=\"search-keyword\" \n        data-testid=\"search-keyword\"\n        placeholder=\"商品名またはコードを入力\"\n        class=\"w-full px-3 py-2 rounded-md text-sm\"\n        style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\"\n      />\n    </div>\n\n    <!-- カテゴリ選択 -->\n    <div class=\"mb-4\">\n      <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">カテゴリ</label>\n      <select \n        id=\"category-filter\" \n        data-testid=\"category-filter\"\n        class=\"w-full px-3 py-2 rounded-md text-sm\"\n        style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\"\n      >\n        <option value=\"\">すべてのカテゴリ</option>\n        <option value=\"電気部品\">電気部品</option>\n        <option value=\"配管資材\">配管資材</option>\n        <option value=\"工具類\">工具類</option>\n        <option value=\"安全用品\">安全用品</option>\n        <option value=\"消耗品\">消耗品</option>\n      </select>\n    </div>\n\n    <!-- 価格帯 -->\n    <div class=\"mb-4\">\n      <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">価格帯</label>\n      <div class=\"flex gap-2 items-center\">\n        <input \n          type=\"number\" \n          id=\"price-min\" \n          data-testid=\"price-min\"\n          placeholder=\"最小\"\n          class=\"flex-1 px-3 py-2 rounded-md text-sm\"\n          style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\"\n        />\n        <span style=\"color: var(--text-muted);\">〜</span>\n        <input \n          type=\"number\" \n          id=\"price-max\" \n          data-testid=\"price-max\"\n          placeholder=\"最大\"\n          class=\"flex-1 px-3 py-2 rounded-md text-sm\"\n          style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\"\n        />\n      </div>\n    </div>\n\n    <!-- 在庫状況 -->\n    <div class=\"mb-4\">\n      <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">在庫状況</label>\n      <select \n        id=\"stock-filter\" \n        data-testid=\"stock-filter\"\n        class=\"w-full px-3 py-2 rounded-md text-sm\"\n        style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\"\n      >\n        <option value=\"\">すべて</option>\n        <option value=\"在庫あり\">在庫あり</option>\n        <option value=\"在庫僅少\">在庫僅少</option>\n        <option value=\"在庫切れ\">在庫切れ</option>\n        <option value=\"入荷待ち\">入荷待ち</option>\n      </select>\n    </div>\n\n    <!-- 検索ボタン -->\n    <button \n      id=\"btn-search\" \n      data-testid=\"search-button\"\n      class=\"action-btn w-full mb-3\"\n      style=\"background: var(--primary); color: #fff; border: none; padding: 10px; border-radius: 6px; font-size: 14px;\"\n    >\n      検索\n    </button>\n\n    <!-- 比較実行ボタン -->\n    <button \n      id=\"btn-compare\" \n      data-testid=\"compare-button\"\n      class=\"action-btn secondary w-full\"\n      style=\"background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.18); padding: 10px; border-radius: 6px; font-size: 14px;\"\n      disabled\n    >\n      比較する (<span id=\"compare-count\">0</span>件)\n    </button>\n  </div>\n\n  <!-- メインコンテンツ -->\n  <div class=\"flex-1\">\n    <!-- ヘッダー -->\n    <div class=\"flex justify-between items-center mb-4\">\n      <h2 class=\"text-xl font-bold\" style=\"color: var(--text);\">商品検索・比較</h2>\n      <div class=\"flex gap-2\">\n        <button \n          id=\"btn-order\" \n          data-testid=\"order-button\"\n          class=\"action-btn\"\n          style=\"background: var(--primary); color: #fff; border: none; padding: 8px 16px; border-radius: 6px; font-size: 14px;\"\n          onclick=\"window.showScreen('scr-1780291074387')\"\n        >\n          発注入力へ\n        </button>\n        <button \n          id=\"btn-history\" \n          data-testid=\"history-button\"\n          class=\"action-btn secondary\"\n          style=\"background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.18); padding: 8px 16px; border-radius: 6px; font-size: 14px;\"\n          onclick=\"window.showScreen('scr-1780291083221')\"\n        >\n          発注履歴\n        </button>\n      </div>\n    </div>\n\n    <!-- 商品一覧 -->\n    <div class=\"bg-card rounded-lg p-4\">\n      <div class=\"flex justify-between items-center mb-3\">\n        <div class=\"text-sm\" style=\"color: var(--text-muted);\">\n          検索結果: <span id=\"result-count\">0</span>件\n        </div>\n        <div class=\"flex gap-2\">\n          <button \n            id=\"btn-grid-view\" \n            data-testid=\"grid-view-button\"\n            class=\"action-btn secondary px-3 py-1 text-sm active-view\"\n            style=\"background: var(--primary); color: #fff; border: none; border-radius: 4px;\"\n          >\n            グリッド\n          </button>\n          <button \n            id=\"btn-list-view\" \n            data-testid=\"list-view-button\"\n            class=\"action-btn secondary px-3 py-1 text-sm\"\n            style=\"background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.18); border-radius: 4px;\"\n          >\n            リスト\n          </button>\n        </div>\n      </div>\n\n      <!-- グリッドビュー -->\n      <div id=\"grid-view\" class=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4\">\n        <!-- 商品カードがここに動的生成される -->\n      </div>\n\n      <!-- リストビュー -->\n      <div id=\"list-view\" class=\"hidden\">\n        <div class=\"table-wrap\">\n          <table data-testid=\"product-list\">\n            <thead>\n              <tr>\n                <th style=\"width: 40px;\">\n                  <input type=\"checkbox\" id=\"select-all\" style=\"accent-color: var(--primary);\" />\n                </th>\n                <th>商品画像</th>\n                <th>商品名</th>\n                <th>商品コード</th>\n                <th>カテゴリ</th>\n                <th>単価</th>\n                <th>在庫数</th>\n                <th>在庫状況</th>\n                <th>操作</th>\n              </tr>\n            </thead>\n            <tbody id=\"product-tbody\">\n              <!-- 商品行がここに動的生成される -->\n            </tbody>\n          </table>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n\n<!-- 商品比較モーダル -->\n<div id=\"compare-modal\" class=\"fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50\" style=\"display: none;\">\n  <div class=\"bg-card rounded-lg p-6 max-w-6xl w-full mx-4 max-h-[90vh] overflow-y-auto\">\n    <div class=\"flex justify-between items-center mb-4\">\n      <h3 class=\"text-lg font-semibold\" style=\"color: var(--text);\">商品比較</h3>\n      <button id=\"close-compare\" class=\"text-2xl\" style=\"color: var(--text-muted);\">&times;</button>\n    </div>\n    \n    <div id=\"compare-content\" class=\"overflow-x-auto\">\n      <!-- 比較テーブルがここに生成される -->\n    </div>\n    \n    <div class=\"flex justify-end gap-2 mt-4\">\n      <button \n        id=\"btn-select-for-order\" \n        class=\"action-btn\"\n        style=\"background: var(--primary); color: #fff; border: none; padding: 8px 16px; border-radius: 6px;\"\n      >\n        選択した商品で発注\n      </button>\n      <button \n        id=\"btn-close-compare\" \n        class=\"action-btn secondary\"\n        style=\"background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.18); padding: 8px 16px; border-radius: 6px;\"\n      >\n        閉じる\n      </button>\n    </div>\n  </div>\n</div>",
+      "initJs": "function(container, apiUrl, tables) {\n  let currentProducts = [];\n  let selectedProducts = new Set();\n  let currentView = 'grid';\n\n  // 商品データを取得（商品マスタ + 在庫マスタを結合）\n  function getProductsWithStock() {\n    const products = tables.find(t => t.tableName === '商品マスタ')?.records || [];\n    const stocks = tables.find(t => t.tableName === '在庫マスタ')?.records || [];\n    const categories = tables.find(t => t.tableName === '商品カテゴリマスタ')?.records || [];\n    \n    return products.map(product => {\n      const stock = stocks.find(s => s.商品ID === product.商品ID) || {};\n      const category = categories.find(c => c.カテゴリID === product.カテゴリID) || {};\n      \n      return {\n        ...product,\n        在庫数: stock.現在在庫数 || 0,\n        在庫状態: stock.在庫状態 || '在庫切れ',\n        カテゴリ名: category.カテゴリ名 || '未分類'\n      };\n    });\n  }\n\n  // グリッドビューの商品カード生成\n  function renderGridView(products) {\n    const gridView = container.querySelector('#grid-view');\n    gridView.innerHTML = products.map(product => `\n      <div class=\"bg-main rounded-lg p-4 border\" style=\"border-color: var(--border);\">\n        <div class=\"flex justify-between items-start mb-2\">\n          <input \n            type=\"checkbox\" \n            class=\"compare-checkbox\" \n            data-product-id=\"${product.商品ID}\"\n            style=\"accent-color: var(--primary);\"\n            ${selectedProducts.has(product.商品ID) ? 'checked' : ''}\n          />\n          <span class=\"text-xs px-2 py-1 rounded ${getStockBadgeClass(product.在庫状態)}\">${product.在庫状態}</span>\n        </div>\n        \n        <div class=\"w-full h-32 bg-gray-200 rounded mb-3 flex items-center justify-center\" style=\"background: rgba(0,0,0,0.1);\">\n          <span class=\"text-xs\" style=\"color: var(--text-muted);\">画像</span>\n        </div>\n        \n        <h4 class=\"font-medium text-sm mb-1 line-clamp-2\" style=\"color: var(--text);\">${product.商品名 || ''}</h4>\n        <p class=\"text-xs mb-2\" style=\"color: var(--text-muted);\">${product.商品コード || ''}</p>\n        <p class=\"text-xs mb-2\" style=\"color: var(--text-muted);\">${product.カテゴリ名}</p>\n        \n        <div class=\"flex justify-between items-center mb-3\">\n          <span class=\"font-bold\" style=\"color: var(--primary);\">¥${(product.単価 || 0).toLocaleString()}</span>\n          <span class=\"text-xs\" style=\"color: var(--text-muted);\">在庫: ${product.在庫数}${product.単位 || ''}</span>\n        </div>\n        \n        <button \n          class=\"w-full action-btn text-sm py-2 view-detail-btn\" \n          data-product-id=\"${product.商品ID}\"\n          style=\"background: var(--primary); color: #fff; border: none; border-radius: 4px;\"\n        >\n          詳細を見る\n        </button>\n      </div>\n    `).join('');\n  }\n\n  // リストビューのテーブル行生成\n  function renderListView(products) {\n    const tbody = container.querySelector('#product-tbody');\n    tbody.innerHTML = products.map(product => `\n      <tr data-product-id=\"${product.商品ID}\">\n        <td>\n          <input \n            type=\"checkbox\" \n            class=\"compare-checkbox\" \n            data-product-id=\"${product.商品ID}\"\n            style=\"accent-color: var(--primary);\"\n            ${selectedProducts.has(product.商品ID) ? 'checked' : ''}\n          />\n        </td>\n        <td>\n          <div class=\"w-12 h-12 bg-gray-200 rounded flex items-center justify-center\" style=\"background: rgba(0,0,0,0.1);\">\n            <span class=\"text-xs\" style=\"color: var(--text-muted);\">画像</span>\n          </div>\n        </td>\n        <td style=\"color: var(--text);\">${product.商品名 || ''}</td>\n        <td style=\"color: var(--text-muted);\">${product.商品コード || ''}</td>\n        <td style=\"color: var(--text-muted);\">${product.カテゴリ名}</td>\n        <td style=\"color: var(--primary); font-weight: bold;\">¥${(product.単価 || 0).toLocaleString()}</td>\n        <td style=\"color: var(--text);\">${product.在庫数}${product.単位 || ''}</td>\n        <td>\n          <span class=\"text-xs px-2 py-1 rounded ${getStockBadgeClass(product.在庫状態)}\">${product.在庫状態}</span>\n        </td>\n        <td>\n          <button \n            class=\"action-btn secondary text-sm px-3 py-1 view-detail-btn\" \n            data-product-id=\"${product.商品ID}\"\n            style=\"background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.18); border-radius: 4px;\"\n          >\n            詳細\n          </button>\n        </td>\n      </tr>\n    `).join('');\n  }\n\n  // 在庫状況のバッジクラス\n  function getStockBadgeClass(status) {\n    switch(status) {\n      case '在庫あり': return 'bg-green-100 text-green-800';\n      case '在庫僅少': return 'bg-yellow-100 text-yellow-800';\n      case '在庫切れ': return 'bg-red-100 text-red-800';\n      case '入荷待ち': return 'bg-blue-100 text-blue-800';\n      default: return 'bg-gray-100 text-gray-800';\n    }\n  }\n\n  // 商品一覧の再描画\n  function renderProducts(products) {\n    currentProducts = products;\n    container.querySelector('#result-count').textContent = products.length;\n    \n    if (currentView === 'grid') {\n      renderGridView(products);\n    } else {\n      renderListView(products);\n    }\n    \n    updateCompareButton();\n  }\n\n  // 比較ボタンの状態更新\n  function updateCompareButton() {\n    const compareBtn = container.querySelector('#btn-compare');\n    const count = selectedProducts.size;\n    container.querySelector('#compare-count').textContent = count;\n    compareBtn.disabled = count < 2;\n    \n    if (count >= 2) {\n      compareBtn.style.background = 'var(--primary)';\n      compareBtn.style.color = '#fff';\n    } else {\n      compareBtn.style.background = 'transparent';\n      compareBtn.style.color = 'var(--text)';\n    }\n  }\n\n  // 商品検索フィルタリング\n  function filterProducts() {\n    const keyword = container.querySelector('#search-keyword').value.toLowerCase();\n    const category = container.querySelector('#category-filter').value;\n    const priceMin = parseInt(container.querySelector('#price-min').value) || 0;\n    const priceMax = parseInt(container.querySelector('#price-max').value) || Infinity;\n    const stockFilter = container.querySelector('#stock-filter').value;\n    \n    const allProducts = getProductsWithStock();\n    \n    const filtered = allProducts.filter(product => {\n      const matchKeyword = !keyword || \n        (product.商品名 || '').toLowerCase().includes(keyword) ||\n        (product.商品コード || '').toLowerCase().includes(keyword);\n      \n      const matchCategory = !category || product.カテゴリ名 === category;\n      const matchPrice = (product.単価 || 0) >= priceMin && (product.単価 || 0) <= priceMax;\n      const matchStock = !stockFilter || product.在庫状態 === stockFilter;\n      \n      return matchKeyword && matchCategory && matchPrice && matchStock;\n    });\n    \n    renderProducts(filtered);\n  }\n\n  // 比較モーダル表示\n  function showCompareModal() {\n    const selectedProductData = currentProducts.filter(p => selectedProducts.has(p.商品ID));\n    const modal = container.querySelector('#compare-modal');\n    const content = container.querySelector('#compare-content');\n    \n    if (selectedProductData.length < 2) return;\n    \n    // 比較テーブル生成\n    content.innerHTML = `\n      <table class=\"w-full\">\n        <thead>\n          <tr>\n            <th class=\"text-left p-2\" style=\"color: var(--text);\">項目</th>\n            ${selectedProductData.map(p => `\n              <th class=\"text-left p-2\" style=\"color: var(--text);\">${p.商品名}</th>\n            `).join('')}\n          </tr>\n        </thead>\n        <tbody>\n          <tr>\n            <td class=\"p-2 font-medium\" style=\"color: var(--text);\">商品コード</td>\n            ${selectedProductData.map(p => `<td class=\"p-2\" style=\"color: var(--text-muted);\">${p.商品コード || ''}</td>`).join('')}\n          </tr>\n          <tr style=\"background: var(--bg-main);\">\n            <td class=\"p-2 font-medium\" style=\"color: var(--text);\">単価</td>\n            ${selectedProductData.map(p => `<td class=\"p-2 font-bold\" style=\"color: var(--primary);\">¥${(p.単価 || 0).toLocaleString()}</td>`).join('')}\n          </tr>\n          <tr>\n            <td class=\"p-2 font-medium\" style=\"color: var(--text);\">在庫数</td>\n            ${selectedProductData.map(p => `<td class=\"p-2\" style=\"color: var(--text);\">${p.在庫数}${p.単位 || ''}</td>`).join('')}\n          </tr>\n          <tr style=\"background: var(--bg-main);\">\n            <td class=\"p-2 font-medium\" style=\"color: var(--text);\">在庫状況</td>\n            ${selectedProductData.map(p => `\n              <td class=\"p-2\">\n                <span class=\"text-xs px-2 py-1 rounded ${getStockBadgeClass(p.在庫状態)}\">${p.在庫状態}</span>\n              </td>\n            `).join('')}\n          </tr>\n          <tr>\n            <td class=\"p-2 font-medium\" style=\"color: var(--text);\">カテゴリ</td>\n            ${selectedProductData.map(p => `<td class=\"p-2\" style=\"color: var(--text-muted);\">${p.カテゴリ名}</td>`).join('')}\n          </tr>\n          <tr style=\"background: var(--bg-main);\">\n            <td class=\"p-2 font-medium\" style=\"color: var(--text);\">最小発注数</td>\n            ${selectedProductData.map(p => `<td class=\"p-2\" style=\"color: var(--text);\">${p.最小発注数 || 1}${p.単位 || ''}</td>`).join('')}\n          </tr>\n        </tbody>\n      </table>\n    `;\n    \n    modal.style.display = 'flex';\n  }\n\n  // 初期データ読み込み\n  const allProducts = getProductsWithStock();\n  renderProducts(allProducts);\n\n  // 検索ボタン\n  container.querySelector('#btn-search').addEventListener('click', filterProducts);\n\n  // 検索フィールドでEnterキー\n  container.querySelector('#search-keyword').addEventListener('keypress', (e) => {\n    if (e.key === 'Enter') filterProducts();\n  });\n\n  // ビュー切り替え\n  container.querySelector('#btn-grid-view').addEventListener('click', () => {\n    currentView = 'grid';\n    container.querySelector('#grid-view').classList.remove('hidden');\n    container.querySelector('#list-view').classList.add('hidden');\n    container.querySelector('#btn-grid-view').style.background = 'var(--primary)';\n    container.querySelector('#btn-grid-view').style.color = '#fff';\n    container.querySelector('#btn-list-view').style.background = 'transparent';\n    container.querySelector('#btn-list-view').style.color = 'var(--text)';\n    renderProducts(currentProducts);\n  });\n\n  container.querySelector('#btn-list-view').addEventListener('click', () => {\n    currentView = 'list';\n    container.querySelector('#grid-view').classList.add('hidden');\n    container.querySelector('#list-view').classList.remove('hidden');\n    container.querySelector('#btn-list-view').style.background = 'var(--primary)';\n    container.querySelector('#btn-list-view').style.color = '#fff';\n    container.querySelector('#btn-grid-view').style.background = 'transparent';\n    container.querySelector('#btn-grid-view').style.color = 'var(--text)';\n    renderProducts(currentProducts);\n  });\n\n  // 比較チェックボックス\n  container.addEventListener('change', (e) => {\n    if (e.target.classList.contains('compare-checkbox')) {\n      const productId = e.target.dataset.productId;\n      if (e.target.checked) {\n        selectedProducts.add(productId);\n      } else {\n        selectedProducts.delete(productId);\n      }\n      updateCompareButton();\n    }\n  });\n\n  // 全選択チェックボックス\n  container.querySelector('#select-all').addEventListener('change', (e) => {\n    const checkboxes = container.querySelectorAll('.compare-checkbox');\n    checkboxes.forEach(cb => {\n      cb.checked = e.target.checked;\n      const productId = cb.dataset.productId;\n      if (e.target.checked) {\n        selectedProducts.add(productId);\n      } else {\n        selectedProducts.delete(productId);\n      }\n    });\n    updateCompareButton();\n  });\n\n  // 比較実行\n  container.querySelector('#btn-compare').addEventListener('click', showCompareModal);\n\n  // 比較モーダル閉じる\n  container.querySelector('#close-compare').addEventListener('click', () => {\n    container.querySelector('#compare-modal').style.display = 'none';\n  });\n\n  container.querySelector('#btn-close-compare').addEventListener('click', () => {\n    container.querySelector('#compare-modal').style.display = 'none';\n  });\n\n  // 選択した商品で発注\n  container.querySelector('#btn-select-for-order').addEventListener('click', () => {\n    // 選択された商品IDをセッションストレージに保存して発注画面へ\n    sessionStorage.setItem('selectedProducts', JSON.stringify(Array.from(selectedProducts)));\n    window.showScreen('scr-1780291074387');\n  });\n\n  // 商品詳細ボタン（プレースホルダー）\n  container.addEventListener('click', (e) => {\n    if (e.target.classList.contains('view-detail-btn')) {\n      const productId = e.target.dataset.productId;\n      const product = currentProducts.find(p => p.商品ID === productId);\n      if (product) {\n        alert(`商品詳細\\n\\n商品名: ${product.商品名}\\n商品コード: ${product.商品コード}\\n単価: ¥${(product.単価 || 0).toLocaleString()}\\n在庫: ${product.在庫数}${product.単位 || ''}\\n状況: ${product.在庫状態}`);\n      }\n    }\n  });\n}",
+      "method": "ai"
+    },
+    {
+      "screenId": "scr-1780291074387",
+      "panelHtml": "<div class=\"order-input-screen\">\n  <!-- 顧客情報表示エリア -->\n  <div class=\"card\" style=\"margin-bottom: 16px;\">\n    <div style=\"padding: 12px 16px; border-bottom: 1px solid var(--border);\">\n      <h2 style=\"margin: 0; font-size: 18px; color: var(--text);\">顧客情報</h2>\n    </div>\n    <div style=\"padding: 16px;\">\n      <div id=\"customer-info\" style=\"display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; font-size: 14px;\">\n        <div>\n          <span style=\"color: var(--text-muted);\">顧客名:</span>\n          <span id=\"customer-name\" style=\"color: var(--text); font-weight: 500; margin-left: 8px;\">株式会社サンプル</span>\n        </div>\n        <div>\n          <span style=\"color: var(--text-muted);\">顧客コード:</span>\n          <span id=\"customer-code\" style=\"color: var(--text); font-weight: 500; margin-left: 8px;\">CUST001</span>\n        </div>\n        <div>\n          <span style=\"color: var(--text-muted);\">担当者:</span>\n          <span id=\"customer-contact\" style=\"color: var(--text); font-weight: 500; margin-left: 8px;\">田中太郎</span>\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <!-- 商品検索エリア -->\n  <div class=\"card\" style=\"margin-bottom: 16px;\">\n    <div style=\"padding: 12px 16px; border-bottom: 1px solid var(--border);\">\n      <h2 style=\"margin: 0; font-size: 18px; color: var(--text);\">商品検索</h2>\n    </div>\n    <div style=\"padding: 16px;\">\n      <div style=\"display: grid; grid-template-columns: 200px 1fr auto; gap: 12px; align-items: end;\">\n        <div>\n          <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">カテゴリ</label>\n          <select id=\"category-select\" data-testid=\"category-select\" style=\"width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 14px;\">\n            <option value=\"\">すべて</option>\n            <option value=\"electronics\">電子部品</option>\n            <option value=\"materials\">資材</option>\n            <option value=\"tools\">工具</option>\n            <option value=\"safety\">安全用品</option>\n          </select>\n        </div>\n        <div>\n          <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">商品名・コード</label>\n          <input type=\"text\" id=\"product-search\" data-testid=\"product-search\" placeholder=\"商品名または商品コードで検索\" style=\"width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 14px;\">\n        </div>\n        <button id=\"btn-search\" data-testid=\"search-button\" class=\"action-btn\" style=\"padding: 8px 16px;\">検索</button>\n      </div>\n    </div>\n  </div>\n\n  <!-- 商品一覧・発注入力エリア -->\n  <div class=\"card\" style=\"margin-bottom: 16px;\">\n    <div style=\"padding: 12px 16px; border-bottom: 1px solid var(--border);\">\n      <h2 style=\"margin: 0; font-size: 18px; color: var(--text);\">商品一覧・発注入力</h2>\n    </div>\n    <div class=\"table-wrap\">\n      <table data-testid=\"product-list\">\n        <thead>\n          <tr>\n            <th style=\"width: 50px;\">選択</th>\n            <th style=\"width: 120px;\">商品コード</th>\n            <th>商品名</th>\n            <th style=\"width: 200px;\">仕様</th>\n            <th style=\"width: 80px;\">在庫数</th>\n            <th style=\"width: 100px;\">単価</th>\n            <th style=\"width: 100px;\">発注数量</th>\n            <th style=\"width: 100px;\">小計</th>\n          </tr>\n        </thead>\n        <tbody id=\"product-tbody\">\n        </tbody>\n      </table>\n    </div>\n  </div>\n\n  <!-- 発注確認・合計エリア -->\n  <div class=\"card\">\n    <div style=\"padding: 12px 16px; border-bottom: 1px solid var(--border);\">\n      <h2 style=\"margin: 0; font-size: 18px; color: var(--text);\">発注確認</h2>\n    </div>\n    <div style=\"padding: 16px;\">\n      <div style=\"display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: start;\">\n        <div>\n          <div style=\"margin-bottom: 12px;\">\n            <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">希望納期</label>\n            <input type=\"date\" id=\"delivery-date\" data-testid=\"delivery-date\" style=\"padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 14px;\">\n          </div>\n          <div>\n            <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">備考</label>\n            <textarea id=\"order-notes\" data-testid=\"order-notes\" placeholder=\"発注に関する特記事項があれば入力してください\" style=\"width: 100%; height: 80px; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 14px; resize: vertical;\"></textarea>\n          </div>\n        </div>\n        <div style=\"min-width: 200px;\">\n          <div style=\"background: var(--bg-main); padding: 16px; border-radius: 6px; border: 1px solid var(--border);\">\n            <div style=\"margin-bottom: 8px; display: flex; justify-content: space-between;\">\n              <span style=\"color: var(--text-muted); font-size: 14px;\">選択商品数:</span>\n              <span id=\"selected-count\" style=\"color: var(--text); font-weight: 500;\">0点</span>\n            </div>\n            <div style=\"margin-bottom: 12px; display: flex; justify-content: space-between;\">\n              <span style=\"color: var(--text-muted); font-size: 14px;\">合計数量:</span>\n              <span id=\"total-quantity\" style=\"color: var(--text); font-weight: 500;\">0</span>\n            </div>\n            <div style=\"padding-top: 12px; border-top: 1px solid var(--border); display: flex; justify-content: space-between;\">\n              <span style=\"color: var(--text); font-size: 16px; font-weight: 600;\">合計金額:</span>\n              <span id=\"total-amount\" style=\"color: var(--primary); font-size: 18px; font-weight: 700;\">¥0</span>\n            </div>\n          </div>\n          <div style=\"margin-top: 16px; display: flex; gap: 8px;\">\n            <button id=\"btn-clear\" data-testid=\"clear-button\" class=\"action-btn secondary\" style=\"flex: 1;\">クリア</button>\n            <button id=\"btn-order\" data-testid=\"order-button\" class=\"action-btn\" style=\"flex: 2;\">発注確定</button>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>",
+      "initJs": "function(container, apiUrl, tables) {\n  const productTbody = container.querySelector('#product-tbody');\n  const categorySelect = container.querySelector('#category-select');\n  const productSearch = container.querySelector('#product-search');\n  const btnSearch = container.querySelector('#btn-search');\n  const btnClear = container.querySelector('#btn-clear');\n  const btnOrder = container.querySelector('#btn-order');\n  const selectedCountEl = container.querySelector('#selected-count');\n  const totalQuantityEl = container.querySelector('#total-quantity');\n  const totalAmountEl = container.querySelector('#total-amount');\n\n  let allProducts = [];\n  let selectedItems = new Map(); // productId -> {product, quantity}\n\n  // 商品テーブル再描画\n  function renderProducts(products) {\n    productTbody.innerHTML = products.map(product => {\n      const specs = getProductSpecs(product.id);\n      const stock = getProductStock(product.id);\n      const price = getCustomerPrice(product.id);\n      const selectedItem = selectedItems.get(product.id);\n      const quantity = selectedItem ? selectedItem.quantity : 0;\n      const subtotal = quantity * price;\n      \n      return `\n        <tr data-id=\"${product.id}\">\n          <td style=\"text-align: center;\">\n            <input type=\"checkbox\" class=\"product-checkbox\" data-product-id=\"${product.id}\" ${quantity > 0 ? 'checked' : ''} style=\"accent-color: var(--primary);\">\n          </td>\n          <td style=\"font-family: monospace; font-size: 13px;\">${product.商品コード || ''}</td>\n          <td style=\"font-weight: 500;\">${product.商品名 || ''}</td>\n          <td style=\"font-size: 12px; color: var(--text-muted);\">${specs}</td>\n          <td style=\"text-align: right; font-weight: 500; color: ${stock > 10 ? 'var(--text)' : '#ff6a00'};\">${stock}</td>\n          <td style=\"text-align: right; font-weight: 500;\">¥${price.toLocaleString()}</td>\n          <td style=\"text-align: center;\">\n            <input type=\"number\" class=\"quantity-input\" data-product-id=\"${product.id}\" \n                   value=\"${quantity}\" min=\"0\" max=\"${stock}\" \n                   style=\"width: 80px; padding: 4px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); text-align: right;\">\n          </td>\n          <td style=\"text-align: right; font-weight: 600; color: var(--primary);\">¥${subtotal.toLocaleString()}</td>\n        </tr>\n      `;\n    }).join('');\n  }\n\n  // 商品仕様取得\n  function getProductSpecs(productId) {\n    const specsTable = tables.find(t => t.tableName === '商品仕様マスタ');\n    if (!specsTable) return '';\n    \n    const specs = specsTable.records.filter(s => s.商品ID === productId && s.Web表示フラグ);\n    return specs.map(s => `${s.仕様名}: ${s.仕様値}`).join(', ');\n  }\n\n  // 在庫数取得\n  function getProductStock(productId) {\n    const stockTable = tables.find(t => t.tableName === '在庫マスタ');\n    if (!stockTable) return 0;\n    \n    const stock = stockTable.records.find(s => s.商品ID === productId);\n    return stock ? stock.発注可能数量 : 0;\n  }\n\n  // 顧客別単価取得\n  function getCustomerPrice(productId) {\n    const customerPriceTable = tables.find(t => t.tableName === '顧客別単価マスタ');\n    const productTable = tables.find(t => t.tableName === '商品マスタ');\n    \n    if (customerPriceTable) {\n      const customerPrice = customerPriceTable.records.find(cp => \n        cp.商品ID === productId && cp.有効フラグ && \n        (!cp.適用終了日 || new Date(cp.適用終了日) > new Date())\n      );\n      if (customerPrice) return customerPrice.単価;\n    }\n    \n    const product = productTable.records.find(p => p.id === productId);\n    return product ? product.単価 : 0;\n  }\n\n  // 合計計算・表示更新\n  function updateTotals() {\n    const selectedCount = selectedItems.size;\n    const totalQuantity = Array.from(selectedItems.values()).reduce((sum, item) => sum + item.quantity, 0);\n    const totalAmount = Array.from(selectedItems.values()).reduce((sum, item) => {\n      const price = getCustomerPrice(item.product.id);\n      return sum + (item.quantity * price);\n    }, 0);\n\n    selectedCountEl.textContent = `${selectedCount}点`;\n    totalQuantityEl.textContent = totalQuantity.toString();\n    totalAmountEl.textContent = `¥${totalAmount.toLocaleString()}`;\n  }\n\n  // 商品検索\n  function searchProducts() {\n    const category = categorySelect.value;\n    const keyword = productSearch.value.toLowerCase();\n    \n    let filtered = allProducts;\n    \n    if (category) {\n      const categoryTable = tables.find(t => t.tableName === '商品カテゴリマスタ');\n      if (categoryTable) {\n        const categoryRecord = categoryTable.records.find(c => c.カテゴリコード === category);\n        if (categoryRecord) {\n          filtered = filtered.filter(p => p.カテゴリID === categoryRecord.id);\n        }\n      }\n    }\n    \n    if (keyword) {\n      filtered = filtered.filter(p => \n        (p.商品名 || '').toLowerCase().includes(keyword) ||\n        (p.商品コード || '').toLowerCase().includes(keyword)\n      );\n    }\n    \n    renderProducts(filtered);\n  }\n\n  // 初期データ読み込み\n  async function loadInitialData() {\n    try {\n      const products = await window.aivicApi.list(1); // 商品マスタ\n      if (products) {\n        allProducts = products.filter(p => p.公開フラグ && p.販売状態 === '販売中');\n        renderProducts(allProducts);\n      }\n    } catch (error) {\n      console.error('商品データの読み込みに失敗しました:', error);\n      allProducts = tables[1]?.records?.filter(p => p.公開フラグ && p.販売状態 === '販売中') || [];\n      renderProducts(allProducts);\n    }\n  }\n\n  // イベントリスナー\n  btnSearch.addEventListener('click', searchProducts);\n\n  // 商品選択・数量変更\n  container.addEventListener('change', (e) => {\n    if (e.target.classList.contains('product-checkbox')) {\n      const productId = e.target.dataset.productId;\n      const product = allProducts.find(p => p.id === productId);\n      \n      if (e.target.checked) {\n        selectedItems.set(productId, { product, quantity: 1 });\n        const quantityInput = container.querySelector(`input.quantity-input[data-product-id=\"${productId}\"]`);\n        if (quantityInput) quantityInput.value = '1';\n      } else {\n        selectedItems.delete(productId);\n        const quantityInput = container.querySelector(`input.quantity-input[data-product-id=\"${productId}\"]`);\n        if (quantityInput) quantityInput.value = '0';\n      }\n      updateTotals();\n    }\n    \n    if (e.target.classList.contains('quantity-input')) {\n      const productId = e.target.dataset.productId;\n      const quantity = parseInt(e.target.value) || 0;\n      const product = allProducts.find(p => p.id === productId);\n      const checkbox = container.querySelector(`input.product-checkbox[data-product-id=\"${productId}\"]`);\n      \n      if (quantity > 0) {\n        selectedItems.set(productId, { product, quantity });\n        if (checkbox) checkbox.checked = true;\n      } else {\n        selectedItems.delete(productId);\n        if (checkbox) checkbox.checked = false;\n      }\n      updateTotals();\n    }\n  });\n\n  // クリアボタン\n  btnClear.addEventListener('click', () => {\n    if (!confirm('選択内容をクリアしますか？')) return;\n    \n    selectedItems.clear();\n    container.querySelectorAll('.product-checkbox').forEach(cb => cb.checked = false);\n    container.querySelectorAll('.quantity-input').forEach(input => input.value = '0');\n    container.querySelector('#delivery-date').value = '';\n    container.querySelector('#order-notes').value = '';\n    updateTotals();\n  });\n\n  // 発注確定ボタン\n  btnOrder.addEventListener('click', async () => {\n    if (selectedItems.size === 0) {\n      alert('商品を選択してください。');\n      return;\n    }\n    \n    const deliveryDate = container.querySelector('#delivery-date').value;\n    const notes = container.querySelector('#order-notes').value;\n    \n    if (!confirm(`${selectedItems.size}点の商品を発注しますか？`)) return;\n    \n    try {\n      // 発注履歴作成\n      const orderData = {\n        発注番号: `ORD-${Date.now()}`,\n        顧客ID: 'customer-001', // 実際はログインユーザーから取得\n        発注ステータス: '受注',\n        発注日時: new Date().toISOString(),\n        希望納期: deliveryDate || null,\n        備考: notes,\n        作成日時: new Date().toISOString(),\n        更新日時: new Date().toISOString(),\n        作成者: 'system',\n        更新者: 'system'\n      };\n      \n      const savedOrder = await window.aivicApi.save(5, orderData); // 発注履歴\n      \n      if (savedOrder) {\n        // 発注明細作成\n        let detailNumber = 1;\n        for (const [productId, item] of selectedItems) {\n          const price = getCustomerPrice(productId);\n          const detailData = {\n            発注履歴ID: savedOrder.id,\n            商品ID: productId,\n            発注数量: item.quantity,\n            単価: price,\n            小計金額: item.quantity * price,\n            明細番号: detailNumber++,\n            作成日時: new Date().toISOString(),\n            更新日時: new Date().toISOString()\n          };\n          \n          await window.aivicApi.save(6, detailData); // 発注明細\n        }\n        \n        alert('発注が完了しました。');\n        \n        // 発注履歴画面へ遷移\n        window.showScreen('scr-1780291083221');\n      }\n    } catch (error) {\n      console.error('発注処理でエラーが発生しました:', error);\n      alert('発注処理でエラーが発生しました。');\n    }\n  });\n\n  // カテゴリ選択肢を動的に設定\n  async function loadCategories() {\n    try {\n      const categories = await window.aivicApi.list(2); // 商品カテゴリマスタ\n      if (categories) {\n        const categoryOptions = categories\n          .filter(c => c.有効フラグ)\n          .sort((a, b) => a.表示順序 - b.表示順序)\n          .map(c => `<option value=\"${c.カテゴリコード}\">${c.カテゴリ名}</option>`)\n          .join('');\n        \n        categorySelect.innerHTML = '<option value=\"\">すべて</option>' + categoryOptions;\n      }\n    } catch (error) {\n      console.error('カテゴリデータの読み込みに失敗しました:', error);\n    }\n  }\n\n  // 初期化\n  loadInitialData();\n  loadCategories();\n  updateTotals();\n}",
+      "method": "ai"
+    },
+    {
+      "screenId": "scr-1780291083221",
+      "panelHtml": "<div class=\"p-4\">\n  <!-- 検索条件エリア -->\n  <div class=\"card p-3 mb-3\">\n    <h2 class=\"text-lg font-medium mb-3\" style=\"color: var(--text);\">発注履歴検索</h2>\n    <div class=\"grid grid-cols-3 gap-3 mb-3\">\n      <div>\n        <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">発注日（開始）</label>\n        <input type=\"date\" id=\"start-date\" data-testid=\"start-date\" class=\"input w-full px-2 py-1 text-sm\" \n               style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); border-radius: 4px; color: var(--text);\">\n      </div>\n      <div>\n        <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">発注日（終了）</label>\n        <input type=\"date\" id=\"end-date\" data-testid=\"end-date\" class=\"input w-full px-2 py-1 text-sm\"\n               style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); border-radius: 4px; color: var(--text);\">\n      </div>\n      <div>\n        <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">発注番号</label>\n        <input type=\"text\" id=\"order-number\" data-testid=\"order-number\" placeholder=\"発注番号を入力\" class=\"input w-full px-2 py-1 text-sm\"\n               style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); border-radius: 4px; color: var(--text);\">\n      </div>\n      <div>\n        <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">商品名</label>\n        <input type=\"text\" id=\"product-name\" data-testid=\"product-name\" placeholder=\"商品名を入力\" class=\"input w-full px-2 py-1 text-sm\"\n               style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); border-radius: 4px; color: var(--text);\">\n      </div>\n      <div>\n        <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">商品カテゴリ</label>\n        <select id=\"category-filter\" data-testid=\"category-filter\" class=\"input w-full px-2 py-1 text-sm\"\n                style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); border-radius: 4px; color: var(--text);\">\n          <option value=\"\">すべてのカテゴリ</option>\n          <option value=\"電子部品\">電子部品</option>\n          <option value=\"機械部品\">機械部品</option>\n          <option value=\"工具\">工具</option>\n          <option value=\"材料\">材料</option>\n        </select>\n      </div>\n      <div>\n        <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">発注ステータス</label>\n        <select id=\"status-filter\" data-testid=\"status-filter\" class=\"input w-full px-2 py-1 text-sm\"\n                style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); border-radius: 4px; color: var(--text);\">\n          <option value=\"\">すべてのステータス</option>\n          <option value=\"未確定\">未確定</option>\n          <option value=\"確定\">確定</option>\n          <option value=\"出荷済\">出荷済</option>\n          <option value=\"完了\">完了</option>\n          <option value=\"キャンセル\">キャンセル</option>\n        </select>\n      </div>\n    </div>\n    <div class=\"flex gap-2\">\n      <button id=\"btn-search\" data-testid=\"search-button\" class=\"action-btn px-3 py-1 text-sm\">検索</button>\n      <button id=\"btn-clear\" data-testid=\"clear-button\" class=\"action-btn secondary px-3 py-1 text-sm\">クリア</button>\n      <button id=\"btn-csv-export\" data-testid=\"csv-export-button\" class=\"action-btn secondary px-3 py-1 text-sm\">CSVエクスポート</button>\n    </div>\n  </div>\n\n  <!-- 表示設定 -->\n  <div class=\"flex justify-between items-center mb-2\">\n    <div class=\"flex items-center gap-2\">\n      <span class=\"text-sm\" style=\"color: var(--text-muted);\">表示件数:</span>\n      <select id=\"page-size\" data-testid=\"page-size\" class=\"input px-2 py-1 text-sm\"\n              style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); border-radius: 4px; color: var(--text);\">\n        <option value=\"10\">10件</option>\n        <option value=\"50\" selected>50件</option>\n        <option value=\"100\">100件</option>\n      </select>\n    </div>\n    <div id=\"record-count\" class=\"text-sm\" style=\"color: var(--text-muted);\">0件の発注履歴</div>\n  </div>\n\n  <!-- 発注履歴一覧テーブル -->\n  <div class=\"table-wrap\">\n    <table data-testid=\"order-history-list\" class=\"w-full\">\n      <thead>\n        <tr>\n          <th class=\"text-left py-2 px-3 text-sm font-medium\" style=\"color: var(--text);\">発注番号</th>\n          <th class=\"text-left py-2 px-3 text-sm font-medium\" style=\"color: var(--text);\">発注日</th>\n          <th class=\"text-left py-2 px-3 text-sm font-medium\" style=\"color: var(--text);\">商品名</th>\n          <th class=\"text-right py-2 px-3 text-sm font-medium\" style=\"color: var(--text);\">数量</th>\n          <th class=\"text-right py-2 px-3 text-sm font-medium\" style=\"color: var(--text);\">単価</th>\n          <th class=\"text-right py-2 px-3 text-sm font-medium\" style=\"color: var(--text);\">金額</th>\n          <th class=\"text-center py-2 px-3 text-sm font-medium\" style=\"color: var(--text);\">ステータス</th>\n          <th class=\"text-center py-2 px-3 text-sm font-medium\" style=\"color: var(--text);\">操作</th>\n        </tr>\n      </thead>\n      <tbody id=\"order-history-tbody\">\n      </tbody>\n    </table>\n  </div>\n\n  <!-- ページネーション -->\n  <div class=\"flex justify-between items-center mt-3\">\n    <div id=\"pagination-info\" class=\"text-sm\" style=\"color: var(--text-muted);\">1-50 / 0件</div>\n    <div class=\"flex gap-1\">\n      <button id=\"btn-prev\" data-testid=\"prev-button\" class=\"action-btn secondary px-3 py-1 text-sm\" disabled>前へ</button>\n      <button id=\"btn-next\" data-testid=\"next-button\" class=\"action-btn secondary px-3 py-1 text-sm\" disabled>次へ</button>\n    </div>\n  </div>\n</div>",
+      "initJs": "function(container, apiUrl, tables) {\n  let currentData = [];\n  let filteredData = [];\n  let currentPage = 1;\n  let pageSize = 50;\n\n  const tbody = container.querySelector(\"#order-history-tbody\");\n  const recordCount = container.querySelector(\"#record-count\");\n  const paginationInfo = container.querySelector(\"#pagination-info\");\n  const btnPrev = container.querySelector(\"#btn-prev\");\n  const btnNext = container.querySelector(\"#btn-next\");\n\n  // ステータスバッジのスタイル\n  function getStatusBadge(status) {\n    const styles = {\n      '未確定': 'background: #fbbf24; color: #1a2a40; padding: 2px 6px; border-radius: 3px; font-size: 11px;',\n      '確定': 'background: #3b82f6; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 11px;',\n      '出荷済': 'background: #10b981; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 11px;',\n      '完了': 'background: #6b7280; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 11px;',\n      'キャンセル': 'background: #ef4444; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 11px;'\n    };\n    return `<span style=\"${styles[status] || styles['未確定']}\">${status}</span>`;\n  }\n\n  // テーブル再描画関数\n  function renderRows(rows) {\n    const start = (currentPage - 1) * pageSize;\n    const end = start + pageSize;\n    const pageRows = rows.slice(start, end);\n\n    tbody.innerHTML = pageRows.map(r => `\n      <tr data-id=\"${r.id}\" class=\"border-b\" style=\"border-color: var(--border);\">\n        <td class=\"py-2 px-3 text-sm\" style=\"color: var(--text);\">${r.発注番号 || \"\"}</td>\n        <td class=\"py-2 px-3 text-sm\" style=\"color: var(--text);\">${r.発注日時 ? new Date(r.発注日時).toLocaleDateString('ja-JP') : \"\"}</td>\n        <td class=\"py-2 px-3 text-sm\" style=\"color: var(--text);\">${r.商品名 || \"\"}</td>\n        <td class=\"py-2 px-3 text-sm text-right\" style=\"color: var(--text);\">${r.発注数量 ? r.発注数量.toLocaleString() : \"\"}</td>\n        <td class=\"py-2 px-3 text-sm text-right\" style=\"color: var(--text);\">${r.単価 ? \"¥\" + r.単価.toLocaleString() : \"\"}</td>\n        <td class=\"py-2 px-3 text-sm text-right\" style=\"color: var(--text);\">${r.小計金額 ? \"¥\" + r.小計金額.toLocaleString() : \"\"}</td>\n        <td class=\"py-2 px-3 text-sm text-center\">${getStatusBadge(r.発注ステータス || \"未確定\")}</td>\n        <td class=\"py-2 px-3 text-sm text-center\">\n          <button class=\"action-btn secondary text-xs px-2 py-1 mr-1 detail-btn\" data-id=\"${r.id}\">詳細</button>\n          <button class=\"action-btn text-xs px-2 py-1 reorder-btn\" data-id=\"${r.id}\">再発注</button>\n        </td>\n      </tr>\n    `).join(\"\");\n\n    // 件数とページネーション情報を更新\n    recordCount.textContent = `${rows.length}件の発注履歴`;\n    const totalPages = Math.ceil(rows.length / pageSize);\n    const displayStart = rows.length > 0 ? start + 1 : 0;\n    const displayEnd = Math.min(end, rows.length);\n    paginationInfo.textContent = `${displayStart}-${displayEnd} / ${rows.length}件`;\n\n    // ページネーションボタンの状態更新\n    btnPrev.disabled = currentPage <= 1;\n    btnNext.disabled = currentPage >= totalPages;\n  }\n\n  // フィルタリング関数\n  function applyFilters() {\n    const startDate = container.querySelector(\"#start-date\").value;\n    const endDate = container.querySelector(\"#end-date\").value;\n    const orderNumber = container.querySelector(\"#order-number\").value.toLowerCase();\n    const productName = container.querySelector(\"#product-name\").value.toLowerCase();\n    const category = container.querySelector(\"#category-filter\").value;\n    const status = container.querySelector(\"#status-filter\").value;\n\n    filteredData = currentData.filter(row => {\n      // 発注日フィルタ\n      if (startDate && row.発注日時) {\n        const orderDate = new Date(row.発注日時).toISOString().split('T')[0];\n        if (orderDate < startDate) return false;\n      }\n      if (endDate && row.発注日時) {\n        const orderDate = new Date(row.発注日時).toISOString().split('T')[0];\n        if (orderDate > endDate) return false;\n      }\n\n      // 発注番号フィルタ\n      if (orderNumber && !(row.発注番号 || \"\").toLowerCase().includes(orderNumber)) return false;\n\n      // 商品名フィルタ\n      if (productName && !(row.商品名 || \"\").toLowerCase().includes(productName)) return false;\n\n      // カテゴリフィルタ（商品マスタから取得する想定）\n      if (category && row.カテゴリ !== category) return false;\n\n      // ステータスフィルタ\n      if (status && row.発注ステータス !== status) return false;\n\n      return true;\n    });\n\n    currentPage = 1;\n    renderRows(filteredData);\n  }\n\n  // CSVエクスポート関数\n  function exportCSV() {\n    const headers = ['発注番号', '発注日', '商品名', '数量', '単価', '金額', 'ステータス'];\n    const csvData = filteredData.map(row => [\n      row.発注番号 || \"\",\n      row.発注日時 ? new Date(row.発注日時).toLocaleDateString('ja-JP') : \"\",\n      row.商品名 || \"\",\n      row.発注数量 || \"\",\n      row.単価 || \"\",\n      row.小計金額 || \"\",\n      row.発注ステータス || \"\"\n    ]);\n\n    const csvContent = '\\uFEFF' + [headers, ...csvData]\n      .map(row => row.map(field => `\"${field}\"`).join(','))\n      .join('\\n');\n\n    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });\n    const link = document.createElement('a');\n    link.href = URL.createObjectURL(blob);\n    link.download = `発注履歴_${new Date().toISOString().split('T')[0]}.csv`;\n    link.click();\n  }\n\n  // 初期データ読み込み\n  async function loadData() {\n    try {\n      const rows = await window.aivicApi.list(5); // 発注履歴テーブル\n      if (rows) {\n        currentData = rows;\n        filteredData = rows;\n        renderRows(filteredData);\n      }\n    } catch (error) {\n      console.error('データ読み込みエラー:', error);\n    }\n  }\n\n  // 検索ボタンイベント\n  container.querySelector(\"#btn-search\").addEventListener(\"click\", applyFilters);\n\n  // クリアボタンイベント\n  container.querySelector(\"#btn-clear\").addEventListener(\"click\", () => {\n    container.querySelector(\"#start-date\").value = \"\";\n    container.querySelector(\"#end-date\").value = \"\";\n    container.querySelector(\"#order-number\").value = \"\";\n    container.querySelector(\"#product-name\").value = \"\";\n    container.querySelector(\"#category-filter\").value = \"\";\n    container.querySelector(\"#status-filter\").value = \"\";\n    filteredData = currentData;\n    currentPage = 1;\n    renderRows(filteredData);\n  });\n\n  // CSVエクスポートボタンイベント\n  container.querySelector(\"#btn-csv-export\").addEventListener(\"click\", exportCSV);\n\n  // 表示件数変更イベント\n  container.querySelector(\"#page-size\").addEventListener(\"change\", (e) => {\n    pageSize = parseInt(e.target.value);\n    currentPage = 1;\n    renderRows(filteredData);\n  });\n\n  // ページネーションイベント\n  btnPrev.addEventListener(\"click\", () => {\n    if (currentPage > 1) {\n      currentPage--;\n      renderRows(filteredData);\n    }\n  });\n\n  btnNext.addEventListener(\"click\", () => {\n    const totalPages = Math.ceil(filteredData.length / pageSize);\n    if (currentPage < totalPages) {\n      currentPage++;\n      renderRows(filteredData);\n    }\n  });\n\n  // 行レベル操作のイベントデリゲーション\n  container.addEventListener(\"click\", (e) => {\n    const detailBtn = e.target.closest(\".detail-btn\");\n    const reorderBtn = e.target.closest(\".reorder-btn\");\n\n    if (detailBtn) {\n      const orderId = detailBtn.dataset.id;\n      // 発注詳細画面への遷移（実装されている場合）\n      console.log(\"発注詳細表示:\", orderId);\n    }\n\n    if (reorderBtn) {\n      const orderId = reorderBtn.dataset.id;\n      const orderData = currentData.find(r => r.id === orderId);\n      if (orderData && confirm(`${orderData.商品名}を再発注しますか？`)) {\n        // 発注入力画面への遷移\n        window.showScreen(\"scr-1780291074387\");\n      }\n    }\n  });\n\n  // 初期データ表示\n  if (tables[5] && tables[5].records) {\n    currentData = tables[5].records;\n    filteredData = currentData;\n    renderRows(filteredData);\n  }\n\n  // 最新データを読み込み\n  loadData();\n}",
+      "method": "ai"
+    }
+  ],
+  "tableDefinitions": [
+    {
+      "tableName": "顧客マスタ",
+      "purpose": "Web発注プラットフォームで発注を行う顧客の基本情報を管理する",
+      "columns": [
+        {
+          "name": "顧客ID",
+          "type": "uuid",
+          "required": true,
+          "description": "顧客を一意に識別するID（主キー）"
+        },
+        {
+          "name": "顧客コード",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "業務で使用する顧客識別コード"
+        },
+        {
+          "name": "顧客名",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "顧客の正式名称"
+        },
+        {
+          "name": "顧客名カナ",
+          "type": "varchar(100)",
+          "required": false,
+          "description": "顧客名のカナ表記（検索・ソート用）"
+        },
+        {
+          "name": "郵便番号",
+          "type": "varchar(100)",
+          "required": false,
+          "description": "顧客の郵便番号"
+        },
+        {
+          "name": "住所",
+          "type": "varchar(100)",
+          "required": false,
+          "description": "顧客の住所"
+        },
+        {
+          "name": "電話番号",
+          "type": "varchar(100)",
+          "required": false,
+          "description": "顧客の電話番号"
+        },
+        {
+          "name": "FAX番号",
+          "type": "varchar(100)",
+          "required": false,
+          "description": "顧客のFAX番号"
+        },
+        {
+          "name": "メールアドレス",
+          "type": "varchar(100)",
+          "required": false,
+          "description": "顧客のメールアドレス"
+        },
+        {
+          "name": "担当者名",
+          "type": "varchar(100)",
+          "required": false,
+          "description": "顧客側の担当者名"
+        },
+        {
+          "name": "有効フラグ",
+          "type": "boolean",
+          "required": true,
+          "description": "顧客が有効かどうか（取引停止等の管理）"
+        },
+        {
+          "name": "備考",
+          "type": "text",
+          "required": false,
+          "description": "顧客に関する備考・特記事項"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード作成日時"
+        },
+        {
+          "name": "更新日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード最終更新日時"
+        },
+        {
+          "name": "作成者",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "レコード作成者"
+        },
+        {
+          "name": "更新者",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "レコード最終更新者"
+        }
+      ]
+    },
+    {
+      "tableName": "商品マスタ",
+      "purpose": "Web発注プラットフォームで販売する商品の基本情報を管理する",
+      "columns": [
+        {
+          "name": "商品ID",
+          "type": "uuid",
+          "required": true,
+          "description": "商品の一意識別子（主キー）"
+        },
+        {
+          "name": "商品コード",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "商品の業務用コード（検索・絞り込みで使用）"
+        },
+        {
+          "name": "商品名",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "商品の名称（一覧・詳細画面で表示）"
+        },
+        {
+          "name": "商品説明",
+          "type": "text",
+          "required": false,
+          "description": "商品の詳細説明（詳細画面で表示）"
+        },
+        {
+          "name": "カテゴリID",
+          "type": "uuid",
+          "required": true,
+          "description": "商品カテゴリの識別子（検索・絞り込みで使用）"
+        },
+        {
+          "name": "単価",
+          "type": "integer",
+          "required": true,
+          "description": "商品の販売単価（発注計算で使用）"
+        },
+        {
+          "name": "単位",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "商品の販売単位（個、箱、kg等）"
+        },
+        {
+          "name": "在庫数",
+          "type": "integer",
+          "required": true,
+          "description": "現在の在庫数量（発注可能数チェックで使用）"
+        },
+        {
+          "name": "最小発注数",
+          "type": "integer",
+          "required": true,
+          "description": "最小発注可能数量（入力チェックで使用）"
+        },
+        {
+          "name": "販売状態",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "販売中、販売停止、廃番等のステータス"
+        },
+        {
+          "name": "表示順",
+          "type": "integer",
+          "required": true,
+          "description": "一覧画面での表示順序"
+        },
+        {
+          "name": "公開フラグ",
+          "type": "boolean",
+          "required": true,
+          "description": "Web画面での公開可否"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード作成日時"
+        },
+        {
+          "name": "更新日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード最終更新日時"
+        },
+        {
+          "name": "作成者",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "レコード作成者"
+        },
+        {
+          "name": "更新者",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "レコード最終更新者"
+        }
+      ]
+    },
+    {
+      "tableName": "商品カテゴリマスタ",
+      "purpose": "Web発注プラットフォームで商品を分類・整理するためのカテゴリ情報を管理する",
+      "columns": [
+        {
+          "name": "カテゴリID",
+          "type": "uuid",
+          "required": true,
+          "description": "商品カテゴリの一意識別子（主キー）"
+        },
+        {
+          "name": "カテゴリコード",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "カテゴリの業務コード（ユニーク）"
+        },
+        {
+          "name": "カテゴリ名",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "カテゴリの表示名称"
+        },
+        {
+          "name": "親カテゴリID",
+          "type": "uuid",
+          "required": false,
+          "description": "階層構造の親カテゴリID（自己参照外部キー）"
+        },
+        {
+          "name": "表示順序",
+          "type": "integer",
+          "required": true,
+          "description": "画面表示時のソート順"
+        },
+        {
+          "name": "説明",
+          "type": "text",
+          "required": false,
+          "description": "カテゴリの詳細説明"
+        },
+        {
+          "name": "有効フラグ",
+          "type": "boolean",
+          "required": true,
+          "description": "カテゴリの有効/無効状態"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード作成日時"
+        },
+        {
+          "name": "更新日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード最終更新日時"
+        },
+        {
+          "name": "作成者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "レコード作成者の識別子"
+        },
+        {
+          "name": "更新者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "レコード最終更新者の識別子"
+        }
+      ]
+    },
+    {
+      "tableName": "顧客別単価マスタ",
+      "purpose": "特定の顧客に対する商品の個別単価を管理し、Web発注時の価格計算に使用する",
+      "columns": [
+        {
+          "name": "顧客別単価ID",
+          "type": "uuid",
+          "required": true,
+          "description": "顧客別単価の一意識別子（主キー）"
+        },
+        {
+          "name": "顧客ID",
+          "type": "uuid",
+          "required": true,
+          "description": "顧客マスタへの外部キー"
+        },
+        {
+          "name": "商品ID",
+          "type": "uuid",
+          "required": true,
+          "description": "商品マスタへの外部キー"
+        },
+        {
+          "name": "単価",
+          "type": "integer",
+          "required": true,
+          "description": "顧客別の商品単価（税抜）"
+        },
+        {
+          "name": "適用開始日",
+          "type": "timestamp",
+          "required": true,
+          "description": "この単価の適用開始日時"
+        },
+        {
+          "name": "適用終了日",
+          "type": "timestamp",
+          "required": false,
+          "description": "この単価の適用終了日時（NULLの場合は無期限）"
+        },
+        {
+          "name": "最小発注数量",
+          "type": "integer",
+          "required": false,
+          "description": "この単価が適用される最小発注数量"
+        },
+        {
+          "name": "最大発注数量",
+          "type": "integer",
+          "required": false,
+          "description": "この単価が適用される最大発注数量"
+        },
+        {
+          "name": "有効フラグ",
+          "type": "boolean",
+          "required": true,
+          "description": "単価設定の有効/無効状態"
+        },
+        {
+          "name": "備考",
+          "type": "text",
+          "required": false,
+          "description": "単価設定に関する備考や特記事項"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード作成日時"
+        },
+        {
+          "name": "更新日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード最終更新日時"
+        },
+        {
+          "name": "作成者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "レコード作成者の識別子"
+        },
+        {
+          "name": "更新者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "レコード最終更新者の識別子"
+        }
+      ]
+    },
+    {
+      "tableName": "在庫マスタ",
+      "purpose": "Web発注プラットフォームにおける商品の在庫数量と在庫状況を管理し、発注可能数量の制御と在庫切れ通知を行う",
+      "columns": [
+        {
+          "name": "在庫ID",
+          "type": "uuid",
+          "required": true,
+          "description": "在庫レコードの一意識別子（主キー）"
+        },
+        {
+          "name": "商品ID",
+          "type": "uuid",
+          "required": true,
+          "description": "商品マスタへの外部キー"
+        },
+        {
+          "name": "倉庫コード",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "在庫を保管している倉庫・拠点の識別コード"
+        },
+        {
+          "name": "現在在庫数",
+          "type": "integer",
+          "required": true,
+          "description": "現時点での実際の在庫数量"
+        },
+        {
+          "name": "引当済数量",
+          "type": "integer",
+          "required": true,
+          "description": "受注により引当済みで出荷待ちの数量"
+        },
+        {
+          "name": "発注可能数量",
+          "type": "integer",
+          "required": true,
+          "description": "Web発注で注文可能な数量（現在在庫数-引当済数量-安全在庫数）"
+        },
+        {
+          "name": "安全在庫数",
+          "type": "integer",
+          "required": true,
+          "description": "最低限確保しておく在庫数量"
+        },
+        {
+          "name": "在庫状態",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "在庫の状態（在庫あり/在庫僅少/在庫切れ/入荷待ち/販売停止）"
+        },
+        {
+          "name": "入荷予定日",
+          "type": "timestamp",
+          "required": false,
+          "description": "次回入荷予定日（在庫切れ時の入荷見込み表示用）"
+        },
+        {
+          "name": "入荷予定数量",
+          "type": "integer",
+          "required": false,
+          "description": "次回入荷予定の数量"
+        },
+        {
+          "name": "最終入荷日",
+          "type": "timestamp",
+          "required": false,
+          "description": "最後に入荷があった日付"
+        },
+        {
+          "name": "最終出荷日",
+          "type": "timestamp",
+          "required": false,
+          "description": "最後に出荷があった日付"
+        },
+        {
+          "name": "在庫切れ通知フラグ",
+          "type": "boolean",
+          "required": true,
+          "description": "在庫切れ時に通知を送信するかのフラグ"
+        },
+        {
+          "name": "Web表示フラグ",
+          "type": "boolean",
+          "required": true,
+          "description": "Web発注画面に表示するかのフラグ"
+        },
+        {
+          "name": "備考",
+          "type": "text",
+          "required": false,
+          "description": "在庫に関する特記事項やメモ"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード作成日時"
+        },
+        {
+          "name": "更新日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード最終更新日時"
+        },
+        {
+          "name": "作成者",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "レコード作成者"
+        },
+        {
+          "name": "更新者",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "レコード最終更新者"
+        }
+      ]
+    },
+    {
+      "tableName": "発注履歴",
+      "purpose": "Web発注プラットフォームにおける顧客からの発注情報を記録・管理し、受注処理、出荷指示、売上分析等の業務を支援する",
+      "columns": [
+        {
+          "name": "発注ID",
+          "type": "uuid",
+          "required": true,
+          "description": "発注を一意に識別するID（主キー）"
+        },
+        {
+          "name": "発注番号",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "顧客向け表示用の発注番号"
+        },
+        {
+          "name": "顧客ID",
+          "type": "uuid",
+          "required": true,
+          "description": "発注した顧客のID（顧客マスタへの外部キー）"
+        },
+        {
+          "name": "商品ID",
+          "type": "uuid",
+          "required": true,
+          "description": "発注された商品のID（商品マスタへの外部キー）"
+        },
+        {
+          "name": "発注数量",
+          "type": "integer",
+          "required": true,
+          "description": "発注された商品の数量"
+        },
+        {
+          "name": "単価",
+          "type": "integer",
+          "required": true,
+          "description": "発注時点での商品単価（顧客別単価を適用）"
+        },
+        {
+          "name": "小計金額",
+          "type": "integer",
+          "required": true,
+          "description": "発注数量×単価で算出される小計金額"
+        },
+        {
+          "name": "発注ステータス",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "発注の処理状況（受注、出荷準備中、出荷済み、完了、キャンセル等）"
+        },
+        {
+          "name": "発注日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "顧客が発注を行った日時"
+        },
+        {
+          "name": "希望納期",
+          "type": "timestamp",
+          "required": false,
+          "description": "顧客が指定した希望納期"
+        },
+        {
+          "name": "出荷予定日",
+          "type": "timestamp",
+          "required": false,
+          "description": "出荷予定として設定された日付"
+        },
+        {
+          "name": "出荷日時",
+          "type": "timestamp",
+          "required": false,
+          "description": "実際に出荷された日時"
+        },
+        {
+          "name": "配送先名",
+          "type": "varchar(100)",
+          "required": false,
+          "description": "配送先の名称"
+        },
+        {
+          "name": "配送先住所",
+          "type": "text",
+          "required": false,
+          "description": "配送先の住所"
+        },
+        {
+          "name": "配送先電話番号",
+          "type": "varchar(100)",
+          "required": false,
+          "description": "配送先の電話番号"
+        },
+        {
+          "name": "備考",
+          "type": "text",
+          "required": false,
+          "description": "発注に関する特記事項や要望"
+        },
+        {
+          "name": "キャンセル理由",
+          "type": "text",
+          "required": false,
+          "description": "発注がキャンセルされた場合の理由"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコードが作成された日時"
+        },
+        {
+          "name": "更新日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコードが最後に更新された日時"
+        },
+        {
+          "name": "作成者",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "レコードを作成したユーザー"
+        },
+        {
+          "name": "更新者",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "レコードを最後に更新したユーザー"
+        }
+      ]
+    },
+    {
+      "tableName": "発注明細",
+      "purpose": "発注の商品別明細情報を管理し、発注数量・単価・金額の詳細を記録する",
+      "columns": [
+        {
+          "name": "発注明細ID",
+          "type": "uuid",
+          "required": true,
+          "description": "発注明細の一意識別子（主キー）"
+        },
+        {
+          "name": "発注履歴ID",
+          "type": "uuid",
+          "required": true,
+          "description": "発注履歴テーブルへの外部キー"
+        },
+        {
+          "name": "商品ID",
+          "type": "uuid",
+          "required": true,
+          "description": "商品マスタへの外部キー"
+        },
+        {
+          "name": "発注数量",
+          "type": "integer",
+          "required": true,
+          "description": "発注する商品の数量"
+        },
+        {
+          "name": "単価",
+          "type": "integer",
+          "required": true,
+          "description": "発注時点での商品単価（円）"
+        },
+        {
+          "name": "小計金額",
+          "type": "integer",
+          "required": true,
+          "description": "発注数量×単価の小計金額（円）"
+        },
+        {
+          "name": "明細番号",
+          "type": "integer",
+          "required": true,
+          "description": "発注内での明細の連番"
+        },
+        {
+          "name": "備考",
+          "type": "text",
+          "required": false,
+          "description": "明細に対する特記事項や要望"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "明細レコードの作成日時"
+        },
+        {
+          "name": "更新日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "明細レコードの最終更新日時"
+        }
+      ]
+    },
+    {
+      "tableName": "商品仕様マスタ",
+      "purpose": "商品の詳細仕様情報を管理し、Web発注時の商品選択や仕様確認に使用する",
+      "columns": [
+        {
+          "name": "商品仕様ID",
+          "type": "uuid",
+          "required": true,
+          "description": "商品仕様の一意識別子（主キー）"
+        },
+        {
+          "name": "商品ID",
+          "type": "uuid",
+          "required": true,
+          "description": "商品マスタへの外部キー"
+        },
+        {
+          "name": "仕様名",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "仕様項目名（サイズ、色、材質等）"
+        },
+        {
+          "name": "仕様値",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "仕様の具体的な値"
+        },
+        {
+          "name": "表示順序",
+          "type": "integer",
+          "required": true,
+          "description": "Web画面での仕様表示順序"
+        },
+        {
+          "name": "必須選択フラグ",
+          "type": "boolean",
+          "required": true,
+          "description": "発注時に必須選択が必要かどうか"
+        },
+        {
+          "name": "Web表示フラグ",
+          "type": "boolean",
+          "required": true,
+          "description": "Web発注画面に表示するかどうか"
+        },
+        {
+          "name": "仕様説明",
+          "type": "text",
+          "required": false,
+          "description": "仕様の詳細説明文"
+        },
+        {
+          "name": "有効フラグ",
+          "type": "boolean",
+          "required": true,
+          "description": "仕様が有効かどうか"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード作成日時"
+        },
+        {
+          "name": "更新日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード最終更新日時"
+        },
+        {
+          "name": "作成者",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "レコード作成者"
+        },
+        {
+          "name": "更新者",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "レコード最終更新者"
+        }
+      ]
+    },
+    {
+      "tableName": "ログインユーザー",
+      "purpose": "Web発注プラットフォームにログインするユーザーの認証情報と基本情報を管理する",
+      "columns": [
+        {
+          "name": "ユーザーID",
+          "type": "uuid",
+          "required": true,
+          "description": "ログインユーザーの一意識別子（主キー）"
+        },
+        {
+          "name": "顧客ID",
+          "type": "uuid",
+          "required": true,
+          "description": "所属する顧客の識別子（顧客マスタへの外部キー）"
+        },
+        {
+          "name": "ログインID",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "ログイン時に使用するユーザー識別子（ユニーク）"
+        },
+        {
+          "name": "パスワードハッシュ",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "暗号化されたパスワード"
+        },
+        {
+          "name": "ユーザー名",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "ユーザーの表示名"
+        },
+        {
+          "name": "メールアドレス",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "通知送信先メールアドレス"
+        },
+        {
+          "name": "権限レベル",
+          "type": "integer",
+          "required": true,
+          "description": "ユーザーの権限レベル（1:一般、2:管理者等）"
+        },
+        {
+          "name": "有効フラグ",
+          "type": "boolean",
+          "required": true,
+          "description": "ユーザーアカウントの有効/無効状態"
+        },
+        {
+          "name": "最終ログイン日時",
+          "type": "timestamp",
+          "required": false,
+          "description": "最後にログインした日時"
+        },
+        {
+          "name": "パスワード変更日時",
+          "type": "timestamp",
+          "required": false,
+          "description": "パスワードを最後に変更した日時"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード作成日時"
+        },
+        {
+          "name": "更新日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード最終更新日時"
+        },
+        {
+          "name": "作成者",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "レコード作成者"
+        },
+        {
+          "name": "更新者",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "レコード最終更新者"
+        }
+      ]
+    }
+  ],
+  "presetSeedData": {}
+}

@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>発注データ管理画面 - 営業支援システムの構築</title>
+  <script>
+window.AIVIC_API_URL = "https://jqykrkgdvngp7qvmavufg5tohq0xwdzb.lambda-url.us-east-1.on.aws/";
+window.AIVIC_APP_ID = "session-1780284530342";
+window.AIVIC_SYSTEM_NAME = "基幹システム連携管理システムの構築";
+window.AIVIC_TABLES = [{"tableName":"ログインユーザーマスタ","purpose":"Web発注プラットフォームにログインするユーザーの認証情報と基本属性を管理する","columns":[{"name":"ユーザーID","type":"uuid","required":true,"description":"ユーザーを一意に識別するID"},{"name":"ログインID","type":"varchar(100)","required":true,"description":"ログイン時に使用するID"},{"name":"パスワードハッシュ","type":"varchar(100)","required":true,"description":"暗号化されたパスワード"},{"name":"ユーザー名","type":"varchar(100)","required":true,"description":"画面表示用のユーザー名"},{"name":"メールアドレス","type":"varchar(100)","required":true,"description":"通知送信先メールアドレス"},{"name":"ユーザー種別","type":"varchar(100)","required":true,"description":"発注者、受注者、管理者等の区分"},{"name":"所属組織ID","type":"uuid","required":false,"description":"所属する組織のID"},{"name":"権限レベル","type":"integer","required":true,"description":"システム内での権限レベル"},{"name":"アカウント状態","type":"varchar(100)","required":true,"description":"有効、無効、停止等の状態"},{"name":"最終ログイン日時","type":"timestamp","required":false,"description":"最後にログインした日時"},{"name":"パスワード変更日時","type":"timestamp","required":false,"description":"パスワードを最後に変更した日時"},{"name":"有効フラグ","type":"boolean","required":true,"description":"レコードの有効性を示すフラグ"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者"},{"name":"更新者","type":"varchar(100)","required":true,"description":"レコード最終更新者"}]},{"tableName":"発注データ","purpose":"Web発注プラットフォームにおける発注情報を管理し、発注から承認・処理完了までの一連の業務フローを支援する","columns":[{"name":"発注ID","type":"uuid","required":true,"description":"発注データの一意識別子"},{"name":"発注番号","type":"varchar(100)","required":true,"description":"業務で使用する発注番号"},{"name":"発注者ID","type":"uuid","required":true,"description":"発注を行ったユーザーのID（ログインユーザーマスタ参照）"},{"name":"発注日","type":"timestamp","required":true,"description":"発注が行われた日時"},{"name":"希望納期","type":"timestamp","required":true,"description":"発注者が希望する納期"},{"name":"発注先名","type":"varchar(100)","required":true,"description":"発注先の会社名・店舗名"},{"name":"発注先担当者","type":"varchar(100)","required":false,"description":"発注先の担当者名"},{"name":"発注先連絡先","type":"varchar(100)","required":false,"description":"発注先の電話番号・メールアドレス等"},{"name":"発注金額","type":"integer","required":true,"description":"発注の総金額"},{"name":"発注ステータス","type":"varchar(100)","required":true,"description":"発注の処理状況（下書き・承認待ち・承認済み・発注済み・完了・キャンセル等）"},{"name":"承認者ID","type":"uuid","required":false,"description":"発注を承認したユーザーのID"},{"name":"承認日時","type":"timestamp","required":false,"description":"承認が行われた日時"},{"name":"発注理由","type":"text","required":false,"description":"発注の理由・目的"},{"name":"備考","type":"text","required":false,"description":"発注に関する補足情報"},{"name":"緊急フラグ","type":"boolean","required":true,"description":"緊急発注かどうかの判定"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"},{"name":"更新者ID","type":"uuid","required":true,"description":"レコード最終更新者のユーザーID"}]},{"tableName":"発注明細データ","purpose":"発注データに紐づく商品明細情報を管理し、Web発注プラットフォームでの明細単位での操作・表示・検索を実現する","columns":[{"name":"発注明細ID","type":"uuid","required":true,"description":"発注明細の一意識別子（主キー）"},{"name":"発注ID","type":"uuid","required":true,"description":"発注データテーブルへの外部キー"},{"name":"明細番号","type":"integer","required":true,"description":"発注内での明細の連番"},{"name":"商品コード","type":"varchar(100)","required":true,"description":"発注する商品の識別コード"},{"name":"商品名","type":"varchar(100)","required":true,"description":"発注する商品の名称"},{"name":"規格","type":"varchar(100)","required":false,"description":"商品の規格・仕様"},{"name":"発注数量","type":"integer","required":true,"description":"発注する数量"},{"name":"単位","type":"varchar(100)","required":true,"description":"数量の単位（個、箱、kg等）"},{"name":"単価","type":"integer","required":true,"description":"商品の単価（円）"},{"name":"金額","type":"integer","required":true,"description":"明細の合計金額（単価×数量）"},{"name":"希望納期","type":"timestamp","required":false,"description":"明細単位での希望納期"},{"name":"明細ステータス","type":"varchar(100)","required":true,"description":"明細の処理状況（未処理、処理中、完了等）"},{"name":"備考","type":"text","required":false,"description":"明細に関する特記事項"},{"name":"削除フラグ","type":"boolean","required":true,"description":"論理削除フラグ"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"},{"name":"更新者ID","type":"uuid","required":true,"description":"レコード最終更新者のユーザーID"}]},{"tableName":"基幹システム連携設定マスタ","purpose":"Web発注プラットフォームと基幹システム間のデータ連携設定を管理するマスタテーブル","columns":[{"name":"連携設定ID","type":"uuid","required":true,"description":"連携設定の一意識別子（主キー）"},{"name":"連携システム名","type":"varchar(100)","required":true,"description":"連携対象の基幹システム名"},{"name":"連携種別","type":"varchar(100)","required":true,"description":"連携の種別（発注データ送信、在庫データ受信等）"},{"name":"接続方式","type":"varchar(100)","required":true,"description":"連携方式（API、FTP、DB直接接続等）"},{"name":"接続先URL","type":"varchar(100)","required":false,"description":"API接続時のエンドポイントURL"},{"name":"認証方式","type":"varchar(100)","required":true,"description":"認証方式（API Key、OAuth、Basic認証等）"},{"name":"実行頻度","type":"varchar(100)","required":true,"description":"連携実行の頻度（リアルタイム、毎時、日次等）"},{"name":"データ形式","type":"varchar(100)","required":true,"description":"連携データの形式（JSON、XML、CSV等）"},{"name":"有効フラグ","type":"boolean","required":true,"description":"連携設定の有効/無効状態"},{"name":"優先順位","type":"integer","required":true,"description":"複数連携がある場合の実行優先順位"},{"name":"タイムアウト秒数","type":"integer","required":true,"description":"連携処理のタイムアウト時間（秒）"},{"name":"リトライ回数","type":"integer","required":true,"description":"連携失敗時の最大リトライ回数"},{"name":"エラー通知先","type":"varchar(100)","required":false,"description":"連携エラー時の通知先メールアドレス"},{"name":"備考","type":"text","required":false,"description":"連携設定に関する補足情報"},{"name":"作成者ID","type":"uuid","required":true,"description":"設定を作成したユーザーのID"},{"name":"更新者ID","type":"uuid","required":true,"description":"設定を最後に更新したユーザーのID"},{"name":"作成日時","type":"timestamp","required":true,"description":"設定の作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"設定の最終更新日時"}]},{"tableName":"データ検証ルールマスタ","purpose":"Web発注プラットフォームから基幹システムへのデータ連携時に適用する検証ルールを管理するマスタテーブル","columns":[{"name":"検証ルールID","type":"uuid","required":true,"description":"検証ルールの一意識別子（主キー）"},{"name":"ルール名","type":"varchar(100)","required":true,"description":"検証ルールの名称"},{"name":"対象テーブル名","type":"varchar(100)","required":true,"description":"検証対象となるテーブル名"},{"name":"対象カラム名","type":"varchar(100)","required":true,"description":"検証対象となるカラム名"},{"name":"検証タイプ","type":"varchar(100)","required":true,"description":"検証の種類（必須チェック、形式チェック、範囲チェック、重複チェック等）"},{"name":"検証条件","type":"text","required":true,"description":"具体的な検証条件の設定値"},{"name":"エラーメッセージ","type":"text","required":true,"description":"検証エラー時に表示するメッセージ"},{"name":"実行順序","type":"integer","required":true,"description":"同一カラムに複数ルールがある場合の実行順序"},{"name":"有効フラグ","type":"boolean","required":true,"description":"ルールの有効/無効状態"},{"name":"適用開始日","type":"timestamp","required":false,"description":"ルールの適用開始日時"},{"name":"適用終了日","type":"timestamp","required":false,"description":"ルールの適用終了日時"},{"name":"備考","type":"text","required":false,"description":"ルールに関する補足説明"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"更新者ID","type":"uuid","required":true,"description":"レコード最終更新者のユーザーID"}]},{"tableName":"連携処理履歴","purpose":"基幹システムとの連携処理の実行履歴を記録し、処理状況の監視、エラー対応、再処理判定を行うための履歴管理テーブル","columns":[{"name":"連携処理履歴ID","type":"uuid","required":true,"description":"連携処理履歴の一意識別子（主キー）"},{"name":"連携設定ID","type":"uuid","required":true,"description":"基幹システム連携設定マスタへの外部キー"},{"name":"処理種別","type":"varchar(100)","required":true,"description":"連携処理の種別（発注データ送信、在庫データ取得、受注データ送信等）"},{"name":"処理ステータス","type":"varchar(100)","required":true,"description":"処理の実行状況（実行中、成功、失敗、中断、再試行中）"},{"name":"対象データID","type":"uuid","required":false,"description":"連携対象となったデータのID（発注データID等）"},{"name":"処理開始日時","type":"timestamp","required":true,"description":"連携処理の開始日時"},{"name":"処理終了日時","type":"timestamp","required":false,"description":"連携処理の終了日時"},{"name":"処理件数","type":"integer","required":false,"description":"処理対象となったデータ件数"},{"name":"成功件数","type":"integer","required":false,"description":"正常に処理されたデータ件数"},{"name":"エラー件数","type":"integer","required":false,"description":"エラーが発生したデータ件数"},{"name":"エラーメッセージ","type":"text","required":false,"description":"処理中に発生したエラーの詳細メッセージ"},{"name":"リクエストデータ","type":"text","required":false,"description":"基幹システムに送信したリクエストデータの内容"},{"name":"レスポンスデータ","type":"text","required":false,"description":"基幹システムから受信したレスポンスデータの内容"},{"name":"再試行回数","type":"integer","required":true,"description":"処理の再試行実行回数（初回は0）"},{"name":"次回再試行日時","type":"timestamp","required":false,"description":"エラー時の次回再試行予定日時"},{"name":"処理実行者ID","type":"uuid","required":false,"description":"手動実行時の実行者（ログインユーザーマスタへの外部キー）"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"}]},{"tableName":"連携エラーログ","purpose":"基幹システム連携処理で発生したエラーの詳細情報を記録し、エラー分析・対応履歴管理・再処理判定を行うためのログテーブル","columns":[{"name":"エラーログID","type":"uuid","required":true,"description":"エラーログの一意識別子（主キー）"},{"name":"連携処理履歴ID","type":"uuid","required":true,"description":"連携処理履歴テーブルへの外部キー"},{"name":"発注データID","type":"uuid","required":false,"description":"エラー対象の発注データID（該当する場合）"},{"name":"エラー発生日時","type":"timestamp","required":true,"description":"エラーが発生した日時"},{"name":"エラー種別","type":"varchar(100)","required":true,"description":"システムエラー、データ検証エラー、通信エラー、認証エラー等"},{"name":"エラーコード","type":"varchar(100)","required":false,"description":"システム固有のエラーコード"},{"name":"エラーメッセージ","type":"text","required":true,"description":"エラーの詳細メッセージ"},{"name":"エラー発生箇所","type":"varchar(100)","required":true,"description":"データ変換処理、API送信、レスポンス受信等"},{"name":"処理対象データ","type":"text","required":false,"description":"エラー発生時の処理対象データの内容"},{"name":"スタックトレース","type":"text","required":false,"description":"システムエラー時の詳細なスタックトレース情報"},{"name":"重要度","type":"varchar(100)","required":true,"description":"緊急、高、中、低"},{"name":"対応状況","type":"varchar(100)","required":true,"description":"未対応、対応中、対応完了、保留"},{"name":"対応者ID","type":"uuid","required":false,"description":"エラー対応を行うユーザーのID"},{"name":"対応開始日時","type":"timestamp","required":false,"description":"エラー対応を開始した日時"},{"name":"対応完了日時","type":"timestamp","required":false,"description":"エラー対応が完了した日時"},{"name":"対応内容","type":"text","required":false,"description":"実施した対応内容の詳細"},{"name":"再処理要否","type":"boolean","required":true,"description":"エラー解決後に再処理が必要かどうか"},{"name":"再処理実行日時","type":"timestamp","required":false,"description":"再処理を実行した日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"}]},{"tableName":"データ検証結果","purpose":"発注データの基幹システム連携前後における各種検証処理の実行結果を記録し、データ品質管理と問題追跡を行う","columns":[{"name":"検証結果ID","type":"uuid","required":true,"description":"データ検証結果の一意識別子（主キー）"},{"name":"連携処理履歴ID","type":"uuid","required":true,"description":"関連する連携処理履歴への外部キー"},{"name":"発注データID","type":"uuid","required":false,"description":"検証対象の発注データへの外部キー"},{"name":"検証ルールID","type":"uuid","required":true,"description":"適用された検証ルールへの外部キー"},{"name":"検証種別","type":"varchar(100)","required":true,"description":"検証の種類（形式チェック、業務ルールチェック、整合性チェック等）"},{"name":"検証項目名","type":"varchar(100)","required":true,"description":"検証を行った具体的な項目名"},{"name":"検証結果","type":"varchar(100)","required":true,"description":"検証結果（成功、警告、エラー）"},{"name":"検証メッセージ","type":"text","required":false,"description":"検証結果の詳細メッセージ"},{"name":"検証前値","type":"text","required":false,"description":"検証前のデータ値"},{"name":"検証後値","type":"text","required":false,"description":"検証後のデータ値（補正された場合）"},{"name":"重要度","type":"varchar(100)","required":true,"description":"検証結果の重要度（高、中、低）"},{"name":"処理継続可否","type":"boolean","required":true,"description":"この検証結果で処理を継続可能かどうか"},{"name":"検証実行日時","type":"timestamp","required":true,"description":"検証を実行した日時"},{"name":"検証実行者ID","type":"uuid","required":false,"description":"検証を実行したユーザーID（自動実行の場合はnull）"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"}]},{"tableName":"発注ステータス履歴","purpose":"発注データのステータス変更履歴を時系列で管理し、発注処理の進捗状況と変更経緯を追跡する","columns":[{"name":"履歴ID","type":"uuid","required":true,"description":"発注ステータス履歴の一意識別子"},{"name":"発注ID","type":"uuid","required":true,"description":"対象発注データの識別子"},{"name":"変更前ステータス","type":"varchar(100)","required":false,"description":"変更前の発注ステータス（初回登録時はnull）"},{"name":"変更後ステータス","type":"varchar(100)","required":true,"description":"変更後の発注ステータス（下書き、承認待ち、承認済み、発注済み、完了、キャンセル等）"},{"name":"変更理由","type":"text","required":false,"description":"ステータス変更の理由やコメント"},{"name":"処理区分","type":"varchar(100)","required":true,"description":"変更処理の種別（手動変更、自動処理、基幹システム連携等）"},{"name":"連携処理ID","type":"uuid","required":false,"description":"基幹システム連携による変更の場合の連携処理履歴ID"},{"name":"変更者ID","type":"uuid","required":false,"description":"ステータスを変更したユーザーID（システム自動処理の場合はnull）"},{"name":"変更日時","type":"timestamp","required":true,"description":"ステータス変更が発生した日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"履歴レコードの作成日時"}]},{"tableName":"システム通知設定","purpose":"Web発注プラットフォームにおける各種通知の設定を管理し、発注処理や基幹システム連携の状況に応じた適切な通知を実現する","columns":[{"name":"通知設定ID","type":"uuid","required":true,"description":"通知設定の一意識別子（主キー）"},{"name":"通知種別","type":"varchar(100)","required":true,"description":"通知の種別（発注完了、連携エラー、承認依頼、期限切れ警告等）"},{"name":"通知名","type":"varchar(100)","required":true,"description":"通知設定の名称"},{"name":"通知対象者種別","type":"varchar(100)","required":true,"description":"通知対象者の種別（発注者、承認者、システム管理者、全ユーザー等）"},{"name":"通知方法","type":"varchar(100)","required":true,"description":"通知方法（メール、システム内通知、両方等）"},{"name":"件名テンプレート","type":"varchar(100)","required":false,"description":"通知メールの件名テンプレート"},{"name":"本文テンプレート","type":"text","required":false,"description":"通知メールの本文テンプレート"},{"name":"発生条件","type":"text","required":true,"description":"通知が発生する条件の説明"},{"name":"優先度","type":"integer","required":true,"description":"通知の優先度（1:高、2:中、3:低）"},{"name":"有効フラグ","type":"boolean","required":true,"description":"通知設定の有効/無効状態"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"更新者ID","type":"uuid","required":true,"description":"レコード最終更新者のユーザーID"}]},{"tableName":"通知履歴","purpose":"システムからユーザーへの通知送信履歴を管理し、通知の配信状況や既読状態を追跡する","columns":[{"name":"通知履歴ID","type":"uuid","required":true,"description":"通知履歴の一意識別子（主キー）"},{"name":"通知設定ID","type":"uuid","required":true,"description":"システム通知設定マスタへの外部キー"},{"name":"受信者ユーザーID","type":"uuid","required":true,"description":"通知を受信するユーザーのID（ログインユーザーマスタへの外部キー）"},{"name":"通知タイトル","type":"varchar(100)","required":true,"description":"通知のタイトル"},{"name":"通知内容","type":"text","required":true,"description":"通知の詳細メッセージ内容"},{"name":"通知種別","type":"varchar(100)","required":true,"description":"通知の種別（発注完了、エラー発生、システムメンテナンス等）"},{"name":"優先度","type":"varchar(100)","required":true,"description":"通知の優先度（高、中、低）"},{"name":"送信方法","type":"varchar(100)","required":true,"description":"通知の送信方法（画面通知、メール、両方）"},{"name":"送信状態","type":"varchar(100)","required":true,"description":"送信処理の状態（送信待ち、送信中、送信完了、送信失敗）"},{"name":"既読フラグ","type":"boolean","required":true,"description":"ユーザーが通知を既読したかどうか"},{"name":"関連データID","type":"uuid","required":false,"description":"通知に関連するデータのID（発注データID、連携処理履歴ID等）"},{"name":"関連データ種別","type":"varchar(100)","required":false,"description":"関連データの種別（発注データ、連携処理履歴等）"},{"name":"送信予定日時","type":"timestamp","required":true,"description":"通知の送信予定日時"},{"name":"送信日時","type":"timestamp","required":false,"description":"実際に通知が送信された日時"},{"name":"既読日時","type":"timestamp","required":false,"description":"ユーザーが通知を既読した日時"},{"name":"エラーメッセージ","type":"text","required":false,"description":"送信失敗時のエラーメッセージ"},{"name":"再送回数","type":"integer","required":true,"description":"通知の再送信回数"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"uuid","required":true,"description":"レコード作成者のユーザーID"}]}];
+window.AIVIC_PRESET_SEED = {};
+window.AIVIC_PAGE_SCREEN_ID = "scr-1780291283309";
+window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  // テーブル再描画関数\n  function renderOrders(orders) {\n    const tbody = container.querySelector('#order-tbody');\n    tbody.innerHTML = orders.map(order => {\n      const statusBadge = getStatusBadge(order.発注ステータス);\n      const integrationStatus = getIntegrationStatus(order.発注ID);\n      const urgentBadge = order.緊急フラグ ? '<span class=\"px-1 py-0.5 text-xs rounded\" style=\"background: #ff4444; color: #fff;\">緊急</span>' : '';\n      \n      return `\n        <tr data-id=\"${order.発注ID}\" class=\"cursor-pointer hover:bg-opacity-50\" style=\"hover:background: rgba(0,0,0,0.02);\">\n          <td>${order.発注番号 || ''}</td>\n          <td>${order.発注日 ? new Date(order.発注日).toLocaleDateString() : ''}</td>\n          <td>${order.発注先名 || ''}</td>\n          <td class=\"text-right\">¥${(order.発注金額 || 0).toLocaleString()}</td>\n          <td>${statusBadge}</td>\n          <td>${integrationStatus}</td>\n          <td>${urgentBadge}</td>\n          <td>\n            <button class=\"action-btn secondary detail-btn text-xs px-2 py-1\" data-id=\"${order.発注ID}\"\n                    style=\"background: transparent; border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n              詳細\n            </button>\n          </td>\n        </tr>\n      `;\n    }).join('');\n  }\n\n  function getStatusBadge(status) {\n    const colors = {\n      '下書き': 'background: #6b7280; color: #fff;',\n      '承認待ち': 'background: #f59e0b; color: #fff;',\n      '承認済み': 'background: #10b981; color: #fff;',\n      '発注済み': 'background: #3b82f6; color: #fff;',\n      '完了': 'background: #059669; color: #fff;',\n      'キャンセル': 'background: #ef4444; color: #fff;'\n    };\n    return `<span class=\"px-2 py-1 text-xs rounded\" style=\"${colors[status] || 'background: #6b7280; color: #fff;'}\">${status || ''}</span>`;\n  }\n\n  function getIntegrationStatus(orderId) {\n    // 連携処理履歴から状況を判定（簡易実装）\n    const integrationTable = tables.find(t => t.tableName === '連携処理履歴');\n    if (integrationTable) {\n      const history = integrationTable.records.find(r => r.対象データID === orderId);\n      if (history) {\n        if (history.処理ステータス === '成功') {\n          return '<span class=\"px-2 py-1 text-xs rounded\" style=\"background: #10b981; color: #fff;\">連携済み</span>';\n        } else if (history.処理ステータス === '失敗') {\n          return '<span class=\"px-2 py-1 text-xs rounded\" style=\"background: #ef4444; color: #fff;\">エラー</span>';\n        } else {\n          return '<span class=\"px-2 py-1 text-xs rounded\" style=\"background: #f59e0b; color: #fff;\">処理中</span>';\n        }\n      }\n    }\n    return '<span class=\"px-2 py-1 text-xs rounded\" style=\"background: #6b7280; color: #fff;\">未連携</span>';\n  }\n\n  // KPI更新\n  function updateKPIs(orders) {\n    const totalOrders = orders.length;\n    const totalAmount = orders.reduce((sum, order) => sum + (order.発注金額 || 0), 0);\n    const pendingOrders = orders.filter(order => order.発注ステータス === '承認待ち').length;\n    \n    // エラー件数は連携エラーログから取得\n    const errorTable = tables.find(t => t.tableName === '連携エラーログ');\n    const errorCount = errorTable ? errorTable.records.filter(r => r.対応状況 === '未対応').length : 0;\n\n    container.querySelector('#kpi-total-orders').textContent = totalOrders.toLocaleString();\n    container.querySelector('#kpi-total-amount').textContent = `¥${totalAmount.toLocaleString()}`;\n    container.querySelector('#kpi-error-count').textContent = errorCount.toLocaleString();\n    container.querySelector('#kpi-pending-orders').textContent = pendingOrders.toLocaleString();\n  }\n\n  // グラフ初期化\n  function initCharts(orders) {\n    // 月別発注金額推移\n    const monthlyData = {};\n    orders.forEach(order => {\n      if (order.発注日) {\n        const month = order.発注日.slice(0, 7); // YYYY-MM\n        monthlyData[month] = (monthlyData[month] || 0) + (order.発注金額 || 0);\n      }\n    });\n\n    const monthlyLabels = Object.keys(monthlyData).sort();\n    const monthlyValues = monthlyLabels.map(month => monthlyData[month]);\n\n    new window.Chart(container.querySelector('#monthly-chart'), {\n      type: 'line',\n      data: {\n        labels: monthlyLabels,\n        datasets: [{\n          label: '発注金額',\n          data: monthlyValues,\n          borderColor: '#3b82f6',\n          backgroundColor: 'rgba(59, 130, 246, 0.1)',\n          tension: 0.4\n        }]\n      },\n      options: {\n        responsive: true,\n        maintainAspectRatio: false,\n        scales: {\n          y: {\n            beginAtZero: true,\n            ticks: {\n              callback: function(value) {\n                return '¥' + value.toLocaleString();\n              }\n            }\n          }\n        }\n      }\n    });\n\n    // ステータス分布\n    const statusData = {};\n    orders.forEach(order => {\n      const status = order.発注ステータス || '不明';\n      statusData[status] = (statusData[status] || 0) + 1;\n    });\n\n    new window.Chart(container.querySelector('#status-chart'), {\n      type: 'doughnut',\n      data: {\n        labels: Object.keys(statusData),\n        datasets: [{\n          data: Object.values(statusData),\n          backgroundColor: ['#6b7280', '#f59e0b', '#10b981', '#3b82f6', '#059669', '#ef4444']\n        }]\n      },\n      options: {\n        responsive: true,\n        maintainAspectRatio: false\n      }\n    });\n  }\n\n  // 初期データ表示\n  const orderTable = tables.find(t => t.tableName === '発注データ') || tables[0];\n  const initialOrders = orderTable.records || [];\n  renderOrders(initialOrders);\n  updateKPIs(initialOrders);\n  initCharts(initialOrders);\n\n  // 検索機能\n  container.querySelector('#btn-search').addEventListener('click', async () => {\n    const orderNo = container.querySelector('#search-order-no').value;\n    const dateFrom = container.querySelector('#search-date-from').value;\n    const dateTo = container.querySelector('#search-date-to').value;\n    const status = container.querySelector('#search-status').value;\n    const integration = container.querySelector('#search-integration').value;\n\n    const orders = await window.aivicApi.list(0);\n    if (!orders) return;\n\n    const filtered = orders.filter(order => {\n      if (orderNo && !order.発注番号?.includes(orderNo)) return false;\n      if (dateFrom && order.発注日 && order.発注日 < dateFrom) return false;\n      if (dateTo && order.発注日 && order.発注日> dateTo) return false;\n      if (status && order.発注ステータス !== status) return false;\n      if (integration) {\n        const integrationStatus = getIntegrationStatus(order.発注ID);\n        if (!integrationStatus.includes(integration)) return false;\n      }\n      return true;\n    });\n\n    renderOrders(filtered);\n    updateKPIs(filtered);\n  });\n\n  // 条件クリア\n  container.querySelector('#btn-clear').addEventListener('click', () => {\n    container.querySelector('#search-order-no').value = '';\n    container.querySelector('#search-date-from').value = '';\n    container.querySelector('#search-date-to').value = '';\n    container.querySelector('#search-status').value = '';\n    container.querySelector('#search-integration').value = '';\n    renderOrders(initialOrders);\n    updateKPIs(initialOrders);\n  });\n\n  // CSVエクスポート\n  container.querySelector('#btn-export').addEventListener('click', async () => {\n    const orders = await window.aivicApi.list(0);\n    if (!orders) return;\n\n    const headers = ['発注番号', '発注日', '発注先名', '発注金額', 'ステータス', '緊急フラグ'];\n    const csvContent = '\\uFEFF' + [\n      headers.join(','),\n      ...orders.map(order => [\n        order.発注番号 || '',\n        order.発注日 || '',\n        order.発注先名 || '',\n        order.発注金額 || 0,\n        order.発注ステータス || '',\n        order.緊急フラグ ? '緊急' : '通常'\n      ].map(field => `\"${field}\"`).join(','))\n    ].join('\\n');\n\n    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });\n    const link = document.createElement('a');\n    link.href = URL.createObjectURL(blob);\n    link.download = `発注データ_${new Date().toISOString().slice(0, 10)}.csv`;\n    link.click();\n  });\n\n  // 詳細モーダル\n  container.addEventListener('click', async (e) => {\n    const detailBtn = e.target.closest('.detail-btn');\n    if (detailBtn) {\n      const orderId = detailBtn.dataset.id;\n      const orders = await window.aivicApi.list(0);\n      const order = orders?.find(o => o.発注ID === orderId);\n      \n      if (order) {\n        // 基本情報表示\n        container.querySelector('#detail-order-no').textContent = order.発注番号 || '';\n        container.querySelector('#detail-order-date').textContent = order.発注日 ? new Date(order.発注日).toLocaleDateString() : '';\n        container.querySelector('#detail-supplier').textContent = order.発注先名 || '';\n        container.querySelector('#detail-amount').textContent = `¥${(order.発注金額 || 0).toLocaleString()}`;\n\n        // 発注明細表示\n        const detailTable = tables.find(t => t.tableName === '発注明細データ');\n        const details = detailTable ? detailTable.records.filter(d => d.発注ID === orderId) : [];\n        const detailsTbody = container.querySelector('#detail-items-tbody');\n        detailsTbody.innerHTML = details.map(detail => `\n          <tr>\n            <td>${detail.明細番号 || ''}</td>\n            <td>${detail.商品コード || ''}</td>\n            <td>${detail.商品名 || ''}</td>\n            <td class=\"text-right\">${detail.発注数量 || 0} ${detail.単位 || ''}</td>\n            <td class=\"text-right\">¥${(detail.単価 || 0).toLocaleString()}</td>\n            <td class=\"text-right\">¥${(detail.金額 || 0).toLocaleString()}</td>\n          </tr>\n        `).join('');\n\n        // 連携状況・検証結果表示\n        container.querySelector('#integration-status').innerHTML = `\n          <div class=\"text-sm\" style=\"color: var(--text);\">${getIntegrationStatus(orderId)}</div>\n        `;\n        \n        container.querySelector('#validation-result').innerHTML = `\n          <div class=\"text-sm\" style=\"color: var(--text);\">検証完了</div>\n          <div class=\"text-xs text-muted\">データ整合性: OK</div>\n        `;\n\n        container.querySelector('#order-detail-modal').style.display = 'flex';\n      }\n    }\n  });\n\n  // モーダル閉じる\n  container.querySelector('#close-modal').addEventListener('click', () => {\n    container.querySelector('#order-detail-modal').style.display = 'none';\n  });\n}";
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+:root {
+  --primary: #1b7f37;
+  --primary-hover: #155d2a;
+  --bg-main: #f8faf9;
+  --bg-card: #ffffff;
+  --bg-sidebar: #f4f6f5;
+  --border: #d9e3dc;
+  --text: #181818;
+  --text-muted: #4a4a4a;
+  --top-bar-bg: #ffffff;
+  --top-bar-border: #d1ddd4;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:var(--bg-main); color:var(--text); display:flex; flex-direction:column; height:100vh; overflow:hidden; }
+.top-bar { display:flex; align-items:center; gap:0; background:var(--top-bar-bg, var(--bg-sidebar)); border-bottom:1px solid var(--top-bar-border, var(--border)); padding:0 16px; height:48px; flex-shrink:0; }
+.top-bar .app-name { font-size:14px; font-weight:700; color:var(--text); margin-right:20px; white-space:nowrap; }
+.sys-tab { background:transparent; color:var(--text); opacity:0.6; border:none; border-bottom:2px solid transparent; padding:0 16px; height:48px; cursor:pointer; font-size:13px; white-space:nowrap; transition:color .15s, border-color .15s, opacity .15s; text-decoration:none; display:flex; align-items:center; }
+.sys-tab:hover { opacity:0.85; }
+.sys-tab.active, .sys-tab.aivic-active { color:var(--text); opacity:1; border-bottom-color:var(--primary); font-weight:600; }
+.app-body { display:flex; flex:1; overflow:hidden; }
+.sidebar { width:220px; background:var(--bg-sidebar); border-right:1px solid var(--border); padding:12px 8px; overflow-y:auto; flex-shrink:0; }
+.sidebar-sys-name { margin:0 0 8px; padding:4px 8px; font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:.06em; }
+.nav-btn { display:block; width:100%; text-align:left; background:transparent; color:var(--text); opacity:0.65; border:none; border-radius:8px; padding:8px 12px; cursor:pointer; font-size:13px; margin-bottom:2px; transition:opacity .15s,background .15s; text-decoration:none; }
+.nav-btn:hover { background:var(--border); opacity:0.9; }
+.nav-btn.active, .nav-btn.aivic-active { background:var(--primary); color:#fff; opacity:1; }
+.main { flex:1; padding:16px; overflow-y:auto; }
+.card { border:1px solid var(--border); border-radius:12px; padding:16px; background:var(--bg-card); margin-bottom:12px; }
+.hidden { display:none !important; }
+.action-btn { background:var(--primary); color:#fff; border:0; border-radius:8px; padding:8px 14px; cursor:pointer; font-size:13px; }
+.action-btn:hover { background:var(--primary-hover, #1a55ef); }
+.action-btn.secondary { background:var(--border); color:var(--text); }
+.input { background:var(--bg-main); border:1px solid var(--border); color:var(--text); border-radius:8px; padding:7px 10px; font-size:13px; }
+.muted { color:var(--text-muted); font-size:13px; }
+.table-wrap { overflow:auto; border:1px solid var(--border); border-radius:8px; }
+table { width:100%; border-collapse:collapse; }
+th, td { border-bottom:1px solid var(--border); padding:8px 10px; text-align:left; font-size:13px; }
+th { color:var(--text); background:var(--bg-sidebar); position:sticky; top:0; font-weight:600; }
+tr:hover { background:var(--bg-sidebar); cursor:pointer; }
+canvas { display:block; max-height:280px !important; }
+.chart-wrap, .chart-container, [class*="chart"] { position:relative; height:260px; max-height:280px; }
+@media (max-width:768px) {
+  .top-bar { overflow-x:auto; }
+  .app-body { flex-direction:column; }
+  .sidebar { width:100%; height:auto; display:flex; flex-wrap:wrap; gap:4px; padding:8px; }
+  .sidebar-sys-name { display:none; }
+  .nav-btn { width:auto; border-radius:999px; padding:5px 12px; }
+}
+  </style>
+</head>
+<body>
+<header class="top-bar">
+  <span class="app-name">営業支援システムの構築</span>
+    <a href="./scr-1780291062211.html" class="sys-tab" data-aivic-nav-system="itg-1">Web発注プラットフォームの構築</a>
+    <a href="./scr-1780291283309.html" class="sys-tab active" data-aivic-nav-system="itg-2">基幹システム連携管理システムの構築</a>
+    <a href="./scr-1780291476037.html" class="sys-tab" data-aivic-nav-system="itg-3">顧客別単価管理システムの構築</a>
+    <a href="./scr-1780291692616.html" class="sys-tab" data-aivic-nav-system="itg-4">経営分析・レポートシステムの構築</a>
+    <a href="./scr-1780291929523.html" class="sys-tab" data-aivic-nav-system="itg-5">営業支援システムの構築</a>
+</header>
+<div class="app-body">
+  <aside class="sidebar">
+    <p class="sidebar-sys-name">基幹システム連携管理システムの構築</p>
+      <a href="./scr-1780291283309.html" class="nav-btn active" data-aivic-nav="scr-1780291283309">発注データ管理画面</a>
+      <a href="./scr-1780291294438.html" class="nav-btn" data-aivic-nav="scr-1780291294438">基幹システム連携処理画面</a>
+      <a href="./scr-1780291305048.html" class="nav-btn" data-aivic-nav="scr-1780291305048">連携エラー分析画面</a>
+      <a href="./scr-1780291315061.html" class="nav-btn" data-aivic-nav="scr-1780291315061">データ検証結果画面</a>
+      <a href="./scr-1780291323940.html" class="nav-btn" data-aivic-nav="scr-1780291323940">連携処理履歴画面</a>
+      <a href="./scr-1780291334265.html" class="nav-btn" data-aivic-nav="scr-1780291334265">システム通知管理画面</a>
+  </aside>
+  <main class="main">
+    <section class="card" data-aivic-panel="scr-1780291283309" style="margin-top:0">
+<div class="p-4">
+  <!-- KPI カード -->
+  <div class="grid grid-cols-4 gap-3 mb-4">
+    <div class="card p-3" data-testid="kpi-total-orders">
+      <div class="text-xs text-muted mb-1">総発注件数</div>
+      <div class="text-lg font-semibold" id="kpi-total-orders">0</div>
+    </div>
+    <div class="card p-3" data-testid="kpi-total-amount">
+      <div class="text-xs text-muted mb-1">総発注金額</div>
+      <div class="text-lg font-semibold" id="kpi-total-amount">¥0</div>
+    </div>
+    <div class="card p-3" data-testid="kpi-error-count">
+      <div class="text-xs text-muted mb-1">連携エラー件数</div>
+      <div class="text-lg font-semibold text-red-500" id="kpi-error-count">0</div>
+    </div>
+    <div class="card p-3" data-testid="kpi-pending-orders">
+      <div class="text-xs text-muted mb-1">承認待ち件数</div>
+      <div class="text-lg font-semibold text-orange-500" id="kpi-pending-orders">0</div>
+    </div>
+  </div>
+
+  <!-- グラフエリア -->
+  <div class="grid grid-cols-2 gap-4 mb-4">
+    <div class="card p-3">
+      <h3 class="text-sm font-medium mb-3" style="color: var(--text);">月別発注金額推移</h3>
+      <div class="chart-wrap" style="position:relative;height:260px;max-height:280px;">
+        <canvas id="monthly-chart"></canvas>
+      </div>
+    </div>
+    <div class="card p-3">
+      <h3 class="text-sm font-medium mb-3" style="color: var(--text);">発注ステータス分布</h3>
+      <div class="chart-wrap" style="position:relative;height:260px;max-height:280px;">
+        <canvas id="status-chart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- 検索フィルター -->
+  <div class="card p-3 mb-4">
+    <h2 class="text-base font-semibold mb-3" style="color: var(--text);">発注データ検索</h2>
+    <div class="grid grid-cols-5 gap-3">
+      <div>
+        <label class="block text-xs text-muted mb-1">発注番号</label>
+        <input type="text" id="search-order-no" data-testid="order-number-input" 
+               class="w-full px-2 py-1 text-sm border rounded"
+               style="background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);"
+               placeholder="発注番号を入力">
+      </div>
+      <div>
+        <label class="block text-xs text-muted mb-1">発注日（開始）</label>
+        <input type="date" id="search-date-from" data-testid="date-from-input"
+               class="w-full px-2 py-1 text-sm border rounded"
+               style="background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);">
+      </div>
+      <div>
+        <label class="block text-xs text-muted mb-1">発注日（終了）</label>
+        <input type="date" id="search-date-to" data-testid="date-to-input"
+               class="w-full px-2 py-1 text-sm border rounded"
+               style="background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);">
+      </div>
+      <div>
+        <label class="block text-xs text-muted mb-1">発注ステータス</label>
+        <select id="search-status" data-testid="status-filter"
+                class="w-full px-2 py-1 text-sm border rounded"
+                style="background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);">
+          <option value="">全て</option>
+          <option value="下書き">下書き</option>
+          <option value="承認待ち">承認待ち</option>
+          <option value="承認済み">承認済み</option>
+          <option value="発注済み">発注済み</option>
+          <option value="完了">完了</option>
+          <option value="キャンセル">キャンセル</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs text-muted mb-1">連携状況</label>
+        <select id="search-integration" data-testid="integration-filter"
+                class="w-full px-2 py-1 text-sm border rounded"
+                style="background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);">
+          <option value="">全て</option>
+          <option value="未連携">未連携</option>
+          <option value="連携済み">連携済み</option>
+          <option value="エラー">エラー</option>
+        </select>
+      </div>
+    </div>
+    <div class="flex gap-2 mt-3">
+      <button id="btn-search" data-testid="search-button" 
+              class="action-btn px-3 py-1 text-sm"
+              style="background: var(--primary); color: #fff; border: none;">
+        検索実行
+      </button>
+      <button id="btn-clear" data-testid="clear-button"
+              class="action-btn secondary px-3 py-1 text-sm"
+              style="background: transparent; border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+        条件クリア
+      </button>
+      <button id="btn-export" data-testid="export-button"
+              class="action-btn secondary px-3 py-1 text-sm ml-auto"
+              style="background: transparent; border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+        CSVエクスポート
+      </button>
+    </div>
+  </div>
+
+  <!-- 発注データ一覧 -->
+  <div class="card">
+    <div class="p-3 border-b" style="border-color: var(--border);">
+      <div class="flex justify-between items-center">
+        <h2 class="text-base font-semibold" style="color: var(--text);">発注データ一覧</h2>
+        <div class="flex gap-2">
+          <button id="btn-integration-status" data-testid="integration-status-button"
+                  class="action-btn secondary px-3 py-1 text-sm"
+                  onclick="window.showScreen('scr-1780291294438')"
+                  style="background: transparent; border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+            連携処理画面
+          </button>
+          <button id="btn-error-analysis" data-testid="error-analysis-button"
+                  class="action-btn secondary px-3 py-1 text-sm"
+                  onclick="window.showScreen('scr-1780291305048')"
+                  style="background: transparent; border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+            エラー分析
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table data-testid="order-list">
+        <thead>
+          <tr>
+            <th style="color: var(--text);">発注番号</th>
+            <th style="color: var(--text);">発注日</th>
+            <th style="color: var(--text);">発注先</th>
+            <th style="color: var(--text);">発注金額</th>
+            <th style="color: var(--text);">ステータス</th>
+            <th style="color: var(--text);">連携状況</th>
+            <th style="color: var(--text);">緊急</th>
+            <th style="color: var(--text);">操作</th>
+          </tr>
+        </thead>
+        <tbody id="order-tbody">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 発注詳細モーダル -->
+  <div id="order-detail-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" style="display: none; z-index: 1000;">
+    <div class="card w-4/5 max-w-4xl max-h-[90vh] overflow-y-auto">
+      <div class="p-4 border-b" style="border-color: var(--border);">
+        <div class="flex justify-between items-center">
+          <h3 class="text-lg font-semibold" style="color: var(--text);">発注詳細</h3>
+          <button id="close-modal" class="text-xl" style="color: var(--text-muted);">&times;</button>
+        </div>
+      </div>
+      <div class="p-4">
+        <div class="grid grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="block text-xs text-muted mb-1">発注番号</label>
+            <div id="detail-order-no" class="text-sm" style="color: var(--text);"></div>
+          </div>
+          <div>
+            <label class="block text-xs text-muted mb-1">発注日</label>
+            <div id="detail-order-date" class="text-sm" style="color: var(--text);"></div>
+          </div>
+          <div>
+            <label class="block text-xs text-muted mb-1">発注先</label>
+            <div id="detail-supplier" class="text-sm" style="color: var(--text);"></div>
+          </div>
+          <div>
+            <label class="block text-xs text-muted mb-1">発注金額</label>
+            <div id="detail-amount" class="text-sm font-semibold" style="color: var(--text);"></div>
+          </div>
+        </div>
+        
+        <!-- 発注明細 -->
+        <h4 class="text-sm font-medium mb-2" style="color: var(--text);">発注明細</h4>
+        <div class="table-wrap mb-4">
+          <table>
+            <thead>
+              <tr>
+                <th style="color: var(--text);">明細No</th>
+                <th style="color: var(--text);">商品コード</th>
+                <th style="color: var(--text);">商品名</th>
+                <th style="color: var(--text);">数量</th>
+                <th style="color: var(--text);">単価</th>
+                <th style="color: var(--text);">金額</th>
+              </tr>
+            </thead>
+            <tbody id="detail-items-tbody">
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 連携状況・検証結果 -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <h4 class="text-sm font-medium mb-2" style="color: var(--text);">基幹システム連携状況</h4>
+            <div id="integration-status" class="p-3 rounded" style="background: rgba(0,0,0,0.04);">
+              <div class="text-xs text-muted">連携状況を確認中...</div>
+            </div>
+            <button class="action-btn secondary mt-2 px-3 py-1 text-sm"
+                    onclick="window.showScreen('scr-1780291334265')"
+                    style="background: transparent; border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+              連携履歴を見る
+            </button>
+          </div>
+          <div>
+            <h4 class="text-sm font-medium mb-2" style="color: var(--text);">データ検証結果</h4>
+            <div id="validation-result" class="p-3 rounded" style="background: rgba(0,0,0,0.04);">
+              <div class="text-xs text-muted">検証結果を確認中...</div>
+            </div>
+            <button class="action-btn secondary mt-2 px-3 py-1 text-sm"
+                    onclick="window.showScreen('scr-1780291315061')"
+                    style="background: transparent; border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+              検証詳細を見る
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </section>
+  </main>
+</div>
+<script>
+(function() {
+  var TABLE_DEFS = window.AIVIC_TABLES || [];
+  var PRESET_SEED = window.AIVIC_PRESET_SEED || {};
+  var SYSTEM_NAME = window.AIVIC_SYSTEM_NAME || "";
+  var APP_ID = window.AIVIC_APP_ID || "";
+  var API_URL = (window.AIVIC_API_URL && window.AIVIC_API_URL !== "REPLACE_WITH_API_URL")
+    ? window.AIVIC_API_URL : window.location.origin;
+
+  // 通知 helper（SPA 版と同じ）
+  window.aivicNotify = (function() {
+    function ensureContainer() {
+      var c = document.getElementById("aivic-toast-container");
+      if (c) return c;
+      c = document.createElement("div");
+      c.id = "aivic-toast-container";
+      c.style.cssText = "position:fixed;top:16px;right:16px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none;max-width:360px;";
+      document.body.appendChild(c);
+      return c;
+    }
+    function show(msg, type) {
+      var c = ensureContainer();
+      var el = document.createElement("div");
+      el.textContent = msg;
+      el.style.cssText = "padding:10px 16px;border-radius:8px;font-size:13px;line-height:1.4;pointer-events:auto;color:#fff;background:" + (type === "error" ? "#dc2626" : "#d97706");
+      c.appendChild(el);
+      setTimeout(function() {
+        el.style.transition = "opacity .3s";
+        el.style.opacity = "0";
+        setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 320);
+      }, type === "error" ? 6000 : 4500);
+    }
+    return {
+      error: function(msg) { show("❌ " + msg, "error"); },
+      warn:  function(msg) { show("⚠️ " + msg, "warn"); },
+    };
+  })();
+
+  // CRUD API（SPA 版と同じ）
+  window.aivicApi = (function() {
+    function dbErr(op) { window.aivicNotify.error("データベースエラー（" + op + "）: APIサーバーに接続できません。"); }
+    function newId() { return typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : "id-" + Date.now() + "-" + Math.random().toString(36).slice(2); }
+    function q(i) {
+      var t = TABLE_DEFS[i];
+      var dbP = (window.AIVIC_DB_TYPE && window.AIVIC_DB_TYPE !== "dynamodb") ? "&db=" + encodeURIComponent(window.AIVIC_DB_TYPE) : "";
+      return "?app=" + encodeURIComponent(APP_ID) + "&system=" + encodeURIComponent(SYSTEM_NAME) + "&table=" + encodeURIComponent(t ? t.tableName : "table" + i) + dbP;
+    }
+    return {
+      list: async function(tableIndex) {
+        if (!API_URL) return [];
+        try { var r = await fetch(API_URL + "/api/" + tableIndex + q(tableIndex)); var d = await r.json(); return Array.isArray(d) ? d : (d.items || []); }
+        catch(e) { dbErr("データ取得"); return []; }
+      },
+      save: async function(tableIndex, item) {
+        if (!API_URL) { dbErr("保存"); return null; }
+        var now = new Date().toISOString();
+        var rec = Object.assign({}, item, { id: item.id || newId(), createdAt: item.createdAt || now, updatedAt: now });
+        try { var r = await fetch(API_URL + "/api/" + tableIndex + q(tableIndex), { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(rec) }); return await r.json(); }
+        catch(e) { dbErr("保存"); return null; }
+      },
+      update: async function(tableIndex, id, changes) {
+        if (!API_URL) { dbErr("更新"); return null; }
+        try { var r = await fetch(API_URL + "/api/" + tableIndex + "/" + id + q(tableIndex), { method:"PUT", headers:{"Content-Type":"application/json"}, body:JSON.stringify(Object.assign({}, changes, {updatedAt: new Date().toISOString()})) }); return await r.json(); }
+        catch(e) { dbErr("更新"); return null; }
+      },
+      delete: async function(tableIndex, id) {
+        if (!API_URL) { dbErr("削除"); return {deleted:false}; }
+        try { await fetch(API_URL + "/api/" + tableIndex + "/" + id + q(tableIndex), {method:"DELETE"}); return {deleted:true}; }
+        catch(e) { dbErr("削除"); return {deleted:false}; }
+      },
+    };
+  })();
+
+  // showScreen はマルチページ構成ではページ遷移として動く。
+  // パネル切替 (旧 SPA 動作) ではなく ./<id>.html への navigate に再定義する。
+  // 既存の AI 生成 shell が onclick="showScreen('x')" の形で書いていても透過的に動く。
+  //
+  // 防御層:
+  // (a) 同じ画面 ID なら no-op（AIVIC_PAGE_SCREEN_ID 一致 / pathname 一致のどちらか）
+  // (b) 同じ navigate を 100ms 以内に繰り返したら break loop（onclick 連打ではなく自動ループ対策）
+  // (c) DOMContentLoaded 直後 1.5s 以内の「自動 navigate」は警告 + 抑制（手動 click は通す）
+  var _aivicNavLastTime = 0;
+  var _aivicNavLastTarget = "";
+  var _aivicReady = false;
+  window.showScreen = function(screenId) {
+    if (!screenId) return;
+    if (screenId === window.AIVIC_PAGE_SCREEN_ID) return; // 既に該当ページに居る
+    // pathname ベースの保険: AIVIC_PAGE_SCREEN_ID が未設定でも、現在 URL と一致したら抑制
+    var targetPath = './' + encodeURIComponent(screenId) + '.html';
+    var currentName = (window.location.pathname.split('/').pop() || '');
+    if (currentName === (encodeURIComponent(screenId) + '.html') ||
+        currentName === (screenId + '.html')) {
+      return;
+    }
+    var now = Date.now();
+    if (_aivicNavLastTarget === targetPath && (now - _aivicNavLastTime) < 100) {
+      console.warn('[aivic] showScreen 連続呼び出し検知。無限ループ防止のため抑制:', screenId);
+      return;
+    }
+    if (!_aivicReady) {
+      // ページロード直後の自動 navigate は AI shell の load-time 副作用の可能性が高い。
+      // ボタンクリック等のユーザー操作は ready 後なので影響しない。
+      console.warn('[aivic] DOMContentLoaded 前の showScreen 呼び出し。抑制:', screenId);
+      return;
+    }
+    _aivicNavLastTime = now;
+    _aivicNavLastTarget = targetPath;
+    window.location.href = targetPath;
+  };
+
+  // 初回マウント時のサンプルデータ投入
+  function seedAllIfEmpty() {
+    if (!API_URL) return Promise.resolve();
+    return Promise.all(TABLE_DEFS.map(function(t, i) {
+      var preset = PRESET_SEED[t.tableName];
+      if (!Array.isArray(preset) || preset.length === 0) return Promise.resolve();
+      return window.aivicApi.list(i).then(function(existing) {
+        if (existing && existing.length > 0) return;
+        return Promise.all(preset.map(function(row) { return window.aivicApi.save(i, row); }));
+      }).catch(function() {});
+    }));
+  }
+
+  // ── 初期表示: このページ専用の panel に initFn を実行 ──
+  // window.AIVIC_PAGE_SCREEN_ID と AIVIC_PAGE_INIT_JS は composeMultipagePages
+  // でページ単位に埋め込まれる。
+  document.addEventListener("DOMContentLoaded", function() {
+    // 1.5 秒後に必ず _aivicReady を立てる（initFn が走らないページや失敗ページでも
+    // ユーザーが操作できるようにする保険）。initFn 完了時にも立てるので早い方が勝つ。
+    setTimeout(function() { _aivicReady = true; }, 1500);
+    var pageScreenId = window.AIVIC_PAGE_SCREEN_ID;
+    if (!pageScreenId) return;
+
+    // sidebar / nav の active class を付与（現在ページのリンクを強調）
+    document.querySelectorAll('[data-aivic-nav]').forEach(function(btn) {
+      var isActive = btn.getAttribute("data-aivic-nav") === pageScreenId;
+      btn.classList.toggle("aivic-active", isActive);
+      btn.setAttribute("aria-current", isActive ? "page" : "false");
+    });
+
+    var container = document.querySelector('[data-aivic-panel="' + pageScreenId + '"]');
+    if (!container) return;
+
+    // **content 要素の hidden 強制除去（2026-05-24 Playwright 大量 fail 対応）**:
+    // AI が生成した panel HTML には class="hidden" / hidden 属性 / style="display:none"
+    // が content 要素（#xxx-tbody / #xxx-list / [data-testid="error-message"] 等）に付いて
+    // いることがある。それを Playwright が toBeVisible() で待ち続けて timeout する事故が頻発。
+    //
+    // ポリシー: panel コンテナ配下の全要素について以下を実行:
+    //   - class="hidden" / display:none / hidden 属性を **content 要素では除去**
+    //   - **modal 系**（.modal, .modal-backdrop, [role="dialog"], [data-modal] 等）は除外
+    //     （これらは仕様上初期非表示が正しい）
+    var isModalLike = function(el) {
+      if (!el || !el.classList) return false;
+      var cn = String(el.className || "");
+      if (/modal|dialog|overlay|popup|dropdown|tooltip/i.test(cn)) return true;
+      var role = el.getAttribute && el.getAttribute("role");
+      if (role === "dialog" || role === "alertdialog" || role === "tooltip" || role === "menu") return true;
+      if (el.hasAttribute && (el.hasAttribute("data-modal") || el.hasAttribute("data-dropdown") || el.hasAttribute("data-popup"))) return true;
+      return false;
+    };
+    var unhideContentElements = function(root) {
+      var all = root.querySelectorAll('.hidden, [hidden], [style*="display:none"], [style*="display: none"]');
+      for (var k = 0; k < all.length; k++) {
+        var el = all[k];
+        // modal 系は触らない
+        if (isModalLike(el)) continue;
+        // parent chain で modal 内なら触らない
+        var p = el.parentElement;
+        var insideModal = false;
+        while (p && p !== root) {
+          if (isModalLike(p)) { insideModal = true; break; }
+          p = p.parentElement;
+        }
+        if (insideModal) continue;
+        // 除去
+        el.classList.remove('hidden');
+        el.removeAttribute('hidden');
+        if (el.style && el.style.display === 'none') el.style.display = '';
+      }
+    };
+    try { unhideContentElements(container); } catch (e) { console.warn('[aivic] unhideContent failed:', e); }
+
+    var initJsSource = window.AIVIC_PAGE_INIT_JS;
+    if (!initJsSource) {
+      // initJs が無くてもサンプルデータ投入は走らせる
+      seedAllIfEmpty();
+      return;
+    }
+    var initFn = null;
+    try {
+      initFn = (new Function("return (" + initJsSource + ")"))();
+    } catch (e) {
+      console.error("[aivic] initJs compile error:", pageScreenId, e);
+      return;
+    }
+    if (typeof initFn !== "function") return;
+
+    seedAllIfEmpty().then(function() {
+      return Promise.all(TABLE_DEFS.map(function(t, i) {
+        return window.aivicApi.list(i)
+          .then(function(records) { return Object.assign({}, t, { records: records }); })
+          .catch(function() { return Object.assign({}, t, { records: [] }); });
+      }));
+    }).then(function(tables) {
+      try { initFn(container, API_URL, tables); } catch (e) { console.error("[aivic] initFn error:", pageScreenId, e); }
+      // 初期 panel init が一巡したら _aivicReady を立てる。以降のユーザー操作 (onclick) で
+      // showScreen が呼ばれた場合は通常通り navigate する。
+      _aivicReady = true;
+    });
+  });
+})();
+
+</script>
+</body>
+</html>

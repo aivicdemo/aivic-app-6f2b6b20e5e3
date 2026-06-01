@@ -1,0 +1,881 @@
+{
+  "systemId": "itg-3",
+  "systemName": "顧客別単価管理システムの構築",
+  "cssTheme": ":root {\n  --primary: #2e844a;\n  --primary-hover: #1f5a32;\n  --bg-main: #f8f9fa;\n  --bg-card: #ffffff;\n  --bg-sidebar: #f4f6f9;\n  --border: #d0d7de;\n  --text: #181818;\n  --text-muted: #4a5568;\n  --top-bar-bg: #ffffff;\n  --top-bar-border: #e1e5e9;\n}",
+  "screens": [
+    {
+      "id": "scr-1780291476037",
+      "name": "顧客別単価照会画面",
+      "purpose": "顧客ごとの商品単価情報をリアルタイムで照会し、現在適用中の単価、履歴、承認状況を一元的に確認できる画面",
+      "items": [
+        "顧客検索フィールド",
+        "商品コード検索フィールド",
+        "商品名検索フィールド",
+        "適用期間指定（開始日）",
+        "適用期間指定（終了日）",
+        "単価状況フィルター（有効/無効/承認待ち）",
+        "検索実行ボタン",
+        "検索条件クリアボタン",
+        "単価一覧テーブル",
+        "現在単価表示エリア",
+        "単価履歴表示エリア",
+        "承認状況表示アイコン"
+      ]
+    },
+    {
+      "id": "scr-1780291488728",
+      "name": "単価更新申請画面",
+      "purpose": "顧客別の商品単価変更を申請し、承認ワークフローを開始するための画面",
+      "items": [
+        "顧客選択ドロップダウン",
+        "商品検索・選択機能",
+        "現在単価表示フィールド",
+        "新単価入力フィールド",
+        "適用開始日選択カレンダー",
+        "適用終了日選択カレンダー",
+        "変更理由入力テキストエリア",
+        "添付ファイルアップロード機能",
+        "承認者選択ドロップダウン",
+        "緊急度選択ラジオボタン",
+        "申請内容確認プレビュー",
+        "一時保存ボタン"
+      ]
+    },
+    {
+      "id": "scr-1780291498028",
+      "name": "単価承認ワークフロー画面",
+      "purpose": "単価変更申請の承認プロセスを管理し、承認者が申請内容を確認・承認・差戻しを行うためのワークフロー画面",
+      "items": [
+        "承認待ち申請一覧表",
+        "申請詳細情報パネル",
+        "現在単価・変更後単価比較表示",
+        "申請理由・変更根拠入力欄",
+        "承認者コメント入力欄",
+        "承認ボタン",
+        "差戻しボタン",
+        "保留ボタン",
+        "申請履歴タブ",
+        "承認フロー進捗表示",
+        "緊急度・優先度表示",
+        "申請者情報表示"
+      ]
+    },
+    {
+      "id": "scr-1780291508457",
+      "name": "単価変更履歴照会画面",
+      "purpose": "顧客別の単価変更履歴を時系列で照会し、変更内容、承認状況、適用期間等の詳細情報を確認できる画面",
+      "items": [
+        "顧客検索フィールド",
+        "商品コード検索フィールド",
+        "変更日期間指定カレンダー",
+        "承認状況フィルター",
+        "単価変更履歴一覧テーブル",
+        "変更前単価表示欄",
+        "変更後単価表示欄",
+        "変更理由表示欄",
+        "申請者情報表示欄",
+        "承認者情報表示欄",
+        "適用開始日表示欄",
+        "適用終了日表示欄"
+      ]
+    },
+    {
+      "id": "scr-1780291518184",
+      "name": "単価適用期間管理画面",
+      "purpose": "顧客別の単価適用期間を設定・管理し、期間重複チェックや有効性検証を行い、適切な単価運用を支援する",
+      "items": [
+        "顧客検索フィールド",
+        "商品カテゴリ選択ドロップダウン",
+        "適用期間開始日カレンダー",
+        "適用期間終了日カレンダー",
+        "現在の適用期間一覧テーブル",
+        "期間重複警告表示エリア",
+        "新規期間追加ボタン",
+        "期間編集ボタン",
+        "期間削除ボタン",
+        "期間有効化/無効化トグル",
+        "適用状況フィルター",
+        "期間検索ボタン"
+      ]
+    }
+  ],
+  "screenPanels": [
+    {
+      "screenId": "scr-1780291476037",
+      "panelHtml": "<div class=\"p-4\">\n  <!-- 検索条件セクション -->\n  <div class=\"card p-3 mb-3\">\n    <h3 class=\"text-sm font-medium mb-3\" style=\"color: var(--text);\">検索条件</h3>\n    <div class=\"grid grid-cols-3 gap-3 mb-3\">\n      <div>\n        <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">顧客検索</label>\n        <input type=\"text\" id=\"customer-search\" data-testid=\"customer-search\" placeholder=\"顧客名・コードで検索\" \n               class=\"w-full px-2 py-1 text-sm rounded border\" \n               style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n      </div>\n      <div>\n        <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">商品コード</label>\n        <input type=\"text\" id=\"product-code-search\" data-testid=\"product-code-search\" placeholder=\"商品コード\" \n               class=\"w-full px-2 py-1 text-sm rounded border\" \n               style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n      </div>\n      <div>\n        <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">商品名</label>\n        <input type=\"text\" id=\"product-name-search\" data-testid=\"product-name-search\" placeholder=\"商品名で検索\" \n               class=\"w-full px-2 py-1 text-sm rounded border\" \n               style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n      </div>\n    </div>\n    <div class=\"grid grid-cols-3 gap-3 mb-3\">\n      <div>\n        <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">適用開始日</label>\n        <input type=\"date\" id=\"start-date\" data-testid=\"start-date\" \n               class=\"w-full px-2 py-1 text-sm rounded border\" \n               style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n      </div>\n      <div>\n        <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">適用終了日</label>\n        <input type=\"date\" id=\"end-date\" data-testid=\"end-date\" \n               class=\"w-full px-2 py-1 text-sm rounded border\" \n               style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n      </div>\n      <div>\n        <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">単価状況</label>\n        <select id=\"status-filter\" data-testid=\"status-filter\" \n                class=\"w-full px-2 py-1 text-sm rounded border\" \n                style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n          <option value=\"\">全て</option>\n          <option value=\"有効\">有効</option>\n          <option value=\"無効\">無効</option>\n          <option value=\"承認待ち\">承認待ち</option>\n          <option value=\"期限切れ\">期限切れ</option>\n        </select>\n      </div>\n    </div>\n    <div class=\"flex gap-2\">\n      <button id=\"btn-search\" data-testid=\"search-button\" class=\"action-btn px-3 py-1 text-sm\">検索実行</button>\n      <button id=\"btn-clear\" data-testid=\"clear-button\" class=\"action-btn secondary px-3 py-1 text-sm\">条件クリア</button>\n      <button id=\"btn-export\" data-testid=\"export-button\" class=\"action-btn secondary px-3 py-1 text-sm\">CSVエクスポート</button>\n    </div>\n  </div>\n\n  <!-- KPIカード -->\n  <div class=\"grid grid-cols-4 gap-3 mb-4\">\n    <div class=\"card p-3\">\n      <div class=\"text-xs\" style=\"color: var(--text-muted);\">有効単価件数</div>\n      <div id=\"kpi-active-count\" data-testid=\"kpi-active-count\" class=\"text-lg font-bold\" style=\"color: var(--primary);\">0</div>\n    </div>\n    <div class=\"card p-3\">\n      <div class=\"text-xs\" style=\"color: var(--text-muted);\">承認待ち件数</div>\n      <div id=\"kpi-pending-count\" data-testid=\"kpi-pending-count\" class=\"text-lg font-bold\" style=\"color: #ff6a00;\">0</div>\n    </div>\n    <div class=\"card p-3\">\n      <div class=\"text-xs\" style=\"color: var(--text-muted);\">今月更新件数</div>\n      <div id=\"kpi-monthly-updates\" data-testid=\"kpi-monthly-updates\" class=\"text-lg font-bold\" style=\"color: var(--text);\">0</div>\n    </div>\n    <div class=\"card p-3\">\n      <div class=\"text-xs\" style=\"color: var(--text-muted);\">平均単価</div>\n      <div id=\"kpi-avg-price\" data-testid=\"kpi-avg-price\" class=\"text-lg font-bold\" style=\"color: var(--text);\">¥0</div>\n    </div>\n  </div>\n\n  <!-- グラフエリア -->\n  <div class=\"grid grid-cols-2 gap-3 mb-4\">\n    <div class=\"card p-3\">\n      <h4 class=\"text-sm font-medium mb-2\" style=\"color: var(--text);\">月別単価更新件数</h4>\n      <div class=\"chart-wrap\" style=\"position:relative;height:260px;max-height:280px;\">\n        <canvas id=\"monthly-chart\"></canvas>\n      </div>\n    </div>\n    <div class=\"card p-3\">\n      <h4 class=\"text-sm font-medium mb-2\" style=\"color: var(--text);\">承認状況別分布</h4>\n      <div class=\"chart-wrap\" style=\"position:relative;height:260px;max-height:280px;\">\n        <canvas id=\"status-chart\"></canvas>\n      </div>\n    </div>\n  </div>\n\n  <!-- 単価一覧テーブル -->\n  <div class=\"card\">\n    <div class=\"p-3 border-b\" style=\"border-color: var(--border);\">\n      <div class=\"flex justify-between items-center\">\n        <h3 class=\"text-sm font-medium\" style=\"color: var(--text);\">顧客別単価一覧</h3>\n        <div class=\"flex gap-2\">\n          <button onclick=\"window.showScreen('scr-1780291488728')\" class=\"action-btn secondary text-xs px-2 py-1\">単価更新申請</button>\n          <button onclick=\"window.showScreen('scr-1780291518184')\" class=\"action-btn secondary text-xs px-2 py-1\">適用期間管理</button>\n        </div>\n      </div>\n    </div>\n    <div class=\"table-wrap\">\n      <table data-testid=\"price-list\">\n        <thead>\n          <tr>\n            <th>顧客コード</th>\n            <th>顧客名</th>\n            <th>商品コード</th>\n            <th>商品名</th>\n            <th>現在単価</th>\n            <th>適用開始日</th>\n            <th>適用終了日</th>\n            <th>承認状況</th>\n            <th>更新日</th>\n            <th>操作</th>\n          </tr>\n        </thead>\n        <tbody id=\"price-tbody\"></tbody>\n      </table>\n    </div>\n  </div>\n\n  <!-- 詳細パネル -->\n  <div id=\"detail-panel\" class=\"card mt-3\" style=\"display:none;\">\n    <div class=\"p-3 border-b\" style=\"border-color: var(--border);\">\n      <div class=\"flex justify-between items-center\">\n        <h3 class=\"text-sm font-medium\" style=\"color: var(--text);\">単価詳細・履歴</h3>\n        <button id=\"close-detail\" class=\"action-btn secondary text-xs px-2 py-1\">閉じる</button>\n      </div>\n    </div>\n    <div class=\"grid grid-cols-2 gap-4 p-3\">\n      <div>\n        <h4 class=\"text-sm font-medium mb-2\" style=\"color: var(--text);\">現在単価情報</h4>\n        <div id=\"current-price-info\" class=\"space-y-2 text-sm\"></div>\n      </div>\n      <div>\n        <h4 class=\"text-sm font-medium mb-2\" style=\"color: var(--text);\">単価履歴</h4>\n        <div id=\"price-history\" class=\"space-y-1 text-sm max-h-48 overflow-y-auto\"></div>\n      </div>\n    </div>\n  </div>\n</div>",
+      "initJs": "function(container, apiUrl, tables) {\n  const tbody = container.querySelector('#price-tbody');\n  let allRecords = [];\n\n  // 1. テーブル再描画関数\n  function renderRows(rows) {\n    tbody.innerHTML = rows.map(r => {\n      const statusBadge = getStatusBadge(r.適用状態 || '有効');\n      const price = r.適用単価 ? `¥${r.適用単価.toLocaleString()}` : '-';\n      const startDate = r.適用開始日 ? new Date(r.適用開始日).toLocaleDateString() : '-';\n      const endDate = r.適用終了日 ? new Date(r.適用終了日).toLocaleDateString() : '無期限';\n      const updateDate = r.更新日時 ? new Date(r.更新日時).toLocaleDateString() : '-';\n      \n      return `\n        <tr data-id=\"${r.適用期間ID || r.id}\" class=\"cursor-pointer hover:bg-opacity-50\" style=\"background: var(--bg-main);\">\n          <td>${r.顧客コード || '-'}</td>\n          <td>${r.顧客名 || '-'}</td>\n          <td>${r.商品コード || '-'}</td>\n          <td>${r.商品名 || '-'}</td>\n          <td class=\"font-medium\">${price}</td>\n          <td>${startDate}</td>\n          <td>${endDate}</td>\n          <td>${statusBadge}</td>\n          <td>${updateDate}</td>\n          <td>\n            <button class=\"action-btn secondary text-xs px-2 py-1 detail-btn\" data-id=\"${r.適用期間ID || r.id}\">詳細</button>\n            <button onclick=\"window.showScreen('scr-1780291508457')\" class=\"action-btn secondary text-xs px-2 py-1 ml-1\">履歴</button>\n          </td>\n        </tr>\n      `;\n    }).join('');\n  }\n\n  function getStatusBadge(status) {\n    const badges = {\n      '有効': '<span class=\"px-2 py-1 text-xs rounded\" style=\"background: rgba(34,197,94,0.1); color: #16a34a;\">有効</span>',\n      '無効': '<span class=\"px-2 py-1 text-xs rounded\" style=\"background: rgba(107,114,128,0.1); color: #6b7280;\">無効</span>',\n      '承認待ち': '<span class=\"px-2 py-1 text-xs rounded\" style=\"background: rgba(255,106,0,0.1); color: #ff6a00;\">承認待ち</span>',\n      '期限切れ': '<span class=\"px-2 py-1 text-xs rounded\" style=\"background: rgba(239,68,68,0.1); color: #dc2626;\">期限切れ</span>'\n    };\n    return badges[status] || badges['有効'];\n  }\n\n  // 2. 初期データ描画とKPI更新\n  function updateKPIs(records) {\n    const activeCount = records.filter(r => r.適用状態 === '有効').length;\n    const pendingCount = records.filter(r => r.適用状態 === '承認待ち').length;\n    \n    const thisMonth = new Date().toISOString().slice(0, 7);\n    const monthlyUpdates = records.filter(r => \n      r.更新日時 && r.更新日時.slice(0, 7) === thisMonth\n    ).length;\n    \n    const validPrices = records.filter(r => r.適用単価 && r.適用単価 > 0);\n    const avgPrice = validPrices.length > 0 \n      ? Math.round(validPrices.reduce((sum, r) => sum + r.適用単価, 0) / validPrices.length)\n      : 0;\n\n    container.querySelector('#kpi-active-count').textContent = activeCount;\n    container.querySelector('#kpi-pending-count').textContent = pendingCount;\n    container.querySelector('#kpi-monthly-updates').textContent = monthlyUpdates;\n    container.querySelector('#kpi-avg-price').textContent = `¥${avgPrice.toLocaleString()}`;\n  }\n\n  function initCharts(records) {\n    // 月別更新件数チャート\n    const monthlyData = {};\n    records.forEach(r => {\n      if (r.更新日時) {\n        const month = r.更新日時.slice(0, 7);\n        monthlyData[month] = (monthlyData[month] || 0) + 1;\n      }\n    });\n\n    const months = Object.keys(monthlyData).sort().slice(-6);\n    const counts = months.map(m => monthlyData[m] || 0);\n\n    new window.Chart(container.querySelector('#monthly-chart'), {\n      type: 'line',\n      data: {\n        labels: months,\n        datasets: [{\n          label: '更新件数',\n          data: counts,\n          borderColor: '#22c55e',\n          backgroundColor: 'rgba(34,197,94,0.1)',\n          tension: 0.4\n        }]\n      },\n      options: {\n        responsive: true,\n        maintainAspectRatio: false,\n        scales: {\n          y: { beginAtZero: true }\n        }\n      }\n    });\n\n    // 承認状況分布チャート\n    const statusData = {};\n    records.forEach(r => {\n      const status = r.適用状態 || '有効';\n      statusData[status] = (statusData[status] || 0) + 1;\n    });\n\n    new window.Chart(container.querySelector('#status-chart'), {\n      type: 'doughnut',\n      data: {\n        labels: Object.keys(statusData),\n        datasets: [{\n          data: Object.values(statusData),\n          backgroundColor: ['#22c55e', '#6b7280', '#ff6a00', '#dc2626']\n        }]\n      },\n      options: {\n        responsive: true,\n        maintainAspectRatio: false\n      }\n    });\n  }\n\n  // 初期データロード\n  window.aivicApi.list(5).then(records => {\n    if (records) {\n      allRecords = records;\n      renderRows(records);\n      updateKPIs(records);\n      initCharts(records);\n    }\n  });\n\n  // 3. 検索機能\n  container.querySelector('#btn-search').addEventListener('click', async () => {\n    const customerSearch = container.querySelector('#customer-search').value.toLowerCase();\n    const productCode = container.querySelector('#product-code-search').value.toLowerCase();\n    const productName = container.querySelector('#product-name-search').value.toLowerCase();\n    const startDate = container.querySelector('#start-date').value;\n    const endDate = container.querySelector('#end-date').value;\n    const statusFilter = container.querySelector('#status-filter').value;\n\n    const records = await window.aivicApi.list(5);\n    if (!records) return;\n\n    const filtered = records.filter(r => {\n      if (customerSearch && !(r.顧客名 || '').toLowerCase().includes(customerSearch) && \n          !(r.顧客コード || '').toLowerCase().includes(customerSearch)) return false;\n      if (productCode && !(r.商品コード || '').toLowerCase().includes(productCode)) return false;\n      if (productName && !(r.商品名 || '').toLowerCase().includes(productName)) return false;\n      if (startDate && r.適用開始日 && r.適用開始日 < startDate) return false;\n      if (endDate && r.適用開始日 && r.適用開始日> endDate) return false;\n      if (statusFilter && r.適用状態 !== statusFilter) return false;\n      return true;\n    });\n\n    allRecords = filtered;\n    renderRows(filtered);\n    updateKPIs(filtered);\n  });\n\n  // 4. 条件クリア\n  container.querySelector('#btn-clear').addEventListener('click', () => {\n    container.querySelector('#customer-search').value = '';\n    container.querySelector('#product-code-search').value = '';\n    container.querySelector('#product-name-search').value = '';\n    container.querySelector('#start-date').value = '';\n    container.querySelector('#end-date').value = '';\n    container.querySelector('#status-filter').value = '';\n    \n    window.aivicApi.list(5).then(records => {\n      if (records) {\n        allRecords = records;\n        renderRows(records);\n        updateKPIs(records);\n      }\n    });\n  });\n\n  // 5. CSVエクスポート\n  container.querySelector('#btn-export').addEventListener('click', async () => {\n    const records = await window.aivicApi.list(5);\n    if (!records) return;\n\n    const headers = ['顧客コード', '顧客名', '商品コード', '商品名', '適用単価', '適用開始日', '適用終了日', '適用状態', '更新日時'];\n    const csvContent = '\\uFEFF' + [\n      headers.join(','),\n      ...records.map(r => [\n        r.顧客コード || '',\n        r.顧客名 || '',\n        r.商品コード || '',\n        r.商品名 || '',\n        r.適用単価 || '',\n        r.適用開始日 || '',\n        r.適用終了日 || '',\n        r.適用状態 || '',\n        r.更新日時 || ''\n      ].map(field => `\"${field}\"`).join(','))\n    ].join('\\n');\n\n    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });\n    const link = document.createElement('a');\n    link.href = URL.createObjectURL(blob);\n    link.download = `顧客別単価一覧_${new Date().toISOString().slice(0, 10)}.csv`;\n    link.click();\n  });\n\n  // 6. 詳細表示\n  container.addEventListener('click', async (e) => {\n    const detailBtn = e.target.closest('.detail-btn');\n    if (detailBtn) {\n      const id = detailBtn.dataset.id;\n      const record = allRecords.find(r => (r.適用期間ID || r.id) === id);\n      if (record) {\n        showDetailPanel(record);\n      }\n    }\n  });\n\n  function showDetailPanel(record) {\n    const panel = container.querySelector('#detail-panel');\n    const currentInfo = container.querySelector('#current-price-info');\n    const history = container.querySelector('#price-history');\n\n    currentInfo.innerHTML = `\n      <div><span style=\"color: var(--text-muted);\">顧客:</span> ${record.顧客名 || '-'} (${record.顧客コード || '-'})</div>\n      <div><span style=\"color: var(--text-muted);\">商品:</span> ${record.商品名 || '-'} (${record.商品コード || '-'})</div>\n      <div><span style=\"color: var(--text-muted);\">現在単価:</span> <span class=\"font-bold\" style=\"color: var(--primary);\">¥${(record.適用単価 || 0).toLocaleString()}</span></div>\n      <div><span style=\"color: var(--text-muted);\">適用期間:</span> ${record.適用開始日 ? new Date(record.適用開始日).toLocaleDateString() : '-'} ～ ${record.適用終了日 ? new Date(record.適用終了日).toLocaleDateString() : '無期限'}</div>\n      <div><span style=\"color: var(--text-muted);\">状態:</span> ${getStatusBadge(record.適用状態 || '有効')}</div>\n    `;\n\n    // 履歴データの模擬表示\n    history.innerHTML = `\n      <div class=\"p-2 rounded\" style=\"background: var(--bg-main);\">\n        <div class=\"text-xs\" style=\"color: var(--text-muted);\">${new Date().toLocaleDateString()}</div>\n        <div>¥${(record.適用単価 || 0).toLocaleString()} (現在)</div>\n      </div>\n      <div class=\"p-2 rounded\" style=\"background: var(--bg-main);\">\n        <div class=\"text-xs\" style=\"color: var(--text-muted);\">2024-01-15</div>\n        <div>¥${Math.round((record.適用単価 || 1000) * 0.9).toLocaleString()} (前回)</div>\n      </div>\n    `;\n\n    panel.style.display = 'block';\n  }\n\n  container.querySelector('#close-detail').addEventListener('click', () => {\n    container.querySelector('#detail-panel').style.display = 'none';\n  });\n}",
+      "method": "ai"
+    },
+    {
+      "screenId": "scr-1780291488728",
+      "panelHtml": "<div class=\"price-update-request-screen\">\n  <!-- ヘッダー -->\n  <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;\">\n    <h1 style=\"font-size: 24px; font-weight: 600; color: var(--text); margin: 0;\">単価更新申請</h1>\n    <div style=\"display: flex; gap: 8px;\">\n      <button class=\"action-btn secondary\" data-testid=\"draft-save-button\" id=\"btn-draft-save\">一時保存</button>\n      <button class=\"action-btn\" data-testid=\"submit-button\" id=\"btn-submit\">申請する</button>\n    </div>\n  </div>\n\n  <!-- メインフォーム -->\n  <div class=\"card\" style=\"margin-bottom: 20px;\">\n    <h2 style=\"font-size: 16px; font-weight: 600; color: var(--text); margin: 0 0 16px 0;\">申請内容</h2>\n    \n    <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;\">\n      <div>\n        <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">顧客</label>\n        <select data-testid=\"customer-select\" id=\"select-customer\" style=\"width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);\">\n          <option value=\"\">顧客を選択してください</option>\n          <option value=\"customer-001\">株式会社サンプル商事</option>\n          <option value=\"customer-002\">テスト工業株式会社</option>\n          <option value=\"customer-003\">デモ物産有限会社</option>\n          <option value=\"customer-004\">サンプル建設株式会社</option>\n        </select>\n      </div>\n      \n      <div>\n        <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">商品検索</label>\n        <div style=\"position: relative;\">\n          <input data-testid=\"product-search\" id=\"input-product-search\" type=\"text\" placeholder=\"商品名・品番で検索\" style=\"width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);\">\n          <button class=\"action-btn secondary\" id=\"btn-product-search\" style=\"position: absolute; right: 4px; top: 4px; padding: 4px 8px; font-size: 12px;\">検索</button>\n        </div>\n      </div>\n    </div>\n\n    <div style=\"display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px;\">\n      <div>\n        <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">現在単価</label>\n        <input data-testid=\"current-price\" id=\"input-current-price\" type=\"text\" readonly style=\"width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.15); color: var(--text-muted);\">\n      </div>\n      \n      <div>\n        <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">新単価 <span style=\"color: #ff6a00;\">*</span></label>\n        <input data-testid=\"new-price\" id=\"input-new-price\" type=\"number\" placeholder=\"新しい単価を入力\" style=\"width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);\">\n      </div>\n      \n      <div>\n        <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">申請種別</label>\n        <select data-testid=\"request-type-select\" id=\"select-request-type\" style=\"width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);\">\n          <option value=\"\">種別を選択</option>\n          <option value=\"new\">新規登録</option>\n          <option value=\"change\">変更</option>\n          <option value=\"delete\">削除</option>\n        </select>\n      </div>\n    </div>\n\n    <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;\">\n      <div>\n        <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">適用開始日 <span style=\"color: #ff6a00;\">*</span></label>\n        <input data-testid=\"start-date\" id=\"input-start-date\" type=\"date\" style=\"width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);\">\n      </div>\n      \n      <div>\n        <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">適用終了日</label>\n        <input data-testid=\"end-date\" id=\"input-end-date\" type=\"date\" style=\"width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);\">\n      </div>\n    </div>\n\n    <div style=\"margin-bottom: 16px;\">\n      <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">変更理由 <span style=\"color: #ff6a00;\">*</span></label>\n      <textarea data-testid=\"change-reason\" id=\"textarea-reason\" placeholder=\"単価変更の理由を詳しく入力してください\" style=\"width: 100%; height: 80px; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); resize: vertical;\"></textarea>\n    </div>\n  </div>\n\n  <!-- 承認・緊急度設定 -->\n  <div class=\"card\" style=\"margin-bottom: 20px;\">\n    <h2 style=\"font-size: 16px; font-weight: 600; color: var(--text); margin: 0 0 16px 0;\">承認設定</h2>\n    \n    <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;\">\n      <div>\n        <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">承認者</label>\n        <select data-testid=\"approver-select\" id=\"select-approver\" style=\"width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);\">\n          <option value=\"\">承認者を選択してください</option>\n          <option value=\"approver-001\">田中部長</option>\n          <option value=\"approver-002\">佐藤課長</option>\n          <option value=\"approver-003\">鈴木マネージャー</option>\n          <option value=\"approver-004\">山田統括</option>\n        </select>\n      </div>\n      \n      <div>\n        <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 8px;\">緊急度</label>\n        <div style=\"display: flex; gap: 16px;\">\n          <label style=\"display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--text);\">\n            <input type=\"radio\" name=\"priority\" value=\"low\" style=\"accent-color: var(--primary);\">\n            低\n          </label>\n          <label style=\"display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--text);\">\n            <input type=\"radio\" name=\"priority\" value=\"medium\" checked style=\"accent-color: var(--primary);\">\n            中\n          </label>\n          <label style=\"display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--text);\">\n            <input type=\"radio\" name=\"priority\" value=\"high\" style=\"accent-color: var(--primary);\">\n            高\n          </label>\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <!-- 添付ファイル -->\n  <div class=\"card\" style=\"margin-bottom: 20px;\">\n    <h2 style=\"font-size: 16px; font-weight: 600; color: var(--text); margin: 0 0 16px 0;\">添付ファイル</h2>\n    \n    <div id=\"file-drop-zone\" style=\"border: 2px dashed rgba(255,255,255,0.3); border-radius: 8px; padding: 24px; text-align: center; background: rgba(0,0,0,0.15); cursor: pointer;\">\n      <div style=\"color: var(--text-muted); margin-bottom: 8px;\">ファイルをドラッグ&ドロップまたはクリックして選択</div>\n      <input type=\"file\" id=\"file-input\" multiple style=\"display: none;\">\n      <button class=\"action-btn secondary\" id=\"btn-file-select\">ファイルを選択</button>\n    </div>\n    \n    <div id=\"file-list\" style=\"margin-top: 12px;\"></div>\n  </div>\n\n  <!-- 申請内容プレビュー -->\n  <div class=\"card\">\n    <h2 style=\"font-size: 16px; font-weight: 600; color: var(--text); margin: 0 0 16px 0;\">申請内容プレビュー</h2>\n    \n    <div id=\"preview-content\" style=\"background: rgba(0,0,0,0.15); border-radius: 6px; padding: 16px; color: var(--text-muted); font-size: 14px;\">\n      申請内容を入力すると、ここにプレビューが表示されます\n    </div>\n  </div>\n\n  <!-- 関連画面へのナビゲーション -->\n  <div style=\"margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border); display: flex; gap: 12px;\">\n    <button class=\"action-btn secondary\" onclick=\"window.showScreen('scr-1780291476037')\">単価照会画面</button>\n    <button class=\"action-btn secondary\" onclick=\"window.showScreen('scr-1780291498028')\">承認ワークフロー</button>\n    <button class=\"action-btn secondary\" onclick=\"window.showScreen('scr-1780291508457')\">変更履歴照会</button>\n  </div>\n</div>",
+      "initJs": "function(container, apiUrl, tables) {\n  // DOM要素の取得\n  const customerSelect = container.querySelector('#select-customer');\n  const productSearchInput = container.querySelector('#input-product-search');\n  const currentPriceInput = container.querySelector('#input-current-price');\n  const newPriceInput = container.querySelector('#input-new-price');\n  const requestTypeSelect = container.querySelector('#select-request-type');\n  const startDateInput = container.querySelector('#input-start-date');\n  const endDateInput = container.querySelector('#input-end-date');\n  const reasonTextarea = container.querySelector('#textarea-reason');\n  const approverSelect = container.querySelector('#select-approver');\n  const previewContent = container.querySelector('#preview-content');\n  const fileDropZone = container.querySelector('#file-drop-zone');\n  const fileInput = container.querySelector('#file-input');\n  const fileList = container.querySelector('#file-list');\n  \n  let selectedFiles = [];\n  let selectedProduct = null;\n\n  // プレビュー更新関数\n  function updatePreview() {\n    const customer = customerSelect.options[customerSelect.selectedIndex]?.text || '';\n    const product = selectedProduct ? selectedProduct.name : '';\n    const currentPrice = currentPriceInput.value;\n    const newPrice = newPriceInput.value;\n    const requestType = requestTypeSelect.options[requestTypeSelect.selectedIndex]?.text || '';\n    const startDate = startDateInput.value;\n    const endDate = endDateInput.value;\n    const reason = reasonTextarea.value;\n    const approver = approverSelect.options[approverSelect.selectedIndex]?.text || '';\n    const priority = container.querySelector('input[name=\"priority\"]:checked')?.value || '';\n\n    const priorityText = { low: '低', medium: '中', high: '高' }[priority] || '';\n\n    previewContent.innerHTML = `\n      <div style=\"display: grid; grid-template-columns: 120px 1fr; gap: 8px 16px; font-size: 14px;\">\n        <div style=\"color: var(--text-muted);\">顧客:</div>\n        <div style=\"color: var(--text);\">${customer}</div>\n        <div style=\"color: var(--text-muted);\">商品:</div>\n        <div style=\"color: var(--text);\">${product}</div>\n        <div style=\"color: var(--text-muted);\">申請種別:</div>\n        <div style=\"color: var(--text);\">${requestType}</div>\n        <div style=\"color: var(--text-muted);\">現在単価:</div>\n        <div style=\"color: var(--text);\">${currentPrice ? `¥${Number(currentPrice).toLocaleString()}` : ''}</div>\n        <div style=\"color: var(--text-muted);\">新単価:</div>\n        <div style=\"color: var(--text);\">${newPrice ? `¥${Number(newPrice).toLocaleString()}` : ''}</div>\n        <div style=\"color: var(--text-muted);\">適用期間:</div>\n        <div style=\"color: var(--text);\">${startDate}${endDate ? ` ～ ${endDate}` : ' ～ 無期限'}</div>\n        <div style=\"color: var(--text-muted);\">変更理由:</div>\n        <div style=\"color: var(--text);\">${reason}</div>\n        <div style=\"color: var(--text-muted);\">承認者:</div>\n        <div style=\"color: var(--text);\">${approver}</div>\n        <div style=\"color: var(--text-muted);\">緊急度:</div>\n        <div style=\"color: var(--text);\">${priorityText}</div>\n        <div style=\"color: var(--text-muted);\">添付ファイル:</div>\n        <div style=\"color: var(--text);\">${selectedFiles.length}件</div>\n      </div>\n    `;\n  }\n\n  // 商品検索\n  container.querySelector('#btn-product-search').addEventListener('click', async () => {\n    const keyword = productSearchInput.value.trim();\n    if (!keyword) return;\n\n    // 模擬的な商品検索結果\n    const mockProducts = [\n      { id: 'prod-001', name: 'スチールパイプ φ25mm', code: 'SP-025', currentPrice: 1200 },\n      { id: 'prod-002', name: 'アルミパイプ φ30mm', code: 'AP-030', currentPrice: 1800 },\n      { id: 'prod-003', name: '銅管 φ15mm', code: 'CP-015', currentPrice: 2500 },\n      { id: 'prod-004', name: 'ステンレスパイプ φ20mm', code: 'SSP-020', currentPrice: 3200 }\n    ];\n\n    const results = mockProducts.filter(p => \n      p.name.includes(keyword) || p.code.includes(keyword)\n    );\n\n    if (results.length > 0) {\n      selectedProduct = results[0];\n      productSearchInput.value = `${selectedProduct.name} (${selectedProduct.code})`;\n      currentPriceInput.value = selectedProduct.currentPrice;\n      updatePreview();\n    } else {\n      alert('該当する商品が見つかりませんでした');\n    }\n  });\n\n  // ファイルドロップ処理\n  fileDropZone.addEventListener('dragover', (e) => {\n    e.preventDefault();\n    fileDropZone.style.borderColor = 'var(--primary)';\n    fileDropZone.style.backgroundColor = 'rgba(0,0,0,0.25)';\n  });\n\n  fileDropZone.addEventListener('dragleave', (e) => {\n    e.preventDefault();\n    fileDropZone.style.borderColor = 'rgba(255,255,255,0.3)';\n    fileDropZone.style.backgroundColor = 'rgba(0,0,0,0.15)';\n  });\n\n  fileDropZone.addEventListener('drop', (e) => {\n    e.preventDefault();\n    fileDropZone.style.borderColor = 'rgba(255,255,255,0.3)';\n    fileDropZone.style.backgroundColor = 'rgba(0,0,0,0.15)';\n    \n    const files = Array.from(e.dataTransfer.files);\n    addFiles(files);\n  });\n\n  container.querySelector('#btn-file-select').addEventListener('click', () => {\n    fileInput.click();\n  });\n\n  fileInput.addEventListener('change', (e) => {\n    const files = Array.from(e.target.files);\n    addFiles(files);\n  });\n\n  function addFiles(files) {\n    selectedFiles = [...selectedFiles, ...files];\n    renderFileList();\n    updatePreview();\n  }\n\n  function renderFileList() {\n    fileList.innerHTML = selectedFiles.map((file, index) => `\n      <div style=\"display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: rgba(0,0,0,0.25); border-radius: 4px; margin-bottom: 8px;\">\n        <span style=\"color: var(--text); font-size: 14px;\">${file.name} (${(file.size / 1024).toFixed(1)}KB)</span>\n        <button class=\"action-btn secondary\" onclick=\"removeFile(${index})\" style=\"padding: 4px 8px; font-size: 12px;\">削除</button>\n      </div>\n    `).join('');\n  }\n\n  window.removeFile = function(index) {\n    selectedFiles.splice(index, 1);\n    renderFileList();\n    updatePreview();\n  };\n\n  // フォーム変更時のプレビュー更新\n  [customerSelect, newPriceInput, requestTypeSelect, startDateInput, endDateInput, reasonTextarea, approverSelect].forEach(element => {\n    element.addEventListener('change', updatePreview);\n    element.addEventListener('input', updatePreview);\n  });\n\n  container.querySelectorAll('input[name=\"priority\"]').forEach(radio => {\n    radio.addEventListener('change', updatePreview);\n  });\n\n  // 一時保存\n  container.querySelector('#btn-draft-save').addEventListener('click', async () => {\n    const formData = collectFormData();\n    formData.申請状態 = '下書き';\n    \n    const saved = await window.aivicApi.save(1, formData); // 単価更新申請テーブル\n    if (saved) {\n      alert('一時保存しました');\n    }\n  });\n\n  // 申請実行\n  container.querySelector('#btn-submit').addEventListener('click', async () => {\n    if (!validateForm()) return;\n\n    const formData = collectFormData();\n    formData.申請状態 = '申請中';\n    \n    const saved = await window.aivicApi.save(1, formData); // 単価更新申請テーブル\n    if (saved) {\n      // 承認ワークフロー作成\n      const workflowData = {\n        申請ID: saved.申請ID,\n        承認段階: 1,\n        承認者ID: approverSelect.value,\n        承認者名: approverSelect.options[approverSelect.selectedIndex]?.text || '',\n        承認ステータス: '承認待ち',\n        期限日時: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7日後\n        通知済フラグ: false\n      };\n      \n      await window.aivicApi.save(2, workflowData); // 単価承認ワークフローテーブル\n      \n      alert('申請を送信しました');\n      // フォームリセット\n      container.querySelectorAll('input, select, textarea').forEach(el => {\n        if (el.type !== 'radio') el.value = '';\n      });\n      selectedFiles = [];\n      selectedProduct = null;\n      renderFileList();\n      updatePreview();\n    }\n  });\n\n  function collectFormData() {\n    const priority = container.querySelector('input[name=\"priority\"]:checked')?.value || 'medium';\n    \n    return {\n      顧客ID: customerSelect.value,\n      商品ID: selectedProduct?.id || '',\n      申請種別: requestTypeSelect.value,\n      現在単価: currentPriceInput.value ? parseInt(currentPriceInput.value) : null,\n      申請単価: parseInt(newPriceInput.value),\n      適用開始日: startDateInput.value,\n      適用終了日: endDateInput.value || null,\n      申請理由: reasonTextarea.value,\n      申請者ID: 'current-user-id', // 実際はログインユーザーID\n      承認者ID: approverSelect.value,\n      緊急度: priority\n    };\n  }\n\n  function validateForm() {\n    if (!customerSelect.value) {\n      alert('顧客を選択してください');\n      return false;\n    }\n    if (!selectedProduct) {\n      alert('商品を選択してください');\n      return false;\n    }\n    if (!newPriceInput.value) {\n      alert('新単価を入力してください');\n      return false;\n    }\n    if (!startDateInput.value) {\n      alert('適用開始日を選択してください');\n      return false;\n    }\n    if (!reasonTextarea.value.trim()) {\n      alert('変更理由を入力してください');\n      return false;\n    }\n    if (!approverSelect.value) {\n      alert('承認者を選択してください');\n      return false;\n    }\n    return true;\n  }\n\n  // 初期設定\n  const today = new Date().toISOString().split('T')[0];\n  startDateInput.value = today;\n  updatePreview();\n}",
+      "method": "ai"
+    },
+    {
+      "screenId": "scr-1780291498028",
+      "panelHtml": "<div class=\"workflow-header\" style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;\">\n  <div>\n    <h2 style=\"margin: 0; font-size: 20px; color: var(--text);\">単価承認ワークフロー</h2>\n    <p style=\"margin: 4px 0 0 0; font-size: 13px; color: var(--text-muted);\">単価変更申請の承認・差戻し・保留を管理</p>\n  </div>\n  <div style=\"display: flex; gap: 8px;\">\n    <button class=\"action-btn secondary\" data-testid=\"history-button\" onclick=\"window.showScreen('scr-1780291508457')\">変更履歴</button>\n    <button class=\"action-btn secondary\" data-testid=\"period-management-button\" onclick=\"window.showScreen('scr-1780291518184')\">適用期間管理</button>\n  </div>\n</div>\n\n<div style=\"display: grid; grid-template-columns: 1fr 400px; gap: 16px; height: calc(100vh - 200px);\">\n  <!-- 左側: 承認待ち申請一覧 -->\n  <div class=\"card\" style=\"padding: 16px; overflow: hidden; display: flex; flex-direction: column;\">\n    <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;\">\n      <h3 style=\"margin: 0; font-size: 16px; color: var(--text);\">承認待ち申請一覧</h3>\n      <div style=\"display: flex; gap: 8px; align-items: center;\">\n        <select data-testid=\"status-filter\" id=\"status-filter\" style=\"padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;\">\n          <option value=\"\">全ステータス</option>\n          <option value=\"承認待ち\">承認待ち</option>\n          <option value=\"保留\">保留</option>\n          <option value=\"否認\">否認</option>\n        </select>\n        <input type=\"text\" id=\"search-input\" data-testid=\"search-input\" placeholder=\"顧客名・商品名で検索\" style=\"padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px; width: 180px;\">\n        <button class=\"action-btn secondary\" id=\"btn-search\" data-testid=\"search-button\">検索</button>\n      </div>\n    </div>\n    \n    <div class=\"table-wrap\" style=\"flex: 1; overflow-y: auto;\">\n      <table data-testid=\"workflow-list\">\n        <thead>\n          <tr>\n            <th style=\"width: 80px;\">緊急度</th>\n            <th style=\"width: 120px;\">申請日</th>\n            <th>顧客名</th>\n            <th>商品名</th>\n            <th style=\"width: 80px;\">現在単価</th>\n            <th style=\"width: 80px;\">申請単価</th>\n            <th style=\"width: 80px;\">変更率</th>\n            <th style=\"width: 90px;\">承認段階</th>\n            <th style=\"width: 80px;\">期限</th>\n            <th style=\"width: 60px;\">操作</th>\n          </tr>\n        </thead>\n        <tbody id=\"workflow-tbody\">\n        </tbody>\n      </table>\n    </div>\n  </div>\n\n  <!-- 右側: 申請詳細・承認パネル -->\n  <div class=\"card\" style=\"padding: 16px; overflow-y: auto; display: flex; flex-direction: column;\">\n    <div id=\"no-selection\" style=\"text-align: center; color: var(--text-muted); margin-top: 60px;\">\n      <p>申請を選択してください</p>\n    </div>\n    \n    <div id=\"approval-panel\" style=\"display: none;\">\n      <!-- 申請詳細情報 -->\n      <div style=\"margin-bottom: 20px;\">\n        <h3 style=\"margin: 0 0 12px 0; font-size: 16px; color: var(--text);\">申請詳細</h3>\n        <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 13px;\">\n          <div>\n            <label style=\"color: var(--text-muted); font-size: 11px;\">申請者</label>\n            <div id=\"detail-applicant\" style=\"color: var(--text); font-weight: 500;\"></div>\n          </div>\n          <div>\n            <label style=\"color: var(--text-muted); font-size: 11px;\">申請日時</label>\n            <div id=\"detail-date\" style=\"color: var(--text);\"></div>\n          </div>\n          <div>\n            <label style=\"color: var(--text-muted); font-size: 11px;\">顧客名</label>\n            <div id=\"detail-customer\" style=\"color: var(--text); font-weight: 500;\"></div>\n          </div>\n          <div>\n            <label style=\"color: var(--text-muted); font-size: 11px;\">商品名</label>\n            <div id=\"detail-product\" style=\"color: var(--text);\"></div>\n          </div>\n        </div>\n      </div>\n\n      <!-- 単価比較 -->\n      <div style=\"margin-bottom: 20px;\">\n        <h4 style=\"margin: 0 0 8px 0; font-size: 14px; color: var(--text);\">単価変更内容</h4>\n        <div style=\"display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; text-align: center;\">\n          <div style=\"padding: 8px; background: rgba(0,0,0,0.15); border-radius: 4px;\">\n            <div style=\"font-size: 11px; color: var(--text-muted);\">現在単価</div>\n            <div id=\"detail-current-price\" style=\"font-size: 16px; font-weight: 600; color: var(--text);\"></div>\n          </div>\n          <div style=\"padding: 8px; background: rgba(34,197,94,0.15); border-radius: 4px;\">\n            <div style=\"font-size: 11px; color: var(--text-muted);\">申請単価</div>\n            <div id=\"detail-new-price\" style=\"font-size: 16px; font-weight: 600; color: #22c55e;\"></div>\n          </div>\n          <div style=\"padding: 8px; background: rgba(0,0,0,0.15); border-radius: 4px;\">\n            <div style=\"font-size: 11px; color: var(--text-muted);\">変更率</div>\n            <div id=\"detail-change-rate\" style=\"font-size: 16px; font-weight: 600; color: var(--text);\"></div>\n          </div>\n        </div>\n      </div>\n\n      <!-- 申請理由 -->\n      <div style=\"margin-bottom: 20px;\">\n        <h4 style=\"margin: 0 0 8px 0; font-size: 14px; color: var(--text);\">申請理由</h4>\n        <div id=\"detail-reason\" style=\"padding: 8px; background: rgba(0,0,0,0.15); border-radius: 4px; font-size: 13px; color: var(--text); min-height: 40px;\"></div>\n      </div>\n\n      <!-- 承認フロー進捗 -->\n      <div style=\"margin-bottom: 20px;\">\n        <h4 style=\"margin: 0 0 8px 0; font-size: 14px; color: var(--text);\">承認フロー進捗</h4>\n        <div id=\"approval-flow\" style=\"display: flex; flex-direction: column; gap: 6px;\">\n        </div>\n      </div>\n\n      <!-- 承認者コメント入力 -->\n      <div style=\"margin-bottom: 20px;\">\n        <label for=\"approval-comment\" style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">承認者コメント</label>\n        <textarea id=\"approval-comment\" data-testid=\"approval-comment\" rows=\"3\" placeholder=\"承認・差戻し理由を入力してください\" style=\"width: 100%; padding: 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px; resize: vertical;\"></textarea>\n      </div>\n\n      <!-- 承認アクションボタン -->\n      <div style=\"display: flex; gap: 8px;\">\n        <button class=\"action-btn\" id=\"btn-approve\" data-testid=\"approve-button\" style=\"flex: 1; background: #22c55e; color: #fff;\">承認</button>\n        <button class=\"action-btn secondary\" id=\"btn-reject\" data-testid=\"reject-button\" style=\"flex: 1;\">差戻し</button>\n        <button class=\"action-btn secondary\" id=\"btn-hold\" data-testid=\"hold-button\" style=\"flex: 1;\">保留</button>\n      </div>\n    </div>\n  </div>\n</div>\n\n<!-- 承認確認モーダル -->\n<div id=\"confirm-modal\" style=\"display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center;\">\n  <div class=\"card\" style=\"padding: 24px; width: 400px; max-width: 90vw;\">\n    <h3 id=\"modal-title\" style=\"margin: 0 0 12px 0; font-size: 16px; color: var(--text);\"></h3>\n    <p id=\"modal-message\" style=\"margin: 0 0 20px 0; font-size: 14px; color: var(--text-muted);\"></p>\n    <div style=\"display: flex; gap: 8px; justify-content: flex-end;\">\n      <button class=\"action-btn secondary\" id=\"modal-cancel\">キャンセル</button>\n      <button class=\"action-btn\" id=\"modal-confirm\">実行</button>\n    </div>\n  </div>\n</div>",
+      "initJs": "function(container, apiUrl, tables) {\n  let selectedApplicationId = null;\n  let currentApplications = [];\n\n  // 緊急度バッジの生成\n  function getPriorityBadge(priority) {\n    const colors = {\n      '高': { bg: 'rgba(239,68,68,0.15)', color: '#ef4444' },\n      '中': { bg: 'rgba(245,158,11,0.15)', color: '#f59e0b' },\n      '低': { bg: 'rgba(107,114,128,0.15)', color: '#6b7280' }\n    };\n    const style = colors[priority] || colors['低'];\n    return `<span style=\"padding: 2px 6px; border-radius: 3px; font-size: 11px; font-weight: 500; background: ${style.bg}; color: ${style.color};\">${priority}</span>`;\n  }\n\n  // 変更率の計算と表示\n  function getChangeRate(current, newPrice) {\n    if (!current || current === 0) return '-';\n    const rate = ((newPrice - current) / current * 100);\n    const color = rate > 0 ? '#ef4444' : rate < 0 ? '#22c55e' : '#6b7280';\n    const sign = rate > 0 ? '+' : '';\n    return `<span style=\"color: ${color}; font-weight: 500;\">${sign}${rate.toFixed(1)}%</span>`;\n  }\n\n  // 承認フロー進捗の表示\n  function renderApprovalFlow(workflows) {\n    const flowContainer = container.querySelector('#approval-flow');\n    if (!workflows || workflows.length === 0) {\n      flowContainer.innerHTML = '<div style=\"color: var(--text-muted); font-size: 13px;\">承認フローが設定されていません</div>';\n      return;\n    }\n\n    flowContainer.innerHTML = workflows.map(wf => {\n      const statusColors = {\n        '承認済み': { bg: 'rgba(34,197,94,0.15)', color: '#22c55e' },\n        '承認待ち': { bg: 'rgba(245,158,11,0.15)', color: '#f59e0b' },\n        '否認': { bg: 'rgba(239,68,68,0.15)', color: '#ef4444' },\n        '保留': { bg: 'rgba(107,114,128,0.15)', color: '#6b7280' }\n      };\n      const style = statusColors[wf.承認ステータス] || statusColors['承認待ち'];\n      \n      return `\n        <div style=\"display: flex; justify-content: space-between; align-items: center; padding: 8px; background: rgba(0,0,0,0.1); border-radius: 4px;\">\n          <div>\n            <div style=\"font-size: 13px; color: var(--text); font-weight: 500;\">${wf.承認段階}次承認: ${wf.承認者名}</div>\n            ${wf.承認日時 ? `<div style=\"font-size: 11px; color: var(--text-muted);\">${new Date(wf.承認日時).toLocaleString()}</div>` : ''}\n          </div>\n          <span style=\"padding: 2px 8px; border-radius: 3px; font-size: 11px; font-weight: 500; background: ${style.bg}; color: ${style.color};\">${wf.承認ステータス}</span>\n        </div>\n      `;\n    }).join('');\n  }\n\n  // 申請一覧の再描画\n  function renderApplications(applications) {\n    const tbody = container.querySelector('#workflow-tbody');\n    if (!applications || applications.length === 0) {\n      tbody.innerHTML = '<tr><td colspan=\"10\" style=\"text-align: center; color: var(--text-muted); padding: 20px;\">承認待ちの申請はありません</td></tr>';\n      return;\n    }\n\n    tbody.innerHTML = applications.map(app => {\n      const changeRate = getChangeRate(app.現在単価, app.申請単価);\n      const deadline = new Date(app.期限日時 || Date.now() + 7*24*60*60*1000);\n      const isOverdue = deadline < new Date();\n      const deadlineColor = isOverdue ? '#ef4444' : '#f59e0b';\n      \n      return `\n        <tr data-id=\"${app.申請ID}\" style=\"cursor: pointer;\" class=\"application-row\">\n          <td>${getPriorityBadge(app.優先度 || '中')}</td>\n          <td style=\"font-size: 12px;\">${new Date(app.作成日時).toLocaleDateString()}</td>\n          <td style=\"font-weight: 500;\">${app.顧客名 || '顧客' + app.顧客ID?.slice(-4)}</td>\n          <td>${app.商品名 || '商品' + app.商品ID?.slice(-4)}</td>\n          <td style=\"text-align: right;\">¥${(app.現在単価 || 0).toLocaleString()}</td>\n          <td style=\"text-align: right;\">¥${(app.申請単価 || 0).toLocaleString()}</td>\n          <td style=\"text-align: center;\">${changeRate}</td>\n          <td style=\"text-align: center;\">${app.承認段階 || 1}次</td>\n          <td style=\"font-size: 11px; color: ${deadlineColor};\">${deadline.toLocaleDateString()}</td>\n          <td><button class=\"action-btn secondary select-btn\" data-id=\"${app.申請ID}\" style=\"padding: 4px 8px; font-size: 11px;\">選択</button></td>\n        </tr>\n      `;\n    }).join('');\n  }\n\n  // 申請詳細の表示\n  function showApplicationDetail(applicationId) {\n    const app = currentApplications.find(a => a.申請ID === applicationId);\n    if (!app) return;\n\n    selectedApplicationId = applicationId;\n    \n    // 詳細情報の表示\n    container.querySelector('#detail-applicant').textContent = app.申請者名 || 'ユーザー' + app.申請者ID?.slice(-4);\n    container.querySelector('#detail-date').textContent = new Date(app.作成日時).toLocaleString();\n    container.querySelector('#detail-customer').textContent = app.顧客名 || '顧客' + app.顧客ID?.slice(-4);\n    container.querySelector('#detail-product').textContent = app.商品名 || '商品' + app.商品ID?.slice(-4);\n    container.querySelector('#detail-current-price').textContent = '¥' + (app.現在単価 || 0).toLocaleString();\n    container.querySelector('#detail-new-price').textContent = '¥' + (app.申請単価 || 0).toLocaleString();\n    container.querySelector('#detail-change-rate').innerHTML = getChangeRate(app.現在単価, app.申請単価);\n    container.querySelector('#detail-reason').textContent = app.申請理由 || '理由が入力されていません';\n\n    // 承認フローの表示（ダミーデータ）\n    const workflows = [\n      {\n        承認段階: 1,\n        承認者名: '田中 一郎',\n        承認ステータス: '承認待ち',\n        承認日時: null\n      }\n    ];\n    renderApprovalFlow(workflows);\n\n    // パネルの表示切り替え\n    container.querySelector('#no-selection').style.display = 'none';\n    container.querySelector('#approval-panel').style.display = 'block';\n  }\n\n  // 承認アクション実行\n  async function executeApprovalAction(action) {\n    if (!selectedApplicationId) return;\n\n    const comment = container.querySelector('#approval-comment').value.trim();\n    if (!comment) {\n      alert('コメントを入力してください');\n      return;\n    }\n\n    const statusMap = {\n      'approve': '承認済',\n      'reject': '却下',\n      'hold': '保留'\n    };\n\n    try {\n      // 単価更新申請テーブルの更新\n      const updated = await window.aivicApi.update(1, selectedApplicationId, {\n        申請状態: statusMap[action],\n        承認者ID: 'current-user-id',\n        承認日時: new Date().toISOString(),\n        承認コメント: comment\n      });\n\n      if (updated) {\n        // ワークフローテーブルの更新\n        await window.aivicApi.update(2, selectedApplicationId, {\n          承認ステータス: statusMap[action],\n          承認日時: new Date().toISOString(),\n          承認コメント: comment\n        });\n\n        alert(`申請を${action === 'approve' ? '承認' : action === 'reject' ? '差戻し' : '保留'}しました`);\n        \n        // 一覧を再読み込み\n        const applications = await window.aivicApi.list(1);\n        if (applications) {\n          currentApplications = applications.filter(app => \n            ['申請中', '承認待ち', '保留'].includes(app.申請状態)\n          );\n          renderApplications(currentApplications);\n        }\n\n        // 詳細パネルを閉じる\n        container.querySelector('#no-selection').style.display = 'block';\n        container.querySelector('#approval-panel').style.display = 'none';\n        selectedApplicationId = null;\n        container.querySelector('#approval-comment').value = '';\n      }\n    } catch (error) {\n      console.error('承認処理エラー:', error);\n      alert('承認処理中にエラーが発生しました');\n    }\n  }\n\n  // 初期データの読み込みと描画\n  async function loadInitialData() {\n    try {\n      const applications = await window.aivicApi.list(1);\n      if (applications) {\n        // 承認待ちの申請のみフィルタ\n        currentApplications = applications.filter(app => \n          ['申請中', '承認待ち', '保留'].includes(app.申請状態)\n        );\n        renderApplications(currentApplications);\n      } else {\n        // API未接続時は初期データを使用\n        currentApplications = (tables[1]?.records || []).filter(app => \n          ['申請中', '承認待ち', '保留'].includes(app.申請状態)\n        );\n        renderApplications(currentApplications);\n      }\n    } catch (error) {\n      console.error('データ読み込みエラー:', error);\n      currentApplications = (tables[1]?.records || []).filter(app => \n        ['申請中', '承認待ち', '保留'].includes(app.申請状態)\n      );\n      renderApplications(currentApplications);\n    }\n  }\n\n  // 検索機能\n  container.querySelector('#btn-search').addEventListener('click', async () => {\n    const keyword = container.querySelector('#search-input').value.trim();\n    const statusFilter = container.querySelector('#status-filter').value;\n\n    try {\n      const applications = await window.aivicApi.list(1);\n      if (applications) {\n        let filtered = applications.filter(app => \n          ['申請中', '承認待ち', '保留'].includes(app.申請状態)\n        );\n\n        if (keyword) {\n          filtered = filtered.filter(app => \n            JSON.stringify(app).toLowerCase().includes(keyword.toLowerCase())\n          );\n        }\n\n        if (statusFilter) {\n          filtered = filtered.filter(app => app.申請状態 === statusFilter);\n        }\n\n        currentApplications = filtered;\n        renderApplications(currentApplications);\n      }\n    } catch (error) {\n      console.error('検索エラー:', error);\n    }\n  });\n\n  // 申請選択のイベントリスナー\n  container.addEventListener('click', (e) => {\n    const selectBtn = e.target.closest('.select-btn');\n    const row = e.target.closest('.application-row');\n    \n    if (selectBtn || row) {\n      const applicationId = selectBtn ? selectBtn.dataset.id : row.dataset.id;\n      if (applicationId) {\n        showApplicationDetail(applicationId);\n      }\n    }\n  });\n\n  // 承認アクションボタンのイベントリスナー\n  container.querySelector('#btn-approve').addEventListener('click', () => {\n    executeApprovalAction('approve');\n  });\n\n  container.querySelector('#btn-reject').addEventListener('click', () => {\n    executeApprovalAction('reject');\n  });\n\n  container.querySelector('#btn-hold').addEventListener('click', () => {\n    executeApprovalAction('hold');\n  });\n\n  // モーダルの制御\n  const modal = container.querySelector('#confirm-modal');\n  container.querySelector('#modal-cancel').addEventListener('click', () => {\n    modal.style.display = 'none';\n  });\n\n  // 初期データの読み込み\n  loadInitialData();\n}",
+      "method": "ai"
+    },
+    {
+      "screenId": "scr-1780291508457",
+      "panelHtml": "<div class=\"flex gap-3 h-full\">\n  <!-- 検索フィルタパネル -->\n  <div class=\"w-80 bg-card rounded-lg p-4 h-fit\">\n    <h2 class=\"text-lg font-semibold mb-4\" style=\"color: var(--text);\">検索条件</h2>\n    \n    <div class=\"space-y-3\">\n      <div>\n        <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">顧客検索</label>\n        <input type=\"text\" id=\"customer-search\" data-testid=\"customer-search\" placeholder=\"顧客名・コードで検索\" \n               class=\"w-full px-3 py-2 rounded-md text-sm\"\n               style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n      </div>\n      \n      <div>\n        <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">商品コード</label>\n        <input type=\"text\" id=\"product-code-search\" data-testid=\"product-code-search\" placeholder=\"商品コードで検索\"\n               class=\"w-full px-3 py-2 rounded-md text-sm\"\n               style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n      </div>\n      \n      <div class=\"grid grid-cols-2 gap-2\">\n        <div>\n          <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">変更日（開始）</label>\n          <input type=\"date\" id=\"date-from\" data-testid=\"date-from\"\n                 class=\"w-full px-3 py-2 rounded-md text-sm\"\n                 style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n        </div>\n        <div>\n          <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">変更日（終了）</label>\n          <input type=\"date\" id=\"date-to\" data-testid=\"date-to\"\n                 class=\"w-full px-3 py-2 rounded-md text-sm\"\n                 style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n        </div>\n      </div>\n      \n      <div>\n        <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">承認状況</label>\n        <select id=\"approval-status-filter\" data-testid=\"approval-status-filter\"\n                class=\"w-full px-3 py-2 rounded-md text-sm\"\n                style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n          <option value=\"\">すべて</option>\n          <option value=\"承認済\">承認済</option>\n          <option value=\"申請中\">申請中</option>\n          <option value=\"却下\">却下</option>\n          <option value=\"取下\">取下</option>\n        </select>\n      </div>\n      \n      <div class=\"flex gap-2 pt-2\">\n        <button id=\"btn-search\" data-testid=\"search-button\" class=\"action-btn flex-1\">\n          検索\n        </button>\n        <button id=\"btn-clear\" data-testid=\"clear-button\" class=\"action-btn secondary\">\n          クリア\n        </button>\n      </div>\n    </div>\n  </div>\n\n  <!-- メインコンテンツ -->\n  <div class=\"flex-1 bg-card rounded-lg p-4\">\n    <div class=\"flex justify-between items-center mb-4\">\n      <h1 class=\"text-xl font-bold\" style=\"color: var(--text);\">単価変更履歴照会</h1>\n      <div class=\"flex gap-2\">\n        <button id=\"btn-export\" data-testid=\"export-button\" class=\"action-btn secondary\">\n          CSVエクスポート\n        </button>\n        <button id=\"btn-new-application\" data-testid=\"new-application-button\" class=\"action-btn\">\n          新規申請\n        </button>\n      </div>\n    </div>\n\n    <!-- 履歴一覧テーブル -->\n    <div class=\"table-wrap\">\n      <table data-testid=\"history-list\">\n        <thead>\n          <tr>\n            <th>変更日時</th>\n            <th>顧客名</th>\n            <th>商品コード</th>\n            <th>変更前単価</th>\n            <th>変更後単価</th>\n            <th>変更理由</th>\n            <th>申請者</th>\n            <th>承認者</th>\n            <th>承認状況</th>\n            <th>適用期間</th>\n            <th>操作</th>\n          </tr>\n        </thead>\n        <tbody id=\"history-tbody\">\n        </tbody>\n      </table>\n    </div>\n\n    <!-- 詳細表示パネル -->\n    <div id=\"detail-panel\" class=\"mt-4 bg-main rounded-lg p-4\" style=\"display: none;\">\n      <div class=\"flex justify-between items-center mb-3\">\n        <h3 class=\"text-lg font-semibold\" style=\"color: var(--text);\">変更履歴詳細</h3>\n        <button id=\"btn-close-detail\" class=\"action-btn secondary text-sm\">閉じる</button>\n      </div>\n      \n      <div class=\"grid grid-cols-3 gap-4\">\n        <div class=\"space-y-3\">\n          <div>\n            <label class=\"block text-sm font-medium mb-1\" style=\"color: var(--text-muted);\">変更前単価</label>\n            <div id=\"detail-before-price\" class=\"text-lg font-semibold\" style=\"color: var(--text);\"></div>\n          </div>\n          <div>\n            <label class=\"block text-sm font-medium mb-1\" style=\"color: var(--text-muted);\">申請者情報</label>\n            <div id=\"detail-applicant\" style=\"color: var(--text);\"></div>\n          </div>\n          <div>\n            <label class=\"block text-sm font-medium mb-1\" style=\"color: var(--text-muted);\">適用開始日</label>\n            <div id=\"detail-start-date\" style=\"color: var(--text);\"></div>\n          </div>\n        </div>\n        \n        <div class=\"space-y-3\">\n          <div>\n            <label class=\"block text-sm font-medium mb-1\" style=\"color: var(--text-muted);\">変更後単価</label>\n            <div id=\"detail-after-price\" class=\"text-lg font-semibold\" style=\"color: var(--primary);\"></div>\n          </div>\n          <div>\n            <label class=\"block text-sm font-medium mb-1\" style=\"color: var(--text-muted);\">承認者情報</label>\n            <div id=\"detail-approver\" style=\"color: var(--text);\"></div>\n          </div>\n          <div>\n            <label class=\"block text-sm font-medium mb-1\" style=\"color: var(--text-muted);\">適用終了日</label>\n            <div id=\"detail-end-date\" style=\"color: var(--text);\"></div>\n          </div>\n        </div>\n        \n        <div class=\"space-y-3\">\n          <div>\n            <label class=\"block text-sm font-medium mb-1\" style=\"color: var(--text-muted);\">変更理由</label>\n            <div id=\"detail-reason\" class=\"p-3 rounded-md\" style=\"background: rgba(0,0,0,0.15); color: var(--text);\"></div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>",
+      "initJs": "function(container, apiUrl, tables) {\n  const tbody = container.querySelector('#history-tbody');\n  const detailPanel = container.querySelector('#detail-panel');\n  \n  // 顧客・商品マスタのマップを作成（参照用）\n  const customerMap = new Map();\n  const productMap = new Map();\n  const userMap = new Map();\n  \n  // 仮の参照データを作成\n  const sampleCustomers = [\n    { id: 'cust-001', name: '株式会社田中商事', code: 'C001' },\n    { id: 'cust-002', name: '山田工業株式会社', code: 'C002' },\n    { id: 'cust-003', name: '佐藤建設', code: 'C003' }\n  ];\n  \n  const sampleProducts = [\n    { id: 'prod-001', code: 'P001', name: '配管部品A' },\n    { id: 'prod-002', code: 'P002', name: '電気部品B' },\n    { id: 'prod-003', code: 'P003', name: '建材C' }\n  ];\n  \n  const sampleUsers = [\n    { id: 'user-001', name: '営業太郎' },\n    { id: 'user-002', name: '管理花子' },\n    { id: 'user-003', name: '承認次郎' }\n  ];\n  \n  sampleCustomers.forEach(c => customerMap.set(c.id, c));\n  sampleProducts.forEach(p => productMap.set(p.id, p));\n  sampleUsers.forEach(u => userMap.set(u.id, u));\n\n  // 1. テーブル再描画関数\n  function renderRows(rows) {\n    tbody.innerHTML = rows.map(r => {\n      const customer = customerMap.get(r.顧客ID) || { name: '不明', code: '' };\n      const product = productMap.get(r.商品ID) || { code: '不明' };\n      const applicant = userMap.get(r.作成者ID) || { name: '不明' };\n      const approver = userMap.get(r.承認者ID) || { name: '-' };\n      \n      const beforePrice = r.変更前単価 ? `¥${r.変更前単価.toLocaleString()}` : '-';\n      const afterPrice = r.変更後単価 ? `¥${r.変更後単価.toLocaleString()}` : '-';\n      const startDate = r.変更前適用開始日 ? new Date(r.変更前適用開始日).toLocaleDateString() : '-';\n      const endDate = r.変更前適用終了日 ? new Date(r.変更前適用終了日).toLocaleDateString() : '無期限';\n      const changeDate = new Date(r.作成日時).toLocaleString();\n      \n      const statusBadge = getStatusBadge(r.承認状況);\n      \n      return `\n        <tr data-id=\"${r.ログID}\" class=\"cursor-pointer hover:bg-opacity-50\" style=\"background: rgba(0,0,0,0.02);\">\n          <td>${changeDate}</td>\n          <td>${customer.name}</td>\n          <td>${product.code}</td>\n          <td class=\"text-right\">${beforePrice}</td>\n          <td class=\"text-right font-semibold\" style=\"color: var(--primary);\">${afterPrice}</td>\n          <td>${r.変更理由 || '-'}</td>\n          <td>${applicant.name}</td>\n          <td>${approver.name}</td>\n          <td>${statusBadge}</td>\n          <td>${startDate} ～ ${endDate}</td>\n          <td>\n            <button class=\"action-btn secondary text-sm detail-btn\" data-id=\"${r.ログID}\">詳細</button>\n          </td>\n        </tr>\n      `;\n    }).join('');\n  }\n  \n  function getStatusBadge(status) {\n    const badges = {\n      '承認済': '<span class=\"px-2 py-1 text-xs rounded-full\" style=\"background: rgba(34,197,94,0.2); color: #22c55e;\">承認済</span>',\n      '申請中': '<span class=\"px-2 py-1 text-xs rounded-full\" style=\"background: rgba(251,191,36,0.2); color: #fbbf24;\">申請中</span>',\n      '却下': '<span class=\"px-2 py-1 text-xs rounded-full\" style=\"background: rgba(239,68,68,0.2); color: #ef4444;\">却下</span>',\n      '取下': '<span class=\"px-2 py-1 text-xs rounded-full\" style=\"background: rgba(156,163,175,0.2); color: #9ca3af;\">取下</span>'\n    };\n    return badges[status] || `<span class=\"px-2 py-1 text-xs rounded-full\" style=\"background: rgba(156,163,175,0.2); color: #9ca3af;\">${status}</span>`;\n  }\n\n  // 2. 初期データ描画\n  renderRows(tables[0].records || []);\n\n  // 3. 検索ボタンイベント\n  container.querySelector('#btn-search').addEventListener('click', async () => {\n    const customerSearch = container.querySelector('#customer-search').value.toLowerCase();\n    const productCode = container.querySelector('#product-code-search').value.toLowerCase();\n    const dateFrom = container.querySelector('#date-from').value;\n    const dateTo = container.querySelector('#date-to').value;\n    const approvalStatus = container.querySelector('#approval-status-filter').value;\n    \n    const rows = await window.aivicApi.list(0);\n    if (!rows) return;\n    \n    const filtered = rows.filter(r => {\n      const customer = customerMap.get(r.顧客ID) || { name: '', code: '' };\n      const product = productMap.get(r.商品ID) || { code: '' };\n      \n      // 顧客検索\n      if (customerSearch && !customer.name.toLowerCase().includes(customerSearch) && \n          !customer.code.toLowerCase().includes(customerSearch)) {\n        return false;\n      }\n      \n      // 商品コード検索\n      if (productCode && !product.code.toLowerCase().includes(productCode)) {\n        return false;\n      }\n      \n      // 日付範囲\n      const changeDate = new Date(r.作成日時).toISOString().split('T')[0];\n      if (dateFrom && changeDate < dateFrom) return false;\n      if (dateTo && changeDate > dateTo) return false;\n      \n      // 承認状況\n      if (approvalStatus && r.承認状況 !== approvalStatus) return false;\n      \n      return true;\n    });\n    \n    renderRows(filtered);\n  });\n\n  // クリアボタン\n  container.querySelector('#btn-clear').addEventListener('click', () => {\n    container.querySelector('#customer-search').value = '';\n    container.querySelector('#product-code-search').value = '';\n    container.querySelector('#date-from').value = '';\n    container.querySelector('#date-to').value = '';\n    container.querySelector('#approval-status-filter').value = '';\n    renderRows(tables[0].records || []);\n  });\n\n  // CSVエクスポート\n  container.querySelector('#btn-export').addEventListener('click', async () => {\n    const rows = await window.aivicApi.list(0);\n    if (!rows) return;\n    \n    const headers = ['変更日時', '顧客名', '商品コード', '変更前単価', '変更後単価', '変更理由', '申請者', '承認者', '承認状況', '適用開始日', '適用終了日'];\n    const csvData = rows.map(r => {\n      const customer = customerMap.get(r.顧客ID) || { name: '不明' };\n      const product = productMap.get(r.商品ID) || { code: '不明' };\n      const applicant = userMap.get(r.作成者ID) || { name: '不明' };\n      const approver = userMap.get(r.承認者ID) || { name: '-' };\n      \n      return [\n        new Date(r.作成日時).toLocaleString(),\n        customer.name,\n        product.code,\n        r.変更前単価 || '',\n        r.変更後単価 || '',\n        r.変更理由 || '',\n        applicant.name,\n        approver.name,\n        r.承認状況,\n        r.変更前適用開始日 ? new Date(r.変更前適用開始日).toLocaleDateString() : '',\n        r.変更前適用終了日 ? new Date(r.変更前適用終了日).toLocaleDateString() : ''\n      ];\n    });\n    \n    const csv = '\\uFEFF' + [headers, ...csvData].map(row => \n      row.map(cell => `\"${String(cell).replace(/\"/g, '\"\"')}\"`).join(',')\n    ).join('\\n');\n    \n    const blob = new Blob([csv], { type: 'text/csv' });\n    const url = URL.createObjectURL(blob);\n    const a = document.createElement('a');\n    a.href = url;\n    a.download = `単価変更履歴_${new Date().toISOString().split('T')[0]}.csv`;\n    a.click();\n    URL.revokeObjectURL(url);\n  });\n\n  // 新規申請ボタン\n  container.querySelector('#btn-new-application').addEventListener('click', () => {\n    window.showScreen('scr-1780291488728');\n  });\n\n  // 詳細表示・行クリック・詳細ボタン\n  container.addEventListener('click', async (e) => {\n    const detailBtn = e.target.closest('.detail-btn');\n    const row = e.target.closest('tr[data-id]');\n    \n    if (detailBtn || (row && !e.target.closest('button'))) {\n      const id = detailBtn ? detailBtn.dataset.id : row.dataset.id;\n      const rows = await window.aivicApi.list(0);\n      const record = rows?.find(r => r.ログID === id);\n      \n      if (record) {\n        showDetailPanel(record);\n      }\n    }\n  });\n\n  // 詳細パネル表示\n  function showDetailPanel(record) {\n    const customer = customerMap.get(record.顧客ID) || { name: '不明' };\n    const product = productMap.get(record.商品ID) || { code: '不明' };\n    const applicant = userMap.get(record.作成者ID) || { name: '不明' };\n    const approver = userMap.get(record.承認者ID) || { name: '-' };\n    \n    container.querySelector('#detail-before-price').textContent = \n      record.変更前単価 ? `¥${record.変更前単価.toLocaleString()}` : '-';\n    container.querySelector('#detail-after-price').textContent = \n      record.変更後単価 ? `¥${record.変更後単価.toLocaleString()}` : '-';\n    container.querySelector('#detail-reason').textContent = record.変更理由 || '-';\n    container.querySelector('#detail-applicant').textContent = applicant.name;\n    container.querySelector('#detail-approver').textContent = approver.name;\n    container.querySelector('#detail-start-date').textContent = \n      record.変更前適用開始日 ? new Date(record.変更前適用開始日).toLocaleDateString() : '-';\n    container.querySelector('#detail-end-date').textContent = \n      record.変更前適用終了日 ? new Date(record.変更前適用終了日).toLocaleDateString() : '無期限';\n    \n    detailPanel.style.display = 'block';\n  }\n\n  // 詳細パネル閉じる\n  container.querySelector('#btn-close-detail').addEventListener('click', () => {\n    detailPanel.style.display = 'none';\n  });\n}",
+      "method": "ai"
+    },
+    {
+      "screenId": "scr-1780291518184",
+      "panelHtml": "<div class=\"flex gap-3 h-full\">\n  <!-- 左側: フィルター・検索エリア -->\n  <div class=\"w-80 bg-card rounded-lg p-4 h-fit\">\n    <h2 class=\"text-lg font-semibold mb-4\" style=\"color: var(--text);\">検索・フィルター</h2>\n    \n    <div class=\"space-y-3\">\n      <div>\n        <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">顧客検索</label>\n        <input type=\"text\" id=\"customer-search\" data-testid=\"customer-search\" placeholder=\"顧客名・コードで検索\" \n               class=\"w-full px-3 py-2 rounded border text-sm\" \n               style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n      </div>\n      \n      <div>\n        <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">商品カテゴリ</label>\n        <select id=\"category-filter\" data-testid=\"category-filter\" \n                class=\"w-full px-3 py-2 rounded border text-sm\" \n                style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n          <option value=\"\">すべてのカテゴリ</option>\n          <option value=\"電材\">電材</option>\n          <option value=\"配管材\">配管材</option>\n          <option value=\"工具\">工具</option>\n          <option value=\"照明器具\">照明器具</option>\n        </select>\n      </div>\n      \n      <div>\n        <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">適用状況</label>\n        <select id=\"status-filter\" data-testid=\"status-filter\" \n                class=\"w-full px-3 py-2 rounded border text-sm\" \n                style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n          <option value=\"\">すべての状況</option>\n          <option value=\"有効\">有効</option>\n          <option value=\"無効\">無効</option>\n          <option value=\"予約\">予約</option>\n          <option value=\"期限切れ\">期限切れ</option>\n        </select>\n      </div>\n      \n      <div class=\"grid grid-cols-2 gap-2\">\n        <div>\n          <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">開始日</label>\n          <input type=\"date\" id=\"start-date\" data-testid=\"start-date\" \n                 class=\"w-full px-2 py-2 rounded border text-sm\" \n                 style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n        </div>\n        <div>\n          <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">終了日</label>\n          <input type=\"date\" id=\"end-date\" data-testid=\"end-date\" \n                 class=\"w-full px-2 py-2 rounded border text-sm\" \n                 style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n        </div>\n      </div>\n      \n      <button id=\"btn-search\" data-testid=\"search-button\" class=\"action-btn w-full\">\n        検索実行\n      </button>\n      \n      <button id=\"btn-clear\" data-testid=\"clear-button\" class=\"action-btn secondary w-full\">\n        条件クリア\n      </button>\n    </div>\n  </div>\n\n  <!-- 右側: メインコンテンツ -->\n  <div class=\"flex-1 flex flex-col\">\n    <!-- ヘッダー -->\n    <div class=\"flex justify-between items-center mb-4\">\n      <div>\n        <h1 class=\"text-xl font-bold\" style=\"color: var(--text);\">単価適用期間管理</h1>\n        <p class=\"text-sm mt-1\" style=\"color: var(--text-muted);\">顧客別の単価適用期間を設定・管理し、期間重複チェックや有効性検証を行います</p>\n      </div>\n      <div class=\"flex gap-2\">\n        <button id=\"btn-add-period\" data-testid=\"add-period-button\" class=\"action-btn\">\n          新規期間追加\n        </button>\n        <button id=\"btn-bulk-update\" data-testid=\"bulk-update-button\" class=\"action-btn secondary\">\n          一括更新\n        </button>\n        <button onclick=\"window.showScreen('scr-1780291488728')\" class=\"action-btn secondary\">\n          単価更新申請\n        </button>\n      </div>\n    </div>\n\n    <!-- 期間重複警告エリア -->\n    <div id=\"overlap-warning\" class=\"hidden mb-4 p-3 rounded border-l-4\" \n         style=\"background: var(--bg-card); border-left-color: #ff6a00; color: var(--text);\">\n      <div class=\"flex items-center gap-2\">\n        <span class=\"text-sm font-medium\">⚠️ 期間重複警告</span>\n      </div>\n      <div id=\"overlap-details\" class=\"text-sm mt-1\" style=\"color: var(--text-muted);\"></div>\n    </div>\n\n    <!-- 適用期間一覧テーブル -->\n    <div class=\"bg-card rounded-lg flex-1 overflow-hidden\">\n      <div class=\"p-4 border-b\" style=\"border-color: var(--border);\">\n        <div class=\"flex justify-between items-center\">\n          <h2 class=\"font-semibold\" style=\"color: var(--text);\">現在の適用期間一覧</h2>\n          <div class=\"flex gap-2 text-sm\" style=\"color: var(--text-muted);\">\n            <span>総件数: <span id=\"total-count\">0</span>件</span>\n            <span>|</span>\n            <span>有効: <span id=\"active-count\">0</span>件</span>\n          </div>\n        </div>\n      </div>\n      \n      <div class=\"table-wrap\" style=\"height: calc(100% - 80px);\">\n        <table data-testid=\"period-list\">\n          <thead>\n            <tr>\n              <th>顧客名</th>\n              <th>商品名</th>\n              <th>適用単価</th>\n              <th>開始日</th>\n              <th>終了日</th>\n              <th>適用状態</th>\n              <th>優先度</th>\n              <th>備考</th>\n              <th>操作</th>\n            </tr>\n          </thead>\n          <tbody id=\"period-tbody\">\n          </tbody>\n        </table>\n      </div>\n    </div>\n  </div>\n</div>\n\n<!-- 新規期間追加モーダル -->\n<div id=\"add-period-modal\" class=\"fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50\" style=\"display: none;\">\n  <div class=\"bg-card rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto\">\n    <div class=\"flex justify-between items-center mb-4\">\n      <h3 class=\"text-lg font-semibold\" style=\"color: var(--text);\">新規適用期間追加</h3>\n      <button id=\"close-modal\" class=\"text-2xl\" style=\"color: var(--text-muted);\">&times;</button>\n    </div>\n    \n    <form id=\"period-form\" class=\"space-y-4\">\n      <div class=\"grid grid-cols-2 gap-4\">\n        <div>\n          <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">顧客選択</label>\n          <select id=\"modal-customer\" data-testid=\"modal-customer\" required\n                  class=\"w-full px-3 py-2 rounded border\" \n                  style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n            <option value=\"\">顧客を選択してください</option>\n            <option value=\"customer-001\">株式会社サンプル電設</option>\n            <option value=\"customer-002\">有限会社テスト工業</option>\n            <option value=\"customer-003\">山田電気工事店</option>\n          </select>\n        </div>\n        \n        <div>\n          <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">商品選択</label>\n          <select id=\"modal-product\" data-testid=\"modal-product\" required\n                  class=\"w-full px-3 py-2 rounded border\" \n                  style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n            <option value=\"\">商品を選択してください</option>\n            <option value=\"product-001\">VVFケーブル 2.0mm</option>\n            <option value=\"product-002\">PF管 16mm</option>\n            <option value=\"product-003\">LED照明器具</option>\n            <option value=\"product-004\">分電盤</option>\n          </select>\n        </div>\n      </div>\n      \n      <div class=\"grid grid-cols-3 gap-4\">\n        <div>\n          <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">適用単価（円）</label>\n          <input type=\"number\" id=\"modal-price\" data-testid=\"modal-price\" required min=\"0\"\n                 class=\"w-full px-3 py-2 rounded border\" \n                 style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n        </div>\n        \n        <div>\n          <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">開始日</label>\n          <input type=\"datetime-local\" id=\"modal-start-date\" data-testid=\"modal-start-date\" required\n                 class=\"w-full px-3 py-2 rounded border\" \n                 style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n        </div>\n        \n        <div>\n          <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">終了日</label>\n          <input type=\"datetime-local\" id=\"modal-end-date\" data-testid=\"modal-end-date\"\n                 class=\"w-full px-3 py-2 rounded border\" \n                 style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n        </div>\n      </div>\n      \n      <div class=\"grid grid-cols-2 gap-4\">\n        <div>\n          <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">適用状態</label>\n          <select id=\"modal-status\" data-testid=\"modal-status\" required\n                  class=\"w-full px-3 py-2 rounded border\" \n                  style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n            <option value=\"\">状態を選択してください</option>\n            <option value=\"有効\">有効</option>\n            <option value=\"無効\">無効</option>\n            <option value=\"予約\">予約</option>\n          </select>\n        </div>\n        \n        <div>\n          <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">優先度</label>\n          <input type=\"number\" id=\"modal-priority\" data-testid=\"modal-priority\" value=\"1\" min=\"1\" max=\"10\"\n                 class=\"w-full px-3 py-2 rounded border\" \n                 style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n        </div>\n      </div>\n      \n      <div>\n        <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">備考</label>\n        <textarea id=\"modal-notes\" data-testid=\"modal-notes\" rows=\"3\"\n                  class=\"w-full px-3 py-2 rounded border\" \n                  style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\"></textarea>\n      </div>\n      \n      <div class=\"flex justify-end gap-2 pt-4\">\n        <button type=\"button\" id=\"cancel-modal\" class=\"action-btn secondary\">\n          キャンセル\n        </button>\n        <button type=\"submit\" id=\"save-period\" data-testid=\"save-period\" class=\"action-btn\">\n          保存\n        </button>\n      </div>\n    </form>\n  </div>\n</div>",
+      "initJs": "function(container, apiUrl, tables) {\n  const tbody = container.querySelector('#period-tbody');\n  const modal = container.querySelector('#add-period-modal');\n  const overlapWarning = container.querySelector('#overlap-warning');\n  \n  // 1. テーブル再描画関数\n  function renderRows(rows) {\n    const totalCount = container.querySelector('#total-count');\n    const activeCount = container.querySelector('#active-count');\n    \n    totalCount.textContent = rows.length;\n    activeCount.textContent = rows.filter(r => r.適用状態 === '有効').length;\n    \n    tbody.innerHTML = rows.map(r => `\n      <tr data-id=\"${r.id || r.適用期間ID}\">\n        <td>${r.顧客名 || '未設定'}</td>\n        <td>${r.商品名 || '未設定'}</td>\n        <td class=\"text-right\">${(r.適用単価 || 0).toLocaleString()}円</td>\n        <td>${r.適用開始日 ? new Date(r.適用開始日).toLocaleDateString() : '-'}</td>\n        <td>${r.適用終了日 ? new Date(r.適用終了日).toLocaleDateString() : '無期限'}</td>\n        <td>\n          <span class=\"px-2 py-1 rounded text-xs font-medium\" \n                style=\"background: ${getStatusColor(r.適用状態)}; color: #fff;\">\n            ${r.適用状態 || '未設定'}\n          </span>\n        </td>\n        <td class=\"text-center\">${r.優先度 || 1}</td>\n        <td class=\"text-sm\" style=\"color: var(--text-muted);\">${r.備考 || '-'}</td>\n        <td>\n          <div class=\"flex gap-1\">\n            <button class=\"action-btn secondary edit-btn text-xs px-2 py-1\" data-id=\"${r.id || r.適用期間ID}\">編集</button>\n            <button class=\"action-btn secondary delete-btn text-xs px-2 py-1\" data-id=\"${r.id || r.適用期間ID}\">削除</button>\n            <button class=\"action-btn secondary toggle-btn text-xs px-2 py-1\" data-id=\"${r.id || r.適用期間ID}\">\n              ${r.適用状態 === '有効' ? '無効化' : '有効化'}\n            </button>\n          </div>\n        </td>\n      </tr>\n    `).join('');\n    \n    // 期間重複チェック\n    checkOverlaps(rows);\n  }\n  \n  function getStatusColor(status) {\n    switch(status) {\n      case '有効': return '#22c55e';\n      case '無効': return '#6b7280';\n      case '予約': return '#3b82f6';\n      case '期限切れ': return '#ef4444';\n      default: return '#6b7280';\n    }\n  }\n  \n  function checkOverlaps(rows) {\n    const overlaps = [];\n    const activeRows = rows.filter(r => r.適用状態 === '有効');\n    \n    for (let i = 0; i < activeRows.length; i++) {\n      for (let j = i + 1; j < activeRows.length; j++) {\n        const row1 = activeRows[i];\n        const row2 = activeRows[j];\n        \n        if (row1.顧客ID === row2.顧客ID && row1.商品ID === row2.商品ID) {\n          const start1 = new Date(row1.適用開始日);\n          const end1 = row1.適用終了日 ? new Date(row1.適用終了日) : new Date('2099-12-31');\n          const start2 = new Date(row2.適用開始日);\n          const end2 = row2.適用終了日 ? new Date(row2.適用終了日) : new Date('2099-12-31');\n          \n          if (start1 <= end2 && start2 <= end1) {\n            overlaps.push({ row1, row2 });\n          }\n        }\n      }\n    }\n    \n    if (overlaps.length > 0) {\n      overlapWarning.style.display = 'block';\n      const details = container.querySelector('#overlap-details');\n      details.innerHTML = overlaps.map(o => \n        `${o.row1.顧客名} - ${o.row1.商品名}: ${new Date(o.row1.適用開始日).toLocaleDateString()} ～ と ${new Date(o.row2.適用開始日).toLocaleDateString()} ～ が重複`\n      ).join('<br>');\n    } else {\n      overlapWarning.style.display = 'none';\n    }\n  }\n  \n  // 2. 初期データ描画\n  window.aivicApi.list(4).then(rows => {\n    if (rows) renderRows(rows);\n  });\n  \n  // 3. 検索ボタン\n  container.querySelector('#btn-search').addEventListener('click', async () => {\n    const customerSearch = container.querySelector('#customer-search').value.toLowerCase();\n    const categoryFilter = container.querySelector('#category-filter').value;\n    const statusFilter = container.querySelector('#status-filter').value;\n    const startDate = container.querySelector('#start-date').value;\n    const endDate = container.querySelector('#end-date').value;\n    \n    const rows = await window.aivicApi.list(4);\n    if (!rows) return;\n    \n    const filtered = rows.filter(r => {\n      const matchCustomer = !customerSearch || (r.顧客名 || '').toLowerCase().includes(customerSearch);\n      const matchCategory = !categoryFilter || (r.商品カテゴリ || '').includes(categoryFilter);\n      const matchStatus = !statusFilter || r.適用状態 === statusFilter;\n      const matchStartDate = !startDate || new Date(r.適用開始日) >= new Date(startDate);\n      const matchEndDate = !endDate || (r.適用終了日 && new Date(r.適用終了日) <= new Date(endDate));\n      \n      return matchCustomer && matchCategory && matchStatus && matchStartDate && matchEndDate;\n    });\n    \n    renderRows(filtered);\n  });\n  \n  // 条件クリア\n  container.querySelector('#btn-clear').addEventListener('click', () => {\n    container.querySelector('#customer-search').value = '';\n    container.querySelector('#category-filter').value = '';\n    container.querySelector('#status-filter').value = '';\n    container.querySelector('#start-date').value = '';\n    container.querySelector('#end-date').value = '';\n    \n    window.aivicApi.list(4).then(rows => {\n      if (rows) renderRows(rows);\n    });\n  });\n  \n  // 4. 新規期間追加モーダル\n  container.querySelector('#btn-add-period').addEventListener('click', () => {\n    modal.style.display = 'flex';\n  });\n  \n  container.querySelector('#close-modal').addEventListener('click', () => {\n    modal.style.display = 'none';\n  });\n  \n  container.querySelector('#cancel-modal').addEventListener('click', () => {\n    modal.style.display = 'none';\n  });\n  \n  // 5. 期間保存\n  container.querySelector('#period-form').addEventListener('submit', async (e) => {\n    e.preventDefault();\n    \n    const formData = {\n      顧客ID: container.querySelector('#modal-customer').value,\n      商品ID: container.querySelector('#modal-product').value,\n      適用単価: parseInt(container.querySelector('#modal-price').value),\n      適用開始日: container.querySelector('#modal-start-date').value,\n      適用終了日: container.querySelector('#modal-end-date').value || null,\n      適用状態: container.querySelector('#modal-status').value,\n      優先度: parseInt(container.querySelector('#modal-priority').value),\n      備考: container.querySelector('#modal-notes').value,\n      作成日時: new Date().toISOString(),\n      更新日時: new Date().toISOString(),\n      作成者ID: 'current-user',\n      更新者ID: 'current-user'\n    };\n    \n    const saved = await window.aivicApi.save(4, formData);\n    if (saved) {\n      modal.style.display = 'none';\n      container.querySelector('#period-form').reset();\n      const rows = await window.aivicApi.list(4);\n      if (rows) renderRows(rows);\n    }\n  });\n  \n  // 6. 行レベル操作（削除・編集・有効化/無効化）\n  container.addEventListener('click', async (e) => {\n    const deleteBtn = e.target.closest('.delete-btn');\n    const editBtn = e.target.closest('.edit-btn');\n    const toggleBtn = e.target.closest('.toggle-btn');\n    \n    if (deleteBtn) {\n      if (!confirm('この適用期間を削除しますか？')) return;\n      \n      await window.aivicApi.delete(4, deleteBtn.dataset.id);\n      const rows = await window.aivicApi.list(4);\n      if (rows) renderRows(rows);\n    }\n    \n    if (editBtn) {\n      // 編集機能は単価更新申請画面に遷移\n      window.showScreen('scr-1780291488728');\n    }\n    \n    if (toggleBtn) {\n      const id = toggleBtn.dataset.id;\n      const rows = await window.aivicApi.list(4);\n      const row = rows.find(r => (r.id || r.適用期間ID) === id);\n      \n      if (row) {\n        const newStatus = row.適用状態 === '有効' ? '無効' : '有効';\n        await window.aivicApi.update(4, id, { 適用状態: newStatus, 更新日時: new Date().toISOString() });\n        const updatedRows = await window.aivicApi.list(4);\n        if (updatedRows) renderRows(updatedRows);\n      }\n    }\n  });\n  \n  // 一括更新ボタン\n  container.querySelector('#btn-bulk-update').addEventListener('click', () => {\n    window.showScreen('scr-1780291488728');\n  });\n}",
+      "method": "ai"
+    }
+  ],
+  "tableDefinitions": [
+    {
+      "tableName": "顧客別単価履歴テーブル",
+      "purpose": "顧客ごとの商品単価の変更履歴を管理し、Web発注プラットフォームでの価格表示と受注処理に使用する",
+      "columns": [
+        {
+          "name": "履歴ID",
+          "type": "uuid",
+          "required": true,
+          "description": "単価履歴の一意識別子（主キー）"
+        },
+        {
+          "name": "顧客ID",
+          "type": "uuid",
+          "required": true,
+          "description": "対象顧客の識別子"
+        },
+        {
+          "name": "商品ID",
+          "type": "uuid",
+          "required": true,
+          "description": "対象商品の識別子"
+        },
+        {
+          "name": "単価",
+          "type": "integer",
+          "required": true,
+          "description": "顧客別の商品単価（円）"
+        },
+        {
+          "name": "適用開始日",
+          "type": "timestamp",
+          "required": true,
+          "description": "この単価が適用開始される日時"
+        },
+        {
+          "name": "適用終了日",
+          "type": "timestamp",
+          "required": false,
+          "description": "この単価の適用終了日時（NULLの場合は現在有効）"
+        },
+        {
+          "name": "変更理由",
+          "type": "varchar(100)",
+          "required": false,
+          "description": "単価変更の理由（値上げ、値下げ、キャンペーン等）"
+        },
+        {
+          "name": "承認者ID",
+          "type": "uuid",
+          "required": false,
+          "description": "単価変更を承認した担当者の識別子"
+        },
+        {
+          "name": "承認日時",
+          "type": "timestamp",
+          "required": false,
+          "description": "単価変更が承認された日時"
+        },
+        {
+          "name": "有効フラグ",
+          "type": "boolean",
+          "required": true,
+          "description": "この履歴レコードが有効かどうか"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード作成日時"
+        },
+        {
+          "name": "更新日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード最終更新日時"
+        },
+        {
+          "name": "作成者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "レコード作成者の識別子"
+        },
+        {
+          "name": "更新者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "レコード最終更新者の識別子"
+        }
+      ]
+    },
+    {
+      "tableName": "単価更新申請テーブル",
+      "purpose": "顧客別単価の変更申請を管理し、承認フローを通じて単価履歴への反映を制御する",
+      "columns": [
+        {
+          "name": "申請ID",
+          "type": "uuid",
+          "required": true,
+          "description": "単価更新申請の一意識別子"
+        },
+        {
+          "name": "顧客ID",
+          "type": "uuid",
+          "required": true,
+          "description": "単価変更対象の顧客識別子"
+        },
+        {
+          "name": "商品ID",
+          "type": "uuid",
+          "required": true,
+          "description": "単価変更対象の商品識別子"
+        },
+        {
+          "name": "申請種別",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "新規登録/変更/削除の区分"
+        },
+        {
+          "name": "現在単価",
+          "type": "integer",
+          "required": false,
+          "description": "変更前の現在適用単価"
+        },
+        {
+          "name": "申請単価",
+          "type": "integer",
+          "required": true,
+          "description": "変更後の希望単価"
+        },
+        {
+          "name": "適用開始日",
+          "type": "timestamp",
+          "required": true,
+          "description": "新単価の適用開始予定日"
+        },
+        {
+          "name": "適用終了日",
+          "type": "timestamp",
+          "required": false,
+          "description": "新単価の適用終了予定日"
+        },
+        {
+          "name": "申請理由",
+          "type": "text",
+          "required": true,
+          "description": "単価変更の理由・背景"
+        },
+        {
+          "name": "申請状態",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "申請中/承認済/却下/取下の状態"
+        },
+        {
+          "name": "申請者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "申請を行ったユーザーの識別子"
+        },
+        {
+          "name": "承認者ID",
+          "type": "uuid",
+          "required": false,
+          "description": "申請を承認・却下したユーザーの識別子"
+        },
+        {
+          "name": "承認日時",
+          "type": "timestamp",
+          "required": false,
+          "description": "承認・却下が行われた日時"
+        },
+        {
+          "name": "承認コメント",
+          "type": "text",
+          "required": false,
+          "description": "承認者からのコメント・指示事項"
+        },
+        {
+          "name": "履歴ID",
+          "type": "uuid",
+          "required": false,
+          "description": "承認後に作成された単価履歴レコードのID"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "申請レコードの作成日時"
+        },
+        {
+          "name": "更新日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "申請レコードの最終更新日時"
+        },
+        {
+          "name": "作成者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "申請レコードを作成したユーザーID"
+        },
+        {
+          "name": "更新者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "申請レコードを最後に更新したユーザーID"
+        }
+      ]
+    },
+    {
+      "tableName": "単価承認ワークフローテーブル",
+      "purpose": "単価更新申請の承認プロセスを管理し、承認者による段階的な承認フローを制御する",
+      "columns": [
+        {
+          "name": "ワークフローID",
+          "type": "uuid",
+          "required": true,
+          "description": "ワークフローの一意識別子"
+        },
+        {
+          "name": "申請ID",
+          "type": "uuid",
+          "required": true,
+          "description": "単価更新申請テーブルへの外部キー"
+        },
+        {
+          "name": "承認段階",
+          "type": "integer",
+          "required": true,
+          "description": "承認プロセスの段階番号（1次承認、2次承認等）"
+        },
+        {
+          "name": "承認者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "承認権限を持つユーザーのID"
+        },
+        {
+          "name": "承認者名",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "承認者の氏名"
+        },
+        {
+          "name": "承認ステータス",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "承認状態（承認待ち、承認済み、否認、保留）"
+        },
+        {
+          "name": "承認日時",
+          "type": "timestamp",
+          "required": false,
+          "description": "承認または否認が実行された日時"
+        },
+        {
+          "name": "承認コメント",
+          "type": "text",
+          "required": false,
+          "description": "承認者による承認理由や否認理由のコメント"
+        },
+        {
+          "name": "期限日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "承認期限の日時"
+        },
+        {
+          "name": "通知済フラグ",
+          "type": "boolean",
+          "required": true,
+          "description": "承認依頼通知の送信済み状態"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード作成日時"
+        },
+        {
+          "name": "更新日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード最終更新日時"
+        },
+        {
+          "name": "作成者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "レコード作成者のユーザーID"
+        }
+      ]
+    },
+    {
+      "tableName": "単価変更ログテーブル",
+      "purpose": "顧客別単価の変更履歴を詳細に記録し、変更内容の追跡と監査証跡を提供する",
+      "columns": [
+        {
+          "name": "ログID",
+          "type": "uuid",
+          "required": true,
+          "description": "単価変更ログの一意識別子"
+        },
+        {
+          "name": "顧客ID",
+          "type": "uuid",
+          "required": true,
+          "description": "単価変更対象の顧客識別子"
+        },
+        {
+          "name": "商品ID",
+          "type": "uuid",
+          "required": true,
+          "description": "単価変更対象の商品識別子"
+        },
+        {
+          "name": "申請ID",
+          "type": "uuid",
+          "required": false,
+          "description": "関連する単価更新申請の識別子"
+        },
+        {
+          "name": "変更種別",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "変更の種類（新規登録/単価変更/削除/一括更新等）"
+        },
+        {
+          "name": "変更前単価",
+          "type": "integer",
+          "required": false,
+          "description": "変更前の単価（新規登録時はnull）"
+        },
+        {
+          "name": "変更後単価",
+          "type": "integer",
+          "required": false,
+          "description": "変更後の単価（削除時はnull）"
+        },
+        {
+          "name": "変更前適用開始日",
+          "type": "timestamp",
+          "required": false,
+          "description": "変更前の適用開始日"
+        },
+        {
+          "name": "変更後適用開始日",
+          "type": "timestamp",
+          "required": false,
+          "description": "変更後の適用開始日"
+        },
+        {
+          "name": "変更前適用終了日",
+          "type": "timestamp",
+          "required": false,
+          "description": "変更前の適用終了日"
+        },
+        {
+          "name": "変更後適用終了日",
+          "type": "timestamp",
+          "required": false,
+          "description": "変更後の適用終了日"
+        },
+        {
+          "name": "変更理由",
+          "type": "text",
+          "required": false,
+          "description": "単価変更の理由・備考"
+        },
+        {
+          "name": "承認状況",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "承認状況（承認済/却下/承認不要等）"
+        },
+        {
+          "name": "承認者ID",
+          "type": "uuid",
+          "required": false,
+          "description": "変更を承認したユーザーの識別子"
+        },
+        {
+          "name": "承認日時",
+          "type": "timestamp",
+          "required": false,
+          "description": "承認が完了した日時"
+        },
+        {
+          "name": "システム変更フラグ",
+          "type": "boolean",
+          "required": true,
+          "description": "システム自動変更かユーザー手動変更かの区別"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "ログレコードの作成日時"
+        },
+        {
+          "name": "作成者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "変更を実行したユーザーの識別子"
+        }
+      ]
+    },
+    {
+      "tableName": "リアルタイム照会ログテーブル",
+      "purpose": "Web発注プラットフォームでの顧客別単価照会の実行履歴とパフォーマンスを記録し、システム監視と業務分析に活用する",
+      "columns": [
+        {
+          "name": "照会ログID",
+          "type": "uuid",
+          "required": true,
+          "description": "照会ログの一意識別子（主キー）"
+        },
+        {
+          "name": "顧客コード",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "照会を実行した顧客の識別コード"
+        },
+        {
+          "name": "商品コード",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "照会対象の商品識別コード"
+        },
+        {
+          "name": "照会種別",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "照会の種類（単価照会、履歴照会、一括照会等）"
+        },
+        {
+          "name": "照会実行者ID",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "照会を実行したユーザーの識別ID"
+        },
+        {
+          "name": "照会実行者名",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "照会を実行したユーザーの名前"
+        },
+        {
+          "name": "照会開始日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "照会処理の開始日時"
+        },
+        {
+          "name": "照会終了日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "照会処理の終了日時"
+        },
+        {
+          "name": "処理時間ミリ秒",
+          "type": "integer",
+          "required": true,
+          "description": "照会処理にかかった時間（ミリ秒）"
+        },
+        {
+          "name": "照会結果ステータス",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "照会の実行結果（成功、エラー、タイムアウト等）"
+        },
+        {
+          "name": "取得件数",
+          "type": "integer",
+          "required": true,
+          "description": "照会で取得されたレコード件数"
+        },
+        {
+          "name": "エラーメッセージ",
+          "type": "text",
+          "required": false,
+          "description": "エラー発生時の詳細メッセージ"
+        },
+        {
+          "name": "IPアドレス",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "照会実行元のIPアドレス"
+        },
+        {
+          "name": "ユーザーエージェント",
+          "type": "text",
+          "required": false,
+          "description": "照会実行時のブラウザ情報"
+        },
+        {
+          "name": "セッションID",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "照会実行時のセッション識別子"
+        },
+        {
+          "name": "照会条件",
+          "type": "text",
+          "required": false,
+          "description": "照会時に指定された検索条件の詳細"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "ログレコードの作成日時"
+        }
+      ]
+    },
+    {
+      "tableName": "単価適用期間テーブル",
+      "purpose": "顧客別単価の適用期間を管理し、Web発注プラットフォームでの価格照会時に有効な単価を特定するためのテーブル",
+      "columns": [
+        {
+          "name": "適用期間ID",
+          "type": "uuid",
+          "required": true,
+          "description": "適用期間の一意識別子（主キー）"
+        },
+        {
+          "name": "顧客ID",
+          "type": "uuid",
+          "required": true,
+          "description": "対象顧客の識別子"
+        },
+        {
+          "name": "商品ID",
+          "type": "uuid",
+          "required": true,
+          "description": "対象商品の識別子"
+        },
+        {
+          "name": "単価履歴ID",
+          "type": "uuid",
+          "required": true,
+          "description": "適用する単価履歴への参照"
+        },
+        {
+          "name": "適用開始日",
+          "type": "timestamp",
+          "required": true,
+          "description": "単価適用の開始日時"
+        },
+        {
+          "name": "適用終了日",
+          "type": "timestamp",
+          "required": false,
+          "description": "単価適用の終了日時（NULLの場合は無期限）"
+        },
+        {
+          "name": "適用単価",
+          "type": "integer",
+          "required": true,
+          "description": "適用される単価（円）"
+        },
+        {
+          "name": "適用状態",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "適用状態（有効、無効、予約、期限切れ）"
+        },
+        {
+          "name": "優先度",
+          "type": "integer",
+          "required": true,
+          "description": "同一期間に複数適用がある場合の優先順位"
+        },
+        {
+          "name": "備考",
+          "type": "text",
+          "required": false,
+          "description": "適用期間に関する備考・注意事項"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード作成日時"
+        },
+        {
+          "name": "更新日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード最終更新日時"
+        },
+        {
+          "name": "作成者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "レコード作成者の識別子"
+        },
+        {
+          "name": "更新者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "レコード最終更新者の識別子"
+        }
+      ]
+    },
+    {
+      "tableName": "単価更新通知テーブル",
+      "purpose": "単価更新時の関係者への通知履歴と配信状況を管理する",
+      "columns": [
+        {
+          "name": "通知ID",
+          "type": "uuid",
+          "required": true,
+          "description": "通知レコードの一意識別子（主キー）"
+        },
+        {
+          "name": "単価更新申請ID",
+          "type": "uuid",
+          "required": true,
+          "description": "関連する単価更新申請への外部キー"
+        },
+        {
+          "name": "顧客コード",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "通知対象の顧客識別コード"
+        },
+        {
+          "name": "商品コード",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "単価更新対象の商品コード"
+        },
+        {
+          "name": "通知種別",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "通知の種類（承認完了、適用開始、緊急変更等）"
+        },
+        {
+          "name": "通知先区分",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "通知先の区分（顧客、営業担当、管理者等）"
+        },
+        {
+          "name": "通知先ID",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "通知先の識別子（ユーザーID、顧客ID等）"
+        },
+        {
+          "name": "通知方法",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "通知手段（メール、システム内通知、API等）"
+        },
+        {
+          "name": "通知ステータス",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "通知の配信状況（送信待ち、送信済み、配信失敗、既読等）"
+        },
+        {
+          "name": "通知タイトル",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "通知メッセージのタイトル"
+        },
+        {
+          "name": "通知内容",
+          "type": "text",
+          "required": true,
+          "description": "通知メッセージの本文"
+        },
+        {
+          "name": "送信予定日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "通知の送信予定日時"
+        },
+        {
+          "name": "送信日時",
+          "type": "timestamp",
+          "required": false,
+          "description": "実際の通知送信日時"
+        },
+        {
+          "name": "既読日時",
+          "type": "timestamp",
+          "required": false,
+          "description": "通知が既読された日時"
+        },
+        {
+          "name": "エラーメッセージ",
+          "type": "text",
+          "required": false,
+          "description": "送信失敗時のエラー内容"
+        },
+        {
+          "name": "再送回数",
+          "type": "integer",
+          "required": true,
+          "description": "通知の再送信回数"
+        },
+        {
+          "name": "優先度",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "通知の優先度（高、中、低）"
+        },
+        {
+          "name": "有効フラグ",
+          "type": "boolean",
+          "required": true,
+          "description": "通知レコードの有効性フラグ"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード作成日時"
+        },
+        {
+          "name": "更新日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード最終更新日時"
+        },
+        {
+          "name": "作成者",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "レコード作成者のユーザーID"
+        },
+        {
+          "name": "更新者",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "レコード最終更新者のユーザーID"
+        }
+      ]
+    }
+  ],
+  "presetSeedData": {}
+}

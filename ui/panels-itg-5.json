@@ -1,0 +1,984 @@
+{
+  "systemId": "itg-5",
+  "systemName": "営業支援システムの構築",
+  "cssTheme": ":root {\n  --primary: #1b7f37;\n  --primary-hover: #155d2a;\n  --bg-main: #f8faf9;\n  --bg-card: #ffffff;\n  --bg-sidebar: #f4f6f5;\n  --border: #d9e3dc;\n  --text: #181818;\n  --text-muted: #4a4a4a;\n  --top-bar-bg: #ffffff;\n  --top-bar-border: #d1ddd4;\n}",
+  "screens": [
+    {
+      "id": "scr-1780291929523",
+      "name": "発注データ管理画面",
+      "purpose": "発注データの一覧表示、検索・絞り込み、詳細確認、編集・削除を行い、発注状況の管理と分析を効率的に実施する",
+      "items": [
+        "発注データ一覧テーブル",
+        "発注番号検索ボックス",
+        "発注日期間指定フィルター",
+        "発注ステータス絞り込みドロップダウン",
+        "顧客名絞り込みドロップダウン",
+        "商品カテゴリ絞り込みドロップダウン",
+        "金額範囲指定フィルター",
+        "検索実行ボタン",
+        "フィルタークリアボタン",
+        "新規発注登録ボタン",
+        "発注データ詳細表示モーダル",
+        "発注データ編集ボタン"
+      ]
+    },
+    {
+      "id": "scr-1780291942656",
+      "name": "月次集計・分析画面",
+      "purpose": "月次の発注データと市場価格データを集計・分析し、購買パターンや価格戦略の効果を可視化して経営判断を支援する",
+      "items": [
+        "月次期間選択ドロップダウン",
+        "分析対象カテゴリ選択チェックボックス",
+        "集計データ表示テーブル",
+        "月次売上推移グラフ",
+        "購買パターン分析チャート",
+        "価格戦略効果分析グラフ",
+        "顧客別単価比較表",
+        "市場価格変動トレンドグラフ",
+        "分析結果サマリーカード",
+        "前月比較指標表示エリア",
+        "分析レポート生成ボタン",
+        "データエクスポートボタン"
+      ]
+    },
+    {
+      "id": "scr-1780291952461",
+      "name": "購買パターン分析画面",
+      "purpose": "顧客の購買行動や発注傾向を分析し、営業戦略の最適化と売上向上のための洞察を提供する",
+      "items": [
+        "分析期間選択カレンダー",
+        "顧客セグメント選択ドロップダウン",
+        "商品カテゴリ絞り込みフィルター",
+        "購買頻度分析チャート",
+        "季節性トレンドグラフ",
+        "顧客別購買金額ランキング表",
+        "リピート率分析表",
+        "購買間隔分析ヒストグラム",
+        "商品別売上構成比円グラフ",
+        "価格感度分析散布図",
+        "購買パターン分類結果表示エリア",
+        "異常値検知アラート表示"
+      ]
+    },
+    {
+      "id": "scr-1780291970530",
+      "name": "価格戦略分析画面",
+      "purpose": "市場価格データと発注データを分析し、競合他社との価格比較、顧客別単価分析、価格戦略の最適化提案を行い、営業戦略の意思決定を支援する",
+      "items": [
+        "分析期間選択カレンダー",
+        "商品カテゴリ選択ドロップダウン",
+        "顧客セグメント選択チェックボックス",
+        "価格分析実行ボタン",
+        "市場価格推移グラフ",
+        "競合価格比較チャート",
+        "顧客別単価分析テーブル",
+        "価格戦略提案パネル",
+        "利益率シミュレーター",
+        "価格感度分析結果表示エリア",
+        "分析結果エクスポートボタン",
+        "レポート保存ボタン"
+      ]
+    },
+    {
+      "id": "scr-1780291980452",
+      "name": "顧客別単価比較分析画面",
+      "purpose": "顧客ごとの商品単価を比較分析し、価格戦略の最適化と営業活動の効率化を支援する",
+      "items": [
+        "顧客選択ドロップダウン",
+        "商品カテゴリ選択",
+        "分析期間指定カレンダー",
+        "単価比較グラフ表示エリア",
+        "顧客別単価一覧テーブル",
+        "市場価格との差異表示",
+        "価格ランキング表示",
+        "単価推移トレンドグラフ",
+        "価格戦略提案パネル",
+        "分析条件絞り込みフィルター",
+        "データエクスポートボタン",
+        "レポート生成ボタン"
+      ]
+    },
+    {
+      "id": "scr-1780291989558",
+      "name": "単価交渉履歴管理画面",
+      "purpose": "顧客との単価交渉の履歴を一元管理し、交渉経緯の追跡、価格戦略の分析、次回交渉の準備を効率的に行うための画面",
+      "items": [
+        "交渉履歴一覧テーブル",
+        "顧客名検索フィールド",
+        "商品カテゴリ絞り込みドロップダウン",
+        "交渉期間指定カレンダー",
+        "交渉ステータス絞り込みチェックボックス",
+        "新規交渉登録ボタン",
+        "交渉詳細表示モーダル",
+        "交渉経緯入力テキストエリア",
+        "提示単価入力フィールド",
+        "回答単価入力フィールド",
+        "交渉担当者選択ドロップダウン",
+        "次回フォロー日設定カレンダー"
+      ]
+    }
+  ],
+  "screenPanels": [
+    {
+      "screenId": "scr-1780291929523",
+      "panelHtml": "<div class=\"order-management-screen\">\n  <!-- KPI Cards -->\n  <div style=\"display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 20px;\">\n    <div class=\"card\" style=\"padding: 16px;\">\n      <div style=\"color: var(--text-muted); font-size: 12px; margin-bottom: 4px;\">総発注件数</div>\n      <div data-testid=\"kpi-total-orders\" style=\"font-size: 24px; font-weight: 600; color: var(--text);\">0</div>\n    </div>\n    <div class=\"card\" style=\"padding: 16px;\">\n      <div style=\"color: var(--text-muted); font-size: 12px; margin-bottom: 4px;\">今月発注額</div>\n      <div data-testid=\"kpi-monthly-amount\" style=\"font-size: 24px; font-weight: 600; color: var(--text);\">¥0</div>\n    </div>\n    <div class=\"card\" style=\"padding: 16px;\">\n      <div style=\"color: var(--text-muted); font-size: 12px; margin-bottom: 4px;\">平均発注単価</div>\n      <div data-testid=\"kpi-avg-price\" style=\"font-size: 24px; font-weight: 600; color: var(--text);\">¥0</div>\n    </div>\n    <div class=\"card\" style=\"padding: 16px;\">\n      <div style=\"color: var(--text-muted); font-size: 12px; margin-bottom: 4px;\">新規顧客数</div>\n      <div data-testid=\"kpi-new-customers\" style=\"font-size: 24px; font-weight: 600; color: var(--text);\">0</div>\n    </div>\n  </div>\n\n  <!-- Charts -->\n  <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;\">\n    <div class=\"card\" style=\"padding: 16px;\">\n      <h3 style=\"margin: 0 0 12px 0; font-size: 14px; color: var(--text);\">月別発注推移</h3>\n      <div class=\"chart-wrap\" style=\"position: relative; height: 260px; max-height: 280px;\">\n        <canvas id=\"monthly-chart\"></canvas>\n      </div>\n    </div>\n    <div class=\"card\" style=\"padding: 16px;\">\n      <h3 style=\"margin: 0 0 12px 0; font-size: 14px; color: var(--text);\">発注ステータス分布</h3>\n      <div class=\"chart-wrap\" style=\"position: relative; height: 260px; max-height: 280px;\">\n        <canvas id=\"status-chart\"></canvas>\n      </div>\n    </div>\n  </div>\n\n  <!-- Search Filters -->\n  <div class=\"card\" style=\"padding: 16px; margin-bottom: 16px;\">\n    <div style=\"display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 12px;\">\n      <div>\n        <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">発注番号</label>\n        <input data-testid=\"order-number-input\" id=\"input-order-number\" type=\"text\" placeholder=\"発注番号で検索\" style=\"width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;\">\n      </div>\n      <div>\n        <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">発注日（開始）</label>\n        <input data-testid=\"date-from-input\" id=\"input-date-from\" type=\"date\" style=\"width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;\">\n      </div>\n      <div>\n        <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">発注日（終了）</label>\n        <input data-testid=\"date-to-input\" id=\"input-date-to\" type=\"date\" style=\"width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;\">\n      </div>\n      <div>\n        <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">発注ステータス</label>\n        <select data-testid=\"status-select\" id=\"select-status\" style=\"width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;\">\n          <option value=\"\">すべて</option>\n          <option value=\"有効\">有効</option>\n          <option value=\"無効\">無効</option>\n          <option value=\"期限切れ\">期限切れ</option>\n          <option value=\"処理中\">処理中</option>\n        </select>\n      </div>\n      <div>\n        <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">顧客名</label>\n        <select data-testid=\"customer-select\" id=\"select-customer\" style=\"width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;\">\n          <option value=\"\">すべて</option>\n          <option value=\"株式会社A商事\">株式会社A商事</option>\n          <option value=\"B工業株式会社\">B工業株式会社</option>\n          <option value=\"C物産\">C物産</option>\n          <option value=\"D商店\">D商店</option>\n        </select>\n      </div>\n      <div>\n        <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">商品カテゴリ</label>\n        <select data-testid=\"category-select\" id=\"select-category\" style=\"width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;\">\n          <option value=\"\">すべて</option>\n          <option value=\"電子部品\">電子部品</option>\n          <option value=\"機械部品\">機械部品</option>\n          <option value=\"原材料\">原材料</option>\n          <option value=\"工具\">工具</option>\n        </select>\n      </div>\n    </div>\n    <div style=\"display: flex; gap: 8px;\">\n      <button data-testid=\"search-button\" id=\"btn-search\" class=\"action-btn\" style=\"padding: 8px 16px;\">検索</button>\n      <button data-testid=\"clear-button\" id=\"btn-clear\" class=\"action-btn secondary\" style=\"padding: 8px 16px;\">クリア</button>\n      <button data-testid=\"export-button\" id=\"btn-export\" class=\"action-btn secondary\" style=\"padding: 8px 16px;\">CSVエクスポート</button>\n    </div>\n  </div>\n\n  <!-- Action Buttons -->\n  <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;\">\n    <h2 style=\"margin: 0; font-size: 18px; color: var(--text);\">発注データ一覧</h2>\n    <div style=\"display: flex; gap: 8px;\">\n      <button data-testid=\"new-order-button\" id=\"btn-new-order\" class=\"action-btn\" style=\"padding: 8px 16px;\">新規発注登録</button>\n      <button data-testid=\"monthly-analysis-button\" id=\"btn-monthly-analysis\" class=\"action-btn secondary\" style=\"padding: 8px 16px;\">月次集計・分析</button>\n      <button data-testid=\"purchase-pattern-button\" id=\"btn-purchase-pattern\" class=\"action-btn secondary\" style=\"padding: 8px 16px;\">購買パターン分析</button>\n      <button data-testid=\"negotiation-history-button\" id=\"btn-negotiation-history\" class=\"action-btn secondary\" style=\"padding: 8px 16px;\">交渉履歴</button>\n    </div>\n  </div>\n\n  <!-- Data Table -->\n  <div class=\"table-wrap\">\n    <table data-testid=\"order-list\">\n      <thead>\n        <tr>\n          <th style=\"color: var(--text);\">商品コード</th>\n          <th style=\"color: var(--text);\">商品名</th>\n          <th style=\"color: var(--text);\">供給業者名</th>\n          <th style=\"color: var(--text);\">単価</th>\n          <th style=\"color: var(--text);\">単位</th>\n          <th style=\"color: var(--text);\">最小発注数量</th>\n          <th style=\"color: var(--text);\">価格適用開始日</th>\n          <th style=\"color: var(--text);\">価格ステータス</th>\n          <th style=\"color: var(--text);\">納期日数</th>\n          <th style=\"color: var(--text);\">操作</th>\n        </tr>\n      </thead>\n      <tbody id=\"order-tbody\"></tbody>\n    </table>\n  </div>\n\n  <!-- Order Detail Modal -->\n  <div id=\"order-detail-modal\" class=\"modal\" style=\"display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000;\">\n    <div style=\"position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--bg-card); border-radius: 8px; padding: 24px; width: 90%; max-width: 600px; max-height: 80vh; overflow-y: auto;\">\n      <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;\">\n        <h3 style=\"margin: 0; color: var(--text);\">発注データ詳細</h3>\n        <button id=\"btn-close-modal\" style=\"background: none; border: none; font-size: 20px; color: var(--text); cursor: pointer;\">×</button>\n      </div>\n      <div id=\"order-detail-content\"></div>\n      <div style=\"display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px;\">\n        <button data-testid=\"edit-order-button\" id=\"btn-edit-order\" class=\"action-btn\" style=\"padding: 8px 16px;\">編集</button>\n        <button data-testid=\"close-modal-button\" id=\"btn-close-detail\" class=\"action-btn secondary\" style=\"padding: 8px 16px;\">閉じる</button>\n      </div>\n    </div>\n  </div>\n\n  <!-- New Order Form Modal -->\n  <div id=\"new-order-modal\" class=\"modal\" style=\"display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000;\">\n    <div style=\"position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--bg-card); border-radius: 8px; padding: 24px; width: 90%; max-width: 700px; max-height: 80vh; overflow-y: auto;\">\n      <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;\">\n        <h3 style=\"margin: 0; color: var(--text);\">新規発注登録</h3>\n        <button id=\"btn-close-new-modal\" style=\"background: none; border: none; font-size: 20px; color: var(--text); cursor: pointer;\">×</button>\n      </div>\n      <form id=\"new-order-form\">\n        <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;\">\n          <div>\n            <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">商品コード</label>\n            <input data-testid=\"product-code-input\" name=\"商品コード\" type=\"text\" required style=\"width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;\">\n          </div>\n          <div>\n            <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">商品名</label>\n            <input data-testid=\"product-name-input\" name=\"商品名\" type=\"text\" required style=\"width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;\">\n          </div>\n          <div>\n            <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">供給業者名</label>\n            <input data-testid=\"supplier-name-input\" name=\"供給業者名\" type=\"text\" required style=\"width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;\">\n          </div>\n          <div>\n            <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">単価</label>\n            <input data-testid=\"unit-price-input\" name=\"単価\" type=\"number\" required style=\"width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;\">\n          </div>\n          <div>\n            <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">単位</label>\n            <input data-testid=\"unit-input\" name=\"単位\" type=\"text\" required style=\"width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;\">\n          </div>\n          <div>\n            <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">最小発注数量</label>\n            <input data-testid=\"min-order-qty-input\" name=\"最小発注数量\" type=\"number\" required style=\"width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;\">\n          </div>\n          <div>\n            <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">価格適用開始日</label>\n            <input data-testid=\"price-start-date-input\" name=\"価格適用開始日\" type=\"datetime-local\" required style=\"width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;\">\n          </div>\n          <div>\n            <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">価格ステータス</label>\n            <select data-testid=\"price-status-select\" name=\"価格ステータス\" required style=\"width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;\">\n              <option value=\"\">選択してください</option>\n              <option value=\"有効\">有効</option>\n              <option value=\"無効\">無効</option>\n              <option value=\"期限切れ\">期限切れ</option>\n            </select>\n          </div>\n          <div>\n            <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">納期日数</label>\n            <input data-testid=\"delivery-days-input\" name=\"納期日数\" type=\"number\" required style=\"width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;\">\n          </div>\n          <div>\n            <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">品質グレード</label>\n            <input data-testid=\"quality-grade-input\" name=\"品質グレード\" type=\"text\" style=\"width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;\">\n          </div>\n        </div>\n        <div style=\"margin-bottom: 16px;\">\n          <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">備考</label>\n          <textarea data-testid=\"remarks-input\" name=\"備考\" rows=\"3\" style=\"width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px; resize: vertical;\"></textarea>\n        </div>\n        <div style=\"display: flex; gap: 8px; justify-content: flex-end;\">\n          <button data-testid=\"save-order-button\" type=\"submit\" class=\"action-btn\" style=\"padding: 8px 16px;\">保存</button>\n          <button data-testid=\"cancel-button\" type=\"button\" id=\"btn-cancel-new\" class=\"action-btn secondary\" style=\"padding: 8px 16px;\">キャンセル</button>\n        </div>\n      </form>\n    </div>\n  </div>\n</div>",
+      "initJs": "",
+      "method": "ai"
+    },
+    {
+      "screenId": "scr-1780291942656",
+      "panelHtml": "<div class=\"monthly-analysis-container\" style=\"padding: 16px; background: var(--bg-main);\">\n  <!-- ヘッダー -->\n  <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;\">\n    <h1 style=\"font-size: 24px; font-weight: 600; color: var(--text); margin: 0;\">月次集計・分析</h1>\n    <div style=\"display: flex; gap: 8px;\">\n      <button class=\"action-btn\" data-testid=\"generate-report-button\" id=\"btn-generate-report\">\n        分析レポート生成\n      </button>\n      <button class=\"action-btn secondary\" data-testid=\"export-data-button\" id=\"btn-export-data\">\n        データエクスポート\n      </button>\n    </div>\n  </div>\n\n  <!-- フィルター -->\n  <div class=\"card\" style=\"margin-bottom: 20px; padding: 16px;\">\n    <div style=\"display: grid; grid-template-columns: 200px 300px 1fr 120px; gap: 16px; align-items: end;\">\n      <div>\n        <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">対象月</label>\n        <select data-testid=\"month-select\" id=\"select-month\" style=\"width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);\">\n          <option value=\"\">選択してください</option>\n          <option value=\"2024-01\">2024年1月</option>\n          <option value=\"2024-02\">2024年2月</option>\n          <option value=\"2024-03\">2024年3月</option>\n          <option value=\"2024-04\">2024年4月</option>\n          <option value=\"2024-05\">2024年5月</option>\n          <option value=\"2024-06\">2024年6月</option>\n        </select>\n      </div>\n      <div>\n        <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">分析対象カテゴリ</label>\n        <div style=\"display: flex; gap: 12px; align-items: center;\">\n          <label style=\"display: flex; align-items: center; gap: 4px; font-size: 14px; color: var(--text);\">\n            <input type=\"checkbox\" data-testid=\"category-electronics\" value=\"electronics\" style=\"accent-color: var(--primary);\">\n            電子部品\n          </label>\n          <label style=\"display: flex; align-items: center; gap: 4px; font-size: 14px; color: var(--text);\">\n            <input type=\"checkbox\" data-testid=\"category-materials\" value=\"materials\" style=\"accent-color: var(--primary);\">\n            資材\n          </label>\n          <label style=\"display: flex; align-items: center; gap: 4px; font-size: 14px; color: var(--text);\">\n            <input type=\"checkbox\" data-testid=\"category-tools\" value=\"tools\" style=\"accent-color: var(--primary);\">\n            工具\n          </label>\n        </div>\n      </div>\n      <div></div>\n      <button class=\"action-btn\" data-testid=\"filter-button\" id=\"btn-filter\">\n        分析実行\n      </button>\n    </div>\n  </div>\n\n  <!-- KPIカード -->\n  <div style=\"display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px;\">\n    <div class=\"card\" style=\"padding: 16px;\">\n      <div style=\"font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">月次売上</div>\n      <div data-testid=\"kpi-revenue\" style=\"font-size: 24px; font-weight: 600; color: var(--text);\" id=\"kpi-revenue\">¥12,450,000</div>\n      <div style=\"font-size: 12px; color: #22c55e; margin-top: 4px;\" id=\"kpi-revenue-change\">前月比 +8.5%</div>\n    </div>\n    <div class=\"card\" style=\"padding: 16px;\">\n      <div style=\"font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">発注件数</div>\n      <div data-testid=\"kpi-orders\" style=\"font-size: 24px; font-weight: 600; color: var(--text);\" id=\"kpi-orders\">1,247</div>\n      <div style=\"font-size: 12px; color: #22c55e; margin-top: 4px;\" id=\"kpi-orders-change\">前月比 +12件</div>\n    </div>\n    <div class=\"card\" style=\"padding: 16px;\">\n      <div style=\"font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">平均単価</div>\n      <div data-testid=\"kpi-avg-price\" style=\"font-size: 24px; font-weight: 600; color: var(--text);\" id=\"kpi-avg-price\">¥9,980</div>\n      <div style=\"font-size: 12px; color: #ef4444; margin-top: 4px;\" id=\"kpi-avg-price-change\">前月比 -3.2%</div>\n    </div>\n    <div class=\"card\" style=\"padding: 16px;\">\n      <div style=\"font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">価格競争力指数</div>\n      <div data-testid=\"kpi-competitiveness\" style=\"font-size: 24px; font-weight: 600; color: var(--text);\" id=\"kpi-competitiveness\">87.3</div>\n      <div style=\"font-size: 12px; color: #22c55e; margin-top: 4px;\" id=\"kpi-competitiveness-change\">前月比 +2.1</div>\n    </div>\n  </div>\n\n  <!-- メインコンテンツ -->\n  <div style=\"display: grid; grid-template-columns: 2fr 1fr; gap: 20px;\">\n    <!-- 左カラム -->\n    <div>\n      <!-- 月次売上推移グラフ -->\n      <div class=\"card\" style=\"margin-bottom: 20px; padding: 16px;\">\n        <h3 style=\"font-size: 16px; font-weight: 600; color: var(--text); margin: 0 0 16px 0;\">月次売上推移</h3>\n        <canvas id=\"revenue-chart\" width=\"600\" height=\"300\" style=\"width: 100%; max-width: 600px; height: 300px;\"></canvas>\n      </div>\n\n      <!-- 購買パターン分析チャート -->\n      <div class=\"card\" style=\"margin-bottom: 20px; padding: 16px;\">\n        <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;\">\n          <h3 style=\"font-size: 16px; font-weight: 600; color: var(--text); margin: 0;\">購買パターン分析</h3>\n          <button class=\"action-btn secondary\" data-testid=\"pattern-detail-button\" id=\"btn-pattern-detail\">\n            購買パターン詳細\n          </button>\n        </div>\n        <canvas id=\"pattern-chart\" width=\"600\" height=\"250\" style=\"width: 100%; max-width: 600px; height: 250px;\"></canvas>\n      </div>\n\n      <!-- 集計データ表示テーブル -->\n      <div class=\"card\" style=\"padding: 16px;\">\n        <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;\">\n          <h3 style=\"font-size: 16px; font-weight: 600; color: var(--text); margin: 0;\">月次集計データ</h3>\n          <button class=\"action-btn secondary\" data-testid=\"order-detail-button\" id=\"btn-order-detail\">\n            発注データ詳細\n          </button>\n        </div>\n        <div class=\"table-wrap\">\n          <table data-testid=\"monthly-summary-table\">\n            <thead>\n              <tr>\n                <th>集計年月</th>\n                <th>発注件数</th>\n                <th>発注総額</th>\n                <th>平均単価</th>\n                <th>新規顧客数</th>\n                <th>リピート顧客数</th>\n                <th>ステータス</th>\n              </tr>\n            </thead>\n            <tbody id=\"monthly-summary-tbody\">\n            </tbody>\n          </table>\n        </div>\n      </div>\n    </div>\n\n    <!-- 右カラム -->\n    <div>\n      <!-- 価格戦略効果分析 -->\n      <div class=\"card\" style=\"margin-bottom: 20px; padding: 16px;\">\n        <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;\">\n          <h3 style=\"font-size: 16px; font-weight: 600; color: var(--text); margin: 0;\">価格戦略効果</h3>\n          <button class=\"action-btn secondary\" data-testid=\"strategy-detail-button\" id=\"btn-strategy-detail\">\n            価格戦略分析\n          </button>\n        </div>\n        <div style=\"margin-bottom: 12px;\">\n          <div style=\"font-size: 12px; color: var(--text-muted);\">推奨価格適用効果</div>\n          <div style=\"font-size: 18px; font-weight: 600; color: #22c55e;\">売上 +15.2%</div>\n        </div>\n        <div style=\"margin-bottom: 12px;\">\n          <div style=\"font-size: 12px; color: var(--text-muted);\">利益率予測</div>\n          <div style=\"font-size: 18px; font-weight: 600; color: var(--text);\">28.7%</div>\n        </div>\n        <div>\n          <div style=\"font-size: 12px; color: var(--text-muted);\">価格弾力性</div>\n          <div style=\"font-size: 18px; font-weight: 600; color: var(--text);\">中程度</div>\n        </div>\n      </div>\n\n      <!-- 顧客別単価比較表 -->\n      <div class=\"card\" style=\"margin-bottom: 20px; padding: 16px;\">\n        <h3 style=\"font-size: 16px; font-weight: 600; color: var(--text); margin: 0 0 16px 0;\">顧客別単価比較（上位5社）</h3>\n        <div class=\"table-wrap\">\n          <table data-testid=\"customer-price-table\">\n            <thead>\n              <tr>\n                <th>顧客</th>\n                <th>単価</th>\n                <th>市場差</th>\n              </tr>\n            </thead>\n            <tbody id=\"customer-price-tbody\">\n            </tbody>\n          </table>\n        </div>\n      </div>\n\n      <!-- 市場価格変動トレンド -->\n      <div class=\"card\" style=\"padding: 16px;\">\n        <h3 style=\"font-size: 16px; font-weight: 600; color: var(--text); margin: 0 0 16px 0;\">市場価格変動トレンド</h3>\n        <canvas id=\"market-trend-chart\" width=\"300\" height=\"200\" style=\"width: 100%; max-width: 300px; height: 200px;\"></canvas>\n      </div>\n    </div>\n  </div>\n</div>",
+      "initJs": "function(container, apiUrl, tables) {\n  // 1. 再描画関数の定義\n  function renderMonthlySummary(rows) {\n    const tbody = container.querySelector('#monthly-summary-tbody');\n    tbody.innerHTML = rows.map(r => `\n      <tr data-id=\"${r.id}\">\n        <td>${r.集計年月 || ''}</td>\n        <td>${(r.発注件数 || 0).toLocaleString()}</td>\n        <td>¥${(r.発注総額 || 0).toLocaleString()}</td>\n        <td>¥${(r.平均発注単価 || 0).toLocaleString()}</td>\n        <td>${r.新規顧客数 || 0}</td>\n        <td>${r.リピート顧客数 || 0}</td>\n        <td><span style=\"padding: 2px 8px; border-radius: 12px; font-size: 12px; background: ${r.集計ステータス === '完了' ? '#22c55e' : '#f59e0b'}; color: #fff;\">${r.集計ステータス || ''}</span></td>\n      </tr>\n    `).join('');\n  }\n\n  function renderCustomerPriceComparison(rows) {\n    const tbody = container.querySelector('#customer-price-tbody');\n    tbody.innerHTML = rows.slice(0, 5).map(r => {\n      const diff = (r.顧客単価 || 0) - (r.市場平均単価 || 0);\n      const diffColor = diff > 0 ? '#ef4444' : '#22c55e';\n      const diffSign = diff > 0 ? '+' : '';\n      return `\n        <tr data-id=\"${r.id}\">\n          <td style=\"font-size: 12px;\">${r.顧客ID ? `顧客${r.顧客ID.slice(-4)}` : ''}</td>\n          <td>¥${(r.顧客単価 || 0).toLocaleString()}</td>\n          <td style=\"color: ${diffColor};\">${diffSign}¥${diff.toLocaleString()}</td>\n        </tr>\n      `;\n    }).join('');\n  }\n\n  // 2. チャート描画関数\n  function drawRevenueChart() {\n    const canvas = container.querySelector('#revenue-chart');\n    const ctx = canvas.getContext('2d');\n    const width = canvas.width;\n    const height = canvas.height;\n\n    ctx.clearRect(0, 0, width, height);\n    \n    // 背景\n    ctx.fillStyle = 'rgba(0,0,0,0.02)';\n    ctx.fillRect(0, 0, width, height);\n    \n    // グリッド線\n    ctx.strokeStyle = 'rgba(255,255,255,0.1)';\n    ctx.lineWidth = 1;\n    for (let i = 1; i < 5; i++) {\n      const y = (height / 5) * i;\n      ctx.beginPath();\n      ctx.moveTo(40, y);\n      ctx.lineTo(width - 20, y);\n      ctx.stroke();\n    }\n    \n    // データポイント\n    const data = [8500000, 9200000, 10100000, 11800000, 12450000, 13200000];\n    const months = ['1月', '2月', '3月', '4月', '5月', '6月'];\n    const maxValue = Math.max(...data);\n    const minValue = Math.min(...data);\n    const range = maxValue - minValue;\n    \n    ctx.strokeStyle = '#22c55e';\n    ctx.lineWidth = 3;\n    ctx.beginPath();\n    \n    for (let i = 0; i < data.length; i++) {\n      const x = 60 + (i * (width - 100) / (data.length - 1));\n      const y = height - 40 - ((data[i] - minValue) / range) * (height - 80);\n      \n      if (i === 0) {\n        ctx.moveTo(x, y);\n      } else {\n        ctx.lineTo(x, y);\n      }\n      \n      // ポイント\n      ctx.fillStyle = '#22c55e';\n      ctx.beginPath();\n      ctx.arc(x, y, 4, 0, Math.PI * 2);\n      ctx.fill();\n    }\n    ctx.stroke();\n    \n    // ラベル\n    ctx.fillStyle = '#9fb0d1';\n    ctx.font = '12px sans-serif';\n    ctx.textAlign = 'center';\n    for (let i = 0; i < months.length; i++) {\n      const x = 60 + (i * (width - 100) / (months.length - 1));\n      ctx.fillText(months[i], x, height - 10);\n    }\n  }\n\n  function drawPatternChart() {\n    const canvas = container.querySelector('#pattern-chart');\n    const ctx = canvas.getContext('2d');\n    const width = canvas.width;\n    const height = canvas.height;\n\n    ctx.clearRect(0, 0, width, height);\n    \n    // 背景\n    ctx.fillStyle = 'rgba(0,0,0,0.02)';\n    ctx.fillRect(0, 0, width, height);\n    \n    // 棒グラフ\n    const categories = ['電子部品', '資材', '工具', '機械', '消耗品'];\n    const values = [35, 28, 22, 10, 5];\n    const colors = ['#22c55e', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6'];\n    \n    const barWidth = (width - 100) / categories.length;\n    const maxValue = Math.max(...values);\n    \n    for (let i = 0; i < categories.length; i++) {\n      const x = 50 + i * barWidth + barWidth * 0.1;\n      const barHeight = (values[i] / maxValue) * (height - 80);\n      const y = height - 40 - barHeight;\n      \n      ctx.fillStyle = colors[i];\n      ctx.fillRect(x, y, barWidth * 0.8, barHeight);\n      \n      // ラベル\n      ctx.fillStyle = '#9fb0d1';\n      ctx.font = '11px sans-serif';\n      ctx.textAlign = 'center';\n      ctx.fillText(categories[i], x + barWidth * 0.4, height - 10);\n      \n      // 値\n      ctx.fillStyle = '#d0e4ff';\n      ctx.fillText(values[i] + '%', x + barWidth * 0.4, y - 5);\n    }\n  }\n\n  function drawMarketTrendChart() {\n    const canvas = container.querySelector('#market-trend-chart');\n    const ctx = canvas.getContext('2d');\n    const width = canvas.width;\n    const height = canvas.height;\n\n    ctx.clearRect(0, 0, width, height);\n    \n    // 背景\n    ctx.fillStyle = 'rgba(0,0,0,0.02)';\n    ctx.fillRect(0, 0, width, height);\n    \n    // 複数の線グラフ\n    const data1 = [100, 105, 98, 110, 115, 108];\n    const data2 = [95, 102, 108, 105, 112, 118];\n    \n    // 線1（自社価格）\n    ctx.strokeStyle = '#22c55e';\n    ctx.lineWidth = 2;\n    ctx.beginPath();\n    for (let i = 0; i < data1.length; i++) {\n      const x = 30 + (i * (width - 60) / (data1.length - 1));\n      const y = height - 30 - ((data1[i] - 90) / 30) * (height - 60);\n      if (i === 0) ctx.moveTo(x, y);\n      else ctx.lineTo(x, y);\n    }\n    ctx.stroke();\n    \n    // 線2（市場平均）\n    ctx.strokeStyle = '#3b82f6';\n    ctx.lineWidth = 2;\n    ctx.beginPath();\n    for (let i = 0; i < data2.length; i++) {\n      const x = 30 + (i * (width - 60) / (data2.length - 1));\n      const y = height - 30 - ((data2[i] - 90) / 30) * (height - 60);\n      if (i === 0) ctx.moveTo(x, y);\n      else ctx.lineTo(x, y);\n    }\n    ctx.stroke();\n    \n    // 凡例\n    ctx.fillStyle = '#22c55e';\n    ctx.fillRect(10, 10, 12, 3);\n    ctx.fillStyle = '#9fb0d1';\n    ctx.font = '10px sans-serif';\n    ctx.fillText('自社価格', 25, 15);\n    \n    ctx.fillStyle = '#3b82f6';\n    ctx.fillRect(10, 20, 12, 3);\n    ctx.fillText('市場平均', 25, 25);\n  }\n\n  // 3. 初期データ読み込み\n  Promise.all([\n    window.aivicApi.list(1), // 月次集計データ\n    window.aivicApi.list(4)  // 顧客別単価比較分析結果\n  ]).then(([monthlyData, customerData]) => {\n    if (monthlyData) renderMonthlySummary(monthlyData);\n    if (customerData) renderCustomerPriceComparison(customerData);\n    \n    // チャート描画\n    drawRevenueChart();\n    drawPatternChart();\n    drawMarketTrendChart();\n  });\n\n  // 4. フィルターボタンのイベントリスナー\n  container.querySelector('#btn-filter').addEventListener('click', async () => {\n    const selectedMonth = container.querySelector('#select-month').value;\n    const checkedCategories = Array.from(container.querySelectorAll('input[type=\"checkbox\"]:checked')).map(cb => cb.value);\n    \n    const monthlyData = await window.aivicApi.list(1);\n    if (monthlyData) {\n      let filtered = monthlyData;\n      if (selectedMonth) {\n        filtered = filtered.filter(r => r.集計年月 === selectedMonth);\n      }\n      renderMonthlySummary(filtered);\n    }\n    \n    // チャート再描画\n    drawRevenueChart();\n    drawPatternChart();\n    drawMarketTrendChart();\n  });\n\n  // 5. ナビゲーションボタンのイベントリスナー\n  container.querySelector('#btn-order-detail').addEventListener('click', () => {\n    window.showScreen(\"scr-1780291929523\");\n  });\n\n  container.querySelector('#btn-pattern-detail').addEventListener('click', () => {\n    window.showScreen(\"scr-1780291952461\");\n  });\n\n  container.querySelector('#btn-strategy-detail').addEventListener('click', () => {\n    window.showScreen(\"scr-1780291970530\");\n  });\n\n  // 6. レポート生成ボタン\n  container.querySelector('#btn-generate-report').addEventListener('click', async () => {\n    const selectedMonth = container.querySelector('#select-month').value || new Date().toISOString().slice(0, 7);\n    \n    const reportData = {\n      レポート名: `月次分析レポート_${selectedMonth}`,\n      レポート種別: '月次集計分析',\n      対象期間開始日: selectedMonth + '-01',\n      対象期間終了日: selectedMonth + '-31',\n      レポート内容: `${selectedMonth}の月次集計・分析結果\\n売上: ¥12,450,000 (前月比+8.5%)\\n発注件数: 1,247件\\n価格競争力指数: 87.3`,\n      ステータス: '完了',\n      公開フラグ: true,\n      通知済フラグ: false,\n      作成者ID: 'system'\n    };\n    \n    const saved = await window.aivicApi.save(5, reportData);\n    if (saved) {\n      alert('分析レポートを生成しました');\n    }\n  });\n\n  // 7. データエクスポートボタン\n  container.querySelector('#btn-export-data').addEventListener('click', async () => {\n    const monthlyData = await window.aivicApi.list(1);\n    if (!monthlyData) return;\n    \n    const headers = ['集計年月', '発注件数', '発注総額', '平均発注単価', '新規顧客数', 'リピート顧客数', '集計ステータス'];\n    const csvContent = '\\uFEFF' + [\n      headers.join(','),\n      ...monthlyData.map(row => [\n        row.集計年月 || '',\n        row.発注件数 || 0,\n        row.発注総額 || 0,\n        row.平均発注単価 || 0,\n        row.新規顧客数 || 0,\n        row.リピート顧客数 || 0,\n        row.集計ステータス || ''\n      ].join(','))\n    ].join('\\n');\n    \n    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });\n    const link = document.createElement('a');\n    link.href = URL.createObjectURL(blob);\n    link.download = `月次集計データ_${new Date().toISOString().slice(0, 10)}.csv`;\n    link.click();\n  });\n}",
+      "method": "ai"
+    },
+    {
+      "screenId": "scr-1780291952461",
+      "panelHtml": "<div class=\"p-3\">\n  <!-- ヘッダー -->\n  <div class=\"mb-3 flex items-center justify-between\">\n    <h1 class=\"text-xl font-semibold\" style=\"color: var(--text);\">購買パターン分析</h1>\n    <div class=\"flex gap-2\">\n      <button class=\"action-btn\" data-testid=\"order-data-button\" id=\"btn-order-data\">発注データ確認</button>\n      <button class=\"action-btn\" data-testid=\"customer-price-button\" id=\"btn-customer-price\">顧客別単価分析</button>\n    </div>\n  </div>\n\n  <!-- フィルター -->\n  <div class=\"card mb-3\">\n    <div class=\"p-3\">\n      <div class=\"grid grid-cols-4 gap-3 items-end\">\n        <div>\n          <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">分析期間（開始）</label>\n          <input type=\"date\" class=\"input w-full\" data-testid=\"start-date\" id=\"input-start-date\" style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text); padding: 6px 8px; border-radius: 4px;\">\n        </div>\n        <div>\n          <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">分析期間（終了）</label>\n          <input type=\"date\" class=\"input w-full\" data-testid=\"end-date\" id=\"input-end-date\" style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text); padding: 6px 8px; border-radius: 4px;\">\n        </div>\n        <div>\n          <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">顧客セグメント</label>\n          <select class=\"input w-full\" data-testid=\"segment-select\" id=\"select-segment\" style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text); padding: 6px 8px; border-radius: 4px;\">\n            <option value=\"\">全セグメント</option>\n            <option value=\"大企業\">大企業</option>\n            <option value=\"中小企業\">中小企業</option>\n            <option value=\"個人事業主\">個人事業主</option>\n          </select>\n        </div>\n        <div>\n          <button class=\"action-btn\" data-testid=\"analyze-button\" id=\"btn-analyze\">分析実行</button>\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <!-- KPI カード -->\n  <div class=\"grid grid-cols-4 gap-3 mb-4\">\n    <div class=\"card p-3\" data-testid=\"kpi-avg-interval\">\n      <div class=\"text-xs\" style=\"color: var(--text-muted);\">平均発注間隔</div>\n      <div class=\"text-lg font-semibold\" style=\"color: var(--text);\" id=\"kpi-interval\">15.2日</div>\n    </div>\n    <div class=\"card p-3\" data-testid=\"kpi-repeat-rate\">\n      <div class=\"text-xs\" style=\"color: var(--text-muted);\">リピート率</div>\n      <div class=\"text-lg font-semibold\" style=\"color: var(--text);\" id=\"kpi-repeat\">78.5%</div>\n    </div>\n    <div class=\"card p-3\" data-testid=\"kpi-price-sensitivity\">\n      <div class=\"text-xs\" style=\"color: var(--text-muted);\">価格感度指数</div>\n      <div class=\"text-lg font-semibold\" style=\"color: var(--text);\" id=\"kpi-sensitivity\">2.3</div>\n    </div>\n    <div class=\"card p-3\" data-testid=\"kpi-confidence\">\n      <div class=\"text-xs\" style=\"color: var(--text-muted);\">分析信頼度</div>\n      <div class=\"text-lg font-semibold\" style=\"color: var(--text);\" id=\"kpi-confidence\">85%</div>\n    </div>\n  </div>\n\n  <!-- チャートエリア -->\n  <div class=\"grid grid-cols-2 gap-3 mb-4\">\n    <div class=\"card\">\n      <div class=\"p-3 border-b\" style=\"border-color: var(--border);\">\n        <h3 class=\"text-sm font-medium\" style=\"color: var(--text);\">購買頻度分析</h3>\n      </div>\n      <div class=\"p-3\">\n        <canvas id=\"frequency-chart\" width=\"400\" height=\"200\"></canvas>\n      </div>\n    </div>\n    <div class=\"card\">\n      <div class=\"p-3 border-b\" style=\"border-color: var(--border);\">\n        <h3 class=\"text-sm font-medium\" style=\"color: var(--text);\">季節性トレンド</h3>\n      </div>\n      <div class=\"p-3\">\n        <canvas id=\"seasonal-chart\" width=\"400\" height=\"200\"></canvas>\n      </div>\n    </div>\n  </div>\n\n  <!-- 分析結果テーブル -->\n  <div class=\"grid grid-cols-2 gap-3\">\n    <div class=\"card\">\n      <div class=\"p-3 border-b\" style=\"border-color: var(--border);\">\n        <h3 class=\"text-sm font-medium\" style=\"color: var(--text);\">購買パターン分析結果</h3>\n      </div>\n      <div class=\"table-wrap\">\n        <table data-testid=\"pattern-list\">\n          <thead>\n            <tr>\n              <th>商品カテゴリ</th>\n              <th>平均間隔</th>\n              <th>推奨タイミング</th>\n              <th>信頼度</th>\n            </tr>\n          </thead>\n          <tbody id=\"pattern-tbody\"></tbody>\n        </table>\n      </div>\n    </div>\n    <div class=\"card\">\n      <div class=\"p-3 border-b\" style=\"border-color: var(--border);\">\n        <h3 class=\"text-sm font-medium\" style=\"color: var(--text);\">顧客別購買金額ランキング</h3>\n      </div>\n      <div class=\"table-wrap\">\n        <table data-testid=\"ranking-list\">\n          <thead>\n            <tr>\n              <th>順位</th>\n              <th>顧客</th>\n              <th>購買金額</th>\n              <th>前月比</th>\n            </tr>\n          </thead>\n          <tbody id=\"ranking-tbody\"></tbody>\n        </table>\n      </div>\n    </div>\n  </div>\n\n  <!-- 異常値アラート -->\n  <div class=\"mt-4 card\" id=\"alert-panel\" style=\"display: none;\">\n    <div class=\"p-3\" style=\"border-left: 3px solid #ff6a00; background: var(--bg-card);\">\n      <div class=\"flex items-center gap-2\">\n        <span class=\"text-sm font-medium\" style=\"color: var(--text);\">⚠️ 異常値検知</span>\n      </div>\n      <div class=\"text-xs mt-1\" style=\"color: var(--text-muted);\" id=\"alert-message\">\n        通常パターンから大きく逸脱した購買行動が検出されました。\n      </div>\n    </div>\n  </div>\n</div>",
+      "initJs": "function(container, apiUrl, tables) {\n  // 1. 再描画関数の定義\n  function renderPatternRows(rows) {\n    const tbody = container.querySelector(\"#pattern-tbody\");\n    tbody.innerHTML = rows.map(r => `\n      <tr data-id=\"${r.id}\">\n        <td>${r.商品カテゴリ || \"\"}</td>\n        <td>${r.平均発注間隔日数 || \"\"}日</td>\n        <td>${r.推奨発注タイミング || \"\"}</td>\n        <td>${r.信頼度スコア || \"\"}%</td>\n      </tr>\n    `).join(\"\");\n  }\n\n  function renderRankingRows(rows) {\n    const tbody = container.querySelector(\"#ranking-tbody\");\n    tbody.innerHTML = rows.slice(0, 10).map((r, index) => `\n      <tr data-id=\"${r.id}\">\n        <td>${index + 1}</td>\n        <td>${r.顧客セグメント || \"\"}</td>\n        <td>¥${(r.発注総額 || 0).toLocaleString()}</td>\n        <td style=\"color: ${(r.前月比発注総額 || 0) >= 0 ? '#22c55e' : '#ef4444'};\">\n          ${(r.前月比発注総額 || 0) >= 0 ? '+' : ''}${((r.前月比発注総額 || 0) / 10000).toFixed(1)}%\n        </td>\n      </tr>\n    `).join(\"\");\n  }\n\n  // チャート描画関数\n  function drawFrequencyChart() {\n    const canvas = container.querySelector(\"#frequency-chart\");\n    const ctx = canvas.getContext(\"2d\");\n    \n    // 背景をクリア\n    ctx.fillStyle = '#1a2a40';\n    ctx.fillRect(0, 0, canvas.width, canvas.height);\n    \n    // 棒グラフを描画\n    const data = [25, 45, 35, 20, 30, 40, 28];\n    const labels = ['月', '火', '水', '木', '金', '土', '日'];\n    const maxValue = Math.max(...data);\n    \n    ctx.fillStyle = '#22c55e';\n    data.forEach((value, index) => {\n      const barHeight = (value / maxValue) * 150;\n      const x = 40 + index * 45;\n      const y = 170 - barHeight;\n      ctx.fillRect(x, y, 30, barHeight);\n    });\n    \n    // ラベル\n    ctx.fillStyle = '#9fb0d1';\n    ctx.font = '12px sans-serif';\n    labels.forEach((label, index) => {\n      ctx.fillText(label, 45 + index * 45, 190);\n    });\n  }\n\n  function drawSeasonalChart() {\n    const canvas = container.querySelector(\"#seasonal-chart\");\n    const ctx = canvas.getContext(\"2d\");\n    \n    // 背景をクリア\n    ctx.fillStyle = '#1a2a40';\n    ctx.fillRect(0, 0, canvas.width, canvas.height);\n    \n    // 折れ線グラフを描画\n    const data = [100, 120, 90, 110, 130, 95, 105, 125, 85, 115, 140, 100];\n    const maxValue = Math.max(...data);\n    const minValue = Math.min(...data);\n    \n    ctx.strokeStyle = '#22c55e';\n    ctx.lineWidth = 2;\n    ctx.beginPath();\n    \n    data.forEach((value, index) => {\n      const x = 30 + (index * 30);\n      const y = 30 + ((maxValue - value) / (maxValue - minValue)) * 140;\n      if (index === 0) {\n        ctx.moveTo(x, y);\n      } else {\n        ctx.lineTo(x, y);\n      }\n    });\n    ctx.stroke();\n    \n    // データポイント\n    ctx.fillStyle = '#22c55e';\n    data.forEach((value, index) => {\n      const x = 30 + (index * 30);\n      const y = 30 + ((maxValue - value) / (maxValue - minValue)) * 140;\n      ctx.beginPath();\n      ctx.arc(x, y, 3, 0, 2 * Math.PI);\n      ctx.fill();\n    });\n  }\n\n  // KPI更新関数\n  function updateKPIs(patternData, monthlyData) {\n    if (patternData && patternData.length > 0) {\n      const avgInterval = patternData.reduce((sum, r) => sum + (r.平均発注間隔日数 || 0), 0) / patternData.length;\n      container.querySelector(\"#kpi-interval\").textContent = avgInterval.toFixed(1) + \"日\";\n      \n      const avgConfidence = patternData.reduce((sum, r) => sum + (r.信頼度スコア || 0), 0) / patternData.length;\n      container.querySelector(\"#kpi-confidence\").textContent = avgConfidence.toFixed(0) + \"%\";\n    }\n    \n    if (monthlyData && monthlyData.length > 0) {\n      const totalCustomers = monthlyData.reduce((sum, r) => sum + (r.リピート顧客数 || 0) + (r.新規顧客数 || 0), 0);\n      const repeatCustomers = monthlyData.reduce((sum, r) => sum + (r.リピート顧客数 || 0), 0);\n      const repeatRate = totalCustomers > 0 ? (repeatCustomers / totalCustomers) * 100 : 0;\n      container.querySelector(\"#kpi-repeat\").textContent = repeatRate.toFixed(1) + \"%\";\n    }\n  }\n\n  // 2. 初期データ読み込み\n  Promise.all([\n    window.aivicApi.list(2), // 購買パターン分析結果\n    window.aivicApi.list(1)  // 月次集計データ\n  ]).then(([patternData, monthlyData]) => {\n    if (patternData) renderPatternRows(patternData);\n    if (monthlyData) renderRankingRows(monthlyData);\n    updateKPIs(patternData, monthlyData);\n    drawFrequencyChart();\n    drawSeasonalChart();\n    \n    // 異常値アラート表示判定\n    if (patternData && patternData.some(r => (r.信頼度スコア || 0) < 60)) {\n      container.querySelector(\"#alert-panel\").style.display = \"block\";\n    }\n  });\n\n  // 3. 分析実行ボタン\n  container.querySelector(\"#btn-analyze\").addEventListener(\"click\", async () => {\n    const startDate = container.querySelector(\"#input-start-date\").value;\n    const endDate = container.querySelector(\"#input-end-date\").value;\n    const segment = container.querySelector(\"#select-segment\").value;\n    \n    // フィルタリング条件でデータを再取得\n    const [patternData, monthlyData] = await Promise.all([\n      window.aivicApi.list(2),\n      window.aivicApi.list(1)\n    ]);\n    \n    let filteredPattern = patternData || [];\n    let filteredMonthly = monthlyData || [];\n    \n    if (startDate && endDate) {\n      filteredPattern = filteredPattern.filter(r => {\n        const targetStart = new Date(r.分析対象期間開始日);\n        return targetStart >= new Date(startDate) && targetStart <= new Date(endDate);\n      });\n    }\n    \n    if (segment) {\n      filteredMonthly = filteredMonthly.filter(r => \n        (r.顧客セグメント || \"\").includes(segment)\n      );\n    }\n    \n    renderPatternRows(filteredPattern);\n    renderRankingRows(filteredMonthly);\n    updateKPIs(filteredPattern, filteredMonthly);\n    drawFrequencyChart();\n    drawSeasonalChart();\n  });\n\n  // 4. 画面遷移ボタン\n  container.querySelector(\"#btn-order-data\").addEventListener(\"click\", () => {\n    window.showScreen(\"scr-1780291929523\");\n  });\n\n  container.querySelector(\"#btn-customer-price\").addEventListener(\"click\", () => {\n    window.showScreen(\"scr-1780291980452\");\n  });\n\n  // 5. 行クリックイベント（詳細表示）\n  container.addEventListener(\"click\", (e) => {\n    const row = e.target.closest(\"tr[data-id]\");\n    if (row && row.dataset.id) {\n      // 詳細情報をアラートで表示（簡易実装）\n      const id = row.dataset.id;\n      console.log(\"Selected pattern ID:\", id);\n    }\n  });\n}",
+      "method": "ai"
+    },
+    {
+      "screenId": "scr-1780291970530",
+      "panelHtml": "<div class=\"price-strategy-analysis\">\n  <!-- 分析条件設定 -->\n  <div class=\"card\" style=\"margin-bottom: 16px;\">\n    <h2 style=\"margin: 0 0 16px 0; font-size: 20px; color: var(--text);\">価格戦略分析</h2>\n    \n    <div style=\"display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px;\">\n      <div>\n        <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">分析期間（開始）</label>\n        <input type=\"date\" id=\"analysis-start-date\" data-testid=\"analysis-start-date\" \n               style=\"width: 100%; padding: 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);\">\n      </div>\n      <div>\n        <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">分析期間（終了）</label>\n        <input type=\"date\" id=\"analysis-end-date\" data-testid=\"analysis-end-date\"\n               style=\"width: 100%; padding: 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);\">\n      </div>\n      <div>\n        <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">商品カテゴリ</label>\n        <select id=\"product-category\" data-testid=\"product-category-select\"\n                style=\"width: 100%; padding: 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);\">\n          <option value=\"\">すべてのカテゴリ</option>\n          <option value=\"電子部品\">電子部品</option>\n          <option value=\"機械部品\">機械部品</option>\n          <option value=\"化学材料\">化学材料</option>\n          <option value=\"建設資材\">建設資材</option>\n        </select>\n      </div>\n    </div>\n\n    <div style=\"margin-bottom: 16px;\">\n      <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 8px;\">顧客セグメント</label>\n      <div style=\"display: flex; gap: 16px;\">\n        <label style=\"display: flex; align-items: center; font-size: 14px; color: var(--text);\">\n          <input type=\"checkbox\" id=\"segment-enterprise\" value=\"大企業\" style=\"margin-right: 6px; accent-color: var(--primary);\">\n          大企業\n        </label>\n        <label style=\"display: flex; align-items: center; font-size: 14px; color: var(--text);\">\n          <input type=\"checkbox\" id=\"segment-medium\" value=\"中堅企業\" style=\"margin-right: 6px; accent-color: var(--primary);\">\n          中堅企業\n        </label>\n        <label style=\"display: flex; align-items: center; font-size: 14px; color: var(--text);\">\n          <input type=\"checkbox\" id=\"segment-small\" value=\"中小企業\" style=\"margin-right: 6px; accent-color: var(--primary);\">\n          中小企業\n        </label>\n      </div>\n    </div>\n\n    <div style=\"display: flex; gap: 12px;\">\n      <button id=\"btn-analyze\" data-testid=\"analyze-button\" class=\"action-btn\">価格分析実行</button>\n      <button id=\"btn-export\" data-testid=\"export-button\" class=\"action-btn secondary\">分析結果エクスポート</button>\n      <button id=\"btn-save-report\" data-testid=\"save-report-button\" class=\"action-btn secondary\">レポート保存</button>\n    </div>\n  </div>\n\n  <!-- 分析結果表示エリア -->\n  <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;\">\n    <!-- 市場価格推移グラフ -->\n    <div class=\"card\">\n      <h3 style=\"margin: 0 0 12px 0; font-size: 16px; color: var(--text);\">市場価格推移</h3>\n      <canvas id=\"price-trend-chart\" width=\"400\" height=\"200\" style=\"width: 100%; height: 200px; border: 1px solid var(--border);\"></canvas>\n    </div>\n\n    <!-- 競合価格比較チャート -->\n    <div class=\"card\">\n      <h3 style=\"margin: 0 0 12px 0; font-size: 16px; color: var(--text);\">競合価格比較</h3>\n      <canvas id=\"competitor-chart\" width=\"400\" height=\"200\" style=\"width: 100%; height: 200px; border: 1px solid var(--border);\"></canvas>\n    </div>\n  </div>\n\n  <!-- 顧客別単価分析テーブル -->\n  <div class=\"card\" style=\"margin-bottom: 16px;\">\n    <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;\">\n      <h3 style=\"margin: 0; font-size: 16px; color: var(--text);\">顧客別単価分析</h3>\n      <button id=\"btn-customer-detail\" data-testid=\"customer-detail-button\" class=\"action-btn secondary\">顧客別詳細分析</button>\n    </div>\n    <div class=\"table-wrap\">\n      <table data-testid=\"customer-price-table\">\n        <thead>\n          <tr>\n            <th>顧客名</th>\n            <th>商品カテゴリ</th>\n            <th>当社単価</th>\n            <th>市場平均単価</th>\n            <th>差額</th>\n            <th>差率</th>\n            <th>競争力ランク</th>\n            <th>推奨価格</th>\n          </tr>\n        </thead>\n        <tbody id=\"customer-analysis-tbody\">\n        </tbody>\n      </table>\n    </div>\n  </div>\n\n  <!-- 価格戦略提案パネル -->\n  <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;\">\n    <div class=\"card\">\n      <h3 style=\"margin: 0 0 12px 0; font-size: 16px; color: var(--text);\">価格戦略提案</h3>\n      <div id=\"strategy-recommendations\" style=\"font-size: 14px; color: var(--text); line-height: 1.5;\">\n        <div style=\"padding: 12px; background: rgba(34, 197, 94, 0.1); border-left: 3px solid #22c55e; margin-bottom: 8px;\">\n          <strong>推奨アクション:</strong> 電子部品カテゴリで3-5%の価格調整を検討\n        </div>\n        <div style=\"padding: 12px; background: rgba(251, 191, 36, 0.1); border-left: 3px solid #fbbf24; margin-bottom: 8px;\">\n          <strong>注意事項:</strong> 大企業セグメントでの価格感度が高い傾向\n        </div>\n        <div style=\"padding: 12px; background: rgba(59, 130, 246, 0.1); border-left: 3px solid #3b82f6;\">\n          <strong>機会:</strong> 中小企業向けプレミアム価格設定の余地あり\n        </div>\n      </div>\n    </div>\n\n    <!-- 利益率シミュレーター -->\n    <div class=\"card\">\n      <h3 style=\"margin: 0 0 12px 0; font-size: 16px; color: var(--text);\">利益率シミュレーター</h3>\n      <div style=\"margin-bottom: 12px;\">\n        <label style=\"display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">価格調整率 (%)</label>\n        <input type=\"range\" id=\"price-adjustment\" min=\"-20\" max=\"20\" value=\"0\" \n               style=\"width: 100%; margin-bottom: 8px; accent-color: var(--primary);\">\n        <div style=\"text-align: center; font-size: 14px; color: var(--text);\">\n          <span id=\"adjustment-value\">0</span>%\n        </div>\n      </div>\n      <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 14px;\">\n        <div style=\"text-align: center; padding: 8px; background: rgba(0,0,0,0.15); border-radius: 4px;\">\n          <div style=\"color: var(--text-muted); font-size: 12px;\">予測売上増減</div>\n          <div id=\"revenue-impact\" style=\"color: var(--text); font-weight: bold;\">0%</div>\n        </div>\n        <div style=\"text-align: center; padding: 8px; background: rgba(0,0,0,0.15); border-radius: 4px;\">\n          <div style=\"color: var(--text-muted); font-size: 12px;\">予測利益率</div>\n          <div id=\"profit-margin\" style=\"color: var(--text); font-weight: bold;\">25.3%</div>\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <!-- 価格感度分析結果 -->\n  <div class=\"card\">\n    <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;\">\n      <h3 style=\"margin: 0; font-size: 16px; color: var(--text);\">価格感度分析結果</h3>\n      <button id=\"btn-negotiation-history\" data-testid=\"negotiation-history-button\" class=\"action-btn secondary\">交渉履歴確認</button>\n    </div>\n    <div class=\"table-wrap\">\n      <table data-testid=\"price-sensitivity-table\">\n        <thead>\n          <tr>\n            <th>商品カテゴリ</th>\n            <th>顧客セグメント</th>\n            <th>価格弾力性</th>\n            <th>推奨価格</th>\n            <th>売上予測増減率</th>\n            <th>利益率予測</th>\n            <th>信頼度</th>\n            <th>承認状況</th>\n          </tr>\n        </thead>\n        <tbody id=\"sensitivity-analysis-tbody\">\n        </tbody>\n      </table>\n    </div>\n  </div>\n</div>",
+      "initJs": "function(container, apiUrl, tables) {\n  // 1. 再描画関数の定義\n  function renderCustomerAnalysis(rows) {\n    const tbody = container.querySelector(\"#customer-analysis-tbody\");\n    tbody.innerHTML = rows.map(r => `\n      <tr data-id=\"${r.分析結果ID}\">\n        <td>${r.顧客名|| \"未設定\"}</td>\n        <td>${r.商品カテゴリ || \"未分類\"}</td>\n        <td style=\"text-align: right;\">¥${(r.顧客単価 || 0).toLocaleString()}</td>\n        <td style=\"text-align: right;\">¥${(r.市場平均単価 || 0).toLocaleString()}</td>\n        <td style=\"text-align: right; color: ${(r.単価差額 || 0) >= 0 ? '#22c55e' : '#ef4444'};\">\n          ${(r.単価差額 || 0) >= 0 ? '+' : ''}¥${(r.単価差額 || 0).toLocaleString()}\n        </td>\n        <td style=\"text-align: right; color: ${(r.単価差率 || 0) >= 0 ? '#22c55e' : '#ef4444'};\">\n          ${(r.単価差率 || 0) >= 0 ? '+' : ''}${r.単価差率 || 0}%\n        </td>\n        <td>\n          <span style=\"padding: 2px 8px; border-radius: 12px; font-size: 12px; \n                       background: ${r.価格競争力ランク === '高' ? 'rgba(34, 197, 94, 0.2)' : \n                                   r.価格競争力ランク === '中' ? 'rgba(251, 191, 36, 0.2)' : 'rgba(239, 68, 68, 0.2)'};\n                       color: ${r.価格競争力ランク === '高' ? '#22c55e' : \n                               r.価格競争力ランク === '中' ? '#fbbf24' : '#ef4444'};\">\n            ${r.価格競争力ランク || \"未評価\"}\n          </span>\n        </td>\n        <td style=\"text-align: right;\">¥${(r.推奨価格 || 0).toLocaleString()}</td>\n      </tr>\n    `).join(\"\");\n  }\n\n  function renderSensitivityAnalysis(rows) {\n    const tbody = container.querySelector(\"#sensitivity-analysis-tbody\");\n    tbody.innerHTML = rows.map(r => `\n      <tr data-id=\"${r.分析結果ID}\">\n        <td>${r.商品カテゴリ || \"未分類\"}</td>\n        <td>${r.顧客セグメント || \"未分類\"}</td>\n        <td>${r.価格弾力性 || \"未算出\"}</td>\n        <td style=\"text-align: right;\">¥${(r.推奨価格 || 0).toLocaleString()}</td>\n        <td style=\"text-align: right; color: ${(r.売上予測増減率 || 0) >= 0 ? '#22c55e' : '#ef4444'};\">\n          ${(r.売上予測増減率 || 0) >= 0 ? '+' : ''}${r.売上予測増減率 || 0}%\n        </td>\n        <td style=\"text-align: right;\">${r.利益率予測 || 0}%</td>\n        <td>${r.信頼度 || \"未評価\"}</td>\n        <td>\n          <span style=\"padding: 2px 8px; border-radius: 12px; font-size: 12px;\n                       background: ${r.承認状況 === '承認済' ? 'rgba(34, 197, 94, 0.2)' : 'rgba(251, 191, 36, 0.2)'};\n                       color: ${r.承認状況 === '承認済' ? '#22c55e' : '#fbbf24'};\">\n            ${r.承認状況 || \"未承認\"}\n          </span>\n        </td>\n      </tr>\n    `).join(\"\");\n  }\n\n  // 2. 初期データ読み込み\n  window.aivicApi.list(4).then(customerRows => {\n    if (customerRows) renderCustomerAnalysis(customerRows);\n  });\n\n  window.aivicApi.list(3).then(strategyRows => {\n    if (strategyRows) renderSensitivityAnalysis(strategyRows);\n  });\n\n  // 3. チャート描画\n  function drawPriceTrendChart() {\n    const canvas = container.querySelector(\"#price-trend-chart\");\n    const ctx = canvas.getContext(\"2d\");\n    const width = canvas.width;\n    const height = canvas.height;\n\n    ctx.clearRect(0, 0, width, height);\n    ctx.fillStyle = '#9fb0d1';\n    ctx.font = '12px sans-serif';\n\n    // グリッド線\n    ctx.strokeStyle = '#374151';\n    ctx.lineWidth = 1;\n    for (let i = 1; i < 5; i++) {\n      const y = (height / 5) * i;\n      ctx.beginPath();\n      ctx.moveTo(40, y);\n      ctx.lineTo(width - 20, y);\n      ctx.stroke();\n    }\n\n    // 価格推移線\n    ctx.strokeStyle = '#22c55e';\n    ctx.lineWidth = 2;\n    ctx.beginPath();\n    const points = [\n      {x: 60, y: height * 0.7},\n      {x: 120, y: height * 0.6},\n      {x: 180, y: height * 0.65},\n      {x: 240, y: height * 0.5},\n      {x: 300, y: height * 0.45},\n      {x: 360, y: height * 0.4}\n    ];\n    points.forEach((point, i) => {\n      if (i === 0) ctx.moveTo(point.x, point.y);\n      else ctx.lineTo(point.x, point.y);\n    });\n    ctx.stroke();\n\n    // ラベル\n    ctx.fillText('価格推移 (6ヶ月)', 10, 20);\n  }\n\n  function drawCompetitorChart() {\n    const canvas = container.querySelector(\"#competitor-chart\");\n    const ctx = canvas.getContext(\"2d\");\n    const width = canvas.width;\n    const height = canvas.height;\n\n    ctx.clearRect(0, 0, width, height);\n    ctx.fillStyle = '#9fb0d1';\n    ctx.font = '12px sans-serif';\n\n    // 競合比較バー\n    const bars = [\n      {label: '当社', value: 0.8, color: '#3b82f6'},\n      {label: '競合A', value: 0.6, color: '#ef4444'},\n      {label: '競合B', value: 0.7, color: '#f59e0b'},\n      {label: '市場平均', value: 0.65, color: '#6b7280'}\n    ];\n\n    bars.forEach((bar, i) => {\n      const x = 60 + i * 80;\n      const barHeight = bar.value * (height - 60);\n      \n      ctx.fillStyle = bar.color;\n      ctx.fillRect(x, height - barHeight - 20, 40, barHeight);\n      \n      ctx.fillStyle = '#9fb0d1';\n      ctx.fillText(bar.label, x, height - 5);\n    });\n\n    ctx.fillText('競合価格比較', 10, 20);\n  }\n\n  // 4. 分析実行ボタン\n  container.querySelector(\"#btn-analyze\").addEventListener(\"click\", async () => {\n    const startDate = container.querySelector(\"#analysis-start-date\").value;\n    const endDate = container.querySelector(\"#analysis-end-date\").value;\n    const category = container.querySelector(\"#product-category\").value;\n    \n    if (!startDate || !endDate) {\n      alert(\"分析期間を選択してください\");\n      return;\n    }\n\n    // 分析実行（実際の分析ロジックは省略し、データ再読み込み）\n    const customerRows = await window.aivicApi.list(4);\n    const strategyRows = await window.aivicApi.list(3);\n    \n    if (customerRows) renderCustomerAnalysis(customerRows);\n    if (strategyRows) renderSensitivityAnalysis(strategyRows);\n    \n    drawPriceTrendChart();\n    drawCompetitorChart();\n  });\n\n  // 5. エクスポートボタン\n  container.querySelector(\"#btn-export\").addEventListener(\"click\", async () => {\n    const customerRows = await window.aivicApi.list(4);\n    const strategyRows = await window.aivicApi.list(3);\n    \n    if (!customerRows || !strategyRows) return;\n\n    const csvContent = '\\uFEFF' + [\n      '顧客別単価分析',\n      '顧客名,商品カテゴリ,当社単価,市場平均単価,差額,差率,競争力ランク,推奨価格',\n      ...customerRows.map(r => `${r.顧客名||''},${r.商品カテゴリ||''},${r.顧客単価||0},${r.市場平均単価||0},${r.単価差額||0},${r.単価差率||0},${r.価格競争力ランク||''},${r.推奨価格||0}`),\n      '',\n      '価格感度分析結果',\n      '商品カテゴリ,顧客セグメント,価格弾力性,推奨価格,売上予測増減率,利益率予測,信頼度,承認状況',\n      ...strategyRows.map(r => `${r.商品カテゴリ||''},${r.顧客セグメント||''},${r.価格弾力性||''},${r.推奨価格||0},${r.売上予測増減率||0},${r.利益率予測||0},${r.信頼度||''},${r.承認状況||''}`)\n    ].join('\\n');\n\n    const blob = new Blob([csvContent], { type: 'text/csv' });\n    const url = URL.createObjectURL(blob);\n    const a = document.createElement('a');\n    a.href = url;\n    a.download = '価格戦略分析結果.csv';\n    a.click();\n    URL.revokeObjectURL(url);\n  });\n\n  // 6. レポート保存ボタン\n  container.querySelector(\"#btn-save-report\").addEventListener(\"click\", async () => {\n    const startDate = container.querySelector(\"#analysis-start-date\").value;\n    const endDate = container.querySelector(\"#analysis-end-date\").value;\n    \n    const reportData = {\n      レポート名: `価格戦略分析レポート_${new Date().toISOString().split('T')[0]}`,\n      レポート種別: '価格戦略分析',\n      対象期間開始日: startDate || new Date().toISOString(),\n      対象期間終了日: endDate || new Date().toISOString(),\n      レポート内容: '価格戦略分析の実行結果を含む詳細レポート',\n      ステータス: '完了',\n      公開フラグ: true,\n      通知済フラグ: false,\n      作成者ID: 'current-user',\n      作成日時: new Date().toISOString(),\n      更新日時: new Date().toISOString()\n    };\n\n    const saved = await window.aivicApi.save(5, reportData);\n    if (saved) {\n      alert(\"レポートを保存しました\");\n    }\n  });\n\n  // 7. 利益率シミュレーター\n  const priceAdjustment = container.querySelector(\"#price-adjustment\");\n  const adjustmentValue = container.querySelector(\"#adjustment-value\");\n  const revenueImpact = container.querySelector(\"#revenue-impact\");\n  const profitMargin = container.querySelector(\"#profit-margin\");\n\n  priceAdjustment.addEventListener(\"input\", (e) => {\n    const adjustment = parseInt(e.target.value);\n    adjustmentValue.textContent = adjustment;\n    \n    // 簡易計算（実際はより複雑な計算が必要）\n    const revenueChange = adjustment * -0.8; // 価格弾力性を仮定\n    const newProfitMargin = 25.3 + (adjustment * 0.6);\n    \n    revenueImpact.textContent = `${revenueChange >= 0 ? '+' : ''}${revenueChange.toFixed(1)}%`;\n    revenueImpact.style.color = revenueChange >= 0 ? '#22c55e' : '#ef4444';\n    \n    profitMargin.textContent = `${newProfitMargin.toFixed(1)}%`;\n  });\n\n  // 8. 画面遷移ボタン\n  container.querySelector(\"#btn-customer-detail\").addEventListener(\"click\", () => {\n    window.showScreen(\"scr-1780291980452\");\n  });\n\n  container.querySelector(\"#btn-negotiation-history\").addEventListener(\"click\", () => {\n    window.showScreen(\"scr-1780291989558\");\n  });\n\n  // 9. 初期チャート描画\n  setTimeout(() => {\n    drawPriceTrendChart();\n    drawCompetitorChart();\n  }, 100);\n}",
+      "method": "ai"
+    },
+    {
+      "screenId": "scr-1780291980452",
+      "panelHtml": "<div class=\"p-4\">\n  <!-- ヘッダー -->\n  <div class=\"flex items-center justify-between mb-4\">\n    <h1 class=\"text-xl font-semibold\" style=\"color: var(--text);\">顧客別単価比較分析</h1>\n    <div class=\"flex gap-2\">\n      <button class=\"action-btn secondary\" data-testid=\"negotiation-history-button\" onclick=\"window.showScreen('scr-1780291989558')\">交渉履歴</button>\n      <button class=\"action-btn\" data-testid=\"export-button\" id=\"btn-export\">CSVエクスポート</button>\n      <button class=\"action-btn\" data-testid=\"generate-report-button\" id=\"btn-generate-report\">レポート生成</button>\n    </div>\n  </div>\n\n  <!-- フィルター条件 -->\n  <div class=\"card mb-4\">\n    <div class=\"grid grid-cols-4 gap-3 mb-3\">\n      <div>\n        <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">顧客選択</label>\n        <select data-testid=\"customer-select\" id=\"customer-filter\" class=\"w-full px-2 py-1.5 text-sm rounded border\" style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n          <option value=\"\">全顧客</option>\n          <option value=\"customer-001\">株式会社山田商事</option>\n          <option value=\"customer-002\">田中工業株式会社</option>\n          <option value=\"customer-003\">佐藤建設</option>\n          <option value=\"customer-004\">鈴木製作所</option>\n        </select>\n      </div>\n      <div>\n        <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">商品カテゴリ</label>\n        <select data-testid=\"category-select\" id=\"category-filter\" class=\"w-full px-2 py-1.5 text-sm rounded border\" style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n          <option value=\"\">全カテゴリ</option>\n          <option value=\"電材\">電材</option>\n          <option value=\"配管材\">配管材</option>\n          <option value=\"工具\">工具</option>\n          <option value=\"安全用品\">安全用品</option>\n        </select>\n      </div>\n      <div>\n        <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">分析期間（開始）</label>\n        <input data-testid=\"start-date\" type=\"date\" id=\"start-date\" class=\"w-full px-2 py-1.5 text-sm rounded border\" style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n      </div>\n      <div>\n        <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">分析期間（終了）</label>\n        <input data-testid=\"end-date\" type=\"date\" id=\"end-date\" class=\"w-full px-2 py-1.5 text-sm rounded border\" style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n      </div>\n    </div>\n    <div class=\"flex gap-2\">\n      <button class=\"action-btn\" data-testid=\"search-button\" id=\"btn-search\">分析実行</button>\n      <button class=\"action-btn secondary\" data-testid=\"reset-button\" id=\"btn-reset\">条件リセット</button>\n    </div>\n  </div>\n\n  <!-- KPIカード -->\n  <div class=\"grid grid-cols-4 gap-3 mb-4\">\n    <div class=\"card p-3\">\n      <div class=\"text-xs mb-1\" style=\"color: var(--text-muted);\">分析対象顧客数</div>\n      <div class=\"text-lg font-semibold\" style=\"color: var(--text);\" data-testid=\"kpi-customers\" id=\"kpi-customers\">-</div>\n    </div>\n    <div class=\"card p-3\">\n      <div class=\"text-xs mb-1\" style=\"color: var(--text-muted);\">平均単価差率</div>\n      <div class=\"text-lg font-semibold\" style=\"color: var(--text);\" data-testid=\"kpi-avg-diff\" id=\"kpi-avg-diff\">-</div>\n    </div>\n    <div class=\"card p-3\">\n      <div class=\"text-xs mb-1\" style=\"color: var(--text-muted);\">価格改定推奨件数</div>\n      <div class=\"text-lg font-semibold\" style=\"color: #ff6a00;\" data-testid=\"kpi-recommendations\" id=\"kpi-recommendations\">-</div>\n    </div>\n    <div class=\"card p-3\">\n      <div class=\"text-xs mb-1\" style=\"color: var(--text-muted);\">総売上影響額</div>\n      <div class=\"text-lg font-semibold\" style=\"color: var(--primary);\" data-testid=\"kpi-impact\" id=\"kpi-impact\">-</div>\n    </div>\n  </div>\n\n  <!-- メインコンテンツ -->\n  <div class=\"grid grid-cols-2 gap-4\">\n    <!-- 左側：単価比較一覧 -->\n    <div class=\"card\">\n      <div class=\"flex items-center justify-between mb-3\">\n        <h2 class=\"text-sm font-medium\" style=\"color: var(--text);\">顧客別単価比較一覧</h2>\n        <div class=\"flex gap-2\">\n          <select data-testid=\"rank-filter\" id=\"rank-filter\" class=\"px-2 py-1 text-xs rounded border\" style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n            <option value=\"\">全ランク</option>\n            <option value=\"高\">高競争力</option>\n            <option value=\"中\">中競争力</option>\n            <option value=\"低\">低競争力</option>\n          </select>\n        </div>\n      </div>\n      <div class=\"table-wrap\" style=\"max-height: 400px;\">\n        <table data-testid=\"comparison-list\">\n          <thead>\n            <tr>\n              <th class=\"text-xs\">顧客名</th>\n              <th class=\"text-xs\">商品名</th>\n              <th class=\"text-xs\">顧客単価</th>\n              <th class=\"text-xs\">市場単価</th>\n              <th class=\"text-xs\">差率</th>\n              <th class=\"text-xs\">ランク</th>\n              <th class=\"text-xs\">操作</th>\n            </tr>\n          </thead>\n          <tbody id=\"comparison-tbody\"></tbody>\n        </table>\n      </div>\n    </div>\n\n    <!-- 右側：価格戦略提案 -->\n    <div class=\"card\">\n      <h2 class=\"text-sm font-medium mb-3\" style=\"color: var(--text);\">価格戦略提案</h2>\n      <div id=\"strategy-panel\" class=\"space-y-3\">\n        <div class=\"p-3 rounded\" style=\"background: rgba(34, 197, 94, 0.08); border-left: 3px solid #22c55e;\">\n          <div class=\"text-xs font-medium mb-1\" style=\"color: var(--text);\">値上げ推奨</div>\n          <div class=\"text-xs\" style=\"color: var(--text-muted);\" id=\"price-up-count\">0件の商品で値上げ余地あり</div>\n        </div>\n        <div class=\"p-3 rounded\" style=\"background: rgba(239, 68, 68, 0.08); border-left: 3px solid #ef4444;\">\n          <div class=\"text-xs font-medium mb-1\" style=\"color: var(--text);\">値下げ検討</div>\n          <div class=\"text-xs\" style=\"color: var(--text-muted);\" id=\"price-down-count\">0件の商品で競争力不足</div>\n        </div>\n        <div class=\"p-3 rounded\" style=\"background: rgba(59, 130, 246, 0.08); border-left: 3px solid #3b82f6;\">\n          <div class=\"text-xs font-medium mb-1\" style=\"color: var(--text);\">適正価格</div>\n          <div class=\"text-xs\" style=\"color: var(--text-muted);\" id=\"price-ok-count\">0件の商品が適正範囲</div>\n        </div>\n      </div>\n      \n      <div class=\"mt-4 pt-3\" style=\"border-top: 1px solid var(--border);\">\n        <h3 class=\"text-xs font-medium mb-2\" style=\"color: var(--text);\">推奨アクション</h3>\n        <div id=\"action-list\" class=\"space-y-2 text-xs\" style=\"color: var(--text-muted);\">\n          <div>分析条件を設定して実行してください</div>\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <!-- 単価推移グラフエリア -->\n  <div class=\"card mt-4\">\n    <h2 class=\"text-sm font-medium mb-3\" style=\"color: var(--text);\">単価推移トレンド</h2>\n    <div class=\"flex items-center justify-between mb-3\">\n      <div class=\"flex gap-2\">\n        <select data-testid=\"trend-customer\" id=\"trend-customer\" class=\"px-2 py-1 text-xs rounded border\" style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n          <option value=\"\">顧客を選択</option>\n          <option value=\"customer-001\">株式会社山田商事</option>\n          <option value=\"customer-002\">田中工業株式会社</option>\n          <option value=\"customer-003\">佐藤建設</option>\n        </select>\n        <select data-testid=\"trend-product\" id=\"trend-product\" class=\"px-2 py-1 text-xs rounded border\" style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n          <option value=\"\">商品を選択</option>\n          <option value=\"product-001\">VVFケーブル 2.0mm</option>\n          <option value=\"product-002\">配管用炭素鋼鋼管</option>\n          <option value=\"product-003\">安全ヘルメット</option>\n        </select>\n      </div>\n      <button class=\"action-btn secondary\" data-testid=\"update-trend\" id=\"btn-update-trend\">グラフ更新</button>\n    </div>\n    <div class=\"relative\" style=\"height: 200px; background: var(--bg-main); border: 1px solid var(--border); border-radius: 4px;\">\n      <canvas id=\"trend-chart\" width=\"800\" height=\"200\" class=\"w-full h-full\"></canvas>\n    </div>\n  </div>\n</div>",
+      "initJs": "function(container, apiUrl, tables) {\n  const comparisonTbody = container.querySelector('#comparison-tbody');\n  const trendChart = container.querySelector('#trend-chart');\n  const ctx = trendChart.getContext('2d');\n  \n  // 再描画関数\n  function renderComparisons(rows) {\n    comparisonTbody.innerHTML = rows.map(r => {\n      const diffRate = r.単価差率 || 0;\n      const rank = r.価格競争力ランク || '-';\n      const rankColor = rank === '高' ? '#22c55e' : rank === '中' ? '#f59e0b' : rank === '低' ? '#ef4444' : 'var(--text-muted)';\n      \n      return `\n        <tr data-id=\"${r.分析結果ID}\">\n          <td class=\"text-xs\">${r.顧客名|| '-'}</td>\n          <td class=\"text-xs\">${r.商品名 || '-'}</td>\n          <td class=\"text-xs\">¥${(r.顧客単価 || 0).toLocaleString()}</td>\n          <td class=\"text-xs\">¥${(r.市場平均単価 || 0).toLocaleString()}</td>\n          <td class=\"text-xs\" style=\"color: ${diffRate > 0 ? '#22c55e' : diffRate < 0 ? '#ef4444' : 'var(--text)'}\">\n            ${diffRate > 0 ? '+' : ''}${diffRate}%\n          </td>\n          <td class=\"text-xs\" style=\"color: ${rankColor}\">${rank}</td>\n          <td class=\"text-xs\">\n            <button class=\"action-btn secondary text-xs px-2 py-1 detail-btn\" data-id=\"${r.分析結果ID}\">詳細</button>\n          </td>\n        </tr>\n      `;\n    }).join('');\n  }\n\n  // KPI更新\n  function updateKPIs(rows) {\n    const customerCount = new Set(rows.map(r => r.顧客ID)).size;\n    const avgDiff = rows.length > 0 ? (rows.reduce((sum, r) => sum + (r.単価差率 || 0), 0) / rows.length).toFixed(1) : 0;\n    const recommendations = rows.filter(r => r.価格改定推奨フラグ).length;\n    const totalImpact = rows.reduce((sum, r) => sum + ((r.推奨価格 || 0) - (r.顧客単価 || 0)) * (r.取引数量 || 0), 0);\n    \n    container.querySelector('#kpi-customers').textContent = `${customerCount}社`;\n    container.querySelector('#kpi-avg-diff').textContent = `${avgDiff}%`;\n    container.querySelector('#kpi-recommendations').textContent = `${recommendations}件`;\n    container.querySelector('#kpi-impact').textContent = `¥${totalImpact.toLocaleString()}`;\n  }\n\n  // 戦略提案更新\n  function updateStrategy(rows) {\n    const priceUp = rows.filter(r => (r.単価差率 || 0) < -5).length;\n    const priceDown = rows.filter(r => (r.単価差率 || 0) > 10).length;\n    const priceOk = rows.filter(r => Math.abs(r.単価差率 || 0) <= 5).length;\n    \n    container.querySelector('#price-up-count').textContent = `${priceUp}件の商品で値上げ余地あり`;\n    container.querySelector('#price-down-count').textContent = `${priceDown}件の商品で競争力不足`;\n    container.querySelector('#price-ok-count').textContent = `${priceOk}件の商品が適正範囲`;\n    \n    const actionList = container.querySelector('#action-list');\n    const actions = [];\n    if (priceUp > 0) actions.push(`${priceUp}件の商品で段階的な値上げを検討`);\n    if (priceDown > 0) actions.push(`${priceDown}件の商品で価格競争力の改善が必要`);\n    if (actions.length === 0) actions.push('現在の価格戦略は適正です');\n    \n    actionList.innerHTML = actions.map(action => `<div>• ${action}</div>`).join('');\n  }\n\n  // トレンドグラフ描画\n  function drawTrendChart(data = []) {\n    ctx.clearRect(0, 0, trendChart.width, trendChart.height);\n    \n    if (data.length === 0) {\n      ctx.fillStyle = '#9fb0d1';\n      ctx.font = '12px sans-serif';\n      ctx.textAlign = 'center';\n      ctx.fillText('顧客と商品を選択してください', trendChart.width / 2, trendChart.height / 2);\n      return;\n    }\n    \n    const margin = 40;\n    const chartWidth = trendChart.width - margin * 2;\n    const chartHeight = trendChart.height - margin * 2;\n    \n    // サンプルデータでグラフ描画\n    const months = ['1月', '2月', '3月', '4月', '5月', '6月'];\n    const customerPrices = [1200, 1180, 1220, 1250, 1230, 1240];\n    const marketPrices = [1150, 1160, 1170, 1180, 1190, 1200];\n    \n    const maxPrice = Math.max(...customerPrices, ...marketPrices) * 1.1;\n    const minPrice = Math.min(...customerPrices, ...marketPrices) * 0.9;\n    \n    // 軸描画\n    ctx.strokeStyle = '#9fb0d1';\n    ctx.lineWidth = 1;\n    ctx.beginPath();\n    ctx.moveTo(margin, margin);\n    ctx.lineTo(margin, margin + chartHeight);\n    ctx.lineTo(margin + chartWidth, margin + chartHeight);\n    ctx.stroke();\n    \n    // 顧客単価線\n    ctx.strokeStyle = '#3b82f6';\n    ctx.lineWidth = 2;\n    ctx.beginPath();\n    customerPrices.forEach((price, i) => {\n      const x = margin + (i / (customerPrices.length - 1)) * chartWidth;\n      const y = margin + chartHeight - ((price - minPrice) / (maxPrice - minPrice)) * chartHeight;\n      if (i === 0) ctx.moveTo(x, y);\n      else ctx.lineTo(x, y);\n    });\n    ctx.stroke();\n    \n    // 市場単価線\n    ctx.strokeStyle = '#ef4444';\n    ctx.lineWidth = 2;\n    ctx.beginPath();\n    marketPrices.forEach((price, i) => {\n      const x = margin + (i / (marketPrices.length - 1)) * chartWidth;\n      const y = margin + chartHeight - ((price - minPrice) / (maxPrice - minPrice)) * chartHeight;\n      if (i === 0) ctx.moveTo(x, y);\n      else ctx.lineTo(x, y);\n    });\n    ctx.stroke();\n    \n    // 凡例\n    ctx.fillStyle = '#3b82f6';\n    ctx.fillRect(margin + chartWidth - 120, margin + 10, 12, 2);\n    ctx.fillStyle = '#9fb0d1';\n    ctx.font = '10px sans-serif';\n    ctx.fillText('顧客単価', margin + chartWidth - 100, margin + 15);\n    \n    ctx.fillStyle = '#ef4444';\n    ctx.fillRect(margin + chartWidth - 120, margin + 25, 12, 2);\n    ctx.fillStyle = '#9fb0d1';\n    ctx.fillText('市場単価', margin + chartWidth - 100, margin + 30);\n  }\n\n  // フィルタリング\n  function applyFilters() {\n    const customer = container.querySelector('#customer-filter').value;\n    const category = container.querySelector('#category-filter').value;\n    const rank = container.querySelector('#rank-filter').value;\n    const startDate = container.querySelector('#start-date').value;\n    const endDate = container.querySelector('#end-date').value;\n    \n    window.aivicApi.list(4).then(rows => {\n      if (!rows) return;\n      \n      let filtered = rows.filter(r => {\n        if (customer && !r.顧客名?.includes(customer)) return false;\n        if (category && !r.商品カテゴリ?.includes(category)) return false;\n        if (rank && r.価格競争力ランク !== rank) return false;\n        if (startDate && r.分析対象期間開始日 && new Date(r.分析対象期間開始日) < new Date(startDate)) return false;\n        if (endDate && r.分析対象期間終了日 && new Date(r.分析対象期間終了日) > new Date(endDate)) return false;\n        return true;\n      });\n      \n      renderComparisons(filtered);\n      updateKPIs(filtered);\n      updateStrategy(filtered);\n    });\n  }\n\n  // CSVエクスポート\n  function exportCSV() {\n    window.aivicApi.list(4).then(rows => {\n      if (!rows) return;\n      \n      const headers = ['顧客名', '商品名', '顧客単価', '市場平均単価', '単価差額', '単価差率', '価格競争力ランク', '推奨価格'];\n      const csvContent = '\\uFEFF' + [\n        headers.join(','),\n        ...rows.map(r => [\n          r.顧客名 || '',\n          r.商品名 || '',\n          r.顧客単価 || 0,\n          r.市場平均単価 || 0,\n          r.単価差額 || 0,\n          r.単価差率 || 0,\n          r.価格競争力ランク || '',\n          r.推奨価格 || 0\n        ].join(','))\n      ].join('\\n');\n      \n      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });\n      const link = document.createElement('a');\n      link.href = URL.createObjectURL(blob);\n      link.download = '顧客別単価比較分析.csv';\n      link.click();\n    });\n  }\n\n  // 初期データ表示\n  const initialData = tables[4]?.records || [];\n  renderComparisons(initialData);\n  updateKPIs(initialData);\n  updateStrategy(initialData);\n  drawTrendChart();\n\n  // イベントリスナー\n  container.querySelector('#btn-search').addEventListener('click', applyFilters);\n  \n  container.querySelector('#btn-reset').addEventListener('click', () => {\n    container.querySelector('#customer-filter').value = '';\n    container.querySelector('#category-filter').value = '';\n    container.querySelector('#rank-filter').value = '';\n    container.querySelector('#start-date').value = '';\n    container.querySelector('#end-date').value = '';\n    window.aivicApi.list(4).then(rows => {\n      if (rows) {\n        renderComparisons(rows);\n        updateKPIs(rows);\n        updateStrategy(rows);\n      }\n    });\n  });\n  \n  container.querySelector('#btn-export').addEventListener('click', exportCSV);\n  \n  container.querySelector('#btn-generate-report').addEventListener('click', async () => {\n    const reportData = {\n      レポート名: '顧客別単価比較分析レポート',\n      レポート種別: '顧客別単価比較',\n      対象期間開始日: container.querySelector('#start-date').value || new Date().toISOString(),\n      対象期間終了日: container.querySelector('#end-date').value || new Date().toISOString(),\n      レポート内容: '顧客別単価比較分析の結果をまとめたレポートです。',\n      ステータス: '完了',\n      公開フラグ: true,\n      通知済フラグ: false,\n      作成者ID: 'current-user',\n      作成日時: new Date().toISOString(),\n      更新日時: new Date().toISOString()\n    };\n    \n    const saved = await window.aivicApi.save(5, reportData);\n    if (saved) {\n      alert('レポートを生成しました');\n    }\n  });\n  \n  container.querySelector('#btn-update-trend').addEventListener('click', () => {\n    drawTrendChart([1]); // データありとして描画\n  });\n  \n  container.querySelector('#rank-filter').addEventListener('change', applyFilters);\n  \n  // 行クリックイベント\n  container.addEventListener('click', e => {\n    const detailBtn = e.target.closest('.detail-btn');\n    if (detailBtn) {\n      const id = detailBtn.dataset.id;\n      alert(`分析結果ID: ${id} の詳細表示機能は今後実装予定です`);\n    }\n  });\n}",
+      "method": "ai"
+    },
+    {
+      "screenId": "scr-1780291989558",
+      "panelHtml": "<div class=\"flex gap-3 h-full\">\n  <!-- 左側: フィルタエリア -->\n  <div class=\"w-80 bg-card rounded-lg p-4 h-fit\">\n    <h2 class=\"text-lg font-semibold mb-4\" style=\"color: var(--text);\">検索・絞り込み</h2>\n    \n    <div class=\"space-y-3\">\n      <div>\n        <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">顧客名</label>\n        <input type=\"text\" id=\"customer-search\" data-testid=\"customer-search\" placeholder=\"顧客名で検索\" \n               class=\"w-full px-3 py-2 rounded-md text-sm\"\n               style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n      </div>\n      \n      <div>\n        <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">商品カテゴリ</label>\n        <select id=\"category-filter\" data-testid=\"category-filter\" \n                class=\"w-full px-3 py-2 rounded-md text-sm\"\n                style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n          <option value=\"\">全てのカテゴリ</option>\n          <option value=\"電子部品\">電子部品</option>\n          <option value=\"機械部品\">機械部品</option>\n          <option value=\"化学製品\">化学製品</option>\n          <option value=\"建材\">建材</option>\n          <option value=\"工具\">工具</option>\n        </select>\n      </div>\n      \n      <div>\n        <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">交渉期間</label>\n        <div class=\"flex gap-2\">\n          <input type=\"date\" id=\"date-from\" data-testid=\"date-from\"\n                 class=\"flex-1 px-3 py-2 rounded-md text-sm\"\n                 style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n          <input type=\"date\" id=\"date-to\" data-testid=\"date-to\"\n                 class=\"flex-1 px-3 py-2 rounded-md text-sm\"\n                 style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n        </div>\n      </div>\n      \n      <div>\n        <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">交渉ステータス</label>\n        <div class=\"space-y-2\">\n          <label class=\"flex items-center text-sm\" style=\"color: var(--text);\">\n            <input type=\"checkbox\" value=\"交渉中\" class=\"status-filter mr-2\" style=\"accent-color: var(--primary);\">\n            交渉中\n          </label>\n          <label class=\"flex items-center text-sm\" style=\"color: var(--text);\">\n            <input type=\"checkbox\" value=\"合意済\" class=\"status-filter mr-2\" style=\"accent-color: var(--primary);\">\n            合意済\n          </label>\n          <label class=\"flex items-center text-sm\" style=\"color: var(--text);\">\n            <input type=\"checkbox\" value=\"決裂\" class=\"status-filter mr-2\" style=\"accent-color: var(--primary);\">\n            決裂\n          </label>\n          <label class=\"flex items-center text-sm\" style=\"color: var(--text);\">\n            <input type=\"checkbox\" value=\"保留\" class=\"status-filter mr-2\" style=\"accent-color: var(--primary);\">\n            保留\n          </label>\n        </div>\n      </div>\n      \n      <div>\n        <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">担当者</label>\n        <select id=\"staff-filter\" data-testid=\"staff-filter\"\n                class=\"w-full px-3 py-2 rounded-md text-sm\"\n                style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n          <option value=\"\">全ての担当者</option>\n          <option value=\"田中太郎\">田中太郎</option>\n          <option value=\"佐藤花子\">佐藤花子</option>\n          <option value=\"鈴木一郎\">鈴木一郎</option>\n          <option value=\"高橋美咲\">高橋美咲</option>\n        </select>\n      </div>\n      \n      <button id=\"btn-search\" data-testid=\"search-button\" class=\"action-btn w-full\">\n        検索\n      </button>\n      \n      <button id=\"btn-clear\" data-testid=\"clear-button\" class=\"action-btn secondary w-full\">\n        クリア\n      </button>\n    </div>\n  </div>\n  \n  <!-- 右側: メインコンテンツ -->\n  <div class=\"flex-1 space-y-4\">\n    <!-- ヘッダー -->\n    <div class=\"flex justify-between items-center\">\n      <h1 class=\"text-xl font-bold\" style=\"color: var(--text);\">単価交渉履歴管理</h1>\n      <div class=\"flex gap-2\">\n        <button id=\"btn-export\" data-testid=\"export-button\" class=\"action-btn secondary\">\n          CSVエクスポート\n        </button>\n        <button id=\"btn-new\" data-testid=\"new-negotiation-button\" class=\"action-btn\">\n          新規交渉登録\n        </button>\n        <button id=\"btn-analysis\" data-testid=\"analysis-button\" class=\"action-btn secondary\">\n          単価分析\n        </button>\n        <button id=\"btn-order-data\" data-testid=\"order-data-button\" class=\"action-btn secondary\">\n          関連発注データ\n        </button>\n      </div>\n    </div>\n    \n    <!-- 交渉履歴一覧 -->\n    <div class=\"card\">\n      <div class=\"table-wrap\">\n        <table data-testid=\"negotiation-list\">\n          <thead>\n            <tr>\n              <th>顧客名</th>\n              <th>商品名</th>\n              <th>カテゴリ</th>\n              <th>現在単価</th>\n              <th>提示単価</th>\n              <th>回答単価</th>\n              <th>差額</th>\n              <th>交渉日</th>\n              <th>ステータス</th>\n              <th>担当者</th>\n              <th>次回フォロー</th>\n              <th>操作</th>\n            </tr>\n          </thead>\n          <tbody id=\"negotiation-tbody\">\n          </tbody>\n        </table>\n      </div>\n    </div>\n  </div>\n</div>\n\n<!-- 交渉詳細モーダル -->\n<div id=\"negotiation-modal\" class=\"fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50\" style=\"display: none;\">\n  <div class=\"bg-card rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto\">\n    <div class=\"flex justify-between items-center mb-4\">\n      <h3 class=\"text-lg font-semibold\" style=\"color: var(--text);\">交渉詳細</h3>\n      <button id=\"btn-close-modal\" class=\"text-2xl\" style=\"color: var(--text-muted);\">&times;</button>\n    </div>\n    \n    <div class=\"grid grid-cols-2 gap-4\">\n      <div>\n        <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">顧客名</label>\n        <input type=\"text\" id=\"modal-customer\" data-testid=\"modal-customer\"\n               class=\"w-full px-3 py-2 rounded-md text-sm\"\n               style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n      </div>\n      \n      <div>\n        <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">商品名</label>\n        <input type=\"text\" id=\"modal-product\" data-testid=\"modal-product\"\n               class=\"w-full px-3 py-2 rounded-md text-sm\"\n               style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n      </div>\n      \n      <div>\n        <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">商品カテゴリ</label>\n        <select id=\"modal-category\" data-testid=\"modal-category\"\n                class=\"w-full px-3 py-2 rounded-md text-sm\"\n                style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n          <option value=\"\">選択してください</option>\n          <option value=\"電子部品\">電子部品</option>\n          <option value=\"機械部品\">機械部品</option>\n          <option value=\"化学製品\">化学製品</option>\n          <option value=\"建材\">建材</option>\n          <option value=\"工具\">工具</option>\n        </select>\n      </div>\n      \n      <div>\n        <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">現在単価（円）</label>\n        <input type=\"number\" id=\"modal-current-price\" data-testid=\"modal-current-price\"\n               class=\"w-full px-3 py-2 rounded-md text-sm\"\n               style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n      </div>\n      \n      <div>\n        <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">提示単価（円）</label>\n        <input type=\"number\" id=\"modal-proposed-price\" data-testid=\"modal-proposed-price\"\n               class=\"w-full px-3 py-2 rounded-md text-sm\"\n               style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n      </div>\n      \n      <div>\n        <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">回答単価（円）</label>\n        <input type=\"number\" id=\"modal-response-price\" data-testid=\"modal-response-price\"\n               class=\"w-full px-3 py-2 rounded-md text-sm\"\n               style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n      </div>\n      \n      <div>\n        <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">交渉ステータス</label>\n        <select id=\"modal-status\" data-testid=\"modal-status\"\n                class=\"w-full px-3 py-2 rounded-md text-sm\"\n                style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n          <option value=\"\">選択してください</option>\n          <option value=\"交渉中\">交渉中</option>\n          <option value=\"合意済\">合意済</option>\n          <option value=\"決裂\">決裂</option>\n          <option value=\"保留\">保留</option>\n        </select>\n      </div>\n      \n      <div>\n        <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">担当者</label>\n        <select id=\"modal-staff\" data-testid=\"modal-staff\"\n                class=\"w-full px-3 py-2 rounded-md text-sm\"\n                style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n          <option value=\"\">選択してください</option>\n          <option value=\"田中太郎\">田中太郎</option>\n          <option value=\"佐藤花子\">佐藤花子</option>\n          <option value=\"鈴木一郎\">鈴木一郎</option>\n          <option value=\"高橋美咲\">高橋美咲</option>\n        </select>\n      </div>\n      \n      <div>\n        <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">交渉日</label>\n        <input type=\"date\" id=\"modal-negotiation-date\" data-testid=\"modal-negotiation-date\"\n               class=\"w-full px-3 py-2 rounded-md text-sm\"\n               style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n      </div>\n      \n      <div>\n        <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">次回フォロー日</label>\n        <input type=\"date\" id=\"modal-follow-date\" data-testid=\"modal-follow-date\"\n               class=\"w-full px-3 py-2 rounded-md text-sm\"\n               style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n      </div>\n      \n      <div class=\"col-span-2\">\n        <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">交渉経緯</label>\n        <textarea id=\"modal-notes\" data-testid=\"modal-notes\" rows=\"4\"\n                  class=\"w-full px-3 py-2 rounded-md text-sm\"\n                  style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\"\n                  placeholder=\"交渉の経緯や詳細を入力してください\"></textarea>\n      </div>\n    </div>\n    \n    <div class=\"flex justify-end gap-2 mt-6\">\n      <button id=\"btn-cancel\" data-testid=\"cancel-button\" class=\"action-btn secondary\">\n        キャンセル\n      </button>\n      <button id=\"btn-save\" data-testid=\"save-button\" class=\"action-btn\">\n        保存\n      </button>\n    </div>\n  </div>\n</div>",
+      "initJs": "function(container, apiUrl, tables) {\n  let currentEditId = null;\n  \n  // ステータスバッジのスタイル\n  function getStatusBadge(status) {\n    const styles = {\n      '交渉中': 'background: #3b82f6; color: #fff;',\n      '合意済': 'background: #10b981; color: #fff;',\n      '決裂': 'background: #ef4444; color: #fff;',\n      '保留': 'background: #f59e0b; color: #fff;'\n    };\n    return `<span class=\"px-2 py-1 rounded text-xs\" style=\"${styles[status] || 'background: #6b7280; color: #fff;'}\">${status || '-'}</span>`;\n  }\n  \n  // 金額フォーマット\n  function formatPrice(price) {\n    return price ? `¥${parseInt(price).toLocaleString()}` : '-';\n  }\n  \n  // 差額計算\n  function calculateDiff(proposed, response) {\n    if (!proposed || !response) return '-';\n    const diff = parseInt(response) - parseInt(proposed);\n    const color = diff > 0 ? '#10b981' : diff < 0 ? '#ef4444' : '#6b7280';\n    return `<span style=\"color: ${color};\">${diff > 0 ? '+' : ''}${diff.toLocaleString()}</span>`;\n  }\n  \n  // テーブル再描画関数\n  function renderRows(rows) {\n    const tbody = container.querySelector('#negotiation-tbody');\n    tbody.innerHTML = rows.map(r => `\n      <tr data-id=\"${r.id || ''}\">\n        <td>${r.customer_name || '-'}</td>\n        <td>${r.product_name || '-'}</td>\n        <td>${r.category || '-'}</td>\n        <td>${formatPrice(r.current_price)}</td>\n        <td>${formatPrice(r.proposed_price)}</td>\n        <td>${formatPrice(r.response_price)}</td>\n        <td>${calculateDiff(r.proposed_price, r.response_price)}</td>\n        <td>${r.negotiation_date ? new Date(r.negotiation_date).toLocaleDateString() : '-'}</td>\n        <td>${getStatusBadge(r.status)}</td>\n        <td>${r.staff_name || '-'}</td>\n        <td>${r.follow_date ? new Date(r.follow_date).toLocaleDateString() : '-'}</td>\n        <td>\n          <button class=\"action-btn secondary edit-btn\" data-id=\"${r.id || ''}\" style=\"margin-right: 4px;\">編集</button>\n          <button class=\"action-btn secondary delete-btn\" data-id=\"${r.id || ''}\">削除</button>\n        </td>\n      </tr>\n    `).join('');\n  }\n  \n  // 初期データ描画\n  renderRows(tables[0]?.records || []);\n  \n  // フィルタリング関数\n  function filterRows() {\n    const customer = container.querySelector('#customer-search').value.toLowerCase();\n    const category = container.querySelector('#category-filter').value;\n    const dateFrom = container.querySelector('#date-from').value;\n    const dateTo = container.querySelector('#date-to').value;\n    const staff = container.querySelector('#staff-filter').value;\n    const statusFilters = Array.from(container.querySelectorAll('.status-filter:checked')).map(cb => cb.value);\n    \n    window.aivicApi.list(0).then(rows => {\n      if (!rows) return;\n      \n      const filtered = rows.filter(r => {\n        if (customer && !r.customer_name?.toLowerCase().includes(customer)) return false;\n        if (category && r.category !== category) return false;\n        if (staff && r.staff_name !== staff) return false;\n        if (statusFilters.length > 0 && !statusFilters.includes(r.status)) return false;\n        if (dateFrom && r.negotiation_date && new Date(r.negotiation_date) < new Date(dateFrom)) return false;\n        if (dateTo && r.negotiation_date && new Date(r.negotiation_date) > new Date(dateTo)) return false;\n        return true;\n      });\n      \n      renderRows(filtered);\n    });\n  }\n  \n  // 検索ボタン\n  container.querySelector('#btn-search').addEventListener('click', filterRows);\n  \n  // クリアボタン\n  container.querySelector('#btn-clear').addEventListener('click', () => {\n    container.querySelector('#customer-search').value = '';\n    container.querySelector('#category-filter').value = '';\n    container.querySelector('#date-from').value = '';\n    container.querySelector('#date-to').value = '';\n    container.querySelector('#staff-filter').value = '';\n    container.querySelectorAll('.status-filter').forEach(cb => cb.checked = false);\n    window.aivicApi.list(0).then(renderRows);\n  });\n  \n  // CSVエクスポート\n  container.querySelector('#btn-export').addEventListener('click', () => {\n    window.aivicApi.list(0).then(rows => {\n      if (!rows) return;\n      \n      const headers = ['顧客名', '商品名', 'カテゴリ', '現在単価', '提示単価', '回答単価', '交渉日', 'ステータス', '担当者', '次回フォロー日', '交渉経緯'];\n      const csvData = [headers.join(',')];\n      \n      rows.forEach(r => {\n        const row = [\n          r.customer_name || '',\n          r.product_name || '',\n          r.category || '',\n          r.current_price || '',\n          r.proposed_price || '',\n          r.response_price || '',\n          r.negotiation_date || '',\n          r.status || '',\n          r.staff_name || '',\n          r.follow_date || '',\n          (r.notes || '').replace(/\"/g, '\"\"')\n        ];\n        csvData.push(row.map(field => `\"${field}\"`).join(','));\n      });\n      \n      const blob = new Blob(['\\uFEFF' + csvData.join('\\n')], { type: 'text/csv;charset=utf-8;' });\n      const link = document.createElement('a');\n      link.href = URL.createObjectURL(blob);\n      link.download = '単価交渉履歴.csv';\n      link.click();\n    });\n  });\n  \n  // モーダル制御\n  const modal = container.querySelector('#negotiation-modal');\n  \n  function openModal(data = {}) {\n    currentEditId = data.id || null;\n    \n    container.querySelector('#modal-customer').value = data.customer_name || '';\n    container.querySelector('#modal-product').value = data.product_name || '';\n    container.querySelector('#modal-category').value = data.category || '';\n    container.querySelector('#modal-current-price').value = data.current_price || '';\n    container.querySelector('#modal-proposed-price').value = data.proposed_price || '';\n    container.querySelector('#modal-response-price').value = data.response_price || '';\n    container.querySelector('#modal-status').value = data.status || '';\n    container.querySelector('#modal-staff').value = data.staff_name || '';\n    container.querySelector('#modal-negotiation-date').value = data.negotiation_date ? data.negotiation_date.split('T')[0] : '';\n    container.querySelector('#modal-follow-date').value = data.follow_date ? data.follow_date.split('T')[0] : '';\n    container.querySelector('#modal-notes').value = data.notes || '';\n    \n    modal.style.display = 'flex';\n  }\n  \n  function closeModal() {\n    modal.style.display = 'none';\n    currentEditId = null;\n  }\n  \n  // 新規登録ボタン\n  container.querySelector('#btn-new').addEventListener('click', () => openModal());\n  \n  // モーダル閉じる\n  container.querySelector('#btn-close-modal').addEventListener('click', closeModal);\n  container.querySelector('#btn-cancel').addEventListener('click', closeModal);\n  \n  // 保存ボタン\n  container.querySelector('#btn-save').addEventListener('click', async () => {\n    const data = {\n      customer_name: container.querySelector('#modal-customer').value,\n      product_name: container.querySelector('#modal-product').value,\n      category: container.querySelector('#modal-category').value,\n      current_price: parseInt(container.querySelector('#modal-current-price').value) || 0,\n      proposed_price: parseInt(container.querySelector('#modal-proposed-price').value) || 0,\n      response_price: parseInt(container.querySelector('#modal-response-price').value) || 0,\n      status: container.querySelector('#modal-status').value,\n      staff_name: container.querySelector('#modal-staff').value,\n      negotiation_date: container.querySelector('#modal-negotiation-date').value,\n      follow_date: container.querySelector('#modal-follow-date').value,\n      notes: container.querySelector('#modal-notes').value\n    };\n    \n    if (!data.customer_name || !data.product_name) {\n      alert('顧客名と商品名は必須です');\n      return;\n    }\n    \n    let result;\n    if (currentEditId) {\n      result = await window.aivicApi.update(0, currentEditId, data);\n    } else {\n      result = await window.aivicApi.save(0, data);\n    }\n    \n    if (result) {\n      closeModal();\n      window.aivicApi.list(0).then(renderRows);\n    }\n  });\n  \n  // 行レベル操作（編集・削除）\n  container.addEventListener('click', async (e) => {\n    const editBtn = e.target.closest('.edit-btn');\n    const deleteBtn = e.target.closest('.delete-btn');\n    \n    if (editBtn) {\n      const id = editBtn.dataset.id;\n      window.aivicApi.list(0).then(rows => {\n        const record = rows?.find(r => r.id === id);\n        if (record) openModal(record);\n      });\n    }\n    \n    if (deleteBtn) {\n      if (!confirm('この交渉履歴を削除しますか？')) return;\n      const id = deleteBtn.dataset.id;\n      await window.aivicApi.delete(0, id);\n      window.aivicApi.list(0).then(renderRows);\n    }\n  });\n  \n  // 画面遷移ボタン\n  container.querySelector('#btn-analysis').addEventListener('click', () => {\n    window.showScreen(\"scr-1780291980452\");\n  });\n  \n  container.querySelector('#btn-order-data').addEventListener('click', () => {\n    window.showScreen(\"scr-1780291929523\");\n  });\n}",
+      "method": "ai"
+    }
+  ],
+  "tableDefinitions": [
+    {
+      "tableName": "市場価格データ",
+      "purpose": "営業支援システムにおける商品・サービスの市場価格情報を管理し、Web発注プラットフォームでの価格表示・比較・発注判断に活用する",
+      "columns": [
+        {
+          "name": "価格データID",
+          "type": "uuid",
+          "required": true,
+          "description": "市場価格データの一意識別子"
+        },
+        {
+          "name": "商品コード",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "価格対象商品の識別コード"
+        },
+        {
+          "name": "商品名",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "価格対象商品の名称"
+        },
+        {
+          "name": "供給業者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "価格を提供する業者の識別子"
+        },
+        {
+          "name": "供給業者名",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "価格を提供する業者名"
+        },
+        {
+          "name": "単価",
+          "type": "integer",
+          "required": true,
+          "description": "商品の単価（円）"
+        },
+        {
+          "name": "単位",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "価格の単位（個、kg、m等）"
+        },
+        {
+          "name": "最小発注数量",
+          "type": "integer",
+          "required": true,
+          "description": "発注可能な最小数量"
+        },
+        {
+          "name": "価格適用開始日",
+          "type": "timestamp",
+          "required": true,
+          "description": "この価格が有効になる開始日時"
+        },
+        {
+          "name": "価格適用終了日",
+          "type": "timestamp",
+          "required": false,
+          "description": "この価格が無効になる終了日時"
+        },
+        {
+          "name": "価格ステータス",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "価格の状態（有効、無効、期限切れ等）"
+        },
+        {
+          "name": "納期日数",
+          "type": "integer",
+          "required": true,
+          "description": "発注から納品までの標準日数"
+        },
+        {
+          "name": "品質グレード",
+          "type": "varchar(100)",
+          "required": false,
+          "description": "商品の品質等級"
+        },
+        {
+          "name": "備考",
+          "type": "text",
+          "required": false,
+          "description": "価格に関する補足情報"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード作成日時"
+        },
+        {
+          "name": "更新日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード最終更新日時"
+        },
+        {
+          "name": "作成者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "レコード作成者の識別子"
+        },
+        {
+          "name": "更新者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "レコード最終更新者の識別子"
+        }
+      ]
+    },
+    {
+      "tableName": "月次集計データ",
+      "purpose": "Web発注プラットフォームにおける月次の発注実績、売上、市場動向等を集計し、営業支援のための分析データを提供する",
+      "columns": [
+        {
+          "name": "集計ID",
+          "type": "uuid",
+          "required": true,
+          "description": "月次集計データの一意識別子"
+        },
+        {
+          "name": "集計年月",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "集計対象の年月（YYYY-MM形式）"
+        },
+        {
+          "name": "顧客ID",
+          "type": "uuid",
+          "required": false,
+          "description": "集計対象顧客の識別子（全体集計の場合はNULL）"
+        },
+        {
+          "name": "商品カテゴリID",
+          "type": "uuid",
+          "required": false,
+          "description": "集計対象商品カテゴリの識別子（全体集計の場合はNULL）"
+        },
+        {
+          "name": "発注件数",
+          "type": "integer",
+          "required": true,
+          "description": "当月の発注件数"
+        },
+        {
+          "name": "発注総額",
+          "type": "integer",
+          "required": true,
+          "description": "当月の発注総金額"
+        },
+        {
+          "name": "平均発注単価",
+          "type": "integer",
+          "required": true,
+          "description": "当月の平均発注単価"
+        },
+        {
+          "name": "前月比発注件数",
+          "type": "integer",
+          "required": false,
+          "description": "前月との発注件数比較（増減数）"
+        },
+        {
+          "name": "前月比発注総額",
+          "type": "integer",
+          "required": false,
+          "description": "前月との発注総額比較（増減額）"
+        },
+        {
+          "name": "市場価格平均",
+          "type": "integer",
+          "required": false,
+          "description": "当月の市場価格平均値"
+        },
+        {
+          "name": "価格競争力指数",
+          "type": "integer",
+          "required": false,
+          "description": "市場価格に対する自社価格の競争力指数"
+        },
+        {
+          "name": "新規顧客数",
+          "type": "integer",
+          "required": true,
+          "description": "当月の新規顧客獲得数"
+        },
+        {
+          "name": "リピート顧客数",
+          "type": "integer",
+          "required": true,
+          "description": "当月のリピート顧客数"
+        },
+        {
+          "name": "集計ステータス",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "集計処理の状態（処理中/完了/エラー）"
+        },
+        {
+          "name": "集計完了日時",
+          "type": "timestamp",
+          "required": false,
+          "description": "集計処理が完了した日時"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード作成日時"
+        },
+        {
+          "name": "更新日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード最終更新日時"
+        },
+        {
+          "name": "作成者",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "レコード作成者（システム自動集計の場合は'SYSTEM'）"
+        }
+      ]
+    },
+    {
+      "tableName": "購買パターン分析結果",
+      "purpose": "Web発注プラットフォームにおける購買パターンの分析結果を管理し、発注提案や在庫最適化の判断材料を提供する",
+      "columns": [
+        {
+          "name": "分析結果ID",
+          "type": "uuid",
+          "required": true,
+          "description": "購買パターン分析結果の一意識別子"
+        },
+        {
+          "name": "分析対象期間開始日",
+          "type": "timestamp",
+          "required": true,
+          "description": "分析対象となる期間の開始日"
+        },
+        {
+          "name": "分析対象期間終了日",
+          "type": "timestamp",
+          "required": true,
+          "description": "分析対象となる期間の終了日"
+        },
+        {
+          "name": "商品カテゴリ",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "分析対象の商品カテゴリ"
+        },
+        {
+          "name": "商品コード",
+          "type": "varchar(100)",
+          "required": false,
+          "description": "特定商品の分析の場合の商品コード"
+        },
+        {
+          "name": "取引先コード",
+          "type": "varchar(100)",
+          "required": false,
+          "description": "特定取引先の分析の場合の取引先コード"
+        },
+        {
+          "name": "平均発注間隔日数",
+          "type": "integer",
+          "required": true,
+          "description": "過去の発注データから算出した平均発注間隔"
+        },
+        {
+          "name": "平均発注数量",
+          "type": "integer",
+          "required": true,
+          "description": "過去の発注データから算出した平均発注数量"
+        },
+        {
+          "name": "季節変動係数",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "季節による需要変動の係数（春夏秋冬別）"
+        },
+        {
+          "name": "価格感度指数",
+          "type": "integer",
+          "required": true,
+          "description": "市場価格変動に対する発注量の感度を数値化"
+        },
+        {
+          "name": "推奨発注タイミング",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "分析結果に基づく推奨発注タイミング"
+        },
+        {
+          "name": "推奨発注数量",
+          "type": "integer",
+          "required": true,
+          "description": "分析結果に基づく推奨発注数量"
+        },
+        {
+          "name": "信頼度スコア",
+          "type": "integer",
+          "required": true,
+          "description": "分析結果の信頼度を0-100で表現"
+        },
+        {
+          "name": "分析アルゴリズム",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "使用した分析アルゴリズムの種別"
+        },
+        {
+          "name": "適用開始日",
+          "type": "timestamp",
+          "required": true,
+          "description": "この分析結果を適用開始する日付"
+        },
+        {
+          "name": "適用終了日",
+          "type": "timestamp",
+          "required": false,
+          "description": "この分析結果の適用終了日（更新時に設定）"
+        },
+        {
+          "name": "ステータス",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "分析結果のステータス（有効/無効/検証中）"
+        },
+        {
+          "name": "備考",
+          "type": "text",
+          "required": false,
+          "description": "分析結果に関する補足情報や注意事項"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード作成日時"
+        },
+        {
+          "name": "更新日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード最終更新日時"
+        },
+        {
+          "name": "作成者",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "分析を実行したユーザーまたはシステム"
+        }
+      ]
+    },
+    {
+      "tableName": "価格戦略分析結果",
+      "purpose": "Web発注プラットフォームにおける価格戦略の分析結果を管理し、営業支援システムでの価格決定や提案活動に活用する",
+      "columns": [
+        {
+          "name": "分析結果ID",
+          "type": "uuid",
+          "required": true,
+          "description": "価格戦略分析結果の一意識別子"
+        },
+        {
+          "name": "分析対象期間開始日",
+          "type": "timestamp",
+          "required": true,
+          "description": "価格戦略分析の対象期間の開始日"
+        },
+        {
+          "name": "分析対象期間終了日",
+          "type": "timestamp",
+          "required": true,
+          "description": "価格戦略分析の対象期間の終了日"
+        },
+        {
+          "name": "商品カテゴリ",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "分析対象の商品カテゴリ"
+        },
+        {
+          "name": "顧客セグメント",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "分析対象の顧客セグメント"
+        },
+        {
+          "name": "現在価格",
+          "type": "integer",
+          "required": true,
+          "description": "現在の販売価格"
+        },
+        {
+          "name": "推奨価格",
+          "type": "integer",
+          "required": true,
+          "description": "分析結果に基づく推奨販売価格"
+        },
+        {
+          "name": "市場平均価格",
+          "type": "integer",
+          "required": true,
+          "description": "市場における平均価格"
+        },
+        {
+          "name": "競合最低価格",
+          "type": "integer",
+          "required": true,
+          "description": "競合他社の最低価格"
+        },
+        {
+          "name": "価格弾力性",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "価格変動に対する需要の弾力性"
+        },
+        {
+          "name": "売上予測増減率",
+          "type": "integer",
+          "required": true,
+          "description": "推奨価格適用時の売上増減率（％）"
+        },
+        {
+          "name": "利益率予測",
+          "type": "integer",
+          "required": true,
+          "description": "推奨価格適用時の予測利益率（％）"
+        },
+        {
+          "name": "分析手法",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "使用した価格分析手法"
+        },
+        {
+          "name": "信頼度",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "分析結果の信頼度レベル"
+        },
+        {
+          "name": "適用開始予定日",
+          "type": "timestamp",
+          "required": false,
+          "description": "推奨価格の適用開始予定日"
+        },
+        {
+          "name": "適用終了予定日",
+          "type": "timestamp",
+          "required": false,
+          "description": "推奨価格の適用終了予定日"
+        },
+        {
+          "name": "承認状況",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "価格戦略の承認状況"
+        },
+        {
+          "name": "承認者ID",
+          "type": "uuid",
+          "required": false,
+          "description": "価格戦略を承認した担当者ID"
+        },
+        {
+          "name": "承認日時",
+          "type": "timestamp",
+          "required": false,
+          "description": "価格戦略が承認された日時"
+        },
+        {
+          "name": "備考",
+          "type": "text",
+          "required": false,
+          "description": "価格戦略に関する補足情報や注意事項"
+        },
+        {
+          "name": "作成者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "分析結果を作成した担当者ID"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "分析結果の作成日時"
+        },
+        {
+          "name": "更新者ID",
+          "type": "uuid",
+          "required": false,
+          "description": "分析結果を最後に更新した担当者ID"
+        },
+        {
+          "name": "更新日時",
+          "type": "timestamp",
+          "required": false,
+          "description": "分析結果の最終更新日時"
+        }
+      ]
+    },
+    {
+      "tableName": "顧客別単価比較分析結果",
+      "purpose": "顧客ごとの単価を市場価格と比較分析し、価格戦略立案と営業活動に活用するための分析結果を管理する",
+      "columns": [
+        {
+          "name": "分析結果ID",
+          "type": "uuid",
+          "required": true,
+          "description": "分析結果の一意識別子"
+        },
+        {
+          "name": "顧客ID",
+          "type": "uuid",
+          "required": true,
+          "description": "対象顧客の識別子"
+        },
+        {
+          "name": "商品ID",
+          "type": "uuid",
+          "required": true,
+          "description": "対象商品の識別子"
+        },
+        {
+          "name": "分析対象期間開始日",
+          "type": "timestamp",
+          "required": true,
+          "description": "分析対象とする期間の開始日"
+        },
+        {
+          "name": "分析対象期間終了日",
+          "type": "timestamp",
+          "required": true,
+          "description": "分析対象とする期間の終了日"
+        },
+        {
+          "name": "顧客単価",
+          "type": "integer",
+          "required": true,
+          "description": "該当顧客への販売単価"
+        },
+        {
+          "name": "市場平均単価",
+          "type": "integer",
+          "required": true,
+          "description": "市場における平均単価"
+        },
+        {
+          "name": "単価差額",
+          "type": "integer",
+          "required": true,
+          "description": "顧客単価と市場平均単価の差額"
+        },
+        {
+          "name": "単価差率",
+          "type": "integer",
+          "required": true,
+          "description": "市場平均単価に対する差額の割合（％）"
+        },
+        {
+          "name": "取引数量",
+          "type": "integer",
+          "required": true,
+          "description": "分析期間中の取引数量"
+        },
+        {
+          "name": "売上金額",
+          "type": "integer",
+          "required": true,
+          "description": "分析期間中の売上金額"
+        },
+        {
+          "name": "価格競争力ランク",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "市場価格との比較による競争力ランク（高・中・低等）"
+        },
+        {
+          "name": "価格改定推奨フラグ",
+          "type": "boolean",
+          "required": true,
+          "description": "価格改定が推奨されるかどうか"
+        },
+        {
+          "name": "推奨価格",
+          "type": "integer",
+          "required": false,
+          "description": "分析結果に基づく推奨販売価格"
+        },
+        {
+          "name": "分析コメント",
+          "type": "text",
+          "required": false,
+          "description": "分析結果に対する補足コメント"
+        },
+        {
+          "name": "営業担当者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "該当顧客の営業担当者"
+        },
+        {
+          "name": "承認状態",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "分析結果の承認状態（未承認・承認済等）"
+        },
+        {
+          "name": "承認者ID",
+          "type": "uuid",
+          "required": false,
+          "description": "分析結果を承認した管理者"
+        },
+        {
+          "name": "承認日時",
+          "type": "timestamp",
+          "required": false,
+          "description": "承認された日時"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード作成日時"
+        },
+        {
+          "name": "更新日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード最終更新日時"
+        },
+        {
+          "name": "作成者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "レコード作成者"
+        }
+      ]
+    },
+    {
+      "tableName": "分析レポート",
+      "purpose": "Web発注プラットフォームで生成される各種分析レポートの管理と配信を行う",
+      "columns": [
+        {
+          "name": "レポートID",
+          "type": "uuid",
+          "required": true,
+          "description": "分析レポートの一意識別子"
+        },
+        {
+          "name": "レポート名",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "レポートの表示名"
+        },
+        {
+          "name": "レポート種別",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "購買パターン分析、価格戦略分析、顧客別単価比較等の種別"
+        },
+        {
+          "name": "対象期間開始日",
+          "type": "timestamp",
+          "required": true,
+          "description": "分析対象期間の開始日"
+        },
+        {
+          "name": "対象期間終了日",
+          "type": "timestamp",
+          "required": true,
+          "description": "分析対象期間の終了日"
+        },
+        {
+          "name": "顧客ID",
+          "type": "uuid",
+          "required": false,
+          "description": "顧客別レポートの場合の対象顧客"
+        },
+        {
+          "name": "レポート内容",
+          "type": "text",
+          "required": true,
+          "description": "分析結果の詳細内容"
+        },
+        {
+          "name": "ステータス",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "作成中、完了、エラー等の処理状況"
+        },
+        {
+          "name": "公開フラグ",
+          "type": "boolean",
+          "required": true,
+          "description": "顧客への公開可否"
+        },
+        {
+          "name": "通知済フラグ",
+          "type": "boolean",
+          "required": true,
+          "description": "関係者への通知完了フラグ"
+        },
+        {
+          "name": "作成者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "レポート作成者の識別子"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レポート作成日時"
+        },
+        {
+          "name": "更新日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "最終更新日時"
+        }
+      ]
+    },
+    {
+      "tableName": "システム操作履歴",
+      "purpose": "Web発注プラットフォームにおけるユーザーの操作履歴を記録し、システム利用状況の分析や監査証跡として活用する",
+      "columns": [
+        {
+          "name": "操作履歴ID",
+          "type": "uuid",
+          "required": true,
+          "description": "操作履歴の一意識別子"
+        },
+        {
+          "name": "ユーザーID",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "操作を実行したユーザーの識別子"
+        },
+        {
+          "name": "ユーザー名",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "操作を実行したユーザーの名前"
+        },
+        {
+          "name": "操作種別",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "実行された操作の種別（ログイン、発注、検索、詳細表示、データ更新等）"
+        },
+        {
+          "name": "画面名",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "操作が実行された画面名"
+        },
+        {
+          "name": "機能名",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "実行された機能名"
+        },
+        {
+          "name": "対象データID",
+          "type": "varchar(100)",
+          "required": false,
+          "description": "操作対象となったデータの識別子（発注ID、商品ID等）"
+        },
+        {
+          "name": "操作内容",
+          "type": "text",
+          "required": false,
+          "description": "操作の詳細内容や変更内容"
+        },
+        {
+          "name": "IPアドレス",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "操作元のIPアドレス"
+        },
+        {
+          "name": "ユーザーエージェント",
+          "type": "text",
+          "required": false,
+          "description": "操作に使用されたブラウザ情報"
+        },
+        {
+          "name": "処理結果",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "操作の処理結果（成功、失敗、エラー等）"
+        },
+        {
+          "name": "エラーメッセージ",
+          "type": "text",
+          "required": false,
+          "description": "エラー発生時のエラーメッセージ"
+        },
+        {
+          "name": "処理時間",
+          "type": "integer",
+          "required": false,
+          "description": "処理にかかった時間（ミリ秒）"
+        },
+        {
+          "name": "操作日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "操作が実行された日時"
+        }
+      ]
+    }
+  ],
+  "presetSeedData": {}
+}

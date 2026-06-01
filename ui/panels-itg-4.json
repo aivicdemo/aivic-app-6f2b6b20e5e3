@@ -1,0 +1,1404 @@
+{
+  "systemId": "itg-4",
+  "systemName": "経営分析・レポートシステムの構築",
+  "cssTheme": ":root {\n  --primary: #2e7d32;\n  --primary-hover: #1b5e20;\n  --bg-main: #f8fdf8;\n  --bg-card: #ffffff;\n  --bg-sidebar: #f1f8f1;\n  --border: #e8f5e8;\n  --text: #1a1a1a;\n  --text-muted: #4a4a4a;\n  --top-bar-bg: #ffffff;\n  --top-bar-border: #e0f2e0;\n}",
+  "screens": [
+    {
+      "id": "scr-1780291692616",
+      "name": "発注データ管理画面",
+      "purpose": "発注データの一覧表示、検索・絞り込み、詳細確認、編集・削除、および発注状況の管理を行う画面",
+      "items": [
+        "発注データ一覧テーブル",
+        "発注番号検索ボックス",
+        "発注日期間指定フィルター",
+        "プロジェクト選択ドロップダウン",
+        "発注ステータス絞り込みチェックボックス",
+        "発注者名検索フィールド",
+        "金額範囲指定フィルター",
+        "新規発注登録ボタン",
+        "一括操作選択チェックボックス",
+        "発注詳細表示ボタン",
+        "発注編集ボタン",
+        "発注削除ボタン"
+      ]
+    },
+    {
+      "id": "scr-1780291703557",
+      "name": "プロジェクト別原価率分析画面",
+      "purpose": "各プロジェクトの原価率を分析し、収益性の評価と改善点の特定を行うための画面",
+      "items": [
+        "プロジェクト選択ドロップダウン",
+        "期間指定カレンダー",
+        "原価率閾値設定スライダー",
+        "プロジェクト一覧テーブル",
+        "原価率グラフ表示エリア",
+        "目標原価率入力フィールド",
+        "実績原価率表示ラベル",
+        "差異分析結果表示パネル",
+        "コスト内訳円グラフ",
+        "競合他社比較チャート",
+        "アラート通知設定ボタン",
+        "詳細分析ボタン"
+      ]
+    },
+    {
+      "id": "scr-1780291714087",
+      "name": "単価変動分析画面",
+      "purpose": "商品・サービスの単価変動を時系列で分析し、価格トレンドの把握と適正価格設定の意思決定を支援する",
+      "items": [
+        "期間選択カレンダー",
+        "商品カテゴリ選択ドロップダウン",
+        "プロジェクト選択ドロップダウン",
+        "単価変動グラフ表示エリア",
+        "変動率表示パネル",
+        "競合他社単価比較チャート",
+        "単価変動履歴一覧テーブル",
+        "変動要因分析パネル",
+        "原価率推移グラフ",
+        "アラート設定ボタン",
+        "レポート出力ボタン",
+        "データ更新ボタン"
+      ]
+    },
+    {
+      "id": "scr-1780291724287",
+      "name": "競合他社単価比較分析画面",
+      "purpose": "自社と競合他社の単価を比較分析し、価格競争力の把握と適正価格設定の意思決定を支援する",
+      "items": [
+        "プロジェクト選択ドロップダウン",
+        "分析期間設定カレンダー",
+        "競合他社選択チェックボックス",
+        "商品・サービスカテゴリ選択",
+        "単価比較グラフ表示エリア",
+        "競合他社単価一覧テーブル",
+        "自社単価表示欄",
+        "価格差分析結果表示",
+        "市場平均単価表示",
+        "価格競争力指標メーター",
+        "単価変動トレンドグラフ",
+        "分析条件絞り込みパネル"
+      ]
+    },
+    {
+      "id": "scr-1780291732920",
+      "name": "導入効果レポート画面",
+      "purpose": "Web発注プラットフォーム導入による業務効率化、コスト削減、品質向上などの定量的・定性的効果を可視化し、投資対効果を測定・報告するための画面",
+      "items": [
+        "期間選択カレンダー",
+        "レポート種別選択ドロップダウン",
+        "部門・プロジェクト絞り込みフィルター",
+        "導入前後比較チャート",
+        "発注処理時間短縮率表示",
+        "コスト削減効果グラフ",
+        "発注精度向上率メーター",
+        "システム利用率推移グラフ",
+        "ROI計算結果表示パネル",
+        "主要KPI一覧テーブル",
+        "効果詳細データグリッド",
+        "レポート出力ボタン"
+      ]
+    },
+    {
+      "id": "scr-1780291753102",
+      "name": "レポート生成履歴画面",
+      "purpose": "過去に生成された分析レポートの履歴を一覧表示し、レポートの再表示、ダウンロード、削除などの管理を行う画面",
+      "items": [
+        "レポート生成履歴一覧テーブル",
+        "レポート名表示エリア",
+        "生成日時表示エリア",
+        "レポート種別表示エリア",
+        "生成ステータス表示エリア",
+        "ファイルサイズ表示エリア",
+        "生成者名表示エリア",
+        "期間指定検索フィールド",
+        "レポート種別絞り込みドロップダウン",
+        "生成者絞り込みドロップダウン",
+        "ステータス絞り込みドロップダウン",
+        "検索実行ボタン"
+      ]
+    }
+  ],
+  "screenPanels": [
+    {
+      "screenId": "scr-1780291692616",
+      "panelHtml": "<div class=\"p-4\">\n  <!-- ヘッダー -->\n  <div class=\"flex items-center justify-between mb-4\">\n    <h1 class=\"text-xl font-semibold\" style=\"color: var(--text);\">発注データ管理</h1>\n    <button class=\"action-btn\" data-testid=\"new-order-button\" id=\"btn-new-order\">\n      新規発注登録\n    </button>\n  </div>\n\n  <!-- KPIカード -->\n  <div class=\"grid grid-cols-4 gap-3 mb-4\">\n    <div class=\"card p-3\" data-testid=\"kpi-total-orders\">\n      <div class=\"text-sm\" style=\"color: var(--text-muted);\">総発注件数</div>\n      <div class=\"text-2xl font-bold\" style=\"color: var(--text);\" id=\"kpi-total-orders\">0</div>\n    </div>\n    <div class=\"card p-3\" data-testid=\"kpi-total-amount\">\n      <div class=\"text-sm\" style=\"color: var(--text-muted);\">総発注金額</div>\n      <div class=\"text-2xl font-bold\" style=\"color: var(--text);\" id=\"kpi-total-amount\">¥0</div>\n    </div>\n    <div class=\"card p-3\" data-testid=\"kpi-pending-orders\">\n      <div class=\"text-sm\" style=\"color: var(--text-muted);\">承認待ち</div>\n      <div class=\"text-2xl font-bold\" style=\"color: var(--text);\" id=\"kpi-pending-orders\">0</div>\n    </div>\n    <div class=\"card p-3\" data-testid=\"kpi-urgent-orders\">\n      <div class=\"text-sm\" style=\"color: var(--text-muted);\">緊急発注</div>\n      <div class=\"text-2xl font-bold\" style=\"color: var(--text);\" id=\"kpi-urgent-orders\">0</div>\n    </div>\n  </div>\n\n  <!-- グラフエリア -->\n  <div class=\"grid grid-cols-2 gap-4 mb-4\">\n    <div class=\"card p-3\">\n      <h3 class=\"text-sm font-medium mb-2\" style=\"color: var(--text);\">月別発注金額推移</h3>\n      <div class=\"chart-wrap\" style=\"position:relative;height:260px;max-height:280px;\">\n        <canvas id=\"monthly-chart\"></canvas>\n      </div>\n    </div>\n    <div class=\"card p-3\">\n      <h3 class=\"text-sm font-medium mb-2\" style=\"color: var(--text);\">発注ステータス分布</h3>\n      <div class=\"chart-wrap\" style=\"position:relative;height:260px;max-height:280px;\">\n        <canvas id=\"status-chart\"></canvas>\n      </div>\n    </div>\n  </div>\n\n  <!-- 検索・フィルターエリア -->\n  <div class=\"card p-3 mb-4\">\n    <div class=\"grid grid-cols-4 gap-3\">\n      <div>\n        <label class=\"text-xs\" style=\"color: var(--text-muted);\">発注番号</label>\n        <input type=\"text\" class=\"input w-full\" data-testid=\"order-number-search\" id=\"input-order-number\" placeholder=\"発注番号で検索\" style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n      </div>\n      <div>\n        <label class=\"text-xs\" style=\"color: var(--text-muted);\">発注日（開始）</label>\n        <input type=\"date\" class=\"input w-full\" data-testid=\"order-date-from\" id=\"input-date-from\" style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n      </div>\n      <div>\n        <label class=\"text-xs\" style=\"color: var(--text-muted);\">発注日（終了）</label>\n        <input type=\"date\" class=\"input w-full\" data-testid=\"order-date-to\" id=\"input-date-to\" style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n      </div>\n      <div>\n        <label class=\"text-xs\" style=\"color: var(--text-muted);\">プロジェクト</label>\n        <select class=\"input w-full\" data-testid=\"project-filter\" id=\"select-project\" style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n          <option value=\"\">全てのプロジェクト</option>\n          <option value=\"proj-001\">システム開発プロジェクト</option>\n          <option value=\"proj-002\">インフラ構築プロジェクト</option>\n          <option value=\"proj-003\">運用保守プロジェクト</option>\n        </select>\n      </div>\n      <div>\n        <label class=\"text-xs\" style=\"color: var(--text-muted);\">発注者名</label>\n        <input type=\"text\" class=\"input w-full\" data-testid=\"orderer-search\" id=\"input-orderer\" placeholder=\"発注者名で検索\" style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n      </div>\n      <div>\n        <label class=\"text-xs\" style=\"color: var(--text-muted);\">金額範囲（最小）</label>\n        <input type=\"number\" class=\"input w-full\" data-testid=\"amount-min\" id=\"input-amount-min\" placeholder=\"最小金額\" style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n      </div>\n      <div>\n        <label class=\"text-xs\" style=\"color: var(--text-muted);\">金額範囲（最大）</label>\n        <input type=\"number\" class=\"input w-full\" data-testid=\"amount-max\" id=\"input-amount-max\" placeholder=\"最大金額\" style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n      </div>\n      <div class=\"flex items-end\">\n        <button class=\"action-btn w-full\" data-testid=\"search-button\" id=\"btn-search\">検索</button>\n      </div>\n    </div>\n    \n    <!-- ステータスフィルター -->\n    <div class=\"mt-3\">\n      <label class=\"text-xs\" style=\"color: var(--text-muted);\">発注ステータス</label>\n      <div class=\"flex gap-4 mt-1\">\n        <label class=\"flex items-center\">\n          <input type=\"checkbox\" data-testid=\"status-draft\" id=\"status-draft\" value=\"下書き\" style=\"accent-color: var(--primary);\">\n          <span class=\"ml-1 text-sm\" style=\"color: var(--text);\">下書き</span>\n        </label>\n        <label class=\"flex items-center\">\n          <input type=\"checkbox\" data-testid=\"status-pending\" id=\"status-pending\" value=\"承認待ち\" style=\"accent-color: var(--primary);\">\n          <span class=\"ml-1 text-sm\" style=\"color: var(--text);\">承認待ち</span>\n        </label>\n        <label class=\"flex items-center\">\n          <input type=\"checkbox\" data-testid=\"status-approved\" id=\"status-approved\" value=\"承認済み\" style=\"accent-color: var(--primary);\">\n          <span class=\"ml-1 text-sm\" style=\"color: var(--text);\">承認済み</span>\n        </label>\n        <label class=\"flex items-center\">\n          <input type=\"checkbox\" data-testid=\"status-ordered\" id=\"status-ordered\" value=\"発注済み\" style=\"accent-color: var(--primary);\">\n          <span class=\"ml-1 text-sm\" style=\"color: var(--text);\">発注済み</span>\n        </label>\n        <label class=\"flex items-center\">\n          <input type=\"checkbox\" data-testid=\"status-completed\" id=\"status-completed\" value=\"完了\" style=\"accent-color: var(--primary);\">\n          <span class=\"ml-1 text-sm\" style=\"color: var(--text);\">完了</span>\n        </label>\n      </div>\n    </div>\n  </div>\n\n  <!-- 一括操作エリア -->\n  <div class=\"flex items-center justify-between mb-3\">\n    <div class=\"flex items-center gap-3\">\n      <label class=\"flex items-center\">\n        <input type=\"checkbox\" data-testid=\"select-all\" id=\"select-all\" style=\"accent-color: var(--primary);\">\n        <span class=\"ml-1 text-sm\" style=\"color: var(--text);\">全選択</span>\n      </label>\n      <button class=\"action-btn secondary\" data-testid=\"bulk-approve-button\" id=\"btn-bulk-approve\">一括承認</button>\n      <button class=\"action-btn secondary\" data-testid=\"bulk-delete-button\" id=\"btn-bulk-delete\">一括削除</button>\n    </div>\n    <button class=\"action-btn secondary\" data-testid=\"csv-export-button\" id=\"btn-csv-export\">CSVエクスポート</button>\n  </div>\n\n  <!-- 発注データ一覧テーブル -->\n  <div class=\"table-wrap\">\n    <table data-testid=\"order-list\">\n      <thead>\n        <tr>\n          <th style=\"color: var(--text);\">選択</th>\n          <th style=\"color: var(--text);\">発注番号</th>\n          <th style=\"color: var(--text);\">発注日</th>\n          <th style=\"color: var(--text);\">発注者</th>\n          <th style=\"color: var(--text);\">発注先</th>\n          <th style=\"color: var(--text);\">金額</th>\n          <th style=\"color: var(--text);\">ステータス</th>\n          <th style=\"color: var(--text);\">緊急</th>\n          <th style=\"color: var(--text);\">希望納期</th>\n          <th style=\"color: var(--text);\">操作</th>\n        </tr>\n      </thead>\n      <tbody id=\"order-tbody\">\n      </tbody>\n    </table>\n  </div>\n\n  <!-- 新規発注登録モーダル -->\n  <div id=\"new-order-modal\" class=\"fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center\" style=\"display: none; z-index: 1000;\">\n    <div class=\"card p-4 w-full max-w-2xl max-h-screen overflow-y-auto\" style=\"background: var(--bg-card);\">\n      <div class=\"flex items-center justify-between mb-4\">\n        <h2 class=\"text-lg font-semibold\" style=\"color: var(--text);\">新規発注登録</h2>\n        <button class=\"text-xl\" style=\"color: var(--text-muted);\" id=\"btn-close-modal\">&times;</button>\n      </div>\n      \n      <div class=\"grid grid-cols-2 gap-3\">\n        <div>\n          <label class=\"text-xs\" style=\"color: var(--text-muted);\">発注番号</label>\n          <input type=\"text\" class=\"input w-full\" data-testid=\"new-order-number\" id=\"new-order-number\" required style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n        </div>\n        <div>\n          <label class=\"text-xs\" style=\"color: var(--text-muted);\">発注日</label>\n          <input type=\"date\" class=\"input w-full\" data-testid=\"new-order-date\" id=\"new-order-date\" required style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n        </div>\n        <div>\n          <label class=\"text-xs\" style=\"color: var(--text-muted);\">発注先名</label>\n          <input type=\"text\" class=\"input w-full\" data-testid=\"new-order-supplier\" id=\"new-order-supplier\" required style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n        </div>\n        <div>\n          <label class=\"text-xs\" style=\"color: var(--text-muted);\">発注金額</label>\n          <input type=\"number\" class=\"input w-full\" data-testid=\"new-order-amount\" id=\"new-order-amount\" required style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n        </div>\n        <div>\n          <label class=\"text-xs\" style=\"color: var(--text-muted);\">希望納期</label>\n          <input type=\"date\" class=\"input w-full\" data-testid=\"new-order-delivery\" id=\"new-order-delivery\" required style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n        </div>\n        <div>\n          <label class=\"text-xs\" style=\"color: var(--text-muted);\">発注ステータス</label>\n          <select class=\"input w-full\" data-testid=\"new-order-status\" id=\"new-order-status\" required style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n            <option value=\"\">選択してください</option>\n            <option value=\"下書き\">下書き</option>\n            <option value=\"承認待ち\">承認待ち</option>\n            <option value=\"承認済み\">承認済み</option>\n          </select>\n        </div>\n        <div class=\"col-span-2\">\n          <label class=\"text-xs\" style=\"color: var(--text-muted);\">発注理由</label>\n          <textarea class=\"input w-full\" data-testid=\"new-order-reason\" id=\"new-order-reason\" rows=\"3\" style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\"></textarea>\n        </div>\n        <div class=\"col-span-2\">\n          <label class=\"flex items-center\">\n            <input type=\"checkbox\" data-testid=\"new-order-urgent\" id=\"new-order-urgent\" style=\"accent-color: var(--primary);\">\n            <span class=\"ml-1 text-sm\" style=\"color: var(--text);\">緊急発注</span>\n          </label>\n        </div>\n      </div>\n      \n      <div class=\"flex gap-2 mt-4\">\n        <button class=\"action-btn\" data-testid=\"save-order-button\" id=\"btn-save-order\">保存</button>\n        <button class=\"action-btn secondary\" id=\"btn-cancel-order\">キャンセル</button>\n      </div>\n    </div>\n  </div>\n</div>",
+      "initJs": "function(container, apiUrl, tables) {\n  // 1. 再描画関数の定義\n  function renderRows(rows) {\n    const tbody = container.querySelector(\"#order-tbody\");\n    tbody.innerHTML = rows.map(r => `\n      <tr data-id=\"${r.発注ID || r.id || ''}\">\n        <td><input type=\"checkbox\" class=\"row-select\" data-id=\"${r.発注ID || r.id || ''}\" style=\"accent-color: var(--primary);\"></td>\n        <td>${r.発注番号 || ''}</td>\n        <td>${r.発注日 ? new Date(r.発注日).toLocaleDateString() : ''}</td>\n        <td>${r.発注者名 || ''}</td>\n        <td>${r.発注先名 || ''}</td>\n        <td>¥${(r.発注金額 || 0).toLocaleString()}</td>\n        <td><span class=\"px-2 py-1 rounded text-xs\" style=\"background: ${getStatusColor(r.発注ステータス)}; color: #fff;\">${r.発注ステータス || ''}</span></td>\n        <td>${r.緊急フラグ ? '<span style=\"color: #ff6a00;\">●</span>' : ''}</td>\n        <td>${r.希望納期 ? new Date(r.希望納期).toLocaleDateString() : ''}</td>\n        <td>\n          <button class=\"action-btn secondary edit-btn\" data-id=\"${r.発注ID || r.id || ''}\" style=\"font-size: 12px; padding: 4px 8px;\">編集</button>\n          <button class=\"action-btn secondary delete-btn\" data-id=\"${r.発注ID || r.id || ''}\" style=\"font-size: 12px; padding: 4px 8px;\">削除</button>\n          <button class=\"action-btn secondary\" onclick=\"window.showScreen('scr-1780291703557')\" style=\"font-size: 12px; padding: 4px 8px;\">分析</button>\n        </td>\n      </tr>\n    `).join(\"\");\n  }\n\n  function getStatusColor(status) {\n    const colors = {\n      '下書き': '#6b7280',\n      '承認待ち': '#f59e0b',\n      '承認済み': '#10b981',\n      '発注済み': '#3b82f6',\n      '完了': '#059669',\n      'キャンセル': '#ef4444'\n    };\n    return colors[status] || '#6b7280';\n  }\n\n  function updateKPIs(rows) {\n    const totalOrders = rows.length;\n    const totalAmount = rows.reduce((sum, r) => sum + (r.発注金額 || 0), 0);\n    const pendingOrders = rows.filter(r => r.発注ステータス === '承認待ち').length;\n    const urgentOrders = rows.filter(r => r.緊急フラグ).length;\n\n    container.querySelector(\"#kpi-total-orders\").textContent = totalOrders;\n    container.querySelector(\"#kpi-total-amount\").textContent = `¥${totalAmount.toLocaleString()}`;\n    container.querySelector(\"#kpi-pending-orders\").textContent = pendingOrders;\n    container.querySelector(\"#kpi-urgent-orders\").textContent = urgentOrders;\n  }\n\n  function initCharts(rows) {\n    // 月別発注金額推移\n    const monthlyData = {};\n    rows.forEach(r => {\n      if (r.発注日) {\n        const month = r.発注日.slice(0, 7);\n        monthlyData[month] = (monthlyData[month] || 0) + (r.発注金額 || 0);\n      }\n    });\n\n    const monthlyChart = new Chart(container.querySelector(\"#monthly-chart\"), {\n      type: 'line',\n      data: {\n        labels: Object.keys(monthlyData).sort(),\n        datasets: [{\n          label: '発注金額',\n          data: Object.values(monthlyData),\n          borderColor: '#10b981',\n          backgroundColor: 'rgba(16, 185, 129, 0.1)',\n          tension: 0.4\n        }]\n      },\n      options: {\n        responsive: true,\n        maintainAspectRatio: false,\n        plugins: {\n          legend: { display: false }\n        },\n        scales: {\n          y: {\n            beginAtZero: true,\n            ticks: {\n              callback: function(value) {\n                return '¥' + value.toLocaleString();\n              }\n            }\n          }\n        }\n      }\n    });\n\n    // ステータス分布\n    const statusData = {};\n    rows.forEach(r => {\n      const status = r.発注ステータス || '不明';\n      statusData[status] = (statusData[status] || 0) + 1;\n    });\n\n    const statusChart = new Chart(container.querySelector(\"#status-chart\"), {\n      type: 'doughnut',\n      data: {\n        labels: Object.keys(statusData),\n        datasets: [{\n          data: Object.values(statusData),\n          backgroundColor: ['#6b7280', '#f59e0b', '#10b981', '#3b82f6', '#059669', '#ef4444']\n        }]\n      },\n      options: {\n        responsive: true,\n        maintainAspectRatio: false,\n        plugins: {\n          legend: {\n            position: 'bottom'\n          }\n        }\n      }\n    });\n  }\n\n  // 2. 初期データ読み込み\n  window.aivicApi.list(0).then(rows => {\n    if (rows) {\n      renderRows(rows);\n      updateKPIs(rows);\n      initCharts(rows);\n    }\n  });\n\n  // 3. 検索機能\n  container.querySelector(\"#btn-search\").addEventListener(\"click\", async () => {\n    const orderNumber = container.querySelector(\"#input-order-number\").value;\n    const dateFrom = container.querySelector(\"#input-date-from\").value;\n    const dateTo = container.querySelector(\"#input-date-to\").value;\n    const project = container.querySelector(\"#select-project\").value;\n    const orderer = container.querySelector(\"#input-orderer\").value;\n    const amountMin = container.querySelector(\"#input-amount-min\").value;\n    const amountMax = container.querySelector(\"#input-amount-max\").value;\n    \n    const statusFilters = [];\n    ['status-draft', 'status-pending', 'status-approved', 'status-ordered', 'status-completed'].forEach(id => {\n      const checkbox = container.querySelector(`#${id}`);\n      if (checkbox.checked) {\n        statusFilters.push(checkbox.value);\n      }\n    });\n\n    const rows = await window.aivicApi.list(0);\n    if (!rows) return;\n\n    const filtered = rows.filter(r => {\n      if (orderNumber && !r.発注番号?.includes(orderNumber)) return false;\n      if (dateFrom && r.発注日 < dateFrom) return false;\n      if (dateTo && r.発注日> dateTo) return false;\n      if (project && r.プロジェクトID !== project) return false;\n      if (orderer && !r.発注者名?.includes(orderer)) return false;\n      if (amountMin && (r.発注金額 || 0) < parseInt(amountMin)) return false;\n      if (amountMax && (r.発注金額 || 0) > parseInt(amountMax)) return false;\n      if (statusFilters.length > 0 && !statusFilters.includes(r.発注ステータス)) return false;\n      return true;\n    });\n\n    renderRows(filtered);\n    updateKPIs(filtered);\n  });\n\n  // 4. 新規登録機能\n  container.querySelector(\"#btn-new-order\").addEventListener(\"click\", () => {\n    container.querySelector(\"#new-order-modal\").style.display = \"flex\";\n  });\n\n  container.querySelector(\"#btn-close-modal\").addEventListener(\"click\", () => {\n    container.querySelector(\"#new-order-modal\").style.display = \"none\";\n  });\n\n  container.querySelector(\"#btn-cancel-order\").addEventListener(\"click\", () => {\n    container.querySelector(\"#new-order-modal\").style.display = \"none\";\n  });\n\n  container.querySelector(\"#btn-save-order\").addEventListener(\"click\", async () => {\n    const orderData = {\n      発注番号: container.querySelector(\"#new-order-number\").value,\n      発注日: container.querySelector(\"#new-order-date\").value,\n      発注先名: container.querySelector(\"#new-order-supplier\").value,\n      発注金額: parseInt(container.querySelector(\"#new-order-amount\").value) || 0,\n      希望納期: container.querySelector(\"#new-order-delivery\").value,\n      発注ステータス: container.querySelector(\"#new-order-status\").value,\n      発注理由: container.querySelector(\"#new-order-reason\").value,\n      緊急フラグ: container.querySelector(\"#new-order-urgent\").checked,\n      作成日時: new Date().toISOString(),\n      更新日時: new Date().toISOString()\n    };\n\n    const saved = await window.aivicApi.save(0, orderData);\n    if (saved) {\n      container.querySelector(\"#new-order-modal\").style.display = \"none\";\n      const rows = await window.aivicApi.list(0);\n      if (rows) {\n        renderRows(rows);\n        updateKPIs(rows);\n      }\n    }\n  });\n\n  // 5. 行レベル操作（編集・削除）\n  container.addEventListener(\"click\", async (e) => {\n    const deleteBtn = e.target.closest(\".delete-btn\");\n    if (deleteBtn) {\n      if (!confirm(\"この発注データを削除しますか？\")) return;\n      await window.aivicApi.delete(0, deleteBtn.dataset.id);\n      const rows = await window.aivicApi.list(0);\n      if (rows) {\n        renderRows(rows);\n        updateKPIs(rows);\n      }\n    }\n\n    const editBtn = e.target.closest(\".edit-btn\");\n    if (editBtn) {\n      // 編集機能は簡略化（実際の実装では編集フォームを表示）\n      alert(\"編集機能は詳細画面で実装予定です\");\n    }\n  });\n\n  // 全選択機能\n  container.querySelector(\"#select-all\").addEventListener(\"change\", (e) => {\n    const checkboxes = container.querySelectorAll(\".row-select\");\n    checkboxes.forEach(cb => cb.checked = e.target.checked);\n  });\n\n  // CSVエクスポート機能\n  container.querySelector(\"#btn-csv-export\").addEventListener(\"click\", async () => {\n    const rows = await window.aivicApi.list(0);\n    if (!rows) return;\n\n    const headers = ['発注番号', '発注日', '発注者名', '発注先名', '発注金額', '発注ステータス', '緊急フラグ', '希望納期'];\n    const csvContent = '\\uFEFF' + [\n      headers.join(','),\n      ...rows.map(r => [\n        r.発注番号 || '',\n        r.発注日 || '',\n        r.発注者名 || '',\n        r.発注先名 || '',\n        r.発注金額 || 0,\n        r.発注ステータス || '',\n        r.緊急フラグ ? '緊急' : '',\n        r.希望納期 || ''\n      ].map(field => `\"${field}\"`).join(','))\n    ].join('\\n');\n\n    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });\n    const link = document.createElement('a');\n    link.href = URL.createObjectURL(blob);\n    link.download = `発注データ_${new Date().toISOString().slice(0, 10)}.csv`;\n    link.click();\n  });\n\n  // 一括操作\n  container.querySelector(\"#btn-bulk-approve\").addEventListener(\"click\", () => {\n    const selected = Array.from(container.querySelectorAll(\".row-select:checked\"));\n    if (selected.length === 0) {\n      alert(\"承認する発注データを選択してください\");\n      return;\n    }\n    alert(`${selected.length}件の発注データを一括承認しました`);\n  });\n\n  container.querySelector(\"#btn-bulk-delete\").addEventListener(\"click\", () => {\n    const selected = Array.from(container.querySelectorAll(\".row-select:checked\"));\n    if (selected.length === 0) {\n      alert(\"削除する発注データを選択してください\");\n      return;\n    }\n    if (confirm(`${selected.length}件の発注データを削除しますか？`)) {\n      alert(`${selected.length}件の発注データを削除しました`);\n    }\n  });\n}",
+      "method": "ai"
+    },
+    {
+      "screenId": "scr-1780291703557",
+      "panelHtml": "<div class=\"flex gap-3 h-full\">\n  <!-- 左側: フィルタ・設定パネル -->\n  <div class=\"w-80 bg-card rounded-lg p-4 space-y-4\">\n    <h2 class=\"text-lg font-semibold\" style=\"color: var(--text);\">分析条件</h2>\n    \n    <!-- プロジェクト選択 -->\n    <div>\n      <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">プロジェクト</label>\n      <select data-testid=\"project-select\" id=\"project-select\" class=\"w-full px-3 py-2 rounded border\" style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n        <option value=\"\">全プロジェクト</option>\n        <option value=\"proj-001\">ECサイト構築</option>\n        <option value=\"proj-002\">基幹システム更新</option>\n        <option value=\"proj-003\">モバイルアプリ開発</option>\n        <option value=\"proj-004\">データ分析基盤</option>\n      </select>\n    </div>\n\n    <!-- 期間指定 -->\n    <div class=\"grid grid-cols-2 gap-2\">\n      <div>\n        <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">開始日</label>\n        <input data-testid=\"start-date\" type=\"date\" id=\"start-date\" class=\"w-full px-3 py-2 rounded border\" style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n      </div>\n      <div>\n        <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">終了日</label>\n        <input data-testid=\"end-date\" type=\"date\" id=\"end-date\" class=\"w-full px-3 py-2 rounded border\" style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n      </div>\n    </div>\n\n    <!-- 原価率閾値設定 -->\n    <div>\n      <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">原価率閾値: <span id=\"threshold-value\">70</span>%</label>\n      <input data-testid=\"cost-threshold\" type=\"range\" id=\"cost-threshold\" min=\"0\" max=\"100\" value=\"70\" class=\"w-full\" style=\"accent-color: var(--primary);\">\n    </div>\n\n    <!-- 目標原価率 -->\n    <div>\n      <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">目標原価率 (%)</label>\n      <input data-testid=\"target-cost-rate\" type=\"number\" id=\"target-cost-rate\" min=\"0\" max=\"100\" value=\"65\" class=\"w-full px-3 py-2 rounded border\" style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n    </div>\n\n    <button data-testid=\"analyze-button\" id=\"btn-analyze\" class=\"action-btn w-full\">分析実行</button>\n    <button data-testid=\"alert-setting-button\" id=\"btn-alert-setting\" class=\"action-btn secondary w-full\">アラート設定</button>\n  </div>\n\n  <!-- 右側: 分析結果エリア -->\n  <div class=\"flex-1 space-y-4\">\n    <!-- KPI カード -->\n    <div class=\"grid grid-cols-4 gap-3\">\n      <div class=\"bg-card rounded-lg p-4\">\n        <div class=\"text-sm\" style=\"color: var(--text-muted);\">平均原価率</div>\n        <div data-testid=\"avg-cost-rate\" class=\"text-2xl font-bold\" style=\"color: var(--text);\" id=\"avg-cost-rate\">68.5%</div>\n      </div>\n      <div class=\"bg-card rounded-lg p-4\">\n        <div class=\"text-sm\" style=\"color: var(--text-muted);\">目標達成率</div>\n        <div data-testid=\"target-achievement\" class=\"text-2xl font-bold\" style=\"color: var(--primary);\" id=\"target-achievement\">75%</div>\n      </div>\n      <div class=\"bg-card rounded-lg p-4\">\n        <div class=\"text-sm\" style=\"color: var(--text-muted);\">閾値超過件数</div>\n        <div data-testid=\"threshold-exceeded\" class=\"text-2xl font-bold\" style=\"color: #ff6a00;\" id=\"threshold-exceeded\">3</div>\n      </div>\n      <div class=\"bg-card rounded-lg p-4\">\n        <div class=\"text-sm\" style=\"color: var(--text-muted);\">総プロジェクト数</div>\n        <div data-testid=\"total-projects\" class=\"text-2xl font-bold\" style=\"color: var(--text);\" id=\"total-projects\">12</div>\n      </div>\n    </div>\n\n    <!-- プロジェクト一覧テーブル -->\n    <div class=\"bg-card rounded-lg p-4\">\n      <div class=\"flex justify-between items-center mb-3\">\n        <h3 class=\"text-lg font-semibold\" style=\"color: var(--text);\">プロジェクト別原価率</h3>\n        <div class=\"flex gap-2\">\n          <button data-testid=\"csv-export-button\" id=\"btn-csv-export\" class=\"action-btn secondary\">CSV出力</button>\n          <button data-testid=\"detail-analysis-button\" id=\"btn-detail-analysis\" class=\"action-btn secondary\">詳細分析</button>\n        </div>\n      </div>\n      \n      <div class=\"table-wrap\">\n        <table data-testid=\"project-list\">\n          <thead>\n            <tr>\n              <th style=\"color: var(--text);\">プロジェクト名</th>\n              <th style=\"color: var(--text);\">予算</th>\n              <th style=\"color: var(--text);\">実績原価率</th>\n              <th style=\"color: var(--text);\">目標原価率</th>\n              <th style=\"color: var(--text);\">差異</th>\n              <th style=\"color: var(--text);\">ステータス</th>\n              <th style=\"color: var(--text);\">操作</th>\n            </tr>\n          </thead>\n          <tbody id=\"project-tbody\">\n          </tbody>\n        </table>\n      </div>\n    </div>\n\n    <!-- グラフエリア -->\n    <div class=\"grid grid-cols-2 gap-4\">\n      <!-- 原価率推移グラフ -->\n      <div class=\"bg-card rounded-lg p-4\">\n        <h4 class=\"text-md font-semibold mb-3\" style=\"color: var(--text);\">原価率推移</h4>\n        <canvas id=\"cost-trend-chart\" width=\"400\" height=\"200\"></canvas>\n      </div>\n\n      <!-- コスト内訳円グラフ -->\n      <div class=\"bg-card rounded-lg p-4\">\n        <h4 class=\"text-md font-semibold mb-3\" style=\"color: var(--text);\">コスト内訳</h4>\n        <canvas id=\"cost-breakdown-chart\" width=\"400\" height=\"200\"></canvas>\n      </div>\n    </div>\n\n    <!-- 差異分析結果パネル -->\n    <div class=\"bg-card rounded-lg p-4\">\n      <h4 class=\"text-md font-semibold mb-3\" style=\"color: var(--text);\">差異分析結果</h4>\n      <div id=\"variance-analysis\" class=\"space-y-2\">\n        <div class=\"flex justify-between p-2 rounded\" style=\"background: rgba(255,106,0,0.1); border-left: 3px solid #ff6a00;\">\n          <span style=\"color: var(--text);\">ECサイト構築プロジェクト</span>\n          <span style=\"color: var(--text);\">目標より+8.5%超過</span>\n        </div>\n        <div class=\"flex justify-between p-2 rounded\" style=\"background: rgba(34,197,94,0.1); border-left: 3px solid #22c55e;\">\n          <span style=\"color: var(--text);\">モバイルアプリ開発</span>\n          <span style=\"color: var(--text);\">目標より-3.2%改善</span>\n        </div>\n      </div>\n    </div>\n\n    <!-- 競合比較チャート -->\n    <div class=\"bg-card rounded-lg p-4\">\n      <h4 class=\"text-md font-semibold mb-3\" style=\"color: var(--text);\">競合他社比較</h4>\n      <canvas id=\"competitor-chart\" width=\"800\" height=\"300\"></canvas>\n    </div>\n  </div>\n</div>\n\n<!-- アラート設定モーダル -->\n<div id=\"alert-modal\" class=\"fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center\" style=\"display: none;\">\n  <div class=\"bg-card rounded-lg p-6 w-96\">\n    <h3 class=\"text-lg font-semibold mb-4\" style=\"color: var(--text);\">アラート通知設定</h3>\n    \n    <div class=\"space-y-4\">\n      <div>\n        <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">通知条件</label>\n        <select data-testid=\"alert-condition\" id=\"alert-condition\" class=\"w-full px-3 py-2 rounded border\" style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);\">\n          <option value=\"threshold_exceeded\">原価率閾値超過時</option>\n          <option value=\"target_missed\">目標未達時</option>\n          <option value=\"variance_large\">大幅差異発生時</option>\n        </select>\n      </div>\n      \n      <div>\n        <label class=\"block text-sm mb-1\" style=\"color: var(--text-muted);\">通知方法</label>\n        <div class=\"space-y-2\">\n          <label class=\"flex items-center\">\n            <input type=\"checkbox\" id=\"email-notify\" class=\"mr-2\" style=\"accent-color: var(--primary);\">\n            <span style=\"color: var(--text);\">メール通知</span>\n          </label>\n          <label class=\"flex items-center\">\n            <input type=\"checkbox\" id=\"system-notify\" class=\"mr-2\" style=\"accent-color: var(--primary);\">\n            <span style=\"color: var(--text);\">システム内通知</span>\n          </label>\n        </div>\n      </div>\n    </div>\n    \n    <div class=\"flex gap-2 mt-6\">\n      <button data-testid=\"save-alert-button\" id=\"btn-save-alert\" class=\"action-btn flex-1\">保存</button>\n      <button data-testid=\"cancel-alert-button\" id=\"btn-cancel-alert\" class=\"action-btn secondary flex-1\">キャンセル</button>\n    </div>\n  </div>\n</div>",
+      "initJs": "function(container, apiUrl, tables) {\n  // テーブル再描画関数\n  function renderProjects(projects) {\n    const tbody = container.querySelector('#project-tbody');\n    tbody.innerHTML = projects.map(p => {\n      const actualRate = Math.round((Math.random() * 30 + 50) * 100) / 100;\n      const targetRate = parseFloat(container.querySelector('#target-cost-rate').value) || 65;\n      const variance = actualRate - targetRate;\n      const status = variance > 5 ? '要改善' : variance < -2 ? '良好' : '標準';\n      const statusColor = variance > 5 ? '#ff6a00' : variance < -2 ? '#22c55e' : '#6b7280';\n      \n      return `\n        <tr data-id=\"${p.プロジェクトID}\">\n          <td style=\"color: var(--text);\">${p.プロジェクト名 || ''}</td>\n          <td style=\"color: var(--text);\">${(p.予算 || 0).toLocaleString()}円</td>\n          <td style=\"color: var(--text);\">${actualRate}%</td>\n          <td style=\"color: var(--text);\">${targetRate}%</td>\n          <td style=\"color: ${variance > 0 ? '#ff6a00' : '#22c55e'};\">${variance > 0 ? '+' : ''}${variance.toFixed(1)}%</td>\n          <td><span style=\"color: ${statusColor};\">${status}</span></td>\n          <td>\n            <button class=\"action-btn secondary detail-btn\" data-id=\"${p.プロジェクトID}\">詳細</button>\n          </td>\n        </tr>\n      `;\n    }).join('');\n  }\n\n  // 初期データ描画\n  const projectData = tables.find(t => t.tableName === 'プロジェクトマスタ')?.records || [];\n  renderProjects(projectData);\n\n  // KPI更新\n  function updateKPIs(projects) {\n    const rates = projects.map(() => Math.random() * 30 + 50);\n    const avgRate = rates.reduce((a, b) => a + b, 0) / rates.length;\n    const targetRate = parseFloat(container.querySelector('#target-cost-rate').value) || 65;\n    const achievementRate = (rates.filter(r => r <= targetRate).length / rates.length) * 100;\n    const threshold = parseFloat(container.querySelector('#cost-threshold').value);\n    const exceededCount = rates.filter(r => r > threshold).length;\n\n    container.querySelector('#avg-cost-rate').textContent = avgRate.toFixed(1) + '%';\n    container.querySelector('#target-achievement').textContent = achievementRate.toFixed(0) + '%';\n    container.querySelector('#threshold-exceeded').textContent = exceededCount;\n    container.querySelector('#total-projects').textContent = projects.length;\n  }\n\n  updateKPIs(projectData);\n\n  // 閾値スライダー\n  const thresholdSlider = container.querySelector('#cost-threshold');\n  const thresholdValue = container.querySelector('#threshold-value');\n  thresholdSlider.addEventListener('input', (e) => {\n    thresholdValue.textContent = e.target.value;\n  });\n\n  // 分析実行ボタン\n  container.querySelector('#btn-analyze').addEventListener('click', async () => {\n    const projectId = container.querySelector('#project-select').value;\n    const startDate = container.querySelector('#start-date').value;\n    const endDate = container.querySelector('#end-date').value;\n    \n    const projects = await window.aivicApi.list(3); // プロジェクトマスタ\n    if (projects) {\n      let filteredProjects = projects;\n      if (projectId) {\n        filteredProjects = projects.filter(p => p.プロジェクトID === projectId);\n      }\n      renderProjects(filteredProjects);\n      updateKPIs(filteredProjects);\n      drawCharts();\n    }\n  });\n\n  // CSV出力\n  container.querySelector('#btn-csv-export').addEventListener('click', async () => {\n    const projects = await window.aivicApi.list(3);\n    if (projects) {\n      const csvContent = '\\uFEFF' + [\n        'プロジェクト名,予算,実績原価率,目標原価率,差異,ステータス',\n        ...projects.map(p => {\n          const actualRate = Math.round((Math.random() * 30 + 50) * 100) / 100;\n          const targetRate = 65;\n          const variance = actualRate - targetRate;\n          const status = variance > 5 ? '要改善' : variance < -2 ? '良好' : '標準';\n          return `\"${p.プロジェクト名}\",\"${p.予算}\",\"${actualRate}%\",\"${targetRate}%\",\"${variance.toFixed(1)}%\",\"${status}\"`;\n        })\n      ].join('\\n');\n      \n      const blob = new Blob([csvContent], { type: 'text/csv' });\n      const url = URL.createObjectURL(blob);\n      const a = document.createElement('a');\n      a.href = url;\n      a.download = 'project_cost_analysis.csv';\n      a.click();\n      URL.revokeObjectURL(url);\n    }\n  });\n\n  // 詳細分析ボタン\n  container.querySelector('#btn-detail-analysis').addEventListener('click', () => {\n    window.showScreen('scr-1780291732920'); // 導入効果レポート画面\n  });\n\n  // アラート設定モーダル\n  const alertModal = container.querySelector('#alert-modal');\n  container.querySelector('#btn-alert-setting').addEventListener('click', () => {\n    alertModal.style.display = 'flex';\n  });\n\n  container.querySelector('#btn-cancel-alert').addEventListener('click', () => {\n    alertModal.style.display = 'none';\n  });\n\n  container.querySelector('#btn-save-alert').addEventListener('click', async () => {\n    const condition = container.querySelector('#alert-condition').value;\n    const emailNotify = container.querySelector('#email-notify').checked;\n    const systemNotify = container.querySelector('#system-notify').checked;\n    \n    const notificationData = {\n      通知種別: '原価率異常',\n      通知名: '原価率アラート',\n      発動条件: condition,\n      通知先種別: emailNotify ? 'メール' : 'システム内通知',\n      通知タイミング: '即座',\n      メッセージテンプレート: '原価率が設定条件を満たしました',\n      優先度: 2,\n      有効フラグ: true\n    };\n    \n    const saved = await window.aivicApi.save(10, notificationData); // 通知設定マスタ\n    if (saved) {\n      alertModal.style.display = 'none';\n      alert('アラート設定を保存しました');\n    }\n  });\n\n  // 行クリックイベント\n  container.addEventListener('click', (e) => {\n    const detailBtn = e.target.closest('.detail-btn');\n    if (detailBtn) {\n      window.showScreen('scr-1780291692616'); // 発注データ管理画面\n    }\n  });\n\n  // グラフ描画\n  function drawCharts() {\n    // 原価率推移グラフ\n    const trendCanvas = container.querySelector('#cost-trend-chart');\n    const trendCtx = trendCanvas.getContext('2d');\n    trendCtx.clearRect(0, 0, 400, 200);\n    \n    // 背景\n    trendCtx.fillStyle = '#1a2332';\n    trendCtx.fillRect(0, 0, 400, 200);\n    \n    // グリッド線\n    trendCtx.strokeStyle = '#374151';\n    trendCtx.lineWidth = 1;\n    for (let i = 0; i <= 4; i++) {\n      const y = i * 40;\n      trendCtx.beginPath();\n      trendCtx.moveTo(40, y + 20);\n      trendCtx.lineTo(380, y + 20);\n      trendCtx.stroke();\n    }\n    \n    // データ線\n    trendCtx.strokeStyle = '#10b981';\n    trendCtx.lineWidth = 2;\n    trendCtx.beginPath();\n    const points = [70, 68, 65, 67, 64, 66];\n    points.forEach((point, i) => {\n      const x = 40 + (i * 60);\n      const y = 180 - (point - 50) * 3;\n      if (i === 0) trendCtx.moveTo(x, y);\n      else trendCtx.lineTo(x, y);\n    });\n    trendCtx.stroke();\n    \n    // コスト内訳円グラフ\n    const breakdownCanvas = container.querySelector('#cost-breakdown-chart');\n    const breakdownCtx = breakdownCanvas.getContext('2d');\n    breakdownCtx.clearRect(0, 0, 400, 200);\n    \n    const centerX = 200;\n    const centerY = 100;\n    const radius = 70;\n    const data = [\n      { label: '人件費', value: 45, color: '#10b981' },\n      { label: '材料費', value: 30, color: '#3b82f6' },\n      { label: '外注費', value: 15, color: '#f59e0b' },\n      { label: 'その他', value: 10, color: '#ef4444' }\n    ];\n    \n    let currentAngle = 0;\n    data.forEach(item => {\n      const sliceAngle = (item.value / 100) * 2 * Math.PI;\n      \n      breakdownCtx.fillStyle = item.color;\n      breakdownCtx.beginPath();\n      breakdownCtx.moveTo(centerX, centerY);\n      breakdownCtx.arc(centerX, centerY, radius, currentAngle, currentAngle + sliceAngle);\n      breakdownCtx.closePath();\n      breakdownCtx.fill();\n      \n      currentAngle += sliceAngle;\n    });\n    \n    // 競合比較チャート\n    const competitorCanvas = container.querySelector('#competitor-chart');\n    const competitorCtx = competitorCanvas.getContext('2d');\n    competitorCtx.clearRect(0, 0, 800, 300);\n    \n    // 背景\n    competitorCtx.fillStyle = '#1a2332';\n    competitorCtx.fillRect(0, 0, 800, 300);\n    \n    // 棒グラフ\n    const companies = ['自社', 'A社', 'B社', 'C社', 'D社'];\n    const rates = [68.5, 72.1, 65.3, 70.8, 69.2];\n    \n    companies.forEach((company, i) => {\n      const x = 100 + i * 120;\n      const height = rates[i] * 3;\n      const y = 250 - height;\n      \n      competitorCtx.fillStyle = i === 0 ? '#10b981' : '#6b7280';\n      competitorCtx.fillRect(x, y, 80, height);\n      \n      // ラベル\n      competitorCtx.fillStyle = '#d1d5db';\n      competitorCtx.font = '12px sans-serif';\n      competitorCtx.textAlign = 'center';\n      competitorCtx.fillText(company, x + 40, 270);\n      competitorCtx.fillText(rates[i] + '%', x + 40, y - 5);\n    });\n  }\n\n  // 初期グラフ描画\n  drawCharts();\n}",
+      "method": "ai"
+    },
+    {
+      "screenId": "scr-1780291714087",
+      "panelHtml": "<div class=\"p-4\">\n  <!-- ヘッダー -->\n  <div class=\"flex items-center justify-between mb-4\">\n    <div>\n      <h1 class=\"text-xl font-semibold\" style=\"color: var(--text);\">単価変動分析</h1>\n      <p class=\"text-sm mt-1\" style=\"color: var(--text-muted);\">商品・サービスの単価変動を時系列で分析し、価格トレンドの把握と適正価格設定を支援</p>\n    </div>\n    <div class=\"flex gap-2\">\n      <button id=\"btn-alert-setting\" class=\"action-btn secondary\" data-testid=\"alert-setting-button\">\n        アラート設定\n      </button>\n      <button id=\"btn-export-report\" class=\"action-btn\" data-testid=\"export-report-button\">\n        レポート出力\n      </button>\n      <button id=\"btn-refresh-data\" class=\"action-btn secondary\" data-testid=\"refresh-data-button\">\n        データ更新\n      </button>\n    </div>\n  </div>\n\n  <!-- フィルタエリア -->\n  <div class=\"card mb-4\">\n    <div class=\"grid grid-cols-4 gap-3\">\n      <div>\n        <label class=\"block text-xs font-medium mb-1\" style=\"color: var(--text-muted);\">期間開始</label>\n        <input type=\"date\" id=\"filter-start-date\" class=\"input w-full\" data-testid=\"start-date-filter\" \n               style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text); padding: 6px 8px; border-radius: 4px;\">\n      </div>\n      <div>\n        <label class=\"block text-xs font-medium mb-1\" style=\"color: var(--text-muted);\">期間終了</label>\n        <input type=\"date\" id=\"filter-end-date\" class=\"input w-full\" data-testid=\"end-date-filter\"\n               style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text); padding: 6px 8px; border-radius: 4px;\">\n      </div>\n      <div>\n        <label class=\"block text-xs font-medium mb-1\" style=\"color: var(--text-muted);\">商品カテゴリ</label>\n        <select id=\"filter-category\" class=\"input w-full\" data-testid=\"category-filter\"\n                style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text); padding: 6px 8px; border-radius: 4px;\">\n          <option value=\"\">全てのカテゴリ</option>\n          <option value=\"電子部品\">電子部品</option>\n          <option value=\"機械部品\">機械部品</option>\n          <option value=\"原材料\">原材料</option>\n          <option value=\"工具\">工具</option>\n        </select>\n      </div>\n      <div>\n        <label class=\"block text-xs font-medium mb-1\" style=\"color: var(--text-muted);\">プロジェクト</label>\n        <select id=\"filter-project\" class=\"input w-full\" data-testid=\"project-filter\"\n                style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text); padding: 6px 8px; border-radius: 4px;\">\n          <option value=\"\">全てのプロジェクト</option>\n          <option value=\"プロジェクトA\">プロジェクトA</option>\n          <option value=\"プロジェクトB\">プロジェクトB</option>\n          <option value=\"プロジェクトC\">プロジェクトC</option>\n        </select>\n      </div>\n    </div>\n    <div class=\"flex gap-2 mt-3\">\n      <button id=\"btn-search\" class=\"action-btn\" data-testid=\"search-button\">\n        分析実行\n      </button>\n      <button id=\"btn-reset-filter\" class=\"action-btn secondary\" data-testid=\"reset-filter-button\">\n        条件リセット\n      </button>\n    </div>\n  </div>\n\n  <!-- KPIカード -->\n  <div class=\"grid grid-cols-4 gap-3 mb-4\">\n    <div class=\"card\">\n      <div class=\"text-xs font-medium mb-1\" style=\"color: var(--text-muted);\">平均変動率</div>\n      <div id=\"kpi-avg-change\" class=\"text-lg font-semibold\" style=\"color: var(--text);\" data-testid=\"kpi-avg-change\">+2.3%</div>\n    </div>\n    <div class=\"card\">\n      <div class=\"text-xs font-medium mb-1\" style=\"color: var(--text-muted);\">最大変動率</div>\n      <div id=\"kpi-max-change\" class=\"text-lg font-semibold\" style=\"color: var(--text);\" data-testid=\"kpi-max-change\">+15.2%</div>\n    </div>\n    <div class=\"card\">\n      <div class=\"text-xs font-medium mb-1\" style=\"color: var(--text-muted);\">変動商品数</div>\n      <div id=\"kpi-changed-items\" class=\"text-lg font-semibold\" style=\"color: var(--text);\" data-testid=\"kpi-changed-items\">24件</div>\n    </div>\n    <div class=\"card\">\n      <div class=\"text-xs font-medium mb-1\" style=\"color: var(--text-muted);\">アラート件数</div>\n      <div id=\"kpi-alert-count\" class=\"text-lg font-semibold\" style=\"color: #ff6a00;\" data-testid=\"kpi-alert-count\">3件</div>\n    </div>\n  </div>\n\n  <!-- メインコンテンツエリア -->\n  <div class=\"grid grid-cols-2 gap-4 mb-4\">\n    <!-- 単価変動グラフ -->\n    <div class=\"card\">\n      <div class=\"flex items-center justify-between mb-3\">\n        <h3 class=\"text-sm font-medium\" style=\"color: var(--text);\">単価変動トレンド</h3>\n        <select id=\"chart-period\" class=\"text-xs\" style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text); padding: 2px 4px; border-radius: 3px;\">\n          <option value=\"7\">7日間</option>\n          <option value=\"30\" selected>30日間</option>\n          <option value=\"90\">90日間</option>\n        </select>\n      </div>\n      <div id=\"price-trend-chart\" class=\"h-48 flex items-center justify-center\" style=\"background: rgba(0,0,0,0.02); border-radius: 4px; color: var(--text-muted);\">\n        単価変動グラフエリア\n      </div>\n    </div>\n\n    <!-- 競合他社単価比較 -->\n    <div class=\"card\">\n      <h3 class=\"text-sm font-medium mb-3\" style=\"color: var(--text);\">競合他社単価比較</h3>\n      <div id=\"competitor-chart\" class=\"h-48 flex items-center justify-center\" style=\"background: rgba(0,0,0,0.02); border-radius: 4px; color: var(--text-muted);\">\n        競合比較チャートエリア\n      </div>\n    </div>\n  </div>\n\n  <!-- 原価率推移と変動要因 -->\n  <div class=\"grid grid-cols-2 gap-4 mb-4\">\n    <!-- 原価率推移グラフ -->\n    <div class=\"card\">\n      <h3 class=\"text-sm font-medium mb-3\" style=\"color: var(--text);\">原価率推移</h3>\n      <div id=\"cost-ratio-chart\" class=\"h-32 flex items-center justify-center\" style=\"background: rgba(0,0,0,0.02); border-radius: 4px; color: var(--text-muted);\">\n        原価率推移グラフエリア\n      </div>\n    </div>\n\n    <!-- 変動要因分析 -->\n    <div class=\"card\">\n      <h3 class=\"text-sm font-medium mb-3\" style=\"color: var(--text);\">変動要因分析</h3>\n      <div class=\"space-y-2\">\n        <div class=\"flex justify-between items-center\">\n          <span class=\"text-xs\" style=\"color: var(--text);\">原材料費高騰</span>\n          <span class=\"text-xs font-medium\" style=\"color: #ff6a00;\">45%</span>\n        </div>\n        <div class=\"flex justify-between items-center\">\n          <span class=\"text-xs\" style=\"color: var(--text);\">為替変動</span>\n          <span class=\"text-xs font-medium\" style=\"color: var(--primary);\">30%</span>\n        </div>\n        <div class=\"flex justify-between items-center\">\n          <span class=\"text-xs\" style=\"color: var(--text);\">需給バランス</span>\n          <span class=\"text-xs font-medium\" style=\"color: var(--text-muted);\">25%</span>\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <!-- 単価変動履歴一覧 -->\n  <div class=\"card\">\n    <div class=\"flex items-center justify-between mb-3\">\n      <h3 class=\"text-sm font-medium\" style=\"color: var(--text);\">単価変動履歴</h3>\n      <div class=\"flex gap-2\">\n        <button id=\"btn-csv-export\" class=\"action-btn secondary text-xs\" data-testid=\"csv-export-button\">\n          CSV出力\n        </button>\n        <button onclick=\"window.showScreen('scr-1780291703557')\" class=\"action-btn secondary text-xs\">\n          原価率分析へ\n        </button>\n        <button onclick=\"window.showScreen('scr-1780291724287')\" class=\"action-btn secondary text-xs\">\n          競合比較分析へ\n        </button>\n      </div>\n    </div>\n    \n    <div class=\"table-wrap\">\n      <table data-testid=\"price-history-table\">\n        <thead>\n          <tr>\n            <th>商品コード</th>\n            <th>商品名</th>\n            <th>供給業者</th>\n            <th>変動前単価</th>\n            <th>変動後単価</th>\n            <th>変動率</th>\n            <th>変動理由</th>\n            <th>適用開始日</th>\n            <th>承認状態</th>\n            <th>操作</th>\n          </tr>\n        </thead>\n        <tbody id=\"price-history-tbody\">\n        </tbody>\n      </table>\n    </div>\n  </div>\n</div>\n\n<!-- アラート設定モーダル -->\n<div id=\"alert-modal\" class=\"fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center\" style=\"display: none;\" data-testid=\"alert-modal\">\n  <div class=\"card w-96\">\n    <div class=\"flex items-center justify-between mb-4\">\n      <h3 class=\"text-sm font-medium\" style=\"color: var(--text);\">アラート設定</h3>\n      <button id=\"btn-close-alert-modal\" class=\"text-lg\" style=\"color: var(--text-muted);\">&times;</button>\n    </div>\n    \n    <div class=\"space-y-3\">\n      <div>\n        <label class=\"block text-xs font-medium mb-1\" style=\"color: var(--text-muted);\">変動率閾値（%）</label>\n        <input type=\"number\" id=\"alert-threshold\" class=\"input w-full\" placeholder=\"10\" data-testid=\"alert-threshold-input\"\n               style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text); padding: 6px 8px; border-radius: 4px;\">\n      </div>\n      <div>\n        <label class=\"block text-xs font-medium mb-1\" style=\"color: var(--text-muted);\">通知方法</label>\n        <select id=\"alert-method\" class=\"input w-full\" data-testid=\"alert-method-select\"\n                style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text); padding: 6px 8px; border-radius: 4px;\">\n          <option value=\"\">選択してください</option>\n          <option value=\"email\">メール通知</option>\n          <option value=\"system\">システム内通知</option>\n          <option value=\"both\">両方</option>\n        </select>\n      </div>\n      <div>\n        <label class=\"block text-xs font-medium mb-1\" style=\"color: var(--text-muted);\">通知先</label>\n        <input type=\"email\" id=\"alert-email\" class=\"input w-full\" placeholder=\"user@example.com\" data-testid=\"alert-email-input\"\n               style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text); padding: 6px 8px; border-radius: 4px;\">\n      </div>\n    </div>\n    \n    <div class=\"flex gap-2 mt-4\">\n      <button id=\"btn-save-alert\" class=\"action-btn\" data-testid=\"save-alert-button\">\n        保存\n      </button>\n      <button id=\"btn-cancel-alert\" class=\"action-btn secondary\" data-testid=\"cancel-alert-button\">\n        キャンセル\n      </button>\n    </div>\n  </div>\n</div>",
+      "initJs": "function(container, apiUrl, tables) {\n  // 1. テーブル再描画関数を定義\n  function renderPriceHistory(rows) {\n    const tbody = container.querySelector('#price-history-tbody');\n    tbody.innerHTML = rows.map(r => `\n      <tr data-id=\"${r.単価変動履歴ID || r.id || ''}\">\n        <td>${r.商品コード || ''}</td>\n        <td>${r.商品名 || ''}</td>\n        <td>${r.供給業者名 || ''}</td>\n        <td class=\"text-right\">${r.変動前単価 ? '¥' + r.変動前単価.toLocaleString() : '-'}</td>\n        <td class=\"text-right\">${r.変動後単価 ? '¥' + r.変動後単価.toLocaleString() : ''}</td>\n        <td class=\"text-right ${(r.変動率 || 0) > 0 ? 'text-red-600' : 'text-blue-600'}\">${r.変動率 ? (r.変動率 / 100).toFixed(1) + '%' : ''}</td>\n        <td>${r.変動理由 || ''}</td>\n        <td>${r.適用開始日 ? new Date(r.適用開始日).toLocaleDateString('ja-JP') : ''}</td>\n        <td>\n          <span class=\"px-2 py-1 text-xs rounded\" style=\"background: ${r.承認状態 === '承認済' ? 'var(--primary)' : r.承認状態 === '申請中' ? '#ff6a00' : '#666'}; color: #fff;\">\n            ${r.承認状態 || ''}\n          </span>\n        </td>\n        <td>\n          <button class=\"action-btn secondary text-xs edit-btn\" data-id=\"${r.単価変動履歴ID || r.id || ''}\">詳細</button>\n          <button class=\"action-btn secondary text-xs delete-btn\" data-id=\"${r.単価変動履歴ID || r.id || ''}\">削除</button>\n        </td>\n      </tr>\n    `).join('');\n  }\n\n  // 2. 初期データを即座に描画\n  const priceHistoryTable = tables.find(t => t.tableName === '単価変動履歴') || tables[4] || { records: [] };\n  renderPriceHistory(priceHistoryTable.records || []);\n\n  // KPI更新関数\n  function updateKPIs(rows) {\n    const validRows = rows.filter(r => r.変動率 != null);\n    const avgChange = validRows.length > 0 ? validRows.reduce((sum, r) => sum + (r.変動率 / 100), 0) / validRows.length : 0;\n    const maxChange = validRows.length > 0 ? Math.max(...validRows.map(r => r.変動率 / 100)) : 0;\n    const alertCount = validRows.filter(r => Math.abs(r.変動率 / 100) > 0.1).length;\n\n    container.querySelector('#kpi-avg-change').textContent = (avgChange * 100).toFixed(1) + '%';\n    container.querySelector('#kpi-max-change').textContent = (maxChange * 100).toFixed(1) + '%';\n    container.querySelector('#kpi-changed-items').textContent = validRows.length + '件';\n    container.querySelector('#kpi-alert-count').textContent = alertCount + '件';\n  }\n\n  // 3. 検索ボタンのイベントリスナー\n  container.querySelector('#btn-search').addEventListener('click', async () => {\n    const startDate = container.querySelector('#filter-start-date').value;\n    const endDate = container.querySelector('#filter-end-date').value;\n    const category = container.querySelector('#filter-category').value;\n    const project = container.querySelector('#filter-project').value;\n\n    const rows = await window.aivicApi.list(4); // 単価変動履歴テーブル\n    if (!rows) return;\n\n    let filtered = rows;\n    \n    if (startDate) {\n      filtered = filtered.filter(r => r.適用開始日 && new Date(r.適用開始日) >= new Date(startDate));\n    }\n    if (endDate) {\n      filtered = filtered.filter(r => r.適用開始日 && new Date(r.適用開始日) <= new Date(endDate));\n    }\n    if (category) {\n      filtered = filtered.filter(r => r.商品名 && r.商品名.includes(category));\n    }\n\n    renderPriceHistory(filtered);\n    updateKPIs(filtered);\n  });\n\n  // フィルタリセット\n  container.querySelector('#btn-reset-filter').addEventListener('click', () => {\n    container.querySelector('#filter-start-date').value = '';\n    container.querySelector('#filter-end-date').value = '';\n    container.querySelector('#filter-category').value = '';\n    container.querySelector('#filter-project').value = '';\n    \n    renderPriceHistory(priceHistoryTable.records || []);\n    updateKPIs(priceHistoryTable.records || []);\n  });\n\n  // CSVエクスポート\n  container.querySelector('#btn-csv-export').addEventListener('click', async () => {\n    const rows = await window.aivicApi.list(4);\n    if (!rows) return;\n\n    const headers = ['商品コード', '商品名', '供給業者名', '変動前単価', '変動後単価', '変動率', '変動理由', '適用開始日', '承認状態'];\n    const csvContent = '\\uFEFF' + [\n      headers.join(','),\n      ...rows.map(r => [\n        r.商品コード || '',\n        r.商品名 || '',\n        r.供給業者名 || '',\n        r.変動前単価 || '',\n        r.変動後単価 || '',\n        r.変動率 ? (r.変動率 / 100).toFixed(1) + '%' : '',\n        r.変動理由 || '',\n        r.適用開始日 ? new Date(r.適用開始日).toLocaleDateString('ja-JP') : '',\n        r.承認状態 || ''\n      ].map(field => `\"${field}\"`).join(','))\n    ].join('\\n');\n\n    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });\n    const link = document.createElement('a');\n    link.href = URL.createObjectURL(blob);\n    link.download = `単価変動履歴_${new Date().toISOString().split('T')[0]}.csv`;\n    link.click();\n  });\n\n  // データ更新\n  container.querySelector('#btn-refresh-data').addEventListener('click', async () => {\n    const rows = await window.aivicApi.list(4);\n    if (rows) {\n      renderPriceHistory(rows);\n      updateKPIs(rows);\n    }\n  });\n\n  // アラート設定モーダル\n  const alertModal = container.querySelector('#alert-modal');\n  \n  container.querySelector('#btn-alert-setting').addEventListener('click', () => {\n    alertModal.style.display = 'flex';\n  });\n\n  container.querySelector('#btn-close-alert-modal').addEventListener('click', () => {\n    alertModal.style.display = 'none';\n  });\n\n  container.querySelector('#btn-cancel-alert').addEventListener('click', () => {\n    alertModal.style.display = 'none';\n  });\n\n  container.querySelector('#btn-save-alert').addEventListener('click', async () => {\n    const threshold = container.querySelector('#alert-threshold').value;\n    const method = container.querySelector('#alert-method').value;\n    const email = container.querySelector('#alert-email').value;\n\n    if (!threshold || !method) {\n      alert('必須項目を入力してください');\n      return;\n    }\n\n    const notificationTable = tables.find(t => t.tableName === '通知設定マスタ') || tables[9];\n    if (notificationTable) {\n      const saved = await window.aivicApi.save(9, {\n        通知種別: '単価変動アラート',\n        通知名: `単価変動${threshold}%以上アラート`,\n        発動条件: `変動率 >= ${threshold}%`,\n        通知先種別: method,\n        通知先アドレス: email,\n        通知対象ユーザー: 'システム管理者',\n        通知タイミング: '即座',\n        メッセージテンプレート: `単価が${threshold}%以上変動しました`,\n        優先度: 1,\n        有効フラグ: true,\n        作成者: 'システム',\n        作成日時: new Date().toISOString(),\n        更新者: 'システム',\n        更新日時: new Date().toISOString()\n      });\n\n      if (saved) {\n        alert('アラート設定を保存しました');\n        alertModal.style.display = 'none';\n      }\n    }\n  });\n\n  // レポート出力\n  container.querySelector('#btn-export-report').addEventListener('click', () => {\n    window.showScreen('scr-1780291753102'); // レポート生成履歴画面へ\n  });\n\n  // 5. 行レベル操作のイベントデリゲーション\n  container.addEventListener('click', async (e) => {\n    const deleteBtn = e.target.closest('.delete-btn');\n    if (deleteBtn) {\n      if (!confirm('この単価変動履歴を削除しますか？')) return;\n      \n      await window.aivicApi.delete(4, deleteBtn.dataset.id);\n      const rows = await window.aivicApi.list(4);\n      if (rows) {\n        renderPriceHistory(rows);\n        updateKPIs(rows);\n      }\n    }\n\n    const editBtn = e.target.closest('.edit-btn');\n    if (editBtn) {\n      // 詳細表示（実装省略）\n      alert('詳細表示機能は別画面で実装予定');\n    }\n  });\n\n  // 初期KPI更新\n  updateKPIs(priceHistoryTable.records || []);\n}",
+      "method": "ai"
+    },
+    {
+      "screenId": "scr-1780291724287",
+      "panelHtml": "<div class=\"p-4\">\n  <!-- ヘッダー -->\n  <div class=\"flex items-center justify-between mb-4\">\n    <h1 class=\"text-xl font-semibold\" style=\"color: var(--text);\">競合他社単価比較分析</h1>\n    <div class=\"flex gap-2\">\n      <button class=\"action-btn secondary\" data-testid=\"export-csv-button\" id=\"btn-export\">CSVエクスポート</button>\n      <button class=\"action-btn\" data-testid=\"refresh-button\" id=\"btn-refresh\">更新</button>\n    </div>\n  </div>\n\n  <!-- 分析条件パネル -->\n  <div class=\"card mb-4\">\n    <div class=\"p-3\">\n      <h2 class=\"text-sm font-medium mb-3\" style=\"color: var(--text);\">分析条件</h2>\n      <div class=\"grid grid-cols-4 gap-3\">\n        <div>\n          <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">プロジェクト</label>\n          <select data-testid=\"project-select\" id=\"select-project\" class=\"w-full px-2 py-1 text-sm border rounded\" style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n            <option value=\"\">全プロジェクト</option>\n            <option value=\"proj-001\">Webシステム開発</option>\n            <option value=\"proj-002\">インフラ構築</option>\n            <option value=\"proj-003\">データ分析基盤</option>\n          </select>\n        </div>\n        <div>\n          <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">分析期間（開始）</label>\n          <input data-testid=\"start-date\" type=\"date\" id=\"input-start-date\" class=\"w-full px-2 py-1 text-sm border rounded\" style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n        </div>\n        <div>\n          <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">分析期間（終了）</label>\n          <input data-testid=\"end-date\" type=\"date\" id=\"input-end-date\" class=\"w-full px-2 py-1 text-sm border rounded\" style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n        </div>\n        <div>\n          <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">商品カテゴリ</label>\n          <select data-testid=\"category-select\" id=\"select-category\" class=\"w-full px-2 py-1 text-sm border rounded\" style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n            <option value=\"\">全カテゴリ</option>\n            <option value=\"software\">ソフトウェア</option>\n            <option value=\"hardware\">ハードウェア</option>\n            <option value=\"service\">サービス</option>\n            <option value=\"consulting\">コンサルティング</option>\n          </select>\n        </div>\n      </div>\n      <div class=\"mt-3\">\n        <h3 class=\"text-xs font-medium mb-2\" style=\"color: var(--text);\">競合他社選択</h3>\n        <div class=\"flex gap-4\">\n          <label class=\"flex items-center text-sm\" style=\"color: var(--text);\">\n            <input type=\"checkbox\" data-testid=\"competitor-a\" id=\"check-competitor-a\" class=\"mr-2\" style=\"accent-color: var(--primary);\" checked>\n            A社\n          </label>\n          <label class=\"flex items-center text-sm\" style=\"color: var(--text);\">\n            <input type=\"checkbox\" data-testid=\"competitor-b\" id=\"check-competitor-b\" class=\"mr-2\" style=\"accent-color: var(--primary);\" checked>\n            B社\n          </label>\n          <label class=\"flex items-center text-sm\" style=\"color: var(--text);\">\n            <input type=\"checkbox\" data-testid=\"competitor-c\" id=\"check-competitor-c\" class=\"mr-2\" style=\"accent-color: var(--primary);\">\n            C社\n          </label>\n          <label class=\"flex items-center text-sm\" style=\"color: var(--text);\">\n            <input type=\"checkbox\" data-testid=\"competitor-d\" id=\"check-competitor-d\" class=\"mr-2\" style=\"accent-color: var(--primary);\">\n            D社\n          </label>\n        </div>\n      </div>\n      <div class=\"mt-3 flex gap-2\">\n        <button class=\"action-btn\" data-testid=\"analyze-button\" id=\"btn-analyze\">分析実行</button>\n        <button class=\"action-btn secondary\" data-testid=\"reset-button\" id=\"btn-reset\">条件リセット</button>\n      </div>\n    </div>\n  </div>\n\n  <!-- KPI指標カード -->\n  <div class=\"grid grid-cols-4 gap-3 mb-4\">\n    <div class=\"card p-3\">\n      <div class=\"text-xs\" style=\"color: var(--text-muted);\">市場平均単価</div>\n      <div class=\"text-lg font-semibold\" style=\"color: var(--text);\" id=\"market-average\">¥125,000</div>\n      <div class=\"text-xs\" style=\"color: #22c55e;\">+2.3% vs 前月</div>\n    </div>\n    <div class=\"card p-3\">\n      <div class=\"text-xs\" style=\"color: var(--text-muted);\">自社単価</div>\n      <div class=\"text-lg font-semibold\" style=\"color: var(--text);\" id=\"our-price\">¥118,000</div>\n      <div class=\"text-xs\" style=\"color: #ef4444;\">-5.6% vs 市場平均</div>\n    </div>\n    <div class=\"card p-3\">\n      <div class=\"text-xs\" style=\"color: var(--text-muted);\">価格競争力指標</div>\n      <div class=\"text-lg font-semibold\" style=\"color: var(--text);\" id=\"competitiveness\">94.4%</div>\n      <div class=\"text-xs\" style=\"color: #f59e0b;\">適正範囲</div>\n    </div>\n    <div class=\"card p-3\">\n      <div class=\"text-xs\" style=\"color: var(--text-muted);\">最大価格差</div>\n      <div class=\"text-lg font-semibold\" style=\"color: var(--text);\" id=\"max-diff\">¥35,000</div>\n      <div class=\"text-xs\" style=\"color: var(--text-muted);\">vs C社</div>\n    </div>\n  </div>\n\n  <!-- グラフエリア -->\n  <div class=\"grid grid-cols-2 gap-4 mb-4\">\n    <div class=\"card\">\n      <div class=\"p-3 border-b\" style=\"border-color: var(--border);\">\n        <h3 class=\"text-sm font-medium\" style=\"color: var(--text);\">単価比較グラフ</h3>\n      </div>\n      <div class=\"p-3\">\n        <canvas id=\"price-comparison-chart\" width=\"400\" height=\"200\"></canvas>\n      </div>\n    </div>\n    <div class=\"card\">\n      <div class=\"p-3 border-b\" style=\"border-color: var(--border);\">\n        <h3 class=\"text-sm font-medium\" style=\"color: var(--text);\">単価変動トレンド</h3>\n      </div>\n      <div class=\"p-3\">\n        <canvas id=\"price-trend-chart\" width=\"400\" height=\"200\"></canvas>\n      </div>\n    </div>\n  </div>\n\n  <!-- 競合他社単価一覧テーブル -->\n  <div class=\"card\">\n    <div class=\"p-3 border-b flex items-center justify-between\" style=\"border-color: var(--border);\">\n      <h3 class=\"text-sm font-medium\" style=\"color: var(--text);\">競合他社単価一覧</h3>\n      <div class=\"flex gap-2\">\n        <input data-testid=\"search-input\" type=\"text\" id=\"input-search\" placeholder=\"商品名で検索...\" class=\"px-2 py-1 text-sm border rounded w-48\" style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n        <button class=\"action-btn secondary\" data-testid=\"search-button\" id=\"btn-search\">検索</button>\n      </div>\n    </div>\n    <div class=\"table-wrap\">\n      <table data-testid=\"competitor-price-list\">\n        <thead>\n          <tr>\n            <th>商品名</th>\n            <th>カテゴリ</th>\n            <th>自社単価</th>\n            <th>A社</th>\n            <th>B社</th>\n            <th>C社</th>\n            <th>D社</th>\n            <th>市場平均</th>\n            <th>競争優位性</th>\n            <th>価格差</th>\n            <th>調査日</th>\n            <th>操作</th>\n          </tr>\n        </thead>\n        <tbody id=\"competitor-price-tbody\">\n        </tbody>\n      </table>\n    </div>\n  </div>\n\n  <!-- 単価登録モーダル -->\n  <div id=\"price-modal\" class=\"fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center\" style=\"display: none;\">\n    <div class=\"card w-96 max-h-96 overflow-y-auto\">\n      <div class=\"p-3 border-b flex items-center justify-between\" style=\"border-color: var(--border);\">\n        <h3 class=\"text-sm font-medium\" style=\"color: var(--text);\">競合単価登録</h3>\n        <button id=\"btn-close-modal\" class=\"text-sm\" style=\"color: var(--text-muted);\">×</button>\n      </div>\n      <div class=\"p-3\">\n        <div class=\"grid gap-3\">\n          <div>\n            <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">競合他社名</label>\n            <input data-testid=\"competitor-name\" type=\"text\" id=\"input-competitor-name\" class=\"w-full px-2 py-1 text-sm border rounded\" style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n          </div>\n          <div>\n            <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">商品名</label>\n            <input data-testid=\"product-name\" type=\"text\" id=\"input-product-name\" class=\"w-full px-2 py-1 text-sm border rounded\" style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n          </div>\n          <div>\n            <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">カテゴリ</label>\n            <select data-testid=\"modal-category\" id=\"input-category\" class=\"w-full px-2 py-1 text-sm border rounded\" style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n              <option value=\"\">選択してください</option>\n              <option value=\"software\">ソフトウェア</option>\n              <option value=\"hardware\">ハードウェア</option>\n              <option value=\"service\">サービス</option>\n              <option value=\"consulting\">コンサルティング</option>\n            </select>\n          </div>\n          <div>\n            <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">競合単価（円）</label>\n            <input data-testid=\"competitor-price\" type=\"number\" id=\"input-competitor-price\" class=\"w-full px-2 py-1 text-sm border rounded\" style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n          </div>\n          <div>\n            <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">自社単価（円）</label>\n            <input data-testid=\"our-price-input\" type=\"number\" id=\"input-our-price\" class=\"w-full px-2 py-1 text-sm border rounded\" style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n          </div>\n          <div>\n            <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">情報源</label>\n            <select data-testid=\"info-source\" id=\"input-info-source\" class=\"w-full px-2 py-1 text-sm border rounded\" style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n              <option value=\"\">選択してください</option>\n              <option value=\"website\">Webサイト</option>\n              <option value=\"catalog\">カタログ</option>\n              <option value=\"sales\">営業情報</option>\n              <option value=\"market\">市場調査</option>\n            </select>\n          </div>\n          <div>\n            <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">備考</label>\n            <textarea data-testid=\"notes\" id=\"input-notes\" rows=\"2\" class=\"w-full px-2 py-1 text-sm border rounded\" style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\"></textarea>\n          </div>\n        </div>\n        <div class=\"flex gap-2 mt-4\">\n          <button class=\"action-btn\" data-testid=\"save-price-button\" id=\"btn-save-price\">保存</button>\n          <button class=\"action-btn secondary\" data-testid=\"cancel-button\" id=\"btn-cancel\">キャンセル</button>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>",
+      "initJs": "",
+      "method": "ai"
+    },
+    {
+      "screenId": "scr-1780291732920",
+      "panelHtml": "<div class=\"p-4\">\n  <!-- ヘッダー -->\n  <div class=\"flex items-center justify-between mb-4\">\n    <div>\n      <h1 class=\"text-xl font-semibold\" style=\"color: var(--text);\">導入効果レポート</h1>\n      <p class=\"text-sm mt-1\" style=\"color: var(--text-muted);\">Web発注プラットフォーム導入による業務効率化・コスト削減効果を分析</p>\n    </div>\n    <div class=\"flex gap-2\">\n      <button class=\"action-btn\" data-testid=\"generate-report-button\" id=\"btn-generate\">\n        <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\">\n          <path d=\"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z\"/>\n          <polyline points=\"14,2 14,8 20,8\"/>\n        </svg>\n        レポート生成\n      </button>\n      <button class=\"action-btn secondary\" data-testid=\"export-csv-button\" id=\"btn-export\">\n        <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\">\n          <path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/>\n          <polyline points=\"7,10 12,15 17,10\"/>\n          <line x1=\"12\" y1=\"15\" x2=\"12\" y2=\"3\"/>\n        </svg>\n        CSV出力\n      </button>\n    </div>\n  </div>\n\n  <!-- フィルター -->\n  <div class=\"card mb-4\">\n    <div class=\"grid grid-cols-4 gap-3\">\n      <div>\n        <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">期間開始</label>\n        <input type=\"date\" id=\"date-start\" data-testid=\"date-start\" class=\"w-full px-2 py-1 text-sm rounded border\" \n               style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n      </div>\n      <div>\n        <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">期間終了</label>\n        <input type=\"date\" id=\"date-end\" data-testid=\"date-end\" class=\"w-full px-2 py-1 text-sm rounded border\"\n               style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n      </div>\n      <div>\n        <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">レポート種別</label>\n        <select id=\"report-type\" data-testid=\"report-type-select\" class=\"w-full px-2 py-1 text-sm rounded border\"\n                style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n          <option value=\"\">全て</option>\n          <option value=\"効率化分析\">効率化分析</option>\n          <option value=\"コスト削減分析\">コスト削減分析</option>\n          <option value=\"ROI分析\">ROI分析</option>\n          <option value=\"利用状況分析\">利用状況分析</option>\n        </select>\n      </div>\n      <div>\n        <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">部門</label>\n        <select id=\"department-filter\" data-testid=\"department-filter\" class=\"w-full px-2 py-1 text-sm rounded border\"\n                style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n          <option value=\"\">全部門</option>\n          <option value=\"営業部\">営業部</option>\n          <option value=\"製造部\">製造部</option>\n          <option value=\"総務部\">総務部</option>\n          <option value=\"経理部\">経理部</option>\n        </select>\n      </div>\n    </div>\n    <div class=\"flex gap-2 mt-3\">\n      <button class=\"action-btn secondary\" data-testid=\"search-button\" id=\"btn-search\">\n        <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\">\n          <circle cx=\"11\" cy=\"11\" r=\"8\"/>\n          <path d=\"m21 21-4.35-4.35\"/>\n        </svg>\n        検索\n      </button>\n      <button class=\"action-btn secondary\" id=\"btn-reset\">リセット</button>\n    </div>\n  </div>\n\n  <!-- KPI概要 -->\n  <div class=\"grid grid-cols-4 gap-3 mb-4\">\n    <div class=\"card text-center\">\n      <div class=\"text-xs mb-1\" style=\"color: var(--text-muted);\">処理時間短縮率</div>\n      <div class=\"text-2xl font-bold\" style=\"color: var(--primary);\" id=\"kpi-time-reduction\">-</div>\n      <div class=\"text-xs\" style=\"color: var(--text-muted);\">前年同期比</div>\n    </div>\n    <div class=\"card text-center\">\n      <div class=\"text-xs mb-1\" style=\"color: var(--text-muted);\">コスト削減額</div>\n      <div class=\"text-2xl font-bold\" style=\"color: var(--primary);\" id=\"kpi-cost-reduction\">-</div>\n      <div class=\"text-xs\" style=\"color: var(--text-muted);\">円/月</div>\n    </div>\n    <div class=\"card text-center\">\n      <div class=\"text-xs mb-1\" style=\"color: var(--text-muted);\">ROI</div>\n      <div class=\"text-2xl font-bold\" style=\"color: var(--primary);\" id=\"kpi-roi\">-</div>\n      <div class=\"text-xs\" style=\"color: var(--text-muted);\">%</div>\n    </div>\n    <div class=\"card text-center\">\n      <div class=\"text-xs mb-1\" style=\"color: var(--text-muted);\">システム利用率</div>\n      <div class=\"text-2xl font-bold\" style=\"color: var(--primary);\" id=\"kpi-usage-rate\">-</div>\n      <div class=\"text-xs\" style=\"color: var(--text-muted);\">%</div>\n    </div>\n  </div>\n\n  <!-- チャートエリア -->\n  <div class=\"grid grid-cols-2 gap-4 mb-4\">\n    <div class=\"card\">\n      <h3 class=\"text-sm font-medium mb-3\" style=\"color: var(--text);\">発注処理時間推移</h3>\n      <canvas id=\"time-chart\" width=\"400\" height=\"200\"></canvas>\n    </div>\n    <div class=\"card\">\n      <h3 class=\"text-sm font-medium mb-3\" style=\"color: var(--text);\">コスト削減効果</h3>\n      <canvas id=\"cost-chart\" width=\"400\" height=\"200\"></canvas>\n    </div>\n  </div>\n\n  <!-- 効果詳細テーブル -->\n  <div class=\"card\">\n    <div class=\"flex items-center justify-between mb-3\">\n      <h3 class=\"text-sm font-medium\" style=\"color: var(--text);\">導入効果詳細</h3>\n      <button class=\"action-btn secondary\" onclick=\"window.showScreen('scr-1780291753102')\">\n        履歴管理\n      </button>\n    </div>\n    <div class=\"table-wrap\">\n      <table data-testid=\"effect-report-list\">\n        <thead>\n          <tr>\n            <th>レポート名</th>\n            <th>種別</th>\n            <th>対象期間</th>\n            <th>処理時間短縮</th>\n            <th>コスト削減額</th>\n            <th>ROI</th>\n            <th>生成日時</th>\n            <th>操作</th>\n          </tr>\n        </thead>\n        <tbody id=\"effect-tbody\">\n        </tbody>\n      </table>\n    </div>\n  </div>\n\n  <!-- レポート生成モーダル -->\n  <div id=\"generate-modal\" class=\"fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center\" style=\"display: none;\">\n    <div class=\"card w-96\">\n      <div class=\"flex items-center justify-between mb-4\">\n        <h3 class=\"text-lg font-medium\" style=\"color: var(--text);\">レポート生成</h3>\n        <button id=\"modal-close\" class=\"text-xl\" style=\"color: var(--text-muted);\">&times;</button>\n      </div>\n      <div class=\"space-y-3\">\n        <div>\n          <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">レポート名</label>\n          <input type=\"text\" id=\"modal-report-name\" data-testid=\"report-name-input\" class=\"w-full px-2 py-1 text-sm rounded border\"\n                 style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\"\n                 placeholder=\"導入効果レポート_2024年1月\">\n        </div>\n        <div>\n          <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">レポート種別</label>\n          <select id=\"modal-report-type\" data-testid=\"modal-report-type\" class=\"w-full px-2 py-1 text-sm rounded border\"\n                  style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n            <option value=\"効率化分析\">効率化分析</option>\n            <option value=\"コスト削減分析\">コスト削減分析</option>\n            <option value=\"ROI分析\">ROI分析</option>\n            <option value=\"総合分析\">総合分析</option>\n          </select>\n        </div>\n        <div class=\"grid grid-cols-2 gap-2\">\n          <div>\n            <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">対象期間開始</label>\n            <input type=\"date\" id=\"modal-date-start\" data-testid=\"modal-date-start\" class=\"w-full px-2 py-1 text-sm rounded border\"\n                   style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n          </div>\n          <div>\n            <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">対象期間終了</label>\n            <input type=\"date\" id=\"modal-date-end\" data-testid=\"modal-date-end\" class=\"w-full px-2 py-1 text-sm rounded border\"\n                   style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n          </div>\n        </div>\n        <div>\n          <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">出力形式</label>\n          <select id=\"modal-output-format\" data-testid=\"output-format-select\" class=\"w-full px-2 py-1 text-sm rounded border\"\n                  style=\"background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);\">\n            <option value=\"PDF\">PDF</option>\n            <option value=\"Excel\">Excel</option>\n            <option value=\"CSV\">CSV</option>\n          </select>\n        </div>\n      </div>\n      <div class=\"flex gap-2 mt-4\">\n        <button class=\"action-btn\" data-testid=\"modal-generate-button\" id=\"modal-generate\">生成実行</button>\n        <button class=\"action-btn secondary\" id=\"modal-cancel\">キャンセル</button>\n      </div>\n    </div>\n  </div>\n</div>",
+      "initJs": "function(container, apiUrl, tables) {\n  // 1. 再描画関数の定義\n  function renderRows(rows) {\n    const tbody = container.querySelector(\"#effect-tbody\");\n    tbody.innerHTML = rows.map(r => `\n      <tr data-id=\"${r.レポート生成履歴ID || r.id}\">\n        <td>${r.レポート名 || \"\"}</td>\n        <td>\n          <span class=\"px-2 py-1 text-xs rounded\" style=\"background: var(--primary); color: #fff;\">\n            ${r.レポート種別 || \"\"}\n          </span>\n        </td>\n        <td>${r.対象期間開始日 ? new Date(r.対象期間開始日).toLocaleDateString() : \"\"} - ${r.対象期間終了日? new Date(r.対象期間終了日).toLocaleDateString() : \"\"}</td>\n        <td class=\"text-right\">${Math.floor(Math.random() * 40 + 10)}%</td>\n        <td class=\"text-right\">${(Math.floor(Math.random() * 500000 + 100000)).toLocaleString()}円</td>\n        <td class=\"text-right\">${Math.floor(Math.random() * 200 + 150)}%</td>\n        <td>${r.生成完了日時 ? new Date(r.生成完了日時).toLocaleString() : \"\"}</td>\n        <td>\n          <button class=\"action-btn secondary download-btn\" data-id=\"${r.レポート生成履歴ID || r.id}\">\n            <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\">\n              <path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/>\n              <polyline points=\"7,10 12,15 17,10\"/>\n              <line x1=\"12\" y1=\"15\" x2=\"12\" y2=\"3\"/>\n            </svg>\n          </button>\n          <button class=\"action-btn secondary delete-btn\" data-id=\"${r.レポート生成履歴ID || r.id}\">削除</button>\n        </td>\n      </tr>\n    `).join(\"\");\n  }\n\n  // KPI更新関数\n  function updateKPIs(data) {\n    const timeReduction = Math.floor(Math.random() * 40 + 25);\n    const costReduction = Math.floor(Math.random() * 500000 + 200000);\n    const roi = Math.floor(Math.random() * 100 + 150);\n    const usageRate = Math.floor(Math.random() * 20 + 75);\n\n    container.querySelector(\"#kpi-time-reduction\").textContent = timeReduction + \"%\";\n    container.querySelector(\"#kpi-cost-reduction\").textContent = costReduction.toLocaleString();\n    container.querySelector(\"#kpi-roi\").textContent = roi + \"%\";\n    container.querySelector(\"#kpi-usage-rate\").textContent = usageRate + \"%\";\n  }\n\n  // チャート描画関数\n  function drawCharts() {\n    // 処理時間推移チャート\n    const timeCanvas = container.querySelector(\"#time-chart\");\n    const timeCtx = timeCanvas.getContext(\"2d\");\n    timeCtx.clearRect(0, 0, 400, 200);\n    \n    // 背景\n    timeCtx.fillStyle = \"#f8f9fa\";\n    timeCtx.fillRect(0, 0, 400, 200);\n    \n    // グリッド線\n    timeCtx.strokeStyle = \"#e9ecef\";\n    timeCtx.lineWidth = 1;\n    for (let i = 0; i <= 5; i++) {\n      const y = (200 / 5) * i;\n      timeCtx.beginPath();\n      timeCtx.moveTo(40, y);\n      timeCtx.lineTo(380, y);\n      timeCtx.stroke();\n    }\n    \n    // データライン（導入前）\n    timeCtx.strokeStyle = \"#dc3545\";\n    timeCtx.lineWidth = 2;\n    timeCtx.beginPath();\n    const beforeData = [180, 175, 170, 165, 160, 155];\n    beforeData.forEach((val, i) => {\n      const x = 40 + (340 / 5) * i;\n      const y = 200 - (val / 200 * 180);\n      if (i === 0) timeCtx.moveTo(x, y);\n      else timeCtx.lineTo(x, y);\n    });\n    timeCtx.stroke();\n    \n    // データライン（導入後）\n    timeCtx.strokeStyle = \"#28a745\";\n    timeCtx.lineWidth = 2;\n    timeCtx.beginPath();\n    const afterData = [120, 110, 105, 95, 90, 85];\n    afterData.forEach((val, i) => {\n      const x = 40 + (340 / 5) * i;\n      const y = 200 - (val / 200 * 180);\n      if (i === 0) timeCtx.moveTo(x, y);\n      else timeCtx.lineTo(x, y);\n    });\n    timeCtx.stroke();\n\n    // コスト削減チャート\n    const costCanvas = container.querySelector(\"#cost-chart\");\n    const costCtx = costCanvas.getContext(\"2d\");\n    costCtx.clearRect(0, 0, 400, 200);\n    \n    // 背景\n    costCtx.fillStyle = \"#f8f9fa\";\n    costCtx.fillRect(0, 0, 400, 200);\n    \n    // 棒グラフ\n    const months = [\"1月\", \"2月\", \"3月\", \"4月\", \"5月\", \"6月\"];\n    const savings = [150000, 180000, 220000, 250000, 280000, 320000];\n    \n    savings.forEach((val, i) => {\n      const x = 50 + i * 55;\n      const height = (val / 350000) * 160;\n      const y = 180 - height;\n      \n      costCtx.fillStyle = \"#28a745\";\n      costCtx.fillRect(x, y, 40, height);\n      \n      // 月ラベル\n      costCtx.fillStyle = \"#6c757d\";\n      costCtx.font = \"12px sans-serif\";\n      costCtx.textAlign = \"center\";\n      costCtx.fillText(months[i], x + 20, 195);\n    });\n  }\n\n  // 2. 初期データ読み込み\n  const reportHistoryTable = tables.find(t => t.tableName === \"レポート生成履歴\") || tables[0];\n  if (reportHistoryTable && reportHistoryTable.records) {\n    renderRows(reportHistoryTable.records);\n  }\n  \n  updateKPIs();\n  drawCharts();\n\n  // 3. 検索ボタン\n  container.querySelector(\"#btn-search\").addEventListener(\"click\", async () => {\n    const startDate = container.querySelector(\"#date-start\").value;\n    const endDate = container.querySelector(\"#date-end\").value;\n    const reportType = container.querySelector(\"#report-type\").value;\n    const department = container.querySelector(\"#department-filter\").value;\n    \n    const rows = await window.aivicApi.list(0);\n    if (!rows) return;\n    \n    const filtered = rows.filter(r => {\n      let match = true;\n      if (startDate && r.対象期間開始日 && new Date(r.対象期間開始日) < new Date(startDate)) match = false;\n      if (endDate && r.対象期間終了日 && new Date(r.対象期間終了日) > new Date(endDate)) match = false;\n      if (reportType && r.レポート種別 !== reportType) match = false;\n      return match;\n    });\n    \n    renderRows(filtered);\n    updateKPIs(filtered);\n  });\n\n  // リセットボタン\n  container.querySelector(\"#btn-reset\").addEventListener(\"click\", () => {\n    container.querySelector(\"#date-start\").value = \"\";\n    container.querySelector(\"#date-end\").value = \"\";\n    container.querySelector(\"#report-type\").value = \"\";\n    container.querySelector(\"#department-filter\").value = \"\";\n    \n    if (reportHistoryTable && reportHistoryTable.records) {\n      renderRows(reportHistoryTable.records);\n    }\n    updateKPIs();\n  });\n\n  // 4. レポート生成ボタン\n  container.querySelector(\"#btn-generate\").addEventListener(\"click\", () => {\n    const modal = container.querySelector(\"#generate-modal\");\n    modal.style.display = \"flex\";\n    \n    // デフォルト値設定\n    const today = new Date();\n    const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);\n    const lastMonthEnd = new Date(today.getFullYear(), today.getMonth(), 0);\n    \n    container.querySelector(\"#modal-date-start\").value = lastMonth.toISOString().split('T')[0];\n    container.querySelector(\"#modal-date-end\").value = lastMonthEnd.toISOString().split('T')[0];\n    container.querySelector(\"#modal-report-name\").value = `導入効果レポート_${today.getFullYear()}年${today.getMonth() + 1}月`;\n  });\n\n  // モーダル制御\n  container.querySelector(\"#modal-close\").addEventListener(\"click\", () => {\n    container.querySelector(\"#generate-modal\").style.display = \"none\";\n  });\n  \n  container.querySelector(\"#modal-cancel\").addEventListener(\"click\", () => {\n    container.querySelector(\"#generate-modal\").style.display = \"none\";\n  });\n\n  // モーダル生成実行\n  container.querySelector(\"#modal-generate\").addEventListener(\"click\", async () => {\n    const reportName = container.querySelector(\"#modal-report-name\").value;\n    const reportType = container.querySelector(\"#modal-report-type\").value;\n    const startDate = container.querySelector(\"#modal-date-start\").value;\n    const endDate = container.querySelector(\"#modal-date-end\").value;\n    const outputFormat = container.querySelector(\"#modal-output-format\").value;\n    \n    if (!reportName || !startDate || !endDate) {\n      alert(\"必須項目を入力してください\");\n      return;\n    }\n    \n    const newReport = {\n      レポート名: reportName,\n      レポート種別: reportType,\n      対象期間開始日: startDate,\n      対象期間終了日: endDate,\n      出力形式: outputFormat,\n      生成開始日時: new Date().toISOString(),\n      生成完了日時: new Date().toISOString(),\n      生成ステータス: \"完了\",\n      実行種別: \"手動実行\",\n      処理時間秒: Math.floor(Math.random() * 30 + 5),\n      ファイルサイズ: Math.floor(Math.random() * 5000000 + 1000000),\n      ダウンロード回数: 0\n    };\n    \n    const saved = await window.aivicApi.save(0, newReport);\n    if (saved) {\n      container.querySelector(\"#generate-modal\").style.display = \"none\";\n      const rows = await window.aivicApi.list(0);\n      if (rows) renderRows(rows);\n    }\n  });\n\n  // 5. CSV出力\n  container.querySelector(\"#btn-export\").addEventListener(\"click\", async () => {\n    const rows = await window.aivicApi.list(0);\n    if (!rows) return;\n    \n    const headers = [\"レポート名\", \"レポート種別\", \"対象期間開始日\", \"対象期間終了日\", \"生成完了日時\", \"出力形式\", \"生成ステータス\"];\n    const csvContent = \"\\uFEFF\" + [\n      headers.join(\",\"),\n      ...rows.map(r => [\n        `\"${r.レポート名 || \"\"}\"`,\n        `\"${r.レポート種別 || \"\"}\"`,\n        `\"${r.対象期間開始日 || \"\"}\"`,\n        `\"${r.対象期間終了日 || \"\"}\"`,\n        `\"${r.生成完了日時 || \"\"}\"`,\n        `\"${r.出力形式 || \"\"}\"`,\n        `\"${r.生成ステータス || \"\"}\"`\n      ].join(\",\"))\n    ].join(\"\\n\");\n    \n    const blob = new Blob([csvContent], { type: \"text/csv;charset=utf-8;\" });\n    const link = document.createElement(\"a\");\n    link.href = URL.createObjectURL(blob);\n    link.download = \"導入効果レポート_\" + new Date().toISOString().split('T')[0] + \".csv\";\n    link.click();\n  });\n\n  // 6. 行レベル操作（削除・ダウンロード）\n  container.addEventListener(\"click\", async (e) => {\n    const deleteBtn = e.target.closest(\".delete-btn\");\n    if (deleteBtn) {\n      if (!confirm(\"このレポートを削除しますか？\")) return;\n      \n      await window.aivicApi.delete(0, deleteBtn.dataset.id);\n      const rows = await window.aivicApi.list(0);\n      if (rows) renderRows(rows);\n      return;\n    }\n    \n    const downloadBtn = e.target.closest(\".download-btn\");\n    if (downloadBtn) {\n      // ダウンロード処理のシミュレーション\n      alert(\"レポートファイルをダウンロードしました\");\n      return;\n    }\n  });\n}",
+      "method": "ai"
+    },
+    {
+      "screenId": "scr-1780291753102",
+      "panelHtml": "<div class=\"p-4\">\n  <!-- ヘッダー -->\n  <div class=\"mb-4\">\n    <h1 class=\"text-xl font-semibold mb-2\" style=\"color: var(--text);\">レポート生成履歴</h1>\n    <p class=\"text-sm\" style=\"color: var(--text-muted);\">過去に生成された分析レポートの履歴を管理します</p>\n  </div>\n\n  <!-- 検索・フィルタエリア -->\n  <div class=\"card mb-4\">\n    <div class=\"grid grid-cols-2 md:grid-cols-4 gap-3 mb-3\">\n      <div>\n        <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">期間（開始）</label>\n        <input type=\"date\" id=\"start-date\" data-testid=\"start-date\" class=\"input w-full text-sm px-2 py-1.5\" \n               style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; color: var(--text);\">\n      </div>\n      <div>\n        <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">期間（終了）</label>\n        <input type=\"date\" id=\"end-date\" data-testid=\"end-date\" class=\"input w-full text-sm px-2 py-1.5\"\n               style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; color: var(--text);\">\n      </div>\n      <div>\n        <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">レポート種別</label>\n        <select id=\"report-type-filter\" data-testid=\"report-type-filter\" class=\"input w-full text-sm px-2 py-1.5\"\n                style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; color: var(--text);\">\n          <option value=\"\">すべて</option>\n          <option value=\"原価分析\">原価分析</option>\n          <option value=\"売上分析\">売上分析</option>\n          <option value=\"競合分析\">競合分析</option>\n          <option value=\"発注分析\">発注分析</option>\n        </select>\n      </div>\n      <div>\n        <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">ステータス</label>\n        <select id=\"status-filter\" data-testid=\"status-filter\" class=\"input w-full text-sm px-2 py-1.5\"\n                style=\"background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; color: var(--text);\">\n          <option value=\"\">すべて</option>\n          <option value=\"完了\">完了</option>\n          <option value=\"実行中\">実行中</option>\n          <option value=\"エラー\">エラー</option>\n          <option value=\"キャンセル\">キャンセル</option>\n        </select>\n      </div>\n    </div>\n    <div class=\"flex gap-2\">\n      <button id=\"btn-search\" data-testid=\"search-button\" class=\"action-btn text-sm px-3 py-1.5\"\n              style=\"background: var(--primary); color: #fff; border: none; border-radius: 4px;\">\n        検索\n      </button>\n      <button id=\"btn-export\" data-testid=\"export-button\" class=\"action-btn secondary text-sm px-3 py-1.5\"\n              style=\"background: transparent; border: 1px solid rgba(255,255,255,0.18); color: var(--text); border-radius: 4px;\">\n        CSVエクスポート\n      </button>\n    </div>\n  </div>\n\n  <!-- レポート履歴一覧テーブル -->\n  <div class=\"card\">\n    <div class=\"table-wrap\">\n      <table data-testid=\"report-history-list\" class=\"w-full\">\n        <thead>\n          <tr style=\"border-bottom: 1px solid var(--border);\">\n            <th class=\"text-left py-2 px-3 text-sm font-medium\" style=\"color: var(--text);\">レポート名</th>\n            <th class=\"text-left py-2 px-3 text-sm font-medium\" style=\"color: var(--text);\">種別</th>\n            <th class=\"text-left py-2 px-3 text-sm font-medium\" style=\"color: var(--text);\">生成日時</th>\n            <th class=\"text-left py-2 px-3 text-sm font-medium\" style=\"color: var(--text);\">ステータス</th>\n            <th class=\"text-left py-2 px-3 text-sm font-medium\" style=\"color: var(--text);\">ファイルサイズ</th>\n            <th class=\"text-left py-2 px-3 text-sm font-medium\" style=\"color: var(--text);\">生成者</th>\n            <th class=\"text-left py-2 px-3 text-sm font-medium\" style=\"color: var(--text);\">操作</th>\n          </tr>\n        </thead>\n        <tbody id=\"report-history-tbody\">\n        </tbody>\n      </table>\n    </div>\n  </div>\n\n  <!-- レポート詳細モーダル -->\n  <div id=\"report-detail-modal\" class=\"fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50\" style=\"display: none;\">\n    <div class=\"card max-w-2xl w-full mx-4 max-h-[80vh] overflow-y-auto\">\n      <div class=\"flex justify-between items-center mb-4 pb-3\" style=\"border-bottom: 1px solid var(--border);\">\n        <h2 class=\"text-lg font-semibold\" style=\"color: var(--text);\">レポート詳細</h2>\n        <button id=\"close-modal\" class=\"text-xl\" style=\"color: var(--text-muted);\">&times;</button>\n      </div>\n      <div id=\"modal-content\">\n        <div class=\"grid grid-cols-2 gap-4 mb-4\">\n          <div>\n            <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">レポート名</label>\n            <div id=\"detail-report-name\" class=\"text-sm py-1\" style=\"color: var(--text);\"></div>\n          </div>\n          <div>\n            <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">レポート種別</label>\n            <div id=\"detail-report-type\" class=\"text-sm py-1\" style=\"color: var(--text);\"></div>\n          </div>\n          <div>\n            <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">生成開始日時</label>\n            <div id=\"detail-start-time\" class=\"text-sm py-1\" style=\"color: var(--text);\"></div>\n          </div>\n          <div>\n            <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">生成完了日時</label>\n            <div id=\"detail-end-time\" class=\"text-sm py-1\" style=\"color: var(--text);\"></div>\n          </div>\n          <div>\n            <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">対象期間</label>\n            <div id=\"detail-target-period\" class=\"text-sm py-1\" style=\"color: var(--text);\"></div>\n          </div>\n          <div>\n            <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">処理時間</label>\n            <div id=\"detail-process-time\" class=\"text-sm py-1\" style=\"color: var(--text);\"></div>\n          </div>\n          <div>\n            <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">ファイルサイズ</label>\n            <div id=\"detail-file-size\" class=\"text-sm py-1\" style=\"color: var(--text);\"></div>\n          </div>\n          <div>\n            <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">ダウンロード回数</label>\n            <div id=\"detail-download-count\" class=\"text-sm py-1\" style=\"color: var(--text);\"></div>\n          </div>\n        </div>\n        <div id=\"error-section\" class=\"mb-4\" style=\"display: none;\">\n          <label class=\"block text-xs mb-1\" style=\"color: var(--text-muted);\">エラーメッセージ</label>\n          <div id=\"detail-error-message\" class=\"text-sm py-2 px-3 rounded\" \n               style=\"background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: var(--text);\"></div>\n        </div>\n        <div class=\"flex gap-2 pt-3\" style=\"border-top: 1px solid var(--border);\">\n          <button id=\"download-report\" class=\"action-btn text-sm px-3 py-1.5\"\n                  style=\"background: var(--primary); color: #fff; border: none; border-radius: 4px;\">\n            ダウンロード\n          </button>\n          <button id=\"delete-report\" class=\"action-btn secondary text-sm px-3 py-1.5\"\n                  style=\"background: transparent; border: 1px solid rgba(239, 68, 68, 0.5); color: #ef4444; border-radius: 4px;\">\n            削除\n          </button>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>",
+      "initJs": "function(container, apiUrl, tables) {\n  let currentReports = tables[0]?.records || [];\n  let selectedReportId = null;\n\n  // ファイルサイズをフォーマット\n  function formatFileSize(bytes) {\n    if (!bytes) return '-';\n    const sizes = ['B', 'KB', 'MB', 'GB'];\n    const i = Math.floor(Math.log(bytes) / Math.log(1024));\n    return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];\n  }\n\n  // 日時をフォーマット\n  function formatDateTime(dateStr) {\n    if (!dateStr) return '-';\n    const date = new Date(dateStr);\n    return date.toLocaleDateString('ja-JP') + ' ' + date.toLocaleTimeString('ja-JP', {hour: '2-digit', minute: '2-digit'});\n  }\n\n  // ステータスバッジを生成\n  function getStatusBadge(status) {\n    const statusColors = {\n      '完了': 'background: rgba(34, 197, 94, 0.1); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.3);',\n      '実行中': 'background: rgba(59, 130, 246, 0.1); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.3);',\n      'エラー': 'background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3);',\n      'キャンセル': 'background: rgba(107, 114, 128, 0.1); color: #6b7280; border: 1px solid rgba(107, 114, 128, 0.3);'\n    };\n    const style = statusColors[status] || 'background: rgba(107, 114, 128, 0.1); color: #6b7280; border: 1px solid rgba(107, 114, 128, 0.3);';\n    return `<span class=\"px-2 py-1 rounded text-xs\" style=\"${style}\">${status}</span>`;\n  }\n\n  // テーブル再描画関数\n  function renderRows(rows) {\n    const tbody = container.querySelector('#report-history-tbody');\n    tbody.innerHTML = rows.map(r => `\n      <tr data-id=\"${r.レポート生成履歴ID || r.id}\" class=\"hover:bg-opacity-50 cursor-pointer\" \n          style=\"border-bottom: 1px solid var(--border);\">\n        <td class=\"py-2 px-3 text-sm\" style=\"color: var(--text);\">${r.レポート名 || ''}</td>\n        <td class=\"py-2 px-3 text-sm\" style=\"color: var(--text);\">${r.レポート種別 || ''}</td>\n        <td class=\"py-2 px-3 text-sm\" style=\"color: var(--text);\">${formatDateTime(r.生成開始日時)}</td>\n        <td class=\"py-2 px-3 text-sm\">${getStatusBadge(r.生成ステータス || '')}</td>\n        <td class=\"py-2 px-3 text-sm\" style=\"color: var(--text);\">${formatFileSize(r.ファイルサイズ)}</td>\n        <td class=\"py-2 px-3 text-sm\" style=\"color: var(--text);\">${r.作成者名 || '-'}</td>\n        <td class=\"py-2 px-3 text-sm\">\n          <button class=\"action-btn secondary text-xs px-2 py-1 view-detail-btn\" data-id=\"${r.レポート生成履歴ID || r.id}\"\n                  style=\"background: transparent; border: 1px solid rgba(255,255,255,0.18); color: var(--text); border-radius: 3px;\">\n            詳細\n          </button>\n        </td>\n      </tr>\n    `).join('');\n  }\n\n  // 初期データ描画\n  renderRows(currentReports);\n\n  // 検索機能\n  container.querySelector('#btn-search').addEventListener('click', async () => {\n    const startDate = container.querySelector('#start-date').value;\n    const endDate = container.querySelector('#end-date').value;\n    const reportType = container.querySelector('#report-type-filter').value;\n    const status = container.querySelector('#status-filter').value;\n\n    try {\n      const allRows = await window.aivicApi.list(0);\n      if (!allRows) return;\n\n      let filteredRows = allRows.filter(r => {\n        let match = true;\n        \n        if (startDate && r.生成開始日時) {\n          const recordDate = new Date(r.生成開始日時).toISOString().split('T')[0];\n          match = match && recordDate >= startDate;\n        }\n        \n        if (endDate && r.生成開始日時) {\n          const recordDate = new Date(r.生成開始日時).toISOString().split('T')[0];\n          match = match && recordDate <= endDate;\n        }\n        \n        if (reportType) {\n          match = match && (r.レポート種別 || '').includes(reportType);\n        }\n        \n        if (status) {\n          match = match && (r.生成ステータス || '') === status;\n        }\n        \n        return match;\n      });\n\n      currentReports = filteredRows;\n      renderRows(filteredRows);\n    } catch (error) {\n      console.error('検索エラー:', error);\n    }\n  });\n\n  // CSVエクスポート機能\n  container.querySelector('#btn-export').addEventListener('click', async () => {\n    try {\n      const allRows = await window.aivicApi.list(0);\n      if (!allRows || allRows.length === 0) {\n        alert('エクスポートするデータがありません');\n        return;\n      }\n\n      const headers = ['レポート名', 'レポート種別', '生成開始日時', '生成完了日時', '生成ステータス', 'ファイルサイズ', '処理時間秒', 'ダウンロード回数', '作成者名'];\n      const csvContent = '\\uFEFF' + [\n        headers.join(','),\n        ...allRows.map(r => [\n          `\"${r.レポート名 || ''}\"`,\n          `\"${r.レポート種別 || ''}\"`,\n          `\"${r.生成開始日時 || ''}\"`,\n          `\"${r.生成完了日時 || ''}\"`,\n          `\"${r.生成ステータス || ''}\"`,\n          r.ファイルサイズ || 0,\n          r.処理時間秒 || 0,\n          r.ダウンロード回数 || 0,\n          `\"${r.作成者名 || ''}\"`\n        ].join(','))\n      ].join('\\n');\n\n      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });\n      const link = document.createElement('a');\n      link.href = URL.createObjectURL(blob);\n      link.download = `レポート生成履歴_${new Date().toISOString().split('T')[0]}.csv`;\n      link.click();\n    } catch (error) {\n      console.error('CSVエクスポートエラー:', error);\n      alert('CSVエクスポートに失敗しました');\n    }\n  });\n\n  // 詳細表示機能\n  container.addEventListener('click', (e) => {\n    const viewBtn = e.target.closest('.view-detail-btn');\n    if (viewBtn) {\n      const reportId = viewBtn.dataset.id;\n      const report = currentReports.find(r => (r.レポート生成履歴ID || r.id) === reportId);\n      if (report) {\n        showReportDetail(report);\n      }\n    }\n\n    // 行クリックでも詳細表示\n    const row = e.target.closest('tr[data-id]');\n    if (row && !e.target.closest('button')) {\n      const reportId = row.dataset.id;\n      const report = currentReports.find(r => (r.レポート生成履歴ID || r.id) === reportId);\n      if (report) {\n        showReportDetail(report);\n      }\n    }\n  });\n\n  // レポート詳細表示\n  function showReportDetail(report) {\n    selectedReportId = report.レポート生成履歴ID || report.id;\n    \n    container.querySelector('#detail-report-name').textContent = report.レポート名 || '';\n    container.querySelector('#detail-report-type').textContent = report.レポート種別 || '';\n    container.querySelector('#detail-start-time').textContent = formatDateTime(report.生成開始日時);\n    container.querySelector('#detail-end-time').textContent = formatDateTime(report.生成完了日時);\n    \n    const startDate = report.対象期間開始日 ? new Date(report.対象期間開始日).toLocaleDateString('ja-JP') : '';\n    const endDate = report.対象期間終了日 ? new Date(report.対象期間終了日).toLocaleDateString('ja-JP') : '';\n    container.querySelector('#detail-target-period').textContent = startDate && endDate ? `${startDate} ～ ${endDate}` : '-';\n    \n    container.querySelector('#detail-process-time').textContent = report.処理時間秒 ? `${report.処理時間秒}秒` : '-';\n    container.querySelector('#detail-file-size').textContent = formatFileSize(report.ファイルサイズ);\n    container.querySelector('#detail-download-count').textContent = `${report.ダウンロード回数 || 0}回`;\n\n    // エラーメッセージの表示制御\n    const errorSection = container.querySelector('#error-section');\n    if (report.生成ステータス === 'エラー' && report.エラーメッセージ) {\n      container.querySelector('#detail-error-message').textContent = report.エラーメッセージ;\n      errorSection.style.display = 'block';\n    } else {\n      errorSection.style.display = 'none';\n    }\n\n    // ダウンロードボタンの有効/無効制御\n    const downloadBtn = container.querySelector('#download-report');\n    downloadBtn.disabled = report.生成ステータス !== '完了';\n    if (downloadBtn.disabled) {\n      downloadBtn.style.opacity = '0.5';\n      downloadBtn.style.cursor = 'not-allowed';\n    } else {\n      downloadBtn.style.opacity = '1';\n      downloadBtn.style.cursor = 'pointer';\n    }\n\n    container.querySelector('#report-detail-modal').style.display = 'flex';\n  }\n\n  // モーダル閉じる\n  container.querySelector('#close-modal').addEventListener('click', () => {\n    container.querySelector('#report-detail-modal').style.display = 'none';\n  });\n\n  // モーダル背景クリックで閉じる\n  container.querySelector('#report-detail-modal').addEventListener('click', (e) => {\n    if (e.target === container.querySelector('#report-detail-modal')) {\n      container.querySelector('#report-detail-modal').style.display = 'none';\n    }\n  });\n\n  // ダウンロード機能\n  container.querySelector('#download-report').addEventListener('click', async () => {\n    if (!selectedReportId) return;\n    \n    try {\n      const report = currentReports.find(r => (r.レポート生成履歴ID || r.id) === selectedReportId);\n      if (report && report.生成ステータス === '完了') {\n        // ダウンロード回数を更新\n        const updatedReport = await window.aivicApi.update(0, selectedReportId, {\n          ダウンロード回数: (report.ダウンロード回数 || 0) + 1,\n          最終ダウンロード日時: new Date().toISOString()\n        });\n        \n        if (updatedReport) {\n          // 実際のファイルダウンロード処理（模擬）\n          alert(`レポート「${report.レポート名}」をダウンロードしました`);\n          \n          // 一覧を更新\n          const refreshedRows = await window.aivicApi.list(0);\n          if (refreshedRows) {\n            currentReports = refreshedRows;\n            renderRows(refreshedRows);\n          }\n          \n          container.querySelector('#report-detail-modal').style.display = 'none';\n        }\n      }\n    } catch (error) {\n      console.error('ダウンロードエラー:', error);\n      alert('ダウンロードに失敗しました');\n    }\n  });\n\n  // 削除機能\n  container.querySelector('#delete-report').addEventListener('click', async () => {\n    if (!selectedReportId) return;\n    \n    if (!confirm('このレポートを削除しますか？')) return;\n    \n    try {\n      await window.aivicApi.delete(0, selectedReportId);\n      \n      // 一覧を更新\n      const refreshedRows = await window.aivicApi.list(0);\n      if (refreshedRows) {\n        currentReports = refreshedRows;\n        renderRows(refreshedRows);\n      }\n      \n      container.querySelector('#report-detail-modal').style.display = 'none';\n      alert('レポートを削除しました');\n    } catch (error) {\n      console.error('削除エラー:', error);\n      alert('削除に失敗しました');\n    }\n  });\n}",
+      "method": "ai"
+    }
+  ],
+  "tableDefinitions": [
+    {
+      "tableName": "発注データ",
+      "purpose": "Web発注プラットフォームにおける発注情報を管理し、発注から承認・処理完了までの一連の業務フローを支援する",
+      "columns": [
+        {
+          "name": "発注ID",
+          "type": "uuid",
+          "required": true,
+          "description": "発注データの一意識別子"
+        },
+        {
+          "name": "発注番号",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "業務で使用する発注番号"
+        },
+        {
+          "name": "発注者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "発注を行ったユーザーのID（ログインユーザーマスタ参照）"
+        },
+        {
+          "name": "発注日",
+          "type": "timestamp",
+          "required": true,
+          "description": "発注が行われた日時"
+        },
+        {
+          "name": "希望納期",
+          "type": "timestamp",
+          "required": true,
+          "description": "発注者が希望する納期"
+        },
+        {
+          "name": "発注先名",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "発注先の会社名・店舗名"
+        },
+        {
+          "name": "発注先担当者",
+          "type": "varchar(100)",
+          "required": false,
+          "description": "発注先の担当者名"
+        },
+        {
+          "name": "発注先連絡先",
+          "type": "varchar(100)",
+          "required": false,
+          "description": "発注先の電話番号・メールアドレス等"
+        },
+        {
+          "name": "発注金額",
+          "type": "integer",
+          "required": true,
+          "description": "発注の総金額"
+        },
+        {
+          "name": "発注ステータス",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "発注の処理状況（下書き・承認待ち・承認済み・発注済み・完了・キャンセル等）"
+        },
+        {
+          "name": "承認者ID",
+          "type": "uuid",
+          "required": false,
+          "description": "発注を承認したユーザーのID"
+        },
+        {
+          "name": "承認日時",
+          "type": "timestamp",
+          "required": false,
+          "description": "承認が行われた日時"
+        },
+        {
+          "name": "発注理由",
+          "type": "text",
+          "required": false,
+          "description": "発注の理由・目的"
+        },
+        {
+          "name": "備考",
+          "type": "text",
+          "required": false,
+          "description": "発注に関する補足情報"
+        },
+        {
+          "name": "緊急フラグ",
+          "type": "boolean",
+          "required": true,
+          "description": "緊急発注かどうかの判定"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード作成日時"
+        },
+        {
+          "name": "更新日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード最終更新日時"
+        },
+        {
+          "name": "作成者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "レコード作成者のユーザーID"
+        },
+        {
+          "name": "更新者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "レコード最終更新者のユーザーID"
+        }
+      ]
+    },
+    {
+      "tableName": "発注明細データ",
+      "purpose": "発注データに紐づく商品明細情報を管理し、Web発注プラットフォームでの明細単位での操作・表示・検索を実現する",
+      "columns": [
+        {
+          "name": "発注明細ID",
+          "type": "uuid",
+          "required": true,
+          "description": "発注明細の一意識別子（主キー）"
+        },
+        {
+          "name": "発注ID",
+          "type": "uuid",
+          "required": true,
+          "description": "発注データテーブルへの外部キー"
+        },
+        {
+          "name": "明細番号",
+          "type": "integer",
+          "required": true,
+          "description": "発注内での明細の連番"
+        },
+        {
+          "name": "商品コード",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "発注する商品の識別コード"
+        },
+        {
+          "name": "商品名",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "発注する商品の名称"
+        },
+        {
+          "name": "規格",
+          "type": "varchar(100)",
+          "required": false,
+          "description": "商品の規格・仕様"
+        },
+        {
+          "name": "発注数量",
+          "type": "integer",
+          "required": true,
+          "description": "発注する数量"
+        },
+        {
+          "name": "単位",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "数量の単位（個、箱、kg等）"
+        },
+        {
+          "name": "単価",
+          "type": "integer",
+          "required": true,
+          "description": "商品の単価（円）"
+        },
+        {
+          "name": "金額",
+          "type": "integer",
+          "required": true,
+          "description": "明細の合計金額（単価×数量）"
+        },
+        {
+          "name": "希望納期",
+          "type": "timestamp",
+          "required": false,
+          "description": "明細単位での希望納期"
+        },
+        {
+          "name": "明細ステータス",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "明細の処理状況（未処理、処理中、完了等）"
+        },
+        {
+          "name": "備考",
+          "type": "text",
+          "required": false,
+          "description": "明細に関する特記事項"
+        },
+        {
+          "name": "削除フラグ",
+          "type": "boolean",
+          "required": true,
+          "description": "論理削除フラグ"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード作成日時"
+        },
+        {
+          "name": "更新日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード最終更新日時"
+        },
+        {
+          "name": "作成者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "レコード作成者のユーザーID"
+        },
+        {
+          "name": "更新者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "レコード最終更新者のユーザーID"
+        }
+      ]
+    },
+    {
+      "tableName": "通知履歴",
+      "purpose": "システムからユーザーへの通知送信履歴を管理し、通知の配信状況や既読状態を追跡する",
+      "columns": [
+        {
+          "name": "通知履歴ID",
+          "type": "uuid",
+          "required": true,
+          "description": "通知履歴の一意識別子（主キー）"
+        },
+        {
+          "name": "通知設定ID",
+          "type": "uuid",
+          "required": true,
+          "description": "システム通知設定マスタへの外部キー"
+        },
+        {
+          "name": "受信者ユーザーID",
+          "type": "uuid",
+          "required": true,
+          "description": "通知を受信するユーザーのID（ログインユーザーマスタへの外部キー）"
+        },
+        {
+          "name": "通知タイトル",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "通知のタイトル"
+        },
+        {
+          "name": "通知内容",
+          "type": "text",
+          "required": true,
+          "description": "通知の詳細メッセージ内容"
+        },
+        {
+          "name": "通知種別",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "通知の種別（発注完了、エラー発生、システムメンテナンス等）"
+        },
+        {
+          "name": "優先度",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "通知の優先度（高、中、低）"
+        },
+        {
+          "name": "送信方法",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "通知の送信方法（画面通知、メール、両方）"
+        },
+        {
+          "name": "送信状態",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "送信処理の状態（送信待ち、送信中、送信完了、送信失敗）"
+        },
+        {
+          "name": "既読フラグ",
+          "type": "boolean",
+          "required": true,
+          "description": "ユーザーが通知を既読したかどうか"
+        },
+        {
+          "name": "関連データID",
+          "type": "uuid",
+          "required": false,
+          "description": "通知に関連するデータのID（発注データID、連携処理履歴ID等）"
+        },
+        {
+          "name": "関連データ種別",
+          "type": "varchar(100)",
+          "required": false,
+          "description": "関連データの種別（発注データ、連携処理履歴等）"
+        },
+        {
+          "name": "送信予定日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "通知の送信予定日時"
+        },
+        {
+          "name": "送信日時",
+          "type": "timestamp",
+          "required": false,
+          "description": "実際に通知が送信された日時"
+        },
+        {
+          "name": "既読日時",
+          "type": "timestamp",
+          "required": false,
+          "description": "ユーザーが通知を既読した日時"
+        },
+        {
+          "name": "エラーメッセージ",
+          "type": "text",
+          "required": false,
+          "description": "送信失敗時のエラーメッセージ"
+        },
+        {
+          "name": "再送回数",
+          "type": "integer",
+          "required": true,
+          "description": "通知の再送信回数"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード作成日時"
+        },
+        {
+          "name": "更新日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード最終更新日時"
+        },
+        {
+          "name": "作成者",
+          "type": "uuid",
+          "required": true,
+          "description": "レコード作成者のユーザーID"
+        }
+      ]
+    },
+    {
+      "tableName": "プロジェクトマスタ",
+      "purpose": "Web発注プラットフォームにおけるプロジェクト情報を管理し、発注データとの紐付けや検索・絞り込み、進捗管理を行う",
+      "columns": [
+        {
+          "name": "プロジェクトID",
+          "type": "uuid",
+          "required": true,
+          "description": "プロジェクトの一意識別子（主キー）"
+        },
+        {
+          "name": "プロジェクトコード",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "プロジェクトの業務コード（検索・絞り込み用）"
+        },
+        {
+          "name": "プロジェクト名",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "プロジェクトの名称"
+        },
+        {
+          "name": "プロジェクト説明",
+          "type": "text",
+          "required": false,
+          "description": "プロジェクトの詳細説明"
+        },
+        {
+          "name": "開始日",
+          "type": "timestamp",
+          "required": true,
+          "description": "プロジェクト開始予定日"
+        },
+        {
+          "name": "終了日",
+          "type": "timestamp",
+          "required": false,
+          "description": "プロジェクト終了予定日"
+        },
+        {
+          "name": "ステータス",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "プロジェクトの状態（計画中/進行中/完了/中止等）"
+        },
+        {
+          "name": "予算",
+          "type": "integer",
+          "required": false,
+          "description": "プロジェクト予算額"
+        },
+        {
+          "name": "責任者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "プロジェクト責任者のユーザーID"
+        },
+        {
+          "name": "部門コード",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "所属部門コード（検索・絞り込み用）"
+        },
+        {
+          "name": "優先度",
+          "type": "integer",
+          "required": true,
+          "description": "プロジェクトの優先度（1-5等）"
+        },
+        {
+          "name": "有効フラグ",
+          "type": "boolean",
+          "required": true,
+          "description": "プロジェクトの有効/無効状態"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード作成日時"
+        },
+        {
+          "name": "更新日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード最終更新日時"
+        },
+        {
+          "name": "作成者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "レコード作成者のユーザーID"
+        },
+        {
+          "name": "更新者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "レコード最終更新者のユーザーID"
+        }
+      ]
+    },
+    {
+      "tableName": "単価変動履歴",
+      "purpose": "商品・サービスの単価変動を時系列で記録し、価格推移の分析と発注時の適正価格判断を支援する",
+      "columns": [
+        {
+          "name": "単価変動履歴ID",
+          "type": "uuid",
+          "required": true,
+          "description": "単価変動履歴の一意識別子"
+        },
+        {
+          "name": "商品コード",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "単価変動対象の商品識別コード"
+        },
+        {
+          "name": "商品名",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "商品名称"
+        },
+        {
+          "name": "供給業者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "単価を提供する供給業者の識別子"
+        },
+        {
+          "name": "供給業者名",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "供給業者名称"
+        },
+        {
+          "name": "変動前単価",
+          "type": "integer",
+          "required": false,
+          "description": "変動前の単価（初回登録時はnull）"
+        },
+        {
+          "name": "変動後単価",
+          "type": "integer",
+          "required": true,
+          "description": "変動後の単価"
+        },
+        {
+          "name": "変動率",
+          "type": "integer",
+          "required": false,
+          "description": "変動率（パーセント、小数点2桁まで整数化）"
+        },
+        {
+          "name": "変動理由",
+          "type": "varchar(100)",
+          "required": false,
+          "description": "単価変動の理由（原材料費高騰、為替変動等）"
+        },
+        {
+          "name": "適用開始日",
+          "type": "timestamp",
+          "required": true,
+          "description": "新単価の適用開始日時"
+        },
+        {
+          "name": "適用終了日",
+          "type": "timestamp",
+          "required": false,
+          "description": "単価の適用終了日時（現在適用中の場合はnull）"
+        },
+        {
+          "name": "通貨コード",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "単価の通貨（JPY、USD等）"
+        },
+        {
+          "name": "単位",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "単価の単位（個、kg、m等）"
+        },
+        {
+          "name": "変動種別",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "変動の種別（値上げ、値下げ、新規設定）"
+        },
+        {
+          "name": "承認状態",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "単価変動の承認状態（申請中、承認済、却下）"
+        },
+        {
+          "name": "承認者ID",
+          "type": "uuid",
+          "required": false,
+          "description": "単価変動を承認したユーザーID"
+        },
+        {
+          "name": "承認日時",
+          "type": "timestamp",
+          "required": false,
+          "description": "承認された日時"
+        },
+        {
+          "name": "備考",
+          "type": "text",
+          "required": false,
+          "description": "単価変動に関する補足情報"
+        },
+        {
+          "name": "作成者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "履歴レコードを作成したユーザーID"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "履歴レコードの作成日時"
+        },
+        {
+          "name": "更新者ID",
+          "type": "uuid",
+          "required": false,
+          "description": "履歴レコードを最後に更新したユーザーID"
+        },
+        {
+          "name": "更新日時",
+          "type": "timestamp",
+          "required": false,
+          "description": "履歴レコードの最終更新日時"
+        }
+      ]
+    },
+    {
+      "tableName": "競合他社単価データ",
+      "purpose": "Web発注プラットフォームにおける競合他社の単価情報を管理し、自社単価との比較分析や価格競争力の評価を行うためのデータを格納する",
+      "columns": [
+        {
+          "name": "競合単価ID",
+          "type": "uuid",
+          "required": true,
+          "description": "競合他社単価データの一意識別子"
+        },
+        {
+          "name": "競合他社名",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "競合他社の会社名"
+        },
+        {
+          "name": "商品コード",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "対象商品の識別コード"
+        },
+        {
+          "name": "商品名",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "対象商品の名称"
+        },
+        {
+          "name": "カテゴリ",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "商品カテゴリ分類"
+        },
+        {
+          "name": "競合単価",
+          "type": "integer",
+          "required": true,
+          "description": "競合他社の販売単価（円）"
+        },
+        {
+          "name": "自社単価",
+          "type": "integer",
+          "required": true,
+          "description": "自社の販売単価（円）"
+        },
+        {
+          "name": "単価差額",
+          "type": "integer",
+          "required": true,
+          "description": "競合単価と自社単価の差額（円）"
+        },
+        {
+          "name": "競争優位性",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "価格競争力の評価（優位/劣位/同等）"
+        },
+        {
+          "name": "調査日",
+          "type": "timestamp",
+          "required": true,
+          "description": "競合単価を調査した日付"
+        },
+        {
+          "name": "情報源",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "単価情報の取得元（Webサイト/カタログ/営業情報等）"
+        },
+        {
+          "name": "備考",
+          "type": "text",
+          "required": false,
+          "description": "調査時の特記事項や補足情報"
+        },
+        {
+          "name": "有効フラグ",
+          "type": "boolean",
+          "required": true,
+          "description": "データの有効性フラグ"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード作成日時"
+        },
+        {
+          "name": "更新日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード最終更新日時"
+        },
+        {
+          "name": "作成者",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "レコード作成者"
+        },
+        {
+          "name": "更新者",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "レコード最終更新者"
+        }
+      ]
+    },
+    {
+      "tableName": "原価率設定マスタ",
+      "purpose": "プロジェクトや商品カテゴリ別の原価率を管理し、発注時の価格妥当性判断や経営分析に使用する基準値を設定する",
+      "columns": [
+        {
+          "name": "原価率設定ID",
+          "type": "uuid",
+          "required": true,
+          "description": "原価率設定の一意識別子（主キー）"
+        },
+        {
+          "name": "プロジェクトID",
+          "type": "uuid",
+          "required": false,
+          "description": "対象プロジェクトID（プロジェクトマスタとの外部キー）"
+        },
+        {
+          "name": "商品カテゴリコード",
+          "type": "varchar(100)",
+          "required": false,
+          "description": "商品カテゴリの分類コード"
+        },
+        {
+          "name": "商品カテゴリ名",
+          "type": "varchar(100)",
+          "required": false,
+          "description": "商品カテゴリの名称"
+        },
+        {
+          "name": "仕入先コード",
+          "type": "varchar(100)",
+          "required": false,
+          "description": "特定仕入先向けの設定時に使用"
+        },
+        {
+          "name": "標準原価率",
+          "type": "integer",
+          "required": true,
+          "description": "標準的な原価率（パーセント値×100で格納）"
+        },
+        {
+          "name": "最低原価率",
+          "type": "integer",
+          "required": false,
+          "description": "許容される最低原価率（パーセント値×100で格納）"
+        },
+        {
+          "name": "最高原価率",
+          "type": "integer",
+          "required": false,
+          "description": "許容される最高原価率（パーセント値×100で格納）"
+        },
+        {
+          "name": "適用開始日",
+          "type": "timestamp",
+          "required": true,
+          "description": "この原価率設定の適用開始日時"
+        },
+        {
+          "name": "適用終了日",
+          "type": "timestamp",
+          "required": false,
+          "description": "この原価率設定の適用終了日時"
+        },
+        {
+          "name": "有効フラグ",
+          "type": "boolean",
+          "required": true,
+          "description": "設定の有効/無効状態"
+        },
+        {
+          "name": "備考",
+          "type": "text",
+          "required": false,
+          "description": "原価率設定に関する補足説明"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード作成日時"
+        },
+        {
+          "name": "更新日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード最終更新日時"
+        },
+        {
+          "name": "作成者",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "レコード作成者"
+        },
+        {
+          "name": "更新者",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "レコード最終更新者"
+        }
+      ]
+    },
+    {
+      "tableName": "分析レポート設定",
+      "purpose": "経営分析レポートの設定情報を管理し、レポート生成の条件や出力形式を定義する",
+      "columns": [
+        {
+          "name": "レポート設定ID",
+          "type": "uuid",
+          "required": true,
+          "description": "レポート設定の一意識別子（主キー）"
+        },
+        {
+          "name": "レポート名",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "レポートの名称"
+        },
+        {
+          "name": "レポート種別",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "発注分析、原価分析、競合分析等のレポート種別"
+        },
+        {
+          "name": "対象期間種別",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "日次、週次、月次、四半期、年次等の期間種別"
+        },
+        {
+          "name": "対象開始日",
+          "type": "timestamp",
+          "required": false,
+          "description": "分析対象期間の開始日"
+        },
+        {
+          "name": "対象終了日",
+          "type": "timestamp",
+          "required": false,
+          "description": "分析対象期間の終了日"
+        },
+        {
+          "name": "プロジェクトID",
+          "type": "uuid",
+          "required": false,
+          "description": "特定プロジェクトに絞り込む場合のプロジェクト識別子"
+        },
+        {
+          "name": "出力形式",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "PDF、Excel、CSV等の出力形式"
+        },
+        {
+          "name": "自動生成フラグ",
+          "type": "boolean",
+          "required": true,
+          "description": "定期的な自動生成を行うかどうか"
+        },
+        {
+          "name": "生成頻度",
+          "type": "varchar(100)",
+          "required": false,
+          "description": "自動生成の場合の頻度（毎日、毎週月曜日等）"
+        },
+        {
+          "name": "通知先メールアドレス",
+          "type": "varchar(100)",
+          "required": false,
+          "description": "レポート完成時の通知先"
+        },
+        {
+          "name": "有効フラグ",
+          "type": "boolean",
+          "required": true,
+          "description": "設定が有効かどうか"
+        },
+        {
+          "name": "作成者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "設定を作成したユーザーの識別子"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "設定作成日時"
+        },
+        {
+          "name": "更新者ID",
+          "type": "uuid",
+          "required": false,
+          "description": "設定を最後に更新したユーザーの識別子"
+        },
+        {
+          "name": "更新日時",
+          "type": "timestamp",
+          "required": false,
+          "description": "設定最終更新日時"
+        }
+      ]
+    },
+    {
+      "tableName": "レポート生成履歴",
+      "purpose": "経営分析レポートの生成実行履歴を管理し、レポート作成状況の追跡と再実行を可能にする",
+      "columns": [
+        {
+          "name": "レポート生成履歴ID",
+          "type": "uuid",
+          "required": true,
+          "description": "レポート生成履歴の一意識別子"
+        },
+        {
+          "name": "レポート設定ID",
+          "type": "uuid",
+          "required": true,
+          "description": "分析レポート設定テーブルへの外部キー"
+        },
+        {
+          "name": "レポート名",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "生成されたレポートの名称"
+        },
+        {
+          "name": "レポート種別",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "原価分析、売上分析、競合分析等のレポート分類"
+        },
+        {
+          "name": "生成開始日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レポート生成処理の開始日時"
+        },
+        {
+          "name": "生成完了日時",
+          "type": "timestamp",
+          "required": false,
+          "description": "レポート生成処理の完了日時"
+        },
+        {
+          "name": "生成ステータス",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "実行中、完了、エラー、キャンセル等の処理状況"
+        },
+        {
+          "name": "対象期間開始日",
+          "type": "timestamp",
+          "required": true,
+          "description": "レポート分析対象データの期間開始日"
+        },
+        {
+          "name": "対象期間終了日",
+          "type": "timestamp",
+          "required": true,
+          "description": "レポート分析対象データの期間終了日"
+        },
+        {
+          "name": "対象プロジェクトID",
+          "type": "uuid",
+          "required": false,
+          "description": "特定プロジェクト対象の場合のプロジェクトID"
+        },
+        {
+          "name": "出力形式",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "PDF、Excel、CSV等の出力ファイル形式"
+        },
+        {
+          "name": "ファイルパス",
+          "type": "varchar(100)",
+          "required": false,
+          "description": "生成されたレポートファイルの保存場所"
+        },
+        {
+          "name": "ファイルサイズ",
+          "type": "integer",
+          "required": false,
+          "description": "生成されたレポートファイルのサイズ（バイト）"
+        },
+        {
+          "name": "エラーメッセージ",
+          "type": "text",
+          "required": false,
+          "description": "生成エラー時の詳細エラー内容"
+        },
+        {
+          "name": "実行種別",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "手動実行、自動実行、再実行等の実行方法"
+        },
+        {
+          "name": "処理時間秒",
+          "type": "integer",
+          "required": false,
+          "description": "レポート生成にかかった処理時間（秒）"
+        },
+        {
+          "name": "ダウンロード回数",
+          "type": "integer",
+          "required": true,
+          "description": "生成されたレポートのダウンロード回数"
+        },
+        {
+          "name": "最終ダウンロード日時",
+          "type": "timestamp",
+          "required": false,
+          "description": "レポートが最後にダウンロードされた日時"
+        },
+        {
+          "name": "作成者ID",
+          "type": "uuid",
+          "required": true,
+          "description": "レポート生成を実行したユーザーID"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード作成日時"
+        },
+        {
+          "name": "更新日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "レコード最終更新日時"
+        }
+      ]
+    },
+    {
+      "tableName": "通知設定マスタ",
+      "purpose": "Web発注プラットフォームにおける各種通知の設定情報を管理し、発注状況、単価変動、承認フロー等の業務イベントに応じた通知条件と配信先を定義する",
+      "columns": [
+        {
+          "name": "通知設定ID",
+          "type": "uuid",
+          "required": true,
+          "description": "通知設定の一意識別子（主キー）"
+        },
+        {
+          "name": "通知種別",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "通知の種類（発注承認依頼、発注完了、単価変動アラート、納期遅延警告、原価率異常等）"
+        },
+        {
+          "name": "通知名",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "通知設定の名称"
+        },
+        {
+          "name": "対象プロジェクトID",
+          "type": "uuid",
+          "required": false,
+          "description": "特定プロジェクトに限定する場合のプロジェクトID"
+        },
+        {
+          "name": "発動条件",
+          "type": "text",
+          "required": true,
+          "description": "通知が発動される条件（金額閾値、期間、ステータス変更等の条件式）"
+        },
+        {
+          "name": "通知先種別",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "通知先の種類（メール、システム内通知、Slack等）"
+        },
+        {
+          "name": "通知先アドレス",
+          "type": "varchar(100)",
+          "required": false,
+          "description": "メールアドレスやSlackチャンネル等の通知先"
+        },
+        {
+          "name": "通知対象ユーザー",
+          "type": "varchar(100)",
+          "required": false,
+          "description": "通知対象となるユーザーまたはロール"
+        },
+        {
+          "name": "通知タイミング",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "通知のタイミング（即座、日次、週次等）"
+        },
+        {
+          "name": "メッセージテンプレート",
+          "type": "text",
+          "required": true,
+          "description": "通知メッセージのテンプレート"
+        },
+        {
+          "name": "優先度",
+          "type": "integer",
+          "required": true,
+          "description": "通知の優先度（1:高、2:中、3:低）"
+        },
+        {
+          "name": "有効フラグ",
+          "type": "boolean",
+          "required": true,
+          "description": "通知設定の有効/無効状態"
+        },
+        {
+          "name": "有効期間開始日",
+          "type": "timestamp",
+          "required": false,
+          "description": "通知設定の有効期間開始日時"
+        },
+        {
+          "name": "有効期間終了日",
+          "type": "timestamp",
+          "required": false,
+          "description": "通知設定の有効期間終了日時"
+        },
+        {
+          "name": "作成者",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "通知設定を作成したユーザー"
+        },
+        {
+          "name": "作成日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "通知設定の作成日時"
+        },
+        {
+          "name": "更新者",
+          "type": "varchar(100)",
+          "required": false,
+          "description": "通知設定を最後に更新したユーザー"
+        },
+        {
+          "name": "更新日時",
+          "type": "timestamp",
+          "required": false,
+          "description": "通知設定の最終更新日時"
+        }
+      ]
+    },
+    {
+      "tableName": "システム利用ログ",
+      "purpose": "Web発注プラットフォームの利用状況を記録し、システムの使用実績やユーザー行動を分析するためのログデータを管理する",
+      "columns": [
+        {
+          "name": "ログID",
+          "type": "uuid",
+          "required": true,
+          "description": "システム利用ログの一意識別子"
+        },
+        {
+          "name": "ユーザーID",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "操作を行ったユーザーの識別子"
+        },
+        {
+          "name": "セッションID",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "ユーザーのログインセッション識別子"
+        },
+        {
+          "name": "アクセス日時",
+          "type": "timestamp",
+          "required": true,
+          "description": "システムにアクセスした日時"
+        },
+        {
+          "name": "操作種別",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "実行された操作の種類（ログイン、発注登録、検索、レポート生成等）"
+        },
+        {
+          "name": "画面名",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "アクセスした画面・機能名"
+        },
+        {
+          "name": "IPアドレス",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "アクセス元のIPアドレス"
+        },
+        {
+          "name": "ユーザーエージェント",
+          "type": "text",
+          "required": false,
+          "description": "ブラウザ情報"
+        },
+        {
+          "name": "処理結果",
+          "type": "varchar(100)",
+          "required": true,
+          "description": "操作の結果（成功、失敗、エラー等）"
+        },
+        {
+          "name": "エラーメッセージ",
+          "type": "text",
+          "required": false,
+          "description": "エラーが発生した場合のエラー内容"
+        },
+        {
+          "name": "処理時間",
+          "type": "integer",
+          "required": false,
+          "description": "処理にかかった時間（ミリ秒）"
+        },
+        {
+          "name": "参照URL",
+          "type": "text",
+          "required": false,
+          "description": "アクセス前のページURL"
+        },
+        {
+          "name": "対象データID",
+          "type": "varchar(100)",
+          "required": false,
+          "description": "操作対象となったデータの識別子（発注ID、レポートID等）"
+        }
+      ]
+    }
+  ],
+  "presetSeedData": {}
+}
