@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>価格戦略改善提案画面 - 営業支援システムの構築</title>
+  <script>
+window.AIVIC_API_URL = "https://jqykrkgdvngp7qvmavufg5tohq0xwdzb.lambda-url.us-east-1.on.aws/";
+window.AIVIC_APP_ID = "session-1780284530342";
+window.AIVIC_SYSTEM_NAME = "営業支援システムの構築";
+window.AIVIC_TABLES = [{"tableName":"単価交渉履歴","purpose":"営業担当者と顧客間の単価交渉プロセスと結果を記録し、価格決定の経緯を管理する","columns":[{"name":"交渉履歴ID","type":"uuid","required":true,"description":"単価交渉履歴の一意識別子"},{"name":"顧客ID","type":"uuid","required":true,"description":"交渉対象の顧客識別子"},{"name":"商品ID","type":"uuid","required":true,"description":"交渉対象の商品識別子"},{"name":"交渉日","type":"timestamp","required":true,"description":"交渉を実施した日時"},{"name":"交渉種別","type":"varchar(100)","required":true,"description":"新規提案/再交渉/価格見直し等の交渉タイプ"},{"name":"現在単価","type":"integer","required":true,"description":"交渉前の現行単価"},{"name":"提案単価","type":"integer","required":true,"description":"営業が提案した単価"},{"name":"顧客希望単価","type":"integer","required":false,"description":"顧客が希望する単価"},{"name":"合意単価","type":"integer","required":false,"description":"交渉で合意に至った単価"},{"name":"交渉ステータス","type":"varchar(100)","required":true,"description":"交渉中/合意/決裂/保留等の状況"},{"name":"交渉内容","type":"text","required":false,"description":"交渉の詳細内容や条件"},{"name":"次回アクション","type":"text","required":false,"description":"次回の交渉予定や必要な対応"},{"name":"営業担当者ID","type":"uuid","required":true,"description":"交渉を担当した営業担当者"},{"name":"承認者ID","type":"uuid","required":false,"description":"単価変更を承認した管理者"},{"name":"承認日時","type":"timestamp","required":false,"description":"単価変更が承認された日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者"}]},{"tableName":"市場価格データ","purpose":"営業活動における価格設定や単価交渉の参考とするため、市場における商品・サービスの価格情報を管理する","columns":[{"name":"市場価格ID","type":"uuid","required":true,"description":"市場価格データの一意識別子"},{"name":"商品コード","type":"varchar(100)","required":true,"description":"価格対象となる商品・サービスのコード"},{"name":"商品名","type":"varchar(100)","required":true,"description":"商品・サービス名称"},{"name":"市場価格","type":"integer","required":true,"description":"市場における価格（円）"},{"name":"価格取得日","type":"timestamp","required":true,"description":"この価格情報を取得した日時"},{"name":"価格情報源","type":"varchar(100)","required":true,"description":"価格情報の取得元（競合他社、業界レポート等）"},{"name":"地域","type":"varchar(100)","required":false,"description":"価格が適用される地域・エリア"},{"name":"備考","type":"text","required":false,"description":"価格に関する補足情報や条件"},{"name":"有効フラグ","type":"boolean","required":true,"description":"この価格データが現在有効かどうか"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者"}]},{"tableName":"購買パターン分析結果","purpose":"顧客の購買行動パターンを分析し、営業戦略立案や提案活動に活用するための分析結果を管理する","columns":[{"name":"分析結果ID","type":"uuid","required":true,"description":"購買パターン分析結果の一意識別子"},{"name":"顧客ID","type":"uuid","required":true,"description":"分析対象の顧客識別子"},{"name":"分析期間開始日","type":"timestamp","required":true,"description":"購買パターン分析の対象期間開始日"},{"name":"分析期間終了日","type":"timestamp","required":true,"description":"購買パターン分析の対象期間終了日"},{"name":"購買頻度","type":"integer","required":true,"description":"分析期間内の発注回数"},{"name":"平均発注金額","type":"integer","required":true,"description":"分析期間内の1回あたりの平均発注金額"},{"name":"総購買金額","type":"integer","required":true,"description":"分析期間内の総購買金額"},{"name":"主要購買商品カテゴリ","type":"varchar(100)","required":true,"description":"最も購買金額の多い商品カテゴリ"},{"name":"購買季節性","type":"varchar(100)","required":false,"description":"購買の季節的傾向（春夏秋冬、月次等）"},{"name":"価格感度","type":"varchar(100)","required":true,"description":"価格変動に対する反応度（高・中・低）"},{"name":"交渉頻度","type":"integer","required":true,"description":"分析期間内の単価交渉回数"},{"name":"交渉成功率","type":"integer","required":false,"description":"単価交渉の成功率（パーセント）"},{"name":"市場価格との乖離率","type":"integer","required":false,"description":"市場価格に対する購買価格の乖離率（パーセント）"},{"name":"顧客ランク","type":"varchar(100)","required":true,"description":"購買パターンに基づく顧客ランク（A・B・C等）"},{"name":"推奨営業アプローチ","type":"text","required":false,"description":"分析結果に基づく推奨営業戦略・アプローチ方法"},{"name":"分析実行日時","type":"timestamp","required":true,"description":"この分析を実行した日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"分析実行者・レコード作成者"}]},{"tableName":"価格戦略分析結果","purpose":"営業活動における価格戦略の分析結果を管理し、適切な価格設定と交渉戦略の立案を支援する","columns":[{"name":"分析結果ID","type":"uuid","required":true,"description":"価格戦略分析結果の一意識別子"},{"name":"分析対象商品コード","type":"varchar(100)","required":true,"description":"分析対象となる商品の識別コード"},{"name":"分析対象顧客ID","type":"uuid","required":false,"description":"特定顧客向け分析の場合の顧客識別子"},{"name":"分析期間開始日","type":"timestamp","required":true,"description":"分析対象期間の開始日"},{"name":"分析期間終了日","type":"timestamp","required":true,"description":"分析対象期間の終了日"},{"name":"現在単価","type":"integer","required":true,"description":"分析時点での販売単価"},{"name":"推奨単価","type":"integer","required":true,"description":"分析結果に基づく推奨販売単価"},{"name":"市場平均単価","type":"integer","required":true,"description":"市場における平均単価"},{"name":"競合最低単価","type":"integer","required":false,"description":"競合他社の最低単価"},{"name":"価格競争力スコア","type":"integer","required":true,"description":"市場における価格競争力を数値化したスコア"},{"name":"需要予測数量","type":"integer","required":true,"description":"推奨単価での需要予測数量"},{"name":"売上予測金額","type":"integer","required":true,"description":"推奨単価での売上予測金額"},{"name":"利益率","type":"integer","required":true,"description":"推奨単価での利益率（百分率）"},{"name":"価格弾力性","type":"integer","required":false,"description":"価格変動に対する需要の弾力性"},{"name":"戦略区分","type":"varchar(100)","required":true,"description":"価格戦略の区分（プレミアム戦略、競争戦略、浸透戦略等）"},{"name":"リスク評価","type":"varchar(100)","required":true,"description":"価格戦略のリスク評価（高、中、低）"},{"name":"実施推奨度","type":"varchar(100)","required":true,"description":"戦略実施の推奨度（強く推奨、推奨、要検討、非推奨）"},{"name":"分析手法","type":"varchar(100)","required":true,"description":"使用した分析手法の種類"},{"name":"備考","type":"text","required":false,"description":"分析結果に関する補足情報や注意事項"},{"name":"承認状況","type":"varchar(100)","required":true,"description":"分析結果の承認状況（未承認、承認済み、却下）"},{"name":"承認者ID","type":"uuid","required":false,"description":"分析結果を承認した担当者の識別子"},{"name":"承認日時","type":"timestamp","required":false,"description":"分析結果が承認された日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"分析を実行した担当者の識別子"},{"name":"作成日時","type":"timestamp","required":true,"description":"分析結果が作成された日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"分析結果が最後に更新された日時"}]},{"tableName":"月次集計データ","purpose":"営業支援システムにおける月次の売上、発注、価格動向等の集計結果を管理し、営業戦略立案や業績分析に活用する","columns":[{"name":"集計ID","type":"uuid","required":true,"description":"月次集計データの一意識別子"},{"name":"集計年月","type":"varchar(100)","required":true,"description":"集計対象の年月（YYYY-MM形式）"},{"name":"商品カテゴリ","type":"varchar(100)","required":false,"description":"集計対象の商品カテゴリ"},{"name":"顧客区分","type":"varchar(100)","required":false,"description":"集計対象の顧客区分"},{"name":"売上金額","type":"integer","required":true,"description":"月次売上金額"},{"name":"発注件数","type":"integer","required":true,"description":"月次発注件数"},{"name":"発注金額","type":"integer","required":true,"description":"月次発注金額"},{"name":"平均単価","type":"integer","required":true,"description":"月次平均単価"},{"name":"価格交渉成功率","type":"integer","required":false,"description":"価格交渉の成功率（パーセント）"},{"name":"市場価格差異率","type":"integer","required":false,"description":"市場価格との差異率（パーセント）"},{"name":"新規顧客数","type":"integer","required":false,"description":"月次新規顧客獲得数"},{"name":"リピート顧客数","type":"integer","required":false,"description":"月次リピート顧客数"},{"name":"集計完了フラグ","type":"boolean","required":true,"description":"月次集計処理の完了状態"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者"}]},{"tableName":"顧客別分析データ","purpose":"顧客ごとの購買行動、価格感度、収益性などを分析し、営業戦略立案に必要な情報を提供する","columns":[{"name":"顧客別分析ID","type":"uuid","required":true,"description":"顧客別分析データの一意識別子"},{"name":"顧客ID","type":"uuid","required":true,"description":"分析対象顧客の識別子"},{"name":"分析期間開始日","type":"timestamp","required":true,"description":"分析対象期間の開始日"},{"name":"分析期間終了日","type":"timestamp","required":true,"description":"分析対象期間の終了日"},{"name":"総発注回数","type":"integer","required":true,"description":"期間内の総発注回数"},{"name":"総発注金額","type":"integer","required":true,"description":"期間内の総発注金額"},{"name":"平均発注金額","type":"integer","required":true,"description":"1回あたりの平均発注金額"},{"name":"価格交渉回数","type":"integer","required":true,"description":"期間内の価格交渉実施回数"},{"name":"価格交渉成功率","type":"integer","required":true,"description":"価格交渉の成功率（パーセント）"},{"name":"市場価格との乖離率","type":"integer","required":true,"description":"市場価格に対する取引価格の乖離率（パーセント）"},{"name":"購買パターン分類","type":"varchar(100)","required":true,"description":"購買パターン分析結果による顧客分類"},{"name":"収益性ランク","type":"varchar(100)","required":true,"description":"顧客の収益性によるランク分け"},{"name":"推奨価格戦略","type":"varchar(100)","required":true,"description":"価格戦略分析結果に基づく推奨戦略"},{"name":"リスク評価","type":"varchar(100)","required":true,"description":"取引継続リスクの評価結果"},{"name":"営業優先度","type":"varchar(100)","required":true,"description":"営業活動における優先度"},{"name":"備考","type":"text","required":false,"description":"分析結果に関する補足情報"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者"}]}];
+window.AIVIC_PRESET_SEED = {};
+window.AIVIC_PAGE_SCREEN_ID = "scr-1780316183885";
+window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  // テーブルインデックス定義\n  const NEGOTIATION_TABLE = 0; // 単価交渉履歴\n  const MARKET_PRICE_TABLE = 1; // 市場価格データ\n  const PURCHASE_PATTERN_TABLE = 2; // 購買パターン分析結果\n  const PRICE_STRATEGY_TABLE = 3; // 価格戦略分析結果\n  const MONTHLY_DATA_TABLE = 4; // 月次集計データ\n  const CUSTOMER_ANALYSIS_TABLE = 5; // 顧客別分析データ\n\n  // 再描画関数定義\n  function renderStrategyRows(rows) {\n    const tbody = container.querySelector(\"#strategy-tbody\");\n    tbody.innerHTML = rows.map(r => `\n      <tr data-id=\"${r.id}\">\n        <td>${r.分析対象商品コード || \"\"}</td>\n        <td>¥${(r.現在単価 || 0).toLocaleString()}</td>\n        <td>¥${(r.推奨単価 || 0).toLocaleString()}</td>\n        <td style=\"color: ${(r.推奨単価 - r.現在単価) > 0 ? '#22c55e' : '#ef4444'};\">\n          ${r.現在単価 ? (((r.推奨単価 - r.現在単価) / r.現在単価 * 100).toFixed(1)) : 0}%\n        </td>\n        <td>\n          <span style=\"background: ${getStrategyColor(r.戦略区分)}; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 11px;\">\n            ${r.戦略区分 || \"\"}\n          </span>\n        </td>\n        <td>\n          <span style=\"background: ${getRecommendColor(r.実施推奨度)}; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 11px;\">\n            ${r.実施推奨度 || \"\"}\n          </span>\n        </td>\n        <td>\n          <button class=\"action-btn secondary schedule-btn\" data-id=\"${r.id}\" style=\"font-size: 11px; padding: 2px 6px;\">スケジュール</button>\n        </td>\n      </tr>\n    `).join(\"\");\n  }\n\n  function renderSensitivityRows(rows) {\n    const tbody = container.querySelector(\"#sensitivity-tbody\");\n    tbody.innerHTML = rows.map(r => `\n      <tr data-id=\"${r.id}\">\n        <td>${r.顧客ID || \"\"}</td>\n        <td>\n          <span style=\"background: ${getSensitivityColor(r.価格感度)}; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 11px;\">\n            ${r.価格感度 || \"\"}\n          </span>\n        </td>\n        <td>${r.価格交渉成功率 || 0}%</td>\n        <td>\n          <span style=\"background: ${getRankColor(r.収益性ランク)}; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 11px;\">\n            ${r.収益性ランク || \"\"}\n          </span>\n        </td>\n        <td>${r.推奨価格戦略 || \"\"}</td>\n      </tr>\n    `).join(\"\");\n  }\n\n  function renderNegotiationRows(rows) {\n    const tbody = container.querySelector(\"#negotiation-tbody\");\n    tbody.innerHTML = rows.slice(0, 10).map(r => `\n      <tr data-id=\"${r.id}\">\n        <td>${r.交渉日 ? new Date(r.交渉日).toLocaleDateString() : \"\"}</td>\n        <td>${r.商品ID || \"\"}</td>\n        <td>¥${(r.提案単価 || 0).toLocaleString()}</td>\n        <td>¥${(r.合意単価 || 0).toLocaleString()}</td>\n        <td>\n          <span style=\"background: ${getStatusColor(r.交渉ステータス)}; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 11px;\">\n            ${r.交渉ステータス || \"\"}\n          </span>\n        </td>\n      </tr>\n    `).join(\"\");\n  }\n\n  // 色分け関数\n  function getStrategyColor(strategy) {\n    switch(strategy) {\n      case 'プレミアム戦略': return '#8b5cf6';\n      case '競争戦略': return '#f59e0b';\n      case '浸透戦略': return '#10b981';\n      default: return '#6b7280';\n    }\n  }\n\n  function getRecommendColor(recommend) {\n    switch(recommend) {\n      case '強く推奨': return '#22c55e';\n      case '推奨': return '#3b82f6';\n      case '要検討': return '#f59e0b';\n      case '非推奨': return '#ef4444';\n      default: return '#6b7280';\n    }\n  }\n\n  function getSensitivityColor(sensitivity) {\n    switch(sensitivity) {\n      case '高': return '#ef4444';\n      case '中': return '#f59e0b';\n      case '低': return '#22c55e';\n      default: return '#6b7280';\n    }\n  }\n\n  function getRankColor(rank) {\n    switch(rank) {\n      case 'A': return '#22c55e';\n      case 'B': return '#3b82f6';\n      case 'C': return '#f59e0b';\n      default: return '#6b7280';\n    }\n  }\n\n  function getStatusColor(status) {\n    switch(status) {\n      case '合意': return '#22c55e';\n      case '交渉中': return '#3b82f6';\n      case '決裂': return '#ef4444';\n      case '保留': return '#f59e0b';\n      default: return '#6b7280';\n    }\n  }\n\n  // チャート描画\n  function drawImpactChart() {\n    const canvas = container.querySelector(\"#impact-chart\");\n    const ctx = canvas.getContext(\"2d\");\n    \n    // キャンバスサイズ設定\n    canvas.width = 300;\n    canvas.height = 180;\n    \n    ctx.clearRect(0, 0, 300, 180);\n    \n    // 背景\n    ctx.fillStyle = '#f8fafc';\n    ctx.fillRect(0, 0, 300, 180);\n    \n    // グリッド線\n    ctx.strokeStyle = '#e2e8f0';\n    ctx.lineWidth = 1;\n    for(let i = 0; i <= 4; i++) {\n      const y = 20 + (i * 35);\n      ctx.beginPath();\n      ctx.moveTo(40, y);\n      ctx.lineTo(280, y);\n      ctx.stroke();\n    }\n    \n    // データ\n    const months = ['1月', '2月', '3月', '4月', '5月', '6月'];\n    const current = [100, 105, 98, 110, 115, 108];\n    const predicted = [100, 108, 112, 125, 135, 142];\n    \n    // 現在の売上線\n    ctx.strokeStyle = '#6b7280';\n    ctx.lineWidth = 2;\n    ctx.beginPath();\n    for(let i = 0; i < current.length; i++) {\n      const x = 50 + (i * 40);\n      const y = 160 - (current[i] - 80) * 2;\n      if(i === 0) ctx.moveTo(x, y);\n      else ctx.lineTo(x, y);\n    }\n    ctx.stroke();\n    \n    // 予測売上線\n    ctx.strokeStyle = '#22c55e';\n    ctx.lineWidth = 2;\n    ctx.beginPath();\n    for(let i = 0; i < predicted.length; i++) {\n      const x = 50 + (i * 40);\n      const y = 160 - (predicted[i] - 80) * 2;\n      if(i === 0) ctx.moveTo(x, y);\n      else ctx.lineTo(x, y);\n    }\n    ctx.stroke();\n    \n    // 月ラベル\n    ctx.fillStyle = '#64748b';\n    ctx.font = '10px sans-serif';\n    ctx.textAlign = 'center';\n    for(let i = 0; i < months.length; i++) {\n      const x = 50 + (i * 40);\n      ctx.fillText(months[i], x, 175);\n    }\n  }\n\n  // 初期データ読み込み\n  Promise.all([\n    window.aivicApi.list(PRICE_STRATEGY_TABLE),\n    window.aivicApi.list(CUSTOMER_ANALYSIS_TABLE),\n    window.aivicApi.list(NEGOTIATION_TABLE)\n  ]).then(([strategies, customers, negotiations]) => {\n    renderStrategyRows(strategies || []);\n    renderSensitivityRows(customers || []);\n    renderNegotiationRows(negotiations || []);\n    drawImpactChart();\n  });\n\n  // 分析実行ボタン\n  container.querySelector(\"#btn-analyze\").addEventListener(\"click\", async () => {\n    const startDate = container.querySelector(\"#period-start\").value;\n    const endDate = container.querySelector(\"#period-end\").value;\n    const segment = container.querySelector(\"#customer-segment\").value;\n    const category = container.querySelector(\"#product-category\").value;\n    \n    if (!startDate || !endDate) {\n      alert(\"分析期間を選択してください\");\n      return;\n    }\n    \n    // 分析実行（実際はバックエンドで処理）\n    const strategies = await window.aivicApi.list(PRICE_STRATEGY_TABLE);\n    const filtered = strategies.filter(s => {\n      if (segment && !s.分析対象顧客ID?.includes(segment)) return false;\n      if (category && !s.分析対象商品コード?.includes(category)) return false;\n      return true;\n    });\n    \n    renderStrategyRows(filtered);\n    \n    // KPI更新\n    const avgImprovement = filtered.reduce((sum, s) => sum + ((s.推奨単価 - s.現在単価) / s.現在単価 * 100), 0) / filtered.length;\n    container.querySelector(\"#kpi-revenue\").textContent = `+${avgImprovement.toFixed(1)}%`;\n  });\n\n  // 戦略フィルター\n  container.querySelector(\"#strategy-filter\").addEventListener(\"change\", async (e) => {\n    const strategies = await window.aivicApi.list(PRICE_STRATEGY_TABLE);\n    const filtered = e.target.value ? strategies.filter(s => s.戦略区分 === e.target.value) : strategies;\n    renderStrategyRows(filtered);\n  });\n\n  // 発注データ登録ボタン\n  container.querySelector(\"#btn-order-entry\").addEventListener(\"click\", () => {\n    window.showScreen(\"scr-1780316116662\");\n  });\n\n  // エクスポートボタン\n  container.querySelector(\"#btn-export\").addEventListener(\"click\", async () => {\n    const strategies = await window.aivicApi.list(PRICE_STRATEGY_TABLE);\n    if (!strategies || strategies.length === 0) {\n      alert(\"エクスポートするデータがありません\");\n      return;\n    }\n    \n    const headers = [\"商品コード\", \"現在単価\", \"推奨単価\", \"戦略区分\", \"実施推奨度\", \"利益率\", \"リスク評価\"];\n    const csvContent = \"\\uFEFF\" + [\n      headers.join(\",\"),\n      ...strategies.map(r => [\n        r.分析対象商品コード || \"\",\n        r.現在単価 || 0,\n        r.推奨単価 || 0,\n        r.戦略区分 || \"\",\n        r.実施推奨度 || \"\",\n        r.利益率 || 0,\n        r.リスク評価 || \"\"\n      ].join(\",\"))\n    ].join(\"\\n\");\n    \n    const blob = new Blob([csvContent], { type: \"text/csv;charset=utf-8;\" });\n    const link = document.createElement(\"a\");\n    link.href = URL.createObjectURL(blob);\n    link.download = \"price_strategy_analysis.csv\";\n    link.click();\n  });\n\n  // スケジュール設定モーダル\n  const modal = container.querySelector(\"#schedule-modal\");\n  \n  container.addEventListener(\"click\", (e) => {\n    const scheduleBtn = e.target.closest(\".schedule-btn\");\n    if (scheduleBtn) {\n      const row = scheduleBtn.closest(\"tr\");\n      const productCode = row.cells[0].textContent;\n      const recommendedPrice = row.cells[2].textContent.replace(/[¥,]/g, \"\");\n      \n      container.querySelector(\"#schedule-product\").value = productCode;\n      container.querySelector(\"#schedule-price\").value = recommendedPrice;\n      modal.style.display = \"flex\";\n    }\n  });\n\n  container.querySelector(\"#btn-schedule-cancel\").addEventListener(\"click\", () => {\n    modal.style.display = \"none\";\n  });\n\n  container.querySelector(\"#btn-schedule-save\").addEventListener(\"click\", async () => {\n    const productCode = container.querySelector(\"#schedule-product\").value;\n    const scheduleDate = container.querySelector(\"#schedule-date\").value;\n    const newPrice = container.querySelector(\"#schedule-price\").value;\n    \n    if (!scheduleDate || !newPrice) {\n      alert(\"実施予定日と新単価を入力してください\");\n      return;\n    }\n    \n    // スケジュール保存（実際の実装では専用テーブルに保存）\n    alert(`${productCode}の価格改定スケジュールを設定しました\\n実施日: ${scheduleDate}\\n新単価: ¥${parseInt(newPrice).toLocaleString()}`);\n    modal.style.display = \"none\";\n  });\n\n  // 期間の初期値設定\n  const today = new Date();\n  const threeMonthsAgo = new Date(today.getFullYear(), today.getMonth() - 3, today.getDate());\n  container.querySelector(\"#period-start\").value = threeMonthsAgo.toISOString().split('T')[0];\n  container.querySelector(\"#period-end\").value = today.toISOString().split('T')[0];\n}";
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+:root {
+  --primary: #22c55e;
+  --primary-hover: #16a34a;
+  --bg-main: #f8fffe;
+  --bg-card: #ffffff;
+  --bg-sidebar: #f0fdf4;
+  --border: #d1fae5;
+  --text: #1f2937;
+  --text-muted: #6b7280;
+  --top-bar-bg: #ecfdf5;
+  --top-bar-border: #bbf7d0;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:var(--bg-main); color:var(--text); display:flex; flex-direction:column; height:100vh; overflow:hidden; }
+.top-bar { display:flex; align-items:center; gap:0; background:var(--top-bar-bg, var(--bg-sidebar)); border-bottom:1px solid var(--top-bar-border, var(--border)); padding:0 16px; height:48px; flex-shrink:0; }
+.top-bar .app-name { font-size:14px; font-weight:700; color:var(--text); margin-right:20px; white-space:nowrap; }
+.sys-tab { background:transparent; color:var(--text); opacity:0.6; border:none; border-bottom:2px solid transparent; padding:0 16px; height:48px; cursor:pointer; font-size:13px; white-space:nowrap; transition:color .15s, border-color .15s, opacity .15s; text-decoration:none; display:flex; align-items:center; }
+.sys-tab:hover { opacity:0.85; }
+.sys-tab.active, .sys-tab.aivic-active { color:var(--text); opacity:1; border-bottom-color:var(--primary); font-weight:600; }
+.app-body { display:flex; flex:1; overflow:hidden; }
+.sidebar { width:220px; background:var(--bg-sidebar); border-right:1px solid var(--border); padding:12px 8px; overflow-y:auto; flex-shrink:0; }
+.sidebar-sys-name { margin:0 0 8px; padding:4px 8px; font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:.06em; }
+.nav-btn { display:block; width:100%; text-align:left; background:transparent; color:var(--text); opacity:0.65; border:none; border-radius:8px; padding:8px 12px; cursor:pointer; font-size:13px; margin-bottom:2px; transition:opacity .15s,background .15s; text-decoration:none; }
+.nav-btn:hover { background:var(--border); opacity:0.9; }
+.nav-btn.active, .nav-btn.aivic-active { background:var(--primary); color:#fff; opacity:1; }
+.main { flex:1; padding:16px; overflow-y:auto; }
+.card { border:1px solid var(--border); border-radius:12px; padding:16px; background:var(--bg-card); margin-bottom:12px; }
+.hidden { display:none !important; }
+.action-btn { background:var(--primary); color:#fff; border:0; border-radius:8px; padding:8px 14px; cursor:pointer; font-size:13px; }
+.action-btn:hover { background:var(--primary-hover, #1a55ef); }
+.action-btn.secondary { background:var(--border); color:var(--text); }
+.input { background:var(--bg-main); border:1px solid var(--border); color:var(--text); border-radius:8px; padding:7px 10px; font-size:13px; }
+.muted { color:var(--text-muted); font-size:13px; }
+.table-wrap { overflow:auto; border:1px solid var(--border); border-radius:8px; }
+table { width:100%; border-collapse:collapse; }
+th, td { border-bottom:1px solid var(--border); padding:8px 10px; text-align:left; font-size:13px; }
+th { color:var(--text); background:var(--bg-sidebar); position:sticky; top:0; font-weight:600; }
+tr:hover { background:var(--bg-sidebar); cursor:pointer; }
+canvas { display:block; max-height:280px !important; }
+.chart-wrap, .chart-container, [class*="chart"] { position:relative; height:260px; max-height:280px; }
+@media (max-width:768px) {
+  .top-bar { overflow-x:auto; }
+  .app-body { flex-direction:column; }
+  .sidebar { width:100%; height:auto; display:flex; flex-wrap:wrap; gap:4px; padding:8px; }
+  .sidebar-sys-name { display:none; }
+  .nav-btn { width:auto; border-radius:999px; padding:5px 12px; }
+}
+  </style>
+</head>
+<body>
+<header class="top-bar">
+  <span class="app-name">営業支援システムの構築</span>
+    <a href="./scr-1780291062211.html" class="sys-tab" data-aivic-nav-system="itg-1">Web発注プラットフォームの構築</a>
+    <a href="./scr-1780291283309.html" class="sys-tab" data-aivic-nav-system="itg-2">基幹システム連携管理システムの構築</a>
+    <a href="./scr-1780291476037.html" class="sys-tab" data-aivic-nav-system="itg-3">顧客別単価管理システムの構築</a>
+    <a href="./scr-1780291692616.html" class="sys-tab" data-aivic-nav-system="itg-4">経営分析・レポートシステムの構築</a>
+    <a href="./scr-1780316116662.html" class="sys-tab active" data-aivic-nav-system="itg-5">営業支援システムの構築</a>
+</header>
+<div class="app-body">
+  <aside class="sidebar">
+    <p class="sidebar-sys-name">営業支援システムの構築</p>
+      <a href="./scr-1780316116662.html" class="nav-btn" data-aivic-nav="scr-1780316116662">発注データ登録・編集画面</a>
+      <a href="./scr-1780316125632.html" class="nav-btn" data-aivic-nav="scr-1780316125632">単価交渉履歴管理画面</a>
+      <a href="./scr-1780316134617.html" class="nav-btn" data-aivic-nav="scr-1780316134617">市場価格データ登録・更新画面</a>
+      <a href="./scr-1780316143762.html" class="nav-btn" data-aivic-nav="scr-1780316143762">顧客別発注データ月次集計・分析画面</a>
+      <a href="./scr-1780316152706.html" class="nav-btn" data-aivic-nav="scr-1780316152706">単価交渉成功・失敗要因分析画面</a>
+      <a href="./scr-1780316163114.html" class="nav-btn" data-aivic-nav="scr-1780316163114">商品カテゴリ別購買パターン分析画面</a>
+      <a href="./scr-1780316174750.html" class="nav-btn" data-aivic-nav="scr-1780316174750">顧客別単価・市場価格比較分析画面</a>
+      <a href="./scr-1780316183885.html" class="nav-btn active" data-aivic-nav="scr-1780316183885">価格戦略改善提案画面</a>
+  </aside>
+  <main class="main">
+    <section class="card" data-aivic-panel="scr-1780316183885" style="margin-top:0">
+<div class="flex gap-3 h-full">
+  <!-- 左パネル: フィルター・設定 -->
+  <div class="w-80 bg-card rounded-lg p-4 flex flex-col gap-4">
+    <h2 class="text-lg font-semibold text-text">価格戦略分析設定</h2>
+    
+    <div>
+      <label class="block text-sm text-text-muted mb-1">分析期間</label>
+      <div class="flex gap-2">
+        <input type="date" id="period-start" data-testid="period-start" class="input flex-1" style="background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); padding: 6px 8px; border-radius: 4px; color: var(--text);">
+        <input type="date" id="period-end" data-testid="period-end" class="input flex-1" style="background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); padding: 6px 8px; border-radius: 4px; color: var(--text);">
+      </div>
+    </div>
+
+    <div>
+      <label class="block text-sm text-text-muted mb-1">顧客セグメント</label>
+      <select id="customer-segment" data-testid="customer-segment" style="background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); padding: 6px 8px; border-radius: 4px; color: var(--text); width: 100%;">
+        <option value="">全セグメント</option>
+        <option value="A">Aランク顧客</option>
+        <option value="B">Bランク顧客</option>
+        <option value="C">Cランク顧客</option>
+        <option value="新規">新規顧客</option>
+      </select>
+    </div>
+
+    <div>
+      <label class="block text-sm text-text-muted mb-1">商品カテゴリ</label>
+      <select id="product-category" data-testid="product-category" style="background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); padding: 6px 8px; border-radius: 4px; color: var(--text); width: 100%;">
+        <option value="">全カテゴリ</option>
+        <option value="電子部品">電子部品</option>
+        <option value="機械部品">機械部品</option>
+        <option value="工具">工具</option>
+        <option value="材料">材料</option>
+      </select>
+    </div>
+
+    <button id="btn-analyze" data-testid="analyze-button" class="action-btn w-full">分析実行</button>
+
+    <div class="border-t border-border pt-4">
+      <h3 class="text-sm font-medium text-text mb-2">クイックアクション</h3>
+      <button id="btn-order-entry" data-testid="order-entry-button" class="action-btn secondary w-full mb-2">発注データ登録</button>
+      <button id="btn-export" data-testid="export-button" class="action-btn secondary w-full">分析結果エクスポート</button>
+    </div>
+  </div>
+
+  <!-- 右パネル: メイン分析結果 -->
+  <div class="flex-1 flex flex-col gap-3">
+    <!-- KPIカード -->
+    <div class="grid grid-cols-4 gap-3">
+      <div class="bg-card rounded-lg p-3" data-testid="kpi-revenue">
+        <div class="text-sm text-text-muted">予測売上改善</div>
+        <div class="text-xl font-bold text-text" id="kpi-revenue">+12.5%</div>
+      </div>
+      <div class="bg-card rounded-lg p-3" data-testid="kpi-margin">
+        <div class="text-sm text-text-muted">利益率改善</div>
+        <div class="text-xl font-bold text-text" id="kpi-margin">+8.3%</div>
+      </div>
+      <div class="bg-card rounded-lg p-3" data-testid="kpi-competitive">
+        <div class="text-sm text-text-muted">価格競争力</div>
+        <div class="text-xl font-bold text-text" id="kpi-competitive">85点</div>
+      </div>
+      <div class="bg-card rounded-lg p-3" data-testid="kpi-risk">
+        <div class="text-sm text-text-muted">リスク評価</div>
+        <div class="text-xl font-bold text-text" id="kpi-risk">中</div>
+      </div>
+    </div>
+
+    <!-- メインコンテンツエリア -->
+    <div class="flex gap-3 flex-1">
+      <!-- 価格比較・提案一覧 -->
+      <div class="flex-1 bg-card rounded-lg p-4">
+        <div class="flex justify-between items-center mb-3">
+          <h3 class="text-base font-semibold text-text">価格戦略提案</h3>
+          <div class="flex gap-2">
+            <select id="strategy-filter" data-testid="strategy-filter" style="background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); padding: 4px 6px; border-radius: 4px; color: var(--text); font-size: 12px;">
+              <option value="">全戦略</option>
+              <option value="プレミアム戦略">プレミアム戦略</option>
+              <option value="競争戦略">競争戦略</option>
+              <option value="浸透戦略">浸透戦略</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="table-wrap" style="max-height: 400px;">
+          <table data-testid="strategy-list">
+            <thead>
+              <tr>
+                <th>商品コード</th>
+                <th>現在単価</th>
+                <th>推奨単価</th>
+                <th>改善率</th>
+                <th>戦略区分</th>
+                <th>推奨度</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="strategy-tbody">
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 収益インパクト・競合比較 -->
+      <div class="w-96 flex flex-col gap-3">
+        <div class="bg-card rounded-lg p-4">
+          <h3 class="text-sm font-semibold text-text mb-3">収益インパクト予測</h3>
+          <canvas id="impact-chart" width="300" height="180" style="width: 100%; height: 180px;"></canvas>
+        </div>
+
+        <div class="bg-card rounded-lg p-4">
+          <h3 class="text-sm font-semibold text-text mb-3">競合価格比較</h3>
+          <div id="competitive-analysis" class="space-y-2">
+            <div class="flex justify-between text-sm">
+              <span class="text-text-muted">自社平均</span>
+              <span class="text-text font-medium">¥1,250</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-text-muted">市場平均</span>
+              <span class="text-text font-medium">¥1,180</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-text-muted">競合最低</span>
+              <span class="text-text font-medium">¥980</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 下部: 顧客別価格感度・交渉履歴 -->
+    <div class="flex gap-3">
+      <div class="flex-1 bg-card rounded-lg p-4">
+        <h3 class="text-sm font-semibold text-text mb-3">顧客別価格感度分析</h3>
+        <div class="table-wrap" style="max-height: 200px;">
+          <table data-testid="sensitivity-list">
+            <thead>
+              <tr>
+                <th>顧客ID</th>
+                <th>価格感度</th>
+                <th>交渉成功率</th>
+                <th>収益性ランク</th>
+                <th>推奨戦略</th>
+              </tr>
+            </thead>
+            <tbody id="sensitivity-tbody">
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="flex-1 bg-card rounded-lg p-4">
+        <h3 class="text-sm font-semibold text-text mb-3">最近の単価交渉履歴</h3>
+        <div class="table-wrap" style="max-height: 200px;">
+          <table data-testid="negotiation-list">
+            <thead>
+              <tr>
+                <th>交渉日</th>
+                <th>商品コード</th>
+                <th>提案単価</th>
+                <th>合意単価</th>
+                <th>ステータス</th>
+              </tr>
+            </thead>
+            <tbody id="negotiation-tbody">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 価格改定スケジュール設定モーダル -->
+<div id="schedule-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" style="display: none;">
+  <div class="bg-card rounded-lg p-6 w-96">
+    <h3 class="text-lg font-semibold text-text mb-4">価格改定スケジュール設定</h3>
+    <div class="space-y-3">
+      <div>
+        <label class="block text-sm text-text-muted mb-1">商品コード</label>
+        <input type="text" id="schedule-product" data-testid="schedule-product" readonly style="background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); padding: 6px 8px; border-radius: 4px; color: var(--text); width: 100%;">
+      </div>
+      <div>
+        <label class="block text-sm text-text-muted mb-1">実施予定日</label>
+        <input type="date" id="schedule-date" data-testid="schedule-date" style="background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); padding: 6px 8px; border-radius: 4px; color: var(--text); width: 100%;">
+      </div>
+      <div>
+        <label class="block text-sm text-text-muted mb-1">新単価</label>
+        <input type="number" id="schedule-price" data-testid="schedule-price" style="background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); padding: 6px 8px; border-radius: 4px; color: var(--text); width: 100%;">
+      </div>
+    </div>
+    <div class="flex gap-2 mt-6">
+      <button id="btn-schedule-save" data-testid="schedule-save-button" class="action-btn flex-1">保存</button>
+      <button id="btn-schedule-cancel" data-testid="schedule-cancel-button" class="action-btn secondary flex-1">キャンセル</button>
+    </div>
+  </div>
+</div>
+    </section>
+  </main>
+</div>
+<script>
+(function() {
+  var TABLE_DEFS = window.AIVIC_TABLES || [];
+  var PRESET_SEED = window.AIVIC_PRESET_SEED || {};
+  var SYSTEM_NAME = window.AIVIC_SYSTEM_NAME || "";
+  var APP_ID = window.AIVIC_APP_ID || "";
+  var API_URL = (window.AIVIC_API_URL && window.AIVIC_API_URL !== "REPLACE_WITH_API_URL")
+    ? window.AIVIC_API_URL : window.location.origin;
+
+  // 通知 helper（SPA 版と同じ）
+  window.aivicNotify = (function() {
+    function ensureContainer() {
+      var c = document.getElementById("aivic-toast-container");
+      if (c) return c;
+      c = document.createElement("div");
+      c.id = "aivic-toast-container";
+      c.style.cssText = "position:fixed;top:16px;right:16px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none;max-width:360px;";
+      document.body.appendChild(c);
+      return c;
+    }
+    function show(msg, type) {
+      var c = ensureContainer();
+      var el = document.createElement("div");
+      el.textContent = msg;
+      el.style.cssText = "padding:10px 16px;border-radius:8px;font-size:13px;line-height:1.4;pointer-events:auto;color:#fff;background:" + (type === "error" ? "#dc2626" : "#d97706");
+      c.appendChild(el);
+      setTimeout(function() {
+        el.style.transition = "opacity .3s";
+        el.style.opacity = "0";
+        setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 320);
+      }, type === "error" ? 6000 : 4500);
+    }
+    return {
+      error: function(msg) { show("❌ " + msg, "error"); },
+      warn:  function(msg) { show("⚠️ " + msg, "warn"); },
+    };
+  })();
+
+  // CRUD API（SPA 版と同じ）
+  window.aivicApi = (function() {
+    function dbErr(op) { window.aivicNotify.error("データベースエラー（" + op + "）: APIサーバーに接続できません。"); }
+    function newId() { return typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : "id-" + Date.now() + "-" + Math.random().toString(36).slice(2); }
+    function q(i) {
+      var t = TABLE_DEFS[i];
+      var dbP = (window.AIVIC_DB_TYPE && window.AIVIC_DB_TYPE !== "dynamodb") ? "&db=" + encodeURIComponent(window.AIVIC_DB_TYPE) : "";
+      return "?app=" + encodeURIComponent(APP_ID) + "&system=" + encodeURIComponent(SYSTEM_NAME) + "&table=" + encodeURIComponent(t ? t.tableName : "table" + i) + dbP;
+    }
+    return {
+      list: async function(tableIndex) {
+        if (!API_URL) return [];
+        try { var r = await fetch(API_URL + "/api/" + tableIndex + q(tableIndex)); var d = await r.json(); return Array.isArray(d) ? d : (d.items || []); }
+        catch(e) { dbErr("データ取得"); return []; }
+      },
+      save: async function(tableIndex, item) {
+        if (!API_URL) { dbErr("保存"); return null; }
+        var now = new Date().toISOString();
+        var rec = Object.assign({}, item, { id: item.id || newId(), createdAt: item.createdAt || now, updatedAt: now });
+        try { var r = await fetch(API_URL + "/api/" + tableIndex + q(tableIndex), { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(rec) }); return await r.json(); }
+        catch(e) { dbErr("保存"); return null; }
+      },
+      update: async function(tableIndex, id, changes) {
+        if (!API_URL) { dbErr("更新"); return null; }
+        try { var r = await fetch(API_URL + "/api/" + tableIndex + "/" + id + q(tableIndex), { method:"PUT", headers:{"Content-Type":"application/json"}, body:JSON.stringify(Object.assign({}, changes, {updatedAt: new Date().toISOString()})) }); return await r.json(); }
+        catch(e) { dbErr("更新"); return null; }
+      },
+      delete: async function(tableIndex, id) {
+        if (!API_URL) { dbErr("削除"); return {deleted:false}; }
+        try { await fetch(API_URL + "/api/" + tableIndex + "/" + id + q(tableIndex), {method:"DELETE"}); return {deleted:true}; }
+        catch(e) { dbErr("削除"); return {deleted:false}; }
+      },
+    };
+  })();
+
+  // showScreen はマルチページ構成ではページ遷移として動く。
+  // パネル切替 (旧 SPA 動作) ではなく ./<id>.html への navigate に再定義する。
+  // 既存の AI 生成 shell が onclick="showScreen('x')" の形で書いていても透過的に動く。
+  //
+  // 防御層:
+  // (a) 同じ画面 ID なら no-op（AIVIC_PAGE_SCREEN_ID 一致 / pathname 一致のどちらか）
+  // (b) 同じ navigate を 100ms 以内に繰り返したら break loop（onclick 連打ではなく自動ループ対策）
+  // (c) DOMContentLoaded 直後 1.5s 以内の「自動 navigate」は警告 + 抑制（手動 click は通す）
+  var _aivicNavLastTime = 0;
+  var _aivicNavLastTarget = "";
+  var _aivicReady = false;
+  window.showScreen = function(screenId) {
+    if (!screenId) return;
+    if (screenId === window.AIVIC_PAGE_SCREEN_ID) return; // 既に該当ページに居る
+    // pathname ベースの保険: AIVIC_PAGE_SCREEN_ID が未設定でも、現在 URL と一致したら抑制
+    var targetPath = './' + encodeURIComponent(screenId) + '.html';
+    var currentName = (window.location.pathname.split('/').pop() || '');
+    if (currentName === (encodeURIComponent(screenId) + '.html') ||
+        currentName === (screenId + '.html')) {
+      return;
+    }
+    var now = Date.now();
+    if (_aivicNavLastTarget === targetPath && (now - _aivicNavLastTime) < 100) {
+      console.warn('[aivic] showScreen 連続呼び出し検知。無限ループ防止のため抑制:', screenId);
+      return;
+    }
+    if (!_aivicReady) {
+      // ページロード直後の自動 navigate は AI shell の load-time 副作用の可能性が高い。
+      // ボタンクリック等のユーザー操作は ready 後なので影響しない。
+      console.warn('[aivic] DOMContentLoaded 前の showScreen 呼び出し。抑制:', screenId);
+      return;
+    }
+    _aivicNavLastTime = now;
+    _aivicNavLastTarget = targetPath;
+    window.location.href = targetPath;
+  };
+
+  // 初回マウント時のサンプルデータ投入
+  function seedAllIfEmpty() {
+    if (!API_URL) return Promise.resolve();
+    return Promise.all(TABLE_DEFS.map(function(t, i) {
+      var preset = PRESET_SEED[t.tableName];
+      if (!Array.isArray(preset) || preset.length === 0) return Promise.resolve();
+      return window.aivicApi.list(i).then(function(existing) {
+        if (existing && existing.length > 0) return;
+        return Promise.all(preset.map(function(row) { return window.aivicApi.save(i, row); }));
+      }).catch(function() {});
+    }));
+  }
+
+  // ── 初期表示: このページ専用の panel に initFn を実行 ──
+  // window.AIVIC_PAGE_SCREEN_ID と AIVIC_PAGE_INIT_JS は composeMultipagePages
+  // でページ単位に埋め込まれる。
+  document.addEventListener("DOMContentLoaded", function() {
+    // 1.5 秒後に必ず _aivicReady を立てる（initFn が走らないページや失敗ページでも
+    // ユーザーが操作できるようにする保険）。initFn 完了時にも立てるので早い方が勝つ。
+    setTimeout(function() { _aivicReady = true; }, 1500);
+    var pageScreenId = window.AIVIC_PAGE_SCREEN_ID;
+    if (!pageScreenId) return;
+
+    // sidebar / nav の active class を付与（現在ページのリンクを強調）
+    document.querySelectorAll('[data-aivic-nav]').forEach(function(btn) {
+      var isActive = btn.getAttribute("data-aivic-nav") === pageScreenId;
+      btn.classList.toggle("aivic-active", isActive);
+      btn.setAttribute("aria-current", isActive ? "page" : "false");
+    });
+
+    var container = document.querySelector('[data-aivic-panel="' + pageScreenId + '"]');
+    if (!container) return;
+
+    // **content 要素の hidden 強制除去（2026-05-24 Playwright 大量 fail 対応）**:
+    // AI が生成した panel HTML には class="hidden" / hidden 属性 / style="display:none"
+    // が content 要素（#xxx-tbody / #xxx-list / [data-testid="error-message"] 等）に付いて
+    // いることがある。それを Playwright が toBeVisible() で待ち続けて timeout する事故が頻発。
+    //
+    // ポリシー: panel コンテナ配下の全要素について以下を実行:
+    //   - class="hidden" / display:none / hidden 属性を **content 要素では除去**
+    //   - **modal 系**（.modal, .modal-backdrop, [role="dialog"], [data-modal] 等）は除外
+    //     （これらは仕様上初期非表示が正しい）
+    var isModalLike = function(el) {
+      if (!el || !el.classList) return false;
+      var cn = String(el.className || "");
+      if (/modal|dialog|overlay|popup|dropdown|tooltip/i.test(cn)) return true;
+      var role = el.getAttribute && el.getAttribute("role");
+      if (role === "dialog" || role === "alertdialog" || role === "tooltip" || role === "menu") return true;
+      if (el.hasAttribute && (el.hasAttribute("data-modal") || el.hasAttribute("data-dropdown") || el.hasAttribute("data-popup"))) return true;
+      return false;
+    };
+    var unhideContentElements = function(root) {
+      var all = root.querySelectorAll('.hidden, [hidden], [style*="display:none"], [style*="display: none"]');
+      for (var k = 0; k < all.length; k++) {
+        var el = all[k];
+        // modal 系は触らない
+        if (isModalLike(el)) continue;
+        // parent chain で modal 内なら触らない
+        var p = el.parentElement;
+        var insideModal = false;
+        while (p && p !== root) {
+          if (isModalLike(p)) { insideModal = true; break; }
+          p = p.parentElement;
+        }
+        if (insideModal) continue;
+        // 除去
+        el.classList.remove('hidden');
+        el.removeAttribute('hidden');
+        if (el.style && el.style.display === 'none') el.style.display = '';
+      }
+    };
+    try { unhideContentElements(container); } catch (e) { console.warn('[aivic] unhideContent failed:', e); }
+
+    var initJsSource = window.AIVIC_PAGE_INIT_JS;
+    if (!initJsSource) {
+      // initJs が無くてもサンプルデータ投入は走らせる
+      seedAllIfEmpty();
+      return;
+    }
+    var initFn = null;
+    try {
+      initFn = (new Function("return (" + initJsSource + ")"))();
+    } catch (e) {
+      console.error("[aivic] initJs compile error:", pageScreenId, e);
+      return;
+    }
+    if (typeof initFn !== "function") return;
+
+    seedAllIfEmpty().then(function() {
+      return Promise.all(TABLE_DEFS.map(function(t, i) {
+        return window.aivicApi.list(i)
+          .then(function(records) { return Object.assign({}, t, { records: records }); })
+          .catch(function() { return Object.assign({}, t, { records: [] }); });
+      }));
+    }).then(function(tables) {
+      try { initFn(container, API_URL, tables); } catch (e) { console.error("[aivic] initFn error:", pageScreenId, e); }
+      // 初期 panel init が一巡したら _aivicReady を立てる。以降のユーザー操作 (onclick) で
+      // showScreen が呼ばれた場合は通常通り navigate する。
+      _aivicReady = true;
+    });
+  });
+})();
+
+</script>
+</body>
+</html>
