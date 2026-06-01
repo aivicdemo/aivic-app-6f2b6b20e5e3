@@ -98,6 +98,44 @@ Resources:
         - Key: TableName
           Value: "価格戦略分析結果"
 
+  DynamoDBTable4:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub "${AWS::StackName}-table4"
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      Tags:
+        - Key: System
+          Value: 営業支援システムの構築
+        - Key: TableIndex
+          Value: "4"
+        - Key: TableName
+          Value: "月次集計データ"
+
+  DynamoDBTable5:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub "${AWS::StackName}-table5"
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      Tags:
+        - Key: System
+          Value: 営業支援システムの構築
+        - Key: TableIndex
+          Value: "5"
+        - Key: TableName
+          Value: "顧客別分析データ"
+
   # ── Lambda 関数 ───────────────────────────────────────────────
   AivicApiFunction:
     Type: AWS::Serverless::Function
@@ -112,6 +150,8 @@ Resources:
         AIVIC_TABLE_1: !Ref DynamoDBTable1
         AIVIC_TABLE_2: !Ref DynamoDBTable2
         AIVIC_TABLE_3: !Ref DynamoDBTable3
+        AIVIC_TABLE_4: !Ref DynamoDBTable4
+        AIVIC_TABLE_5: !Ref DynamoDBTable5
       Policies:
         - Statement:
             - Effect: Allow
@@ -127,6 +167,8 @@ Resources:
             - !GetAtt DynamoDBTable1.Arn
             - !GetAtt DynamoDBTable2.Arn
             - !GetAtt DynamoDBTable3.Arn
+            - !GetAtt DynamoDBTable4.Arn
+            - !GetAtt DynamoDBTable5.Arn
       Events:
         ApiRoot:
           Type: Api
@@ -178,3 +220,11 @@ Outputs:
   Table3Name:
     Description: "DynamoDB table name for 価格戦略分析結果"
     Value: !Ref DynamoDBTable3
+
+  Table4Name:
+    Description: "DynamoDB table name for 月次集計データ"
+    Value: !Ref DynamoDBTable4
+
+  Table5Name:
+    Description: "DynamoDB table name for 顧客別分析データ"
+    Value: !Ref DynamoDBTable5

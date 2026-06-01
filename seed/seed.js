@@ -21,7 +21,9 @@ const TABLE_MAP = {
   "単価交渉履歴",
   "市場価格データ",
   "購買パターン分析結果",
-  "価格戦略分析結果"
+  "価格戦略分析結果",
+  "月次集計データ",
+  "顧客別分析データ"
 };
 
 async function seedTable(tableName, records) {
