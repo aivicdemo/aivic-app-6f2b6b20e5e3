@@ -18,13 +18,10 @@ const client = new DynamoDBClient({ region });
 
 // テーブルマッピング（DynamoDBの実際のテーブル名に合わせて変更してください）
 const TABLE_MAP = {
+  "単価交渉履歴",
   "市場価格データ",
-  "月次集計データ",
   "購買パターン分析結果",
-  "価格戦略分析結果",
-  "顧客別単価比較分析結果",
-  "分析レポート",
-  "システム操作履歴"
+  "価格戦略分析結果"
 };
 
 async function seedTable(tableName, records) {

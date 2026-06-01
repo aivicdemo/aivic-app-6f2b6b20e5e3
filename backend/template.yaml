@@ -39,7 +39,7 @@ Resources:
         - Key: TableIndex
           Value: "0"
         - Key: TableName
-          Value: "市場価格データ"
+          Value: "単価交渉履歴"
 
   DynamoDBTable1:
     Type: AWS::DynamoDB::Table
@@ -58,7 +58,7 @@ Resources:
         - Key: TableIndex
           Value: "1"
         - Key: TableName
-          Value: "月次集計データ"
+          Value: "市場価格データ"
 
   DynamoDBTable2:
     Type: AWS::DynamoDB::Table
@@ -98,63 +98,6 @@ Resources:
         - Key: TableName
           Value: "価格戦略分析結果"
 
-  DynamoDBTable4:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: !Sub "${AWS::StackName}-table4"
-      BillingMode: PAY_PER_REQUEST
-      AttributeDefinitions:
-        - AttributeName: id
-          AttributeType: S
-      KeySchema:
-        - AttributeName: id
-          KeyType: HASH
-      Tags:
-        - Key: System
-          Value: 営業支援システムの構築
-        - Key: TableIndex
-          Value: "4"
-        - Key: TableName
-          Value: "顧客別単価比較分析結果"
-
-  DynamoDBTable5:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: !Sub "${AWS::StackName}-table5"
-      BillingMode: PAY_PER_REQUEST
-      AttributeDefinitions:
-        - AttributeName: id
-          AttributeType: S
-      KeySchema:
-        - AttributeName: id
-          KeyType: HASH
-      Tags:
-        - Key: System
-          Value: 営業支援システムの構築
-        - Key: TableIndex
-          Value: "5"
-        - Key: TableName
-          Value: "分析レポート"
-
-  DynamoDBTable6:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: !Sub "${AWS::StackName}-table6"
-      BillingMode: PAY_PER_REQUEST
-      AttributeDefinitions:
-        - AttributeName: id
-          AttributeType: S
-      KeySchema:
-        - AttributeName: id
-          KeyType: HASH
-      Tags:
-        - Key: System
-          Value: 営業支援システムの構築
-        - Key: TableIndex
-          Value: "6"
-        - Key: TableName
-          Value: "システム操作履歴"
-
   # ── Lambda 関数 ───────────────────────────────────────────────
   AivicApiFunction:
     Type: AWS::Serverless::Function
@@ -169,9 +112,6 @@ Resources:
         AIVIC_TABLE_1: !Ref DynamoDBTable1
         AIVIC_TABLE_2: !Ref DynamoDBTable2
         AIVIC_TABLE_3: !Ref DynamoDBTable3
-        AIVIC_TABLE_4: !Ref DynamoDBTable4
-        AIVIC_TABLE_5: !Ref DynamoDBTable5
-        AIVIC_TABLE_6: !Ref DynamoDBTable6
       Policies:
         - Statement:
             - Effect: Allow
@@ -187,9 +127,6 @@ Resources:
             - !GetAtt DynamoDBTable1.Arn
             - !GetAtt DynamoDBTable2.Arn
             - !GetAtt DynamoDBTable3.Arn
-            - !GetAtt DynamoDBTable4.Arn
-            - !GetAtt DynamoDBTable5.Arn
-            - !GetAtt DynamoDBTable6.Arn
       Events:
         ApiRoot:
           Type: Api
@@ -227,11 +164,11 @@ Outputs:
     Value: !Sub "https://${AivicApi}.execute-api.${AWS::Region}.amazonaws.com/${StageName}"
 
   Table0Name:
-    Description: "DynamoDB table name for 市場価格データ"
+    Description: "DynamoDB table name for 単価交渉履歴"
     Value: !Ref DynamoDBTable0
 
   Table1Name:
-    Description: "DynamoDB table name for 月次集計データ"
+    Description: "DynamoDB table name for 市場価格データ"
     Value: !Ref DynamoDBTable1
 
   Table2Name:
@@ -241,15 +178,3 @@ Outputs:
   Table3Name:
     Description: "DynamoDB table name for 価格戦略分析結果"
     Value: !Ref DynamoDBTable3
-
-  Table4Name:
-    Description: "DynamoDB table name for 顧客別単価比較分析結果"
-    Value: !Ref DynamoDBTable4
-
-  Table5Name:
-    Description: "DynamoDB table name for 分析レポート"
-    Value: !Ref DynamoDBTable5
-
-  Table6Name:
-    Description: "DynamoDB table name for システム操作履歴"
-    Value: !Ref DynamoDBTable6
