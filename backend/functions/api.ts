@@ -8,683 +8,293 @@ const client = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(client);
 const TABLE_NAME = process.env.MAIN_TABLE!;
 
-interface OrderData {
-  id: string;
-  orderNumber: string;
-  orderDate: string;
-  deliveryDate: string;
-  supplierCode: string;
-  supplierName: string;
-  orderAmount: number;
-  taxAmount: number;
-  orderStatus: string;
-  integrationStatus: string;
-  integrationDate?: string;
-  remarks?: string;
-  createdBy: string;
-  createdAt: string;
-  updatedBy?: string;
-  updatedAt: string;
+interface AuditLog {
+  pk: string;
+  sk: string;
+  action: string;
+  userId: string;
+  timestamp: string;
+  details: any;
 }
 
-interface PriceNegotiationHistory {
-  id: string;
-  customerId: string;
-  productId: string;
-  salesRepId: string;
-  negotiationStartDate: string;
-  currentPrice: number;
-  desiredPrice: number;
-  proposedPrice?: number;
-  negotiationStatus: string;
-  negotiationContent?: string;
-  agreedPrice?: number;
-  agreementDate?: string;
-  effectiveStartDate?: string;
-  effectiveEndDate?: string;
-  approverId?: string;
-  approvalDate?: string;
-  remarks?: string;
-  createdAt: string;
-  updatedAt: string;
-  createdBy: string;
-}
-
-interface MarketPriceData {
-  id: string;
-  productCode: string;
-  productName: string;
-  marketPrice: number;
-  priceAcquisitionDate: string;
-  priceSource: string;
-  region?: string;
-  remarks?: string;
-  validFlag: boolean;
-  createdAt: string;
-  updatedAt: string;
-  createdBy: string;
-}
-
-interface PurchasePatternAnalysis {
-  id: string;
-  customerId: string;
-  analysisStartDate: string;
-  analysisEndDate: string;
-  purchaseFrequency: number;
-  averageOrderAmount: number;
-  totalPurchaseAmount: number;
-  mainProductCategory: string;
-  purchaseSeasonality?: string;
-  priceSensitivity: string;
-  negotiationFrequency: number;
-  negotiationSuccessRate: number;
-  recommendedApproach?: string;
-  riskAssessment: string;
-  analysisExecutionDate: string;
-  createdAt: string;
-  updatedAt: string;
-  createdBy: string;
-}
-
-interface PriceStrategyAnalysis {
-  id: string;
-  targetProductCode: string;
-  targetCustomerId?: string;
-  analysisStartDate: string;
-  analysisEndDate: string;
-  currentSalesPrice: number;
-  recommendedSalesPrice: number;
-  marketAveragePrice: number;
-  competitorLowestPrice?: number;
-  priceElasticity?: string;
-  profitMargin: string;
-  negotiationMargin?: number;
-  strategyClassification: string;
-  riskAssessment: string;
-  implementationRecommendation: string;
-  analysisComment?: string;
-  approvalStatus: string;
-  approverId?: string;
-  approvalDate?: string;
-  validUntil: string;
-  createdBy: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-type ResourceType = 'orders' | 'price-negotiations' | 'market-prices' | 'purchase-patterns' | 'price-strategies';
-
-const RESOURCE_TYPES: Record<string, ResourceType> = {
-  '0': 'orders',
-  '1': 'price-negotiations',
-  '2': 'market-prices',
-  '3': 'purchase-patterns',
-  '4': 'price-strategies'
+const TABLE_CONFIGS = {
+  0: { name: '発注データ', pk: 'ORDER', fields: ['発注ID', '発注番号', '発注先コード', '発注先名', '商品コード', '商品名', '発注数量', '単価', '発注金額', '発注日', '納期予定日', '発注ステータス', '連携システム名', '連携ステータス', '連携日時', 'エラーメッセージ', '備考', '作成日時', '更新日時', '作成者ID', '更新者ID'] },
+  1: { name: '単価交渉履歴', pk: 'NEGOTIATION', fields: ['交渉履歴ID', '顧客ID', '商品ID', '交渉日', '交渉種別', '現在単価', '提案単価', '顧客希望単価', '合意単価', '交渉ステータス', '交渉内容', '次回アクション', '営業担当者ID', '承認者ID', '承認日時', '作成日時', '更新日時', '作成者ID'] },
+  2: { name: '市場価格データ', pk: 'MARKET_PRICE', fields: ['市場価格ID', '商品コード', '商品名', '市場価格', '価格取得日', '価格情報源', '地域', '備考', '有効フラグ', '作成日時', '更新日時', '作成者'] },
+  3: { name: '購買パターン分析結果', pk: 'PURCHASE_PATTERN', fields: ['分析結果ID', '顧客ID', '分析期間開始日', '分析期間終了日', '購買頻度', '平均発注金額', '総購買金額', '主要購買商品カテゴリ', '購買季節性', '価格感度', '交渉頻度', '交渉成功率', '市場価格との乖離率', '顧客ランク', '推奨営業アプローチ', '分析実行日時', '作成日時', '更新日時', '作成者'] },
+  4: { name: '価格戦略分析結果', pk: 'PRICE_STRATEGY', fields: ['分析結果ID', '分析対象商品コード', '分析対象顧客ID', '分析期間開始日', '分析期間終了日', '現在単価', '推奨単価', '市場平均単価', '競合最低単価', '価格競争力スコア', '需要予測数量', '売上予測金額', '利益率', '価格弾力性', '戦略区分', 'リスク評価', '実施推奨度', '分析手法', '備考', '承認状況', '承認者ID', '承認日時', '作成者ID', '作成日時', '更新日時'] },
+  5: { name: '月次集計データ', pk: 'MONTHLY_SUMMARY', fields: ['集計ID', '集計年月', '商品カテゴリ', '顧客区分', '売上金額', '発注件数', '発注金額', '平均単価', '価格交渉成功率', '市場価格差異率', '新規顧客数', 'リピート顧客数', '集計完了フラグ', '作成日時', '更新日時', '作成者'] },
+  6: { name: '顧客別分析データ', pk: 'CUSTOMER_ANALYSIS', fields: ['顧客別分析ID', '顧客ID', '分析期間開始日', '分析期間終了日', '総発注回数', '総発注金額', '平均発注金額', '価格交渉回数', '価格交渉成功率', '市場価格との乖離率', '購買パターン分類', '収益性ランク', '推奨価格戦略', 'リスク評価', '営業優先度', '備考', '作成日時', '更新日時', '作成者'] }
 };
 
-function createResponse(statusCode: number, body: any): APIGatewayProxyResult {
-  return {
-    statusCode,
-    headers: {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*'
-    },
-    body: JSON.stringify(body)
-  };
-}
-
-function getUserRole(event: APIGatewayProxyEvent): Role {
-  const role = event.headers['x-user-role'] || event.headers['X-User-Role'];
-  if (!role) {
-    throw new Error('Missing user role');
-  }
-  return validateRole(role);
-}
-
-function getUserId(event: APIGatewayProxyEvent): string {
-  const userId = event.headers['x-user-id'] || event.headers['X-User-Id'];
-  if (!userId) {
-    throw new Error('Missing user ID');
-  }
-  return userId;
-}
-
-async function createAuditLog(action: string, resourceType: string, resourceId: string, userId: string, details?: any) {
-  const auditLog = {
+async function writeAuditLog(action: string, userId: string, details: any): Promise<void> {
+  const auditLog: AuditLog = {
     pk: 'AUDIT',
     sk: `${Date.now()}_${randomUUID()}`,
     action,
-    resourceType,
-    resourceId,
     userId,
     timestamp: new Date().toISOString(),
     details
   };
-
+  
   await docClient.send(new PutCommand({
     TableName: TABLE_NAME,
     Item: auditLog
   }));
 }
 
-function validateOrderData(data: any): Partial<OrderData> {
-  const errors: string[] = [];
-  
-  if (!data.orderNumber) errors.push('orderNumber is required');
-  if (!data.orderDate) errors.push('orderDate is required');
-  if (!data.deliveryDate) errors.push('deliveryDate is required');
-  if (!data.supplierCode) errors.push('supplierCode is required');
-  if (!data.supplierName) errors.push('supplierName is required');
-  if (typeof data.orderAmount !== 'number') errors.push('orderAmount must be a number');
-  if (typeof data.taxAmount !== 'number') errors.push('taxAmount must be a number');
-  if (!data.orderStatus) errors.push('orderStatus is required');
-  if (!data.integrationStatus) errors.push('integrationStatus is required');
-  if (!data.createdBy) errors.push('createdBy is required');
-  
-  if (errors.length > 0) {
-    throw new Error(`Validation failed: ${errors.join(', ')}`);
-  }
-  
-  return data;
-}
-
-function validatePriceNegotiationData(data: any): Partial<PriceNegotiationHistory> {
-  const errors: string[] = [];
-  
-  if (!data.customerId) errors.push('customerId is required');
-  if (!data.productId) errors.push('productId is required');
-  if (!data.salesRepId) errors.push('salesRepId is required');
-  if (!data.negotiationStartDate) errors.push('negotiationStartDate is required');
-  if (typeof data.currentPrice !== 'number') errors.push('currentPrice must be a number');
-  if (typeof data.desiredPrice !== 'number') errors.push('desiredPrice must be a number');
-  if (!data.negotiationStatus) errors.push('negotiationStatus is required');
-  if (!data.createdBy) errors.push('createdBy is required');
-  
-  if (errors.length > 0) {
-    throw new Error(`Validation failed: ${errors.join(', ')}`);
-  }
-  
-  return data;
-}
-
-function validateMarketPriceData(data: any): Partial<MarketPriceData> {
-  const errors: string[] = [];
-  
-  if (!data.productCode) errors.push('productCode is required');
-  if (!data.productName) errors.push('productName is required');
-  if (typeof data.marketPrice !== 'number') errors.push('marketPrice must be a number');
-  if (!data.priceAcquisitionDate) errors.push('priceAcquisitionDate is required');
-  if (!data.priceSource) errors.push('priceSource is required');
-  if (typeof data.validFlag !== 'boolean') errors.push('validFlag must be a boolean');
-  if (!data.createdBy) errors.push('createdBy is required');
-  
-  if (errors.length > 0) {
-    throw new Error(`Validation failed: ${errors.join(', ')}`);
-  }
-  
-  return data;
-}
-
-function validatePurchasePatternData(data: any): Partial<PurchasePatternAnalysis> {
-  const errors: string[] = [];
-  
-  if (!data.customerId) errors.push('customerId is required');
-  if (!data.analysisStartDate) errors.push('analysisStartDate is required');
-  if (!data.analysisEndDate) errors.push('analysisEndDate is required');
-  if (typeof data.purchaseFrequency !== 'number') errors.push('purchaseFrequency must be a number');
-  if (typeof data.averageOrderAmount !== 'number') errors.push('averageOrderAmount must be a number');
-  if (typeof data.totalPurchaseAmount !== 'number') errors.push('totalPurchaseAmount must be a number');
-  if (!data.mainProductCategory) errors.push('mainProductCategory is required');
-  if (!data.priceSensitivity) errors.push('priceSensitivity is required');
-  if (typeof data.negotiationFrequency !== 'number') errors.push('negotiationFrequency must be a number');
-  if (typeof data.negotiationSuccessRate !== 'number') errors.push('negotiationSuccessRate must be a number');
-  if (!data.riskAssessment) errors.push('riskAssessment is required');
-  if (!data.analysisExecutionDate) errors.push('analysisExecutionDate is required');
-  if (!data.createdBy) errors.push('createdBy is required');
-  
-  if (errors.length > 0) {
-    throw new Error(`Validation failed: ${errors.join(', ')}`);
-  }
-  
-  return data;
-}
-
-function validatePriceStrategyData(data: any): Partial<PriceStrategyAnalysis> {
-  const errors: string[] = [];
-  
-  if (!data.targetProductCode) errors.push('targetProductCode is required');
-  if (!data.analysisStartDate) errors.push('analysisStartDate is required');
-  if (!data.analysisEndDate) errors.push('analysisEndDate is required');
-  if (typeof data.currentSalesPrice !== 'number') errors.push('currentSalesPrice must be a number');
-  if (typeof data.recommendedSalesPrice !== 'number') errors.push('recommendedSalesPrice must be a number');
-  if (typeof data.marketAveragePrice !== 'number') errors.push('marketAveragePrice must be a number');
-  if (!data.profitMargin) errors.push('profitMargin is required');
-  if (!data.strategyClassification) errors.push('strategyClassification is required');
-  if (!data.riskAssessment) errors.push('riskAssessment is required');
-  if (!data.implementationRecommendation) errors.push('implementationRecommendation is required');
-  if (!data.approvalStatus) errors.push('approvalStatus is required');
-  if (!data.validUntil) errors.push('validUntil is required');
-  if (!data.createdBy) errors.push('createdBy is required');
-  
-  if (errors.length > 0) {
-    throw new Error(`Validation failed: ${errors.join(', ')}`);
-  }
-  
-  return data;
-}
-
-function getResourcePrefix(resourceType: ResourceType): string {
-  const prefixes = {
-    'orders': 'ORDER',
-    'price-negotiations': 'PRICE_NEG',
-    'market-prices': 'MARKET_PRICE',
-    'purchase-patterns': 'PURCHASE_PATTERN',
-    'price-strategies': 'PRICE_STRATEGY'
+function createResponse(statusCode: number, body: any): APIGatewayProxyResult {
+  return {
+    statusCode,
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+    },
+    body: JSON.stringify(body)
   };
-  return prefixes[resourceType];
 }
 
-async function handleGetResources(resourceType: ResourceType, role: Role): Promise<APIGatewayProxyResult> {
-  if (!hasPermission(role, 'read')) {
-    return createResponse(403, { error: 'Insufficient permissions' });
-  }
+function getUserRole(event: APIGatewayProxyEvent): Role {
+  const role = event.headers['x-user-role'] || event.headers['X-User-Role'] || 'viewer';
+  return validateRole(role);
+}
 
+function getUserId(event: APIGatewayProxyEvent): string {
+  return event.headers['x-user-id'] || event.headers['X-User-Id'] || 'anonymous';
+}
+
+function validateTableIndex(tableIndex: string): number {
+  const index = parseInt(tableIndex, 10);
+  if (isNaN(index) || !TABLE_CONFIGS[index as keyof typeof TABLE_CONFIGS]) {
+    throw new Error('Invalid table index');
+  }
+  return index;
+}
+
+function chunkArray<T>(array: T[], size: number): T[][] {
+  const chunks: T[][] = [];
+  for (let i = 0; i < array.length; i += size) {
+    chunks.push(array.slice(i, i + size));
+  }
+  return chunks;
+}
+
+export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   try {
-    const prefix = getResourcePrefix(resourceType);
-    const result = await docClient.send(new ScanCommand({
-      TableName: TABLE_NAME,
-      FilterExpression: 'begins_with(pk, :prefix)',
-      ExpressionAttributeValues: {
-        ':prefix': prefix
+    const method = event.httpMethod;
+    const path = event.path;
+    const userRole = getUserRole(event);
+    const userId = getUserId(event);
+
+    if (method === 'OPTIONS') {
+      return createResponse(200, {});
+    }
+
+    if (path === '/resources' && method === 'GET') {
+      if (!hasPermission(userRole, 'read')) {
+        return createResponse(403, { error: 'Insufficient permissions' });
       }
-    }));
 
-    return createResponse(200, {
-      items: result.Items || [],
-      count: result.Count || 0
-    });
-  } catch (error) {
-    console.error('Error getting resources:', error);
-    return createResponse(500, { error: 'Internal server error' });
-  }
-}
+      const resources = Object.entries(TABLE_CONFIGS).map(([index, config]) => ({
+        index: parseInt(index),
+        name: config.name,
+        pk: config.pk,
+        fields: config.fields
+      }));
 
-async function handleGetResource(resourceType: ResourceType, id: string, role: Role): Promise<APIGatewayProxyResult> {
-  if (!hasPermission(role, 'read')) {
-    return createResponse(403, { error: 'Insufficient permissions' });
-  }
+      return createResponse(200, { resources });
+    }
 
-  try {
-    const prefix = getResourcePrefix(resourceType);
-    const result = await docClient.send(new GetCommand({
-      TableName: TABLE_NAME,
-      Key: {
-        pk: prefix,
-        sk: id
+    const pathParts = path.split('/').filter(p => p);
+    
+    if (pathParts.length >= 3 && pathParts[0] === 'api' && pathParts[2] === 'bulk' && method === 'POST') {
+      if (!hasPermission(userRole, 'write')) {
+        return createResponse(403, { error: 'Insufficient permissions' });
       }
-    }));
 
-    if (!result.Item) {
-      return createResponse(404, { error: 'Resource not found' });
-    }
-
-    return createResponse(200, result.Item);
-  } catch (error) {
-    console.error('Error getting resource:', error);
-    return createResponse(500, { error: 'Internal server error' });
-  }
-}
-
-async function handleCreateResource(resourceType: ResourceType, data: any, role: Role, userId: string): Promise<APIGatewayProxyResult> {
-  if (!hasPermission(role, 'write')) {
-    return createResponse(403, { error: 'Insufficient permissions' });
-  }
-
-  try {
-    let validatedData;
-    switch (resourceType) {
-      case 'orders':
-        validatedData = validateOrderData(data);
-        break;
-      case 'price-negotiations':
-        validatedData = validatePriceNegotiationData(data);
-        break;
-      case 'market-prices':
-        validatedData = validateMarketPriceData(data);
-        break;
-      case 'purchase-patterns':
-        validatedData = validatePurchasePatternData(data);
-        break;
-      case 'price-strategies':
-        validatedData = validatePriceStrategyData(data);
-        break;
-      default:
-        return createResponse(400, { error: 'Invalid resource type' });
-    }
-
-    const id = randomUUID();
-    const now = new Date().toISOString();
-    const prefix = getResourcePrefix(resourceType);
-
-    const item = {
-      pk: prefix,
-      sk: id,
-      id,
-      ...validatedData,
-      createdAt: now,
-      updatedAt: now,
-      createdBy: userId
-    };
-
-    await docClient.send(new PutCommand({
-      TableName: TABLE_NAME,
-      Item: item
-    }));
-
-    await createAuditLog('CREATE', resourceType, id, userId, { item });
-
-    return createResponse(201, item);
-  } catch (error) {
-    console.error('Error creating resource:', error);
-    if (error instanceof Error && error.message.includes('Validation failed')) {
-      return createResponse(400, { error: error.message });
-    }
-    return createResponse(500, { error: 'Internal server error' });
-  }
-}
-
-async function handleUpdateResource(resourceType: ResourceType, id: string, data: any, role: Role, userId: string): Promise<APIGatewayProxyResult> {
-  if (!hasPermission(role, 'write')) {
-    return createResponse(403, { error: 'Insufficient permissions' });
-  }
-
-  try {
-    const prefix = getResourcePrefix(resourceType);
-    const existing = await docClient.send(new GetCommand({
-      TableName: TABLE_NAME,
-      Key: {
-        pk: prefix,
-        sk: id
+      const tableIndex = validateTableIndex(pathParts[1]);
+      const config = TABLE_CONFIGS[tableIndex as keyof typeof TABLE_CONFIGS];
+      
+      const body = JSON.parse(event.body || '{}');
+      if (!body.items || !Array.isArray(body.items)) {
+        return createResponse(400, { error: 'Invalid request body. Expected { items: [] }' });
       }
-    }));
 
-    if (!existing.Item) {
-      return createResponse(404, { error: 'Resource not found' });
-    }
+      const items = body.items.map((item: any) => ({
+        ...item,
+        pk: config.pk,
+        sk: item.id || randomUUID(),
+        id: item.id || randomUUID(),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      }));
 
-    let validatedData;
-    switch (resourceType) {
-      case 'orders':
-        validatedData = validateOrderData({ ...existing.Item, ...data });
-        break;
-      case 'price-negotiations':
-        validatedData = validatePriceNegotiationData({ ...existing.Item, ...data });
-        break;
-      case 'market-prices':
-        validatedData = validateMarketPriceData({ ...existing.Item, ...data });
-        break;
-      case 'purchase-patterns':
-        validatedData = validatePurchasePatternData({ ...existing.Item, ...data });
-        break;
-      case 'price-strategies':
-        validatedData = validatePriceStrategyData({ ...existing.Item, ...data });
-        break;
-      default:
-        return createResponse(400, { error: 'Invalid resource type' });
-    }
+      const chunks = chunkArray(items, 25);
+      let imported = 0;
+      let failed = 0;
+      const errors: string[] = [];
 
-    const updatedItem = {
-      ...existing.Item,
-      ...validatedData,
-      updatedAt: new Date().toISOString(),
-      updatedBy: userId
-    };
-
-    await docClient.send(new PutCommand({
-      TableName: TABLE_NAME,
-      Item: updatedItem
-    }));
-
-    await createAuditLog('UPDATE', resourceType, id, userId, { before: existing.Item, after: updatedItem });
-
-    return createResponse(200, updatedItem);
-  } catch (error) {
-    console.error('Error updating resource:', error);
-    if (error instanceof Error && error.message.includes('Validation failed')) {
-      return createResponse(400, { error: error.message });
-    }
-    return createResponse(500, { error: 'Internal server error' });
-  }
-}
-
-async function handleDeleteResource(resourceType: ResourceType, id: string, role: Role, userId: string): Promise<APIGatewayProxyResult> {
-  if (!hasPermission(role, 'delete')) {
-    return createResponse(403, { error: 'Insufficient permissions' });
-  }
-
-  try {
-    const prefix = getResourcePrefix(resourceType);
-    const existing = await docClient.send(new GetCommand({
-      TableName: TABLE_NAME,
-      Key: {
-        pk: prefix,
-        sk: id
-      }
-    }));
-
-    if (!existing.Item) {
-      return createResponse(404, { error: 'Resource not found' });
-    }
-
-    await docClient.send(new DeleteCommand({
-      TableName: TABLE_NAME,
-      Key: {
-        pk: prefix,
-        sk: id
-      }
-    }));
-
-    await createAuditLog('DELETE', resourceType, id, userId, { deletedItem: existing.Item });
-
-    return createResponse(200, { message: 'Resource deleted successfully' });
-  } catch (error) {
-    console.error('Error deleting resource:', error);
-    return createResponse(500, { error: 'Internal server error' });
-  }
-}
-
-async function handleBulkImport(resourceType: ResourceType, items: any[], role: Role, userId: string): Promise<APIGatewayProxyResult> {
-  if (!hasPermission(role, 'write')) {
-    return createResponse(403, { error: 'Insufficient permissions' });
-  }
-
-  try {
-    const prefix = getResourcePrefix(resourceType);
-    const now = new Date().toISOString();
-    let imported = 0;
-    let failed = 0;
-    const errors: string[] = [];
-
-    // Process items in batches of 25 (DynamoDB BatchWrite limit)
-    for (let i = 0; i < items.length; i += 25) {
-      const batch = items.slice(i, i + 25);
-      const writeRequests = [];
-
-      for (const item of batch) {
+      for (const chunk of chunks) {
         try {
-          let validatedData;
-          switch (resourceType) {
-            case 'orders':
-              validatedData = validateOrderData(item);
-              break;
-            case 'price-negotiations':
-              validatedData = validatePriceNegotiationData(item);
-              break;
-            case 'market-prices':
-              validatedData = validateMarketPriceData(item);
-              break;
-            case 'purchase-patterns':
-              validatedData = validatePurchasePatternData(item);
-              break;
-            case 'price-strategies':
-              validatedData = validatePriceStrategyData(item);
-              break;
-            default:
-              throw new Error('Invalid resource type');
-          }
+          const writeRequests = chunk.map(item => ({
+            PutRequest: { Item: item }
+          }));
 
-          const id = item.id || randomUUID();
-          const processedItem = {
-            pk: prefix,
-            sk: id,
-            id,
-            ...validatedData,
-            createdAt: item.createdAt || now,
-            updatedAt: now,
-            createdBy: item.createdBy || userId
-          };
-
-          writeRequests.push({
-            PutRequest: {
-              Item: processedItem
-            }
-          });
-        } catch (error) {
-          failed++;
-          errors.push(`Item ${i + batch.indexOf(item)}: ${error instanceof Error ? error.message : 'Unknown error'}`);
-        }
-      }
-
-      if (writeRequests.length > 0) {
-        try {
           await docClient.send(new BatchWriteCommand({
             RequestItems: {
               [TABLE_NAME]: writeRequests
             }
           }));
-          imported += writeRequests.length;
+          
+          imported += chunk.length;
         } catch (error) {
-          failed += writeRequests.length;
+          failed += chunk.length;
           errors.push(`Batch write failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
         }
       }
+
+      await writeAuditLog('BULK_IMPORT', userId, {
+        tableIndex,
+        tableName: config.name,
+        imported,
+        failed,
+        totalItems: items.length
+      });
+
+      return createResponse(200, { imported, failed, errors });
     }
 
-    await createAuditLog('BULK_IMPORT', resourceType, 'bulk', userId, { imported, failed, totalItems: items.length });
-
-    return createResponse(200, {
-      imported,
-      failed,
-      errors
-    });
-  } catch (error) {
-    console.error('Error in bulk import:', error);
-    return createResponse(500, { error: 'Internal server error' });
-  }
-}
-
-export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-  try {
-    const role = getUserRole(event);
-    const userId = getUserId(event);
-    const method = event.httpMethod;
-    const path = event.path;
-    const pathParts = path.split('/').filter(p => p);
-
-    // Handle /resources endpoint
-    if (pathParts.length === 1 && pathParts[0] === 'resources') {
-      if (method === 'GET') {
-        // Return all resource types
-        const allResources = await Promise.all(
-          Object.values(RESOURCE_TYPES).map(async (resourceType) => {
-            try {
-              const result = await handleGetResources(resourceType, role);
-              const data = JSON.parse(result.body);
-              return {
-                type: resourceType,
-                items: data.items || [],
-                count: data.count || 0
-              };
-            } catch (error) {
-              return {
-                type: resourceType,
-                items: [],
-                count: 0,
-                error: error instanceof Error ? error.message : 'Unknown error'
-              };
-            }
-          })
-        );
-        return createResponse(200, { resources: allResources });
-      }
-    }
-
-    // Handle /api/{tableIndex}/bulk endpoints
-    if (pathParts.length === 3 && pathParts[0] === 'api' && pathParts[2] === 'bulk') {
-      const tableIndex = pathParts[1];
-      const resourceType = RESOURCE_TYPES[tableIndex];
-      
-      if (!resourceType) {
-        return createResponse(400, { error: 'Invalid table index' });
-      }
-
-      if (method === 'POST') {
-        if (!event.body) {
-          return createResponse(400, { error: 'Request body is required' });
-        }
-
-        const { items } = JSON.parse(event.body);
-        if (!Array.isArray(items)) {
-          return createResponse(400, { error: 'Items must be an array' });
-        }
-
-        return await handleBulkImport(resourceType, items, role, userId);
-      }
-    }
-
-    // Handle /api/{tableIndex} endpoints
     if (pathParts.length >= 2 && pathParts[0] === 'api') {
-      const tableIndex = pathParts[1];
-      const resourceType = RESOURCE_TYPES[tableIndex];
-      
-      if (!resourceType) {
-        return createResponse(400, { error: 'Invalid table index' });
-      }
+      const tableIndex = validateTableIndex(pathParts[1]);
+      const config = TABLE_CONFIGS[tableIndex as keyof typeof TABLE_CONFIGS];
+      const itemId = pathParts[2];
 
-      if (pathParts.length === 2) {
-        // /api/{tableIndex}
-        if (method === 'GET') {
-          return await handleGetResources(resourceType, role);
-        } else if (method === 'POST') {
-          if (!event.body) {
-            return createResponse(400, { error: 'Request body is required' });
+      switch (method) {
+        case 'GET':
+          if (!hasPermission(userRole, 'read')) {
+            return createResponse(403, { error: 'Insufficient permissions' });
           }
-          const data = JSON.parse(event.body);
-          return await handleCreateResource(resourceType, data, role, userId);
-        }
-      } else if (pathParts.length === 3) {
-        // /api/{tableIndex}/{id}
-        const id = pathParts[2];
-        if (method === 'GET') {
-          return await handleGetResource(resourceType, id, role);
-        } else if (method === 'PUT') {
-          if (!event.body) {
-            return createResponse(400, { error: 'Request body is required' });
+
+          if (itemId) {
+            const result = await docClient.send(new GetCommand({
+              TableName: TABLE_NAME,
+              Key: { pk: config.pk, sk: itemId }
+            }));
+
+            if (!result.Item) {
+              return createResponse(404, { error: 'Item not found' });
+            }
+
+            return createResponse(200, result.Item);
+          } else {
+            const result = await docClient.send(new ScanCommand({
+              TableName: TABLE_NAME,
+              FilterExpression: 'pk = :pk',
+              ExpressionAttributeValues: { ':pk': config.pk }
+            }));
+
+            return createResponse(200, { items: result.Items || [] });
           }
-          const data = JSON.parse(event.body);
-          return await handleUpdateResource(resourceType, id, data, role, userId);
-        } else if (method === 'DELETE') {
-          return await handleDeleteResource(resourceType, id, role, userId);
-        }
+
+        case 'POST':
+          if (!hasPermission(userRole, 'write')) {
+            return createResponse(403, { error: 'Insufficient permissions' });
+          }
+
+          const createBody = JSON.parse(event.body || '{}');
+          const newItem = {
+            ...createBody,
+            pk: config.pk,
+            sk: createBody.id || randomUUID(),
+            id: createBody.id || randomUUID(),
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+          };
+
+          await docClient.send(new PutCommand({
+            TableName: TABLE_NAME,
+            Item: newItem
+          }));
+
+          await writeAuditLog('CREATE', userId, {
+            tableIndex,
+            tableName: config.name,
+            itemId: newItem.id
+          });
+
+          return createResponse(201, newItem);
+
+        case 'PUT':
+          if (!hasPermission(userRole, 'write')) {
+            return createResponse(403, { error: 'Insufficient permissions' });
+          }
+
+          if (!itemId) {
+            return createResponse(400, { error: 'Item ID is required for update' });
+          }
+
+          const updateBody = JSON.parse(event.body || '{}');
+          const updatedItem = {
+            ...updateBody,
+            pk: config.pk,
+            sk: itemId,
+            id: itemId,
+            updatedAt: new Date().toISOString()
+          };
+
+          await docClient.send(new PutCommand({
+            TableName: TABLE_NAME,
+            Item: updatedItem
+          }));
+
+          await writeAuditLog('UPDATE', userId, {
+            tableIndex,
+            tableName: config.name,
+            itemId
+          });
+
+          return createResponse(200, updatedItem);
+
+        case 'DELETE':
+          if (!hasPermission(userRole, 'delete')) {
+            return createResponse(403, { error: 'Insufficient permissions' });
+          }
+
+          if (!itemId) {
+            return createResponse(400, { error: 'Item ID is required for deletion' });
+          }
+
+          await docClient.send(new DeleteCommand({
+            TableName: TABLE_NAME,
+            Key: { pk: config.pk, sk: itemId }
+          }));
+
+          await writeAuditLog('DELETE', userId, {
+            tableIndex,
+            tableName: config.name,
+            itemId
+          });
+
+          return createResponse(200, { message: 'Item deleted successfully' });
+
+        default:
+          return createResponse(405, { error: 'Method not allowed' });
       }
     }
 
     return createResponse(404, { error: 'Endpoint not found' });
+
   } catch (error) {
-    console.error('Handler error:', error);
-    if (error instanceof Error && (error.message.includes('Missing user') || error.message.includes('Invalid role'))) {
-      return createResponse(401, { error: 'Unauthorized' });
+    console.error('Error:', error);
+    
+    if (error instanceof Error) {
+      if (error.message === 'Invalid role' || error.message === 'Invalid table index') {
+        return createResponse(400, { error: error.message });
+      }
     }
+
     return createResponse(500, { error: 'Internal server error' });
   }
 };
