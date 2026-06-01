@@ -11,7 +11,7 @@ window.AIVIC_SYSTEM_NAME = "基幹システム連携管理システムの構築"
 window.AIVIC_TABLES = [{"tableName":"ログインユーザーマスタ","purpose":"Web発注プラットフォームにログインするユーザーの認証情報と基本属性を管理する","columns":[{"name":"ユーザーID","type":"uuid","required":true,"description":"ユーザーを一意に識別するID"},{"name":"ログインID","type":"varchar(100)","required":true,"description":"ログイン時に使用するID"},{"name":"パスワードハッシュ","type":"varchar(100)","required":true,"description":"暗号化されたパスワード"},{"name":"ユーザー名","type":"varchar(100)","required":true,"description":"画面表示用のユーザー名"},{"name":"メールアドレス","type":"varchar(100)","required":true,"description":"通知送信先メールアドレス"},{"name":"ユーザー種別","type":"varchar(100)","required":true,"description":"発注者、受注者、管理者等の区分"},{"name":"所属組織ID","type":"uuid","required":false,"description":"所属する組織のID"},{"name":"権限レベル","type":"integer","required":true,"description":"システム内での権限レベル"},{"name":"アカウント状態","type":"varchar(100)","required":true,"description":"有効、無効、停止等の状態"},{"name":"最終ログイン日時","type":"timestamp","required":false,"description":"最後にログインした日時"},{"name":"パスワード変更日時","type":"timestamp","required":false,"description":"パスワードを最後に変更した日時"},{"name":"有効フラグ","type":"boolean","required":true,"description":"レコードの有効性を示すフラグ"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者"},{"name":"更新者","type":"varchar(100)","required":true,"description":"レコード最終更新者"}]},{"tableName":"発注データ","purpose":"Web発注プラットフォームにおける発注情報を管理し、発注から承認・処理完了までの一連の業務フローを支援する","columns":[{"name":"発注ID","type":"uuid","required":true,"description":"発注データの一意識別子"},{"name":"発注番号","type":"varchar(100)","required":true,"description":"業務で使用する発注番号"},{"name":"発注者ID","type":"uuid","required":true,"description":"発注を行ったユーザーのID（ログインユーザーマスタ参照）"},{"name":"発注日","type":"timestamp","required":true,"description":"発注が行われた日時"},{"name":"希望納期","type":"timestamp","required":true,"description":"発注者が希望する納期"},{"name":"発注先名","type":"varchar(100)","required":true,"description":"発注先の会社名・店舗名"},{"name":"発注先担当者","type":"varchar(100)","required":false,"description":"発注先の担当者名"},{"name":"発注先連絡先","type":"varchar(100)","required":false,"description":"発注先の電話番号・メールアドレス等"},{"name":"発注金額","type":"integer","required":true,"description":"発注の総金額"},{"name":"発注ステータス","type":"varchar(100)","required":true,"description":"発注の処理状況（下書き・承認待ち・承認済み・発注済み・完了・キャンセル等）"},{"name":"承認者ID","type":"uuid","required":false,"description":"発注を承認したユーザーのID"},{"name":"承認日時","type":"timestamp","required":false,"description":"承認が行われた日時"},{"name":"発注理由","type":"text","required":false,"description":"発注の理由・目的"},{"name":"備考","type":"text","required":false,"description":"発注に関する補足情報"},{"name":"緊急フラグ","type":"boolean","required":true,"description":"緊急発注かどうかの判定"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"},{"name":"更新者ID","type":"uuid","required":true,"description":"レコード最終更新者のユーザーID"}]},{"tableName":"発注明細データ","purpose":"発注データに紐づく商品明細情報を管理し、Web発注プラットフォームでの明細単位での操作・表示・検索を実現する","columns":[{"name":"発注明細ID","type":"uuid","required":true,"description":"発注明細の一意識別子（主キー）"},{"name":"発注ID","type":"uuid","required":true,"description":"発注データテーブルへの外部キー"},{"name":"明細番号","type":"integer","required":true,"description":"発注内での明細の連番"},{"name":"商品コード","type":"varchar(100)","required":true,"description":"発注する商品の識別コード"},{"name":"商品名","type":"varchar(100)","required":true,"description":"発注する商品の名称"},{"name":"規格","type":"varchar(100)","required":false,"description":"商品の規格・仕様"},{"name":"発注数量","type":"integer","required":true,"description":"発注する数量"},{"name":"単位","type":"varchar(100)","required":true,"description":"数量の単位（個、箱、kg等）"},{"name":"単価","type":"integer","required":true,"description":"商品の単価（円）"},{"name":"金額","type":"integer","required":true,"description":"明細の合計金額（単価×数量）"},{"name":"希望納期","type":"timestamp","required":false,"description":"明細単位での希望納期"},{"name":"明細ステータス","type":"varchar(100)","required":true,"description":"明細の処理状況（未処理、処理中、完了等）"},{"name":"備考","type":"text","required":false,"description":"明細に関する特記事項"},{"name":"削除フラグ","type":"boolean","required":true,"description":"論理削除フラグ"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"},{"name":"更新者ID","type":"uuid","required":true,"description":"レコード最終更新者のユーザーID"}]},{"tableName":"基幹システム連携設定マスタ","purpose":"Web発注プラットフォームと基幹システム間のデータ連携設定を管理するマスタテーブル","columns":[{"name":"連携設定ID","type":"uuid","required":true,"description":"連携設定の一意識別子（主キー）"},{"name":"連携システム名","type":"varchar(100)","required":true,"description":"連携対象の基幹システム名"},{"name":"連携種別","type":"varchar(100)","required":true,"description":"連携の種別（発注データ送信、在庫データ受信等）"},{"name":"接続方式","type":"varchar(100)","required":true,"description":"連携方式（API、FTP、DB直接接続等）"},{"name":"接続先URL","type":"varchar(100)","required":false,"description":"API接続時のエンドポイントURL"},{"name":"認証方式","type":"varchar(100)","required":true,"description":"認証方式（API Key、OAuth、Basic認証等）"},{"name":"実行頻度","type":"varchar(100)","required":true,"description":"連携実行の頻度（リアルタイム、毎時、日次等）"},{"name":"データ形式","type":"varchar(100)","required":true,"description":"連携データの形式（JSON、XML、CSV等）"},{"name":"有効フラグ","type":"boolean","required":true,"description":"連携設定の有効/無効状態"},{"name":"優先順位","type":"integer","required":true,"description":"複数連携がある場合の実行優先順位"},{"name":"タイムアウト秒数","type":"integer","required":true,"description":"連携処理のタイムアウト時間（秒）"},{"name":"リトライ回数","type":"integer","required":true,"description":"連携失敗時の最大リトライ回数"},{"name":"エラー通知先","type":"varchar(100)","required":false,"description":"連携エラー時の通知先メールアドレス"},{"name":"備考","type":"text","required":false,"description":"連携設定に関する補足情報"},{"name":"作成者ID","type":"uuid","required":true,"description":"設定を作成したユーザーのID"},{"name":"更新者ID","type":"uuid","required":true,"description":"設定を最後に更新したユーザーのID"},{"name":"作成日時","type":"timestamp","required":true,"description":"設定の作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"設定の最終更新日時"}]},{"tableName":"データ検証ルールマスタ","purpose":"Web発注プラットフォームから基幹システムへのデータ連携時に適用する検証ルールを管理するマスタテーブル","columns":[{"name":"検証ルールID","type":"uuid","required":true,"description":"検証ルールの一意識別子（主キー）"},{"name":"ルール名","type":"varchar(100)","required":true,"description":"検証ルールの名称"},{"name":"対象テーブル名","type":"varchar(100)","required":true,"description":"検証対象となるテーブル名"},{"name":"対象カラム名","type":"varchar(100)","required":true,"description":"検証対象となるカラム名"},{"name":"検証タイプ","type":"varchar(100)","required":true,"description":"検証の種類（必須チェック、形式チェック、範囲チェック、重複チェック等）"},{"name":"検証条件","type":"text","required":true,"description":"具体的な検証条件の設定値"},{"name":"エラーメッセージ","type":"text","required":true,"description":"検証エラー時に表示するメッセージ"},{"name":"実行順序","type":"integer","required":true,"description":"同一カラムに複数ルールがある場合の実行順序"},{"name":"有効フラグ","type":"boolean","required":true,"description":"ルールの有効/無効状態"},{"name":"適用開始日","type":"timestamp","required":false,"description":"ルールの適用開始日時"},{"name":"適用終了日","type":"timestamp","required":false,"description":"ルールの適用終了日時"},{"name":"備考","type":"text","required":false,"description":"ルールに関する補足説明"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"更新者ID","type":"uuid","required":true,"description":"レコード最終更新者のユーザーID"}]},{"tableName":"連携処理履歴","purpose":"基幹システムとの連携処理の実行履歴を記録し、処理状況の監視、エラー対応、再処理判定を行うための履歴管理テーブル","columns":[{"name":"連携処理履歴ID","type":"uuid","required":true,"description":"連携処理履歴の一意識別子（主キー）"},{"name":"連携設定ID","type":"uuid","required":true,"description":"基幹システム連携設定マスタへの外部キー"},{"name":"処理種別","type":"varchar(100)","required":true,"description":"連携処理の種別（発注データ送信、在庫データ取得、受注データ送信等）"},{"name":"処理ステータス","type":"varchar(100)","required":true,"description":"処理の実行状況（実行中、成功、失敗、中断、再試行中）"},{"name":"対象データID","type":"uuid","required":false,"description":"連携対象となったデータのID（発注データID等）"},{"name":"処理開始日時","type":"timestamp","required":true,"description":"連携処理の開始日時"},{"name":"処理終了日時","type":"timestamp","required":false,"description":"連携処理の終了日時"},{"name":"処理件数","type":"integer","required":false,"description":"処理対象となったデータ件数"},{"name":"成功件数","type":"integer","required":false,"description":"正常に処理されたデータ件数"},{"name":"エラー件数","type":"integer","required":false,"description":"エラーが発生したデータ件数"},{"name":"エラーメッセージ","type":"text","required":false,"description":"処理中に発生したエラーの詳細メッセージ"},{"name":"リクエストデータ","type":"text","required":false,"description":"基幹システムに送信したリクエストデータの内容"},{"name":"レスポンスデータ","type":"text","required":false,"description":"基幹システムから受信したレスポンスデータの内容"},{"name":"再試行回数","type":"integer","required":true,"description":"処理の再試行実行回数（初回は0）"},{"name":"次回再試行日時","type":"timestamp","required":false,"description":"エラー時の次回再試行予定日時"},{"name":"処理実行者ID","type":"uuid","required":false,"description":"手動実行時の実行者（ログインユーザーマスタへの外部キー）"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"}]},{"tableName":"連携エラーログ","purpose":"基幹システム連携処理で発生したエラーの詳細情報を記録し、エラー分析・対応履歴管理・再処理判定を行うためのログテーブル","columns":[{"name":"エラーログID","type":"uuid","required":true,"description":"エラーログの一意識別子（主キー）"},{"name":"連携処理履歴ID","type":"uuid","required":true,"description":"連携処理履歴テーブルへの外部キー"},{"name":"発注データID","type":"uuid","required":false,"description":"エラー対象の発注データID（該当する場合）"},{"name":"エラー発生日時","type":"timestamp","required":true,"description":"エラーが発生した日時"},{"name":"エラー種別","type":"varchar(100)","required":true,"description":"システムエラー、データ検証エラー、通信エラー、認証エラー等"},{"name":"エラーコード","type":"varchar(100)","required":false,"description":"システム固有のエラーコード"},{"name":"エラーメッセージ","type":"text","required":true,"description":"エラーの詳細メッセージ"},{"name":"エラー発生箇所","type":"varchar(100)","required":true,"description":"データ変換処理、API送信、レスポンス受信等"},{"name":"処理対象データ","type":"text","required":false,"description":"エラー発生時の処理対象データの内容"},{"name":"スタックトレース","type":"text","required":false,"description":"システムエラー時の詳細なスタックトレース情報"},{"name":"重要度","type":"varchar(100)","required":true,"description":"緊急、高、中、低"},{"name":"対応状況","type":"varchar(100)","required":true,"description":"未対応、対応中、対応完了、保留"},{"name":"対応者ID","type":"uuid","required":false,"description":"エラー対応を行うユーザーのID"},{"name":"対応開始日時","type":"timestamp","required":false,"description":"エラー対応を開始した日時"},{"name":"対応完了日時","type":"timestamp","required":false,"description":"エラー対応が完了した日時"},{"name":"対応内容","type":"text","required":false,"description":"実施した対応内容の詳細"},{"name":"再処理要否","type":"boolean","required":true,"description":"エラー解決後に再処理が必要かどうか"},{"name":"再処理実行日時","type":"timestamp","required":false,"description":"再処理を実行した日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"}]},{"tableName":"データ検証結果","purpose":"発注データの基幹システム連携前後における各種検証処理の実行結果を記録し、データ品質管理と問題追跡を行う","columns":[{"name":"検証結果ID","type":"uuid","required":true,"description":"データ検証結果の一意識別子（主キー）"},{"name":"連携処理履歴ID","type":"uuid","required":true,"description":"関連する連携処理履歴への外部キー"},{"name":"発注データID","type":"uuid","required":false,"description":"検証対象の発注データへの外部キー"},{"name":"検証ルールID","type":"uuid","required":true,"description":"適用された検証ルールへの外部キー"},{"name":"検証種別","type":"varchar(100)","required":true,"description":"検証の種類（形式チェック、業務ルールチェック、整合性チェック等）"},{"name":"検証項目名","type":"varchar(100)","required":true,"description":"検証を行った具体的な項目名"},{"name":"検証結果","type":"varchar(100)","required":true,"description":"検証結果（成功、警告、エラー）"},{"name":"検証メッセージ","type":"text","required":false,"description":"検証結果の詳細メッセージ"},{"name":"検証前値","type":"text","required":false,"description":"検証前のデータ値"},{"name":"検証後値","type":"text","required":false,"description":"検証後のデータ値（補正された場合）"},{"name":"重要度","type":"varchar(100)","required":true,"description":"検証結果の重要度（高、中、低）"},{"name":"処理継続可否","type":"boolean","required":true,"description":"この検証結果で処理を継続可能かどうか"},{"name":"検証実行日時","type":"timestamp","required":true,"description":"検証を実行した日時"},{"name":"検証実行者ID","type":"uuid","required":false,"description":"検証を実行したユーザーID（自動実行の場合はnull）"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"}]},{"tableName":"発注ステータス履歴","purpose":"発注データのステータス変更履歴を時系列で管理し、発注処理の進捗状況と変更経緯を追跡する","columns":[{"name":"履歴ID","type":"uuid","required":true,"description":"発注ステータス履歴の一意識別子"},{"name":"発注ID","type":"uuid","required":true,"description":"対象発注データの識別子"},{"name":"変更前ステータス","type":"varchar(100)","required":false,"description":"変更前の発注ステータス（初回登録時はnull）"},{"name":"変更後ステータス","type":"varchar(100)","required":true,"description":"変更後の発注ステータス（下書き、承認待ち、承認済み、発注済み、完了、キャンセル等）"},{"name":"変更理由","type":"text","required":false,"description":"ステータス変更の理由やコメント"},{"name":"処理区分","type":"varchar(100)","required":true,"description":"変更処理の種別（手動変更、自動処理、基幹システム連携等）"},{"name":"連携処理ID","type":"uuid","required":false,"description":"基幹システム連携による変更の場合の連携処理履歴ID"},{"name":"変更者ID","type":"uuid","required":false,"description":"ステータスを変更したユーザーID（システム自動処理の場合はnull）"},{"name":"変更日時","type":"timestamp","required":true,"description":"ステータス変更が発生した日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"履歴レコードの作成日時"}]},{"tableName":"システム通知設定","purpose":"Web発注プラットフォームにおける各種通知の設定を管理し、発注処理や基幹システム連携の状況に応じた適切な通知を実現する","columns":[{"name":"通知設定ID","type":"uuid","required":true,"description":"通知設定の一意識別子（主キー）"},{"name":"通知種別","type":"varchar(100)","required":true,"description":"通知の種別（発注完了、連携エラー、承認依頼、期限切れ警告等）"},{"name":"通知名","type":"varchar(100)","required":true,"description":"通知設定の名称"},{"name":"通知対象者種別","type":"varchar(100)","required":true,"description":"通知対象者の種別（発注者、承認者、システム管理者、全ユーザー等）"},{"name":"通知方法","type":"varchar(100)","required":true,"description":"通知方法（メール、システム内通知、両方等）"},{"name":"件名テンプレート","type":"varchar(100)","required":false,"description":"通知メールの件名テンプレート"},{"name":"本文テンプレート","type":"text","required":false,"description":"通知メールの本文テンプレート"},{"name":"発生条件","type":"text","required":true,"description":"通知が発生する条件の説明"},{"name":"優先度","type":"integer","required":true,"description":"通知の優先度（1:高、2:中、3:低）"},{"name":"有効フラグ","type":"boolean","required":true,"description":"通知設定の有効/無効状態"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"更新者ID","type":"uuid","required":true,"description":"レコード最終更新者のユーザーID"}]},{"tableName":"通知履歴","purpose":"システムからユーザーへの通知送信履歴を管理し、通知の配信状況や既読状態を追跡する","columns":[{"name":"通知履歴ID","type":"uuid","required":true,"description":"通知履歴の一意識別子（主キー）"},{"name":"通知設定ID","type":"uuid","required":true,"description":"システム通知設定マスタへの外部キー"},{"name":"受信者ユーザーID","type":"uuid","required":true,"description":"通知を受信するユーザーのID（ログインユーザーマスタへの外部キー）"},{"name":"通知タイトル","type":"varchar(100)","required":true,"description":"通知のタイトル"},{"name":"通知内容","type":"text","required":true,"description":"通知の詳細メッセージ内容"},{"name":"通知種別","type":"varchar(100)","required":true,"description":"通知の種別（発注完了、エラー発生、システムメンテナンス等）"},{"name":"優先度","type":"varchar(100)","required":true,"description":"通知の優先度（高、中、低）"},{"name":"送信方法","type":"varchar(100)","required":true,"description":"通知の送信方法（画面通知、メール、両方）"},{"name":"送信状態","type":"varchar(100)","required":true,"description":"送信処理の状態（送信待ち、送信中、送信完了、送信失敗）"},{"name":"既読フラグ","type":"boolean","required":true,"description":"ユーザーが通知を既読したかどうか"},{"name":"関連データID","type":"uuid","required":false,"description":"通知に関連するデータのID（発注データID、連携処理履歴ID等）"},{"name":"関連データ種別","type":"varchar(100)","required":false,"description":"関連データの種別（発注データ、連携処理履歴等）"},{"name":"送信予定日時","type":"timestamp","required":true,"description":"通知の送信予定日時"},{"name":"送信日時","type":"timestamp","required":false,"description":"実際に通知が送信された日時"},{"name":"既読日時","type":"timestamp","required":false,"description":"ユーザーが通知を既読した日時"},{"name":"エラーメッセージ","type":"text","required":false,"description":"送信失敗時のエラーメッセージ"},{"name":"再送回数","type":"integer","required":true,"description":"通知の再送信回数"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"uuid","required":true,"description":"レコード作成者のユーザーID"}]}];
 window.AIVIC_PRESET_SEED = {};
 window.AIVIC_PAGE_SCREEN_ID = "scr-1780291334265";
-window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  // 通知設定テーブル（tableIndex: 9）と通知履歴テーブル（tableIndex: 10）\n  const settingsTableIndex = 9; // システム通知設定\n  const historyTableIndex = 10; // 通知履歴\n  \n  // 通知設定一覧の再描画関数\n  function renderSettings(rows) {\n    const tbody = container.querySelector(\"#settings-tbody\");\n    tbody.innerHTML = rows.map(r => {\n      const priorityText = r.優先度 === 1 ? '高' : r.優先度 === 2 ? '中' : r.優先度 === 3 ? '低' : '';\n      const statusBadge = r.有効フラグ ? \n        '<span style=\"background: #10b981; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 11px;\">有効</span>' :\n        '<span style=\"background: #6b7280; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 11px;\">無効</span>';\n      \n      return `<tr data-id=\"${r.通知設定ID || r.id || ''}\">\n        <td>${r.通知名 || ''}</td>\n        <td>${r.通知種別 || ''}</td>\n        <td>${r.通知対象者種別 || ''}</td>\n        <td>${r.通知方法 || ''}</td>\n        <td>${priorityText}</td>\n        <td>${statusBadge}</td>\n        <td>${r.作成日時 ? new Date(r.作成日時).toLocaleDateString() : ''}</td>\n        <td>\n          <button class=\"action-btn secondary edit-settings-btn\" data-id=\"${r.通知設定ID || r.id || ''}\">編集</button>\n          <button class=\"action-btn secondary delete-settings-btn\" data-id=\"${r.通知設定ID || r.id || ''}\">削除</button>\n        </td>\n      </tr>`;\n    }).join(\"\");\n  }\n  \n  // 通知履歴一覧の再描画関数\n  function renderHistory(rows) {\n    const tbody = container.querySelector(\"#history-tbody\");\n    tbody.innerHTML = rows.map(r => {\n      const statusBadge = r.送信状態 === '送信完了' ? \n        '<span style=\"background: #10b981; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 11px;\">送信完了</span>' :\n        r.送信状態 === '送信失敗' ?\n        '<span style=\"background: #ef4444; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 11px;\">送信失敗</span>' :\n        '<span style=\"background: #f59e0b; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 11px;\">送信待ち</span>';\n      \n      const priorityText = r.優先度 === '高' ? '高' : r.優先度 === '中' ? '中' : r.優先度 === '低' ? '低' : r.優先度 || '';\n      const readStatus = r.既読フラグ ? '既読' : '未読';\n      \n      return `<tr data-id=\"${r.通知履歴ID || r.id || ''}\">\n        <td>${r.通知タイトル || ''}</td>\n        <td>${r.通知種別 || ''}</td>\n        <td>${r.受信者ユーザーID || ''}</td>\n        <td>${r.送信方法 || ''}</td>\n        <td>${statusBadge}</td>\n        <td>${priorityText}</td>\n        <td>${readStatus}</td>\n        <td>${r.送信日時 ? new Date(r.送信日時).toLocaleDateString() : ''}</td>\n        <td>\n          <button class=\"action-btn secondary resend-btn\" data-id=\"${r.通知履歴ID || r.id || ''}\">再送</button>\n        </td>\n      </tr>`;\n    }).join(\"\");\n  }\n  \n  // 初期データ表示\n  renderSettings(tables[settingsTableIndex]?.records || []);\n  renderHistory(tables[historyTableIndex]?.records || []);\n  \n  // 最新データを取得して表示\n  window.aivicApi.list(settingsTableIndex).then(rows => {\n    if (rows) renderSettings(rows);\n  });\n  \n  window.aivicApi.list(historyTableIndex).then(rows => {\n    if (rows) renderHistory(rows);\n  });\n  \n  // 通知設定保存\n  container.querySelector(\"#btn-save-notification\").addEventListener(\"click\", async () => {\n    const notificationType = container.querySelector(\"#select-notification-type\").value;\n    const targetType = container.querySelector(\"#select-target-type\").value;\n    const notificationMethod = container.querySelector('input[name=\"notification-method\"]:checked')?.value;\n    const notificationName = container.querySelector(\"#input-notification-name\").value;\n    const priority = container.querySelector(\"#select-priority\").value;\n    const subjectTemplate = container.querySelector(\"#input-subject-template\").value;\n    const bodyTemplate = container.querySelector(\"#textarea-body-template\").value;\n    const condition = container.querySelector(\"#textarea-condition\").value;\n    const activeFlag = container.querySelector(\"#checkbox-active\").checked;\n    \n    if (!notificationType || !targetType || !notificationMethod || !notificationName) {\n      alert(\"必須項目を入力してください\");\n      return;\n    }\n    \n    const data = {\n      通知種別: notificationType,\n      通知名: notificationName,\n      通知対象者種別: targetType,\n      通知方法: notificationMethod,\n      件名テンプレート: subjectTemplate,\n      本文テンプレート: bodyTemplate,\n      発生条件: condition,\n      優先度: parseInt(priority) || 2,\n      有効フラグ: activeFlag,\n      作成日時: new Date().toISOString(),\n      更新日時: new Date().toISOString()\n    };\n    \n    const saved = await window.aivicApi.save(settingsTableIndex, data);\n    if (saved) {\n      const rows = await window.aivicApi.list(settingsTableIndex);\n      if (rows) renderSettings(rows);\n      \n      // フォームクリア\n      container.querySelector(\"#select-notification-type\").value = \"\";\n      container.querySelector(\"#select-target-type\").value = \"\";\n      container.querySelector(\"#input-notification-name\").value = \"\";\n      container.querySelector(\"#select-priority\").value = \"\";\n      container.querySelector(\"#input-subject-template\").value = \"\";\n      container.querySelector(\"#textarea-body-template\").value = \"\";\n      container.querySelector(\"#textarea-condition\").value = \"\";\n      container.querySelector(\"#checkbox-active\").checked = false;\n      const radioButtons = container.querySelectorAll('input[name=\"notification-method\"]');\n      radioButtons.forEach(radio => radio.checked = false);\n    }\n  });\n  \n  // フォームクリア\n  container.querySelector(\"#btn-clear-form\").addEventListener(\"click\", () => {\n    container.querySelector(\"#select-notification-type\").value = \"\";\n    container.querySelector(\"#select-target-type\").value = \"\";\n    container.querySelector(\"#input-notification-name\").value = \"\";\n    container.querySelector(\"#select-priority\").value = \"\";\n    container.querySelector(\"#input-subject-template\").value = \"\";\n    container.querySelector(\"#textarea-body-template\").value = \"\";\n    container.querySelector(\"#textarea-condition\").value = \"\";\n    container.querySelector(\"#checkbox-active\").checked = false;\n    const radioButtons = container.querySelectorAll('input[name=\"notification-method\"]');\n    radioButtons.forEach(radio => radio.checked = false);\n  });\n  \n  // 通知設定検索\n  container.querySelector(\"#btn-search-settings\").addEventListener(\"click\", async () => {\n    const keyword = container.querySelector(\"#input-search-settings\").value.toLowerCase();\n    const rows = await window.aivicApi.list(settingsTableIndex);\n    if (rows) {\n      const filtered = rows.filter(r => \n        JSON.stringify(r).toLowerCase().includes(keyword)\n      );\n      renderSettings(filtered);\n    }\n  });\n  \n  // 通知履歴検索\n  container.querySelector(\"#btn-search-history\").addEventListener(\"click\", async () => {\n    const typeFilter = container.querySelector(\"#select-history-type\").value;\n    const statusFilter = container.querySelector(\"#select-send-status\").value;\n    const startDate = container.querySelector(\"#input-start-date\").value;\n    const endDate = container.querySelector(\"#input-end-date\").value;\n    \n    const rows = await window.aivicApi.list(historyTableIndex);\n    if (rows) {\n      let filtered = rows;\n      \n      if (typeFilter) {\n        filtered = filtered.filter(r => r.通知種別 === typeFilter);\n      }\n      \n      if (statusFilter) {\n        filtered = filtered.filter(r => r.送信状態 === statusFilter);\n      }\n      \n      if (startDate) {\n        filtered = filtered.filter(r => {\n          const sendDate = r.送信日時 ? new Date(r.送信日時).toISOString().split('T')[0] : '';\n          return sendDate >= startDate;\n        });\n      }\n      \n      if (endDate) {\n        filtered = filtered.filter(r => {\n          const sendDate = r.送信日時 ? new Date(r.送信日時).toISOString().split('T')[0] : '';\n          return sendDate <= endDate;\n        });\n      }\n      \n      renderHistory(filtered);\n    }\n  });\n  \n  // CSVエクスポート\n  container.querySelector(\"#btn-export-history\").addEventListener(\"click\", async () => {\n    const rows = await window.aivicApi.list(historyTableIndex);\n    if (rows && rows.length > 0) {\n      const headers = ['通知タイトル', '通知種別', '受信者', '送信方法', '送信状態', '優先度', '既読フラグ', '送信日時'];\n      const csvContent = '\\uFEFF' + [\n        headers.join(','),\n        ...rows.map(r => [\n          `\"${r.通知タイトル || ''}\"`,\n          `\"${r.通知種別 || ''}\"`,\n          `\"${r.受信者ユーザーID || ''}\"`,\n          `\"${r.送信方法 || ''}\"`,\n          `\"${r.送信状態 || ''}\"`,\n          `\"${r.優先度 || ''}\"`,\n          `\"${r.既読フラグ ? '既読' : '未読'}\"`,\n          `\"${r.送信日時 || ''}\"`\n        ].join(','))\n      ].join('\\n');\n      \n      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });\n      const link = document.createElement('a');\n      link.href = URL.createObjectURL(blob);\n      link.download = `通知履歴_${new Date().toISOString().split('T')[0]}.csv`;\n      link.click();\n    }\n  });\n  \n  // テスト送信\n  container.querySelector(\"#btn-test-send\").addEventListener(\"click\", async () => {\n    const testData = {\n      通知タイトル: 'テスト通知',\n      通知内容: 'これはテスト送信です',\n      通知種別: 'システムメンテナンス',\n      優先度: '中',\n      送信方法: 'システム内通知',\n      送信状態: '送信完了',\n      既読フラグ: false,\n      受信者ユーザーID: 'test-user',\n      送信日時: new Date().toISOString(),\n      作成日時: new Date().toISOString(),\n      更新日時: new Date().toISOString()\n    };\n    \n    const saved = await window.aivicApi.save(historyTableIndex, testData);\n    if (saved) {\n      alert('テスト通知を送信しました');\n      const rows = await window.aivicApi.list(historyTableIndex);\n      if (rows) renderHistory(rows);\n    }\n  });\n  \n  // イベントデリゲーション（編集・削除・再送）\n  container.addEventListener(\"click\", async (e) => {\n    // 通知設定削除\n    const deleteBtn = e.target.closest(\".delete-settings-btn\");\n    if (deleteBtn) {\n      if (!confirm(\"この通知設定を削除しますか？\")) return;\n      await window.aivicApi.delete(settingsTableIndex, deleteBtn.dataset.id);\n      const rows = await window.aivicApi.list(settingsTableIndex);\n      if (rows) renderSettings(rows);\n      return;\n    }\n    \n    // 通知設定編集\n    const editBtn = e.target.closest(\".edit-settings-btn\");\n    if (editBtn) {\n      const rows = await window.aivicApi.list(settingsTableIndex);\n      if (rows) {\n        const record = rows.find(r => (r.通知設定ID || r.id) === editBtn.dataset.id);\n        if (record) {\n          container.querySelector(\"#select-notification-type\").value = record.通知種別 || \"\";\n          container.querySelector(\"#select-target-type\").value = record.通知対象者種別 || \"\";\n          container.querySelector(\"#input-notification-name\").value = record.通知名 || \"\";\n          container.querySelector(\"#select-priority\").value = record.優先度 || \"\";\n          container.querySelector(\"#input-subject-template\").value = record.件名テンプレート || \"\";\n          container.querySelector(\"#textarea-body-template\").value = record.本文テンプレート || \"\";\n          container.querySelector(\"#textarea-condition\").value = record.発生条件 || \"\";\n          container.querySelector(\"#checkbox-active\").checked = record.有効フラグ || false;\n          \n          const methodRadio = container.querySelector(`input[name=\"notification-method\"][value=\"${record.通知方法}\"]`);\n          if (methodRadio) methodRadio.checked = true;\n        }\n      }\n      return;\n    }\n    \n    // 通知再送\n    const resendBtn = e.target.closest(\".resend-btn\");\n    if (resendBtn) {\n      if (!confirm(\"この通知を再送しますか？\")) return;\n      \n      const rows = await window.aivicApi.list(historyTableIndex);\n      if (rows) {\n        const record = rows.find(r => (r.通知履歴ID || r.id) === resendBtn.dataset.id);\n        if (record) {\n          const updateData = {\n            ...record,\n            送信状態: '送信完了',\n            送信日時: new Date().toISOString(),\n            再送回数: (record.再送回数 || 0) + 1,\n            更新日時: new Date().toISOString()\n          };\n          \n          await window.aivicApi.update(historyTableIndex, resendBtn.dataset.id, updateData);\n          const updatedRows = await window.aivicApi.list(historyTableIndex);\n          if (updatedRows) renderHistory(updatedRows);\n          alert('通知を再送しました');\n        }\n      }\n      return;\n    }\n  });\n}";
+window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  let editingNotificationId = null;\n  \n  // 通知設定一覧の再描画\n  function renderNotificationSettings(rows) {\n    const tbody = container.querySelector(\"#notification-settings-tbody\");\n    tbody.innerHTML = rows.map(r => {\n      const priorityText = r.優先度 === 1 ? \"高\" : r.優先度 === 2 ? \"中\" : r.優先度 === 3 ? \"低\" : \"\";\n      const statusBadge = r.有効フラグ ? \n        '<span style=\"background: #22c55e; color: #fff; padding: 2px 8px; border-radius: 12px; font-size: 12px;\">有効</span>' :\n        '<span style=\"background: #ef4444; color: #fff; padding: 2px 8px; border-radius: 12px; font-size: 12px;\">無効</span>';\n      \n      return `\n        <tr data-id=\"${r.id || r.通知設定ID}\">\n          <td>${r.通知名 || \"\"}</td>\n          <td>${r.通知種別 || \"\"}</td>\n          <td>${r.通知対象者種別 || \"\"}</td>\n          <td>${r.通知方法 || \"\"}</td>\n          <td>${priorityText}</td>\n          <td>${statusBadge}</td>\n          <td>\n            <button class=\"action-btn secondary edit-notification-btn\" data-id=\"${r.id || r.通知設定ID}\" style=\"margin-right: 4px;\">編集</button>\n            <button class=\"action-btn secondary delete-notification-btn\" data-id=\"${r.id || r.通知設定ID}\">削除</button>\n          </td>\n        </tr>\n      `;\n    }).join(\"\");\n  }\n\n  // 通知履歴一覧の再描画\n  function renderNotificationHistory(rows) {\n    const tbody = container.querySelector(\"#notification-history-tbody\");\n    tbody.innerHTML = rows.map(r => {\n      const sendDate = r.送信日時 ? new Date(r.送信日時).toLocaleString('ja-JP') : \"\";\n      const statusBadge = r.送信状態 === \"送信完了\" ? \n        '<span style=\"background: #22c55e; color: #fff; padding: 2px 8px; border-radius: 12px; font-size: 12px;\">送信完了</span>' :\n        r.送信状態 === \"送信失敗\" ?\n        '<span style=\"background: #ef4444; color: #fff; padding: 2px 8px; border-radius: 12px; font-size: 12px;\">送信失敗</span>' :\n        '<span style=\"background: #f59e0b; color: #fff; padding: 2px 8px; border-radius: 12px; font-size: 12px;\">送信待ち</span>';\n      \n      const readBadge = r.既読フラグ ? \n        '<span style=\"background: #3b82f6; color: #fff; padding: 2px 8px; border-radius: 12px; font-size: 12px;\">既読</span>' :\n        '<span style=\"background: #6b7280; color: #fff; padding: 2px 8px; border-radius: 12px; font-size: 12px;\">未読</span>';\n      \n      return `\n        <tr data-id=\"${r.id || r.通知履歴ID}\">\n          <td>${sendDate}</td>\n          <td>${r.通知タイトル || \"\"}</td>\n          <td>${r.受信者ユーザーID || \"\"}</td>\n          <td>${r.通知種別 || \"\"}</td>\n          <td>${r.送信方法 || \"\"}</td>\n          <td>${statusBadge}</td>\n          <td>${readBadge}</td>\n          <td>\n            <button class=\"action-btn secondary resend-btn\" data-id=\"${r.id || r.通知履歴ID}\">再送</button>\n          </td>\n        </tr>\n      `;\n    }).join(\"\");\n  }\n\n  // 初期データ表示\n  if (tables[0] && tables[0].records) {\n    renderNotificationSettings(tables[0].records);\n  }\n  if (tables[1] && tables[1].records) {\n    renderNotificationHistory(tables[1].records);\n  }\n\n  // 通知設定検索\n  container.querySelector(\"#btn-search-notification\").addEventListener(\"click\", async () => {\n    const keyword = container.querySelector(\"#input-search-notification\").value;\n    const rows = await window.aivicApi.list(0);\n    if (rows) {\n      const filtered = rows.filter(r => \n        JSON.stringify(r).toLowerCase().includes(keyword.toLowerCase())\n      );\n      renderNotificationSettings(filtered);\n    }\n  });\n\n  // 通知履歴検索\n  container.querySelector(\"#btn-search-history\").addEventListener(\"click\", async () => {\n    const keyword = container.querySelector(\"#input-search-history\").value;\n    const status = container.querySelector(\"#select-history-status\").value;\n    const rows = await window.aivicApi.list(1);\n    if (rows) {\n      let filtered = rows;\n      if (keyword) {\n        filtered = filtered.filter(r => \n          JSON.stringify(r).toLowerCase().includes(keyword.toLowerCase())\n        );\n      }\n      if (status) {\n        filtered = filtered.filter(r => r.送信状態 === status);\n      }\n      renderNotificationHistory(filtered);\n    }\n  });\n\n  // 通知設定保存\n  container.querySelector(\"#btn-save-notification\").addEventListener(\"click\", async () => {\n    const notificationType = container.querySelector(\"#select-notification-type\").value;\n    const targetUserType = container.querySelector(\"#select-target-user-type\").value;\n    const notificationMethod = container.querySelector(\"#select-notification-method\").value;\n    const notificationName = container.querySelector(\"#input-notification-name\").value;\n    const priority = container.querySelector(\"#select-priority\").value;\n    const subjectTemplate = container.querySelector(\"#input-subject-template\").value;\n    const bodyTemplate = container.querySelector(\"#textarea-body-template\").value;\n    const condition = container.querySelector(\"#textarea-condition\").value;\n    const activeFlag = container.querySelector(\"#checkbox-active-flag\").checked;\n\n    if (!notificationType || !targetUserType || !notificationMethod || !notificationName) {\n      alert(\"必須項目を入力してください\");\n      return;\n    }\n\n    const data = {\n      通知種別: notificationType,\n      通知名: notificationName,\n      通知対象者種別: targetUserType,\n      通知方法: notificationMethod,\n      件名テンプレート: subjectTemplate,\n      本文テンプレート: bodyTemplate,\n      発生条件: condition,\n      優先度: parseInt(priority) || 2,\n      有効フラグ: activeFlag,\n      作成日時: new Date().toISOString(),\n      更新日時: new Date().toISOString(),\n      作成者ID: \"current-user\",\n      更新者ID: \"current-user\"\n    };\n\n    let result;\n    if (editingNotificationId) {\n      result = await window.aivicApi.update(0, editingNotificationId, data);\n      editingNotificationId = null;\n    } else {\n      result = await window.aivicApi.save(0, data);\n    }\n\n    if (result) {\n      // フォームクリア\n      container.querySelector(\"#select-notification-type\").value = \"\";\n      container.querySelector(\"#select-target-user-type\").value = \"\";\n      container.querySelector(\"#select-notification-method\").value = \"\";\n      container.querySelector(\"#input-notification-name\").value = \"\";\n      container.querySelector(\"#select-priority\").value = \"\";\n      container.querySelector(\"#input-subject-template\").value = \"\";\n      container.querySelector(\"#textarea-body-template\").value = \"\";\n      container.querySelector(\"#textarea-condition\").value = \"\";\n      container.querySelector(\"#checkbox-active-flag\").checked = false;\n\n      // 一覧更新\n      const rows = await window.aivicApi.list(0);\n      if (rows) renderNotificationSettings(rows);\n    }\n  });\n\n  // フォームクリア\n  container.querySelector(\"#btn-clear\").addEventListener(\"click\", () => {\n    container.querySelector(\"#select-notification-type\").value = \"\";\n    container.querySelector(\"#select-target-user-type\").value = \"\";\n    container.querySelector(\"#select-notification-method\").value = \"\";\n    container.querySelector(\"#input-notification-name\").value = \"\";\n    container.querySelector(\"#select-priority\").value = \"\";\n    container.querySelector(\"#input-subject-template\").value = \"\";\n    container.querySelector(\"#textarea-body-template\").value = \"\";\n    container.querySelector(\"#textarea-condition\").value = \"\";\n    container.querySelector(\"#checkbox-active-flag\").checked = false;\n    editingNotificationId = null;\n  });\n\n  // テスト通知送信\n  container.querySelector(\"#btn-test-notification\").addEventListener(\"click\", async () => {\n    const testData = {\n      通知設定ID: \"test-notification\",\n      受信者ユーザーID: \"current-user\",\n      通知タイトル: \"テスト通知\",\n      通知内容: \"これはテスト通知です。\",\n      通知種別: \"システムメンテナンス\",\n      優先度: \"中\",\n      送信方法: \"システム内通知\",\n      送信状態: \"送信完了\",\n      既読フラグ: false,\n      送信予定日時: new Date().toISOString(),\n      送信日時: new Date().toISOString(),\n      再送回数: 0,\n      作成日時: new Date().toISOString(),\n      更新日時: new Date().toISOString(),\n      作成者: \"current-user\"\n    };\n\n    const result = await window.aivicApi.save(1, testData);\n    if (result) {\n      alert(\"テスト通知を送信しました\");\n      const rows = await window.aivicApi.list(1);\n      if (rows) renderNotificationHistory(rows);\n    }\n  });\n\n  // CSVエクスポート\n  container.querySelector(\"#btn-csv-export\").addEventListener(\"click\", async () => {\n    const rows = await window.aivicApi.list(0);\n    if (rows && rows.length > 0) {\n      const headers = [\"通知名\", \"通知種別\", \"通知対象者種別\", \"通知方法\", \"優先度\", \"有効フラグ\", \"件名テンプレート\", \"本文テンプレート\", \"発生条件\"];\n      const csvContent = \"\\uFEFF\" + [\n        headers.join(\",\"),\n        ...rows.map(r => [\n          `\"${r.通知名 || \"\"}\"`,\n          `\"${r.通知種別 || \"\"}\"`,\n          `\"${r.通知対象者種別 || \"\"}\"`,\n          `\"${r.通知方法 || \"\"}\"`,\n          `\"${r.優先度 || \"\"}\"`,\n          `\"${r.有効フラグ ? \"有効\" : \"無効\"}\"`,\n          `\"${r.件名テンプレート || \"\"}\"`,\n          `\"${r.本文テンプレート || \"\"}\"`,\n          `\"${r.発生条件 || \"\"}\"`\n        ].join(\",\"))\n      ].join(\"\\n\");\n\n      const blob = new Blob([csvContent], { type: \"text/csv;charset=utf-8;\" });\n      const link = document.createElement(\"a\");\n      link.href = URL.createObjectURL(blob);\n      link.download = \"notification_settings.csv\";\n      link.click();\n    }\n  });\n\n  // イベントデリゲーション（編集・削除・再送）\n  container.addEventListener(\"click\", async (e) => {\n    // 通知設定編集\n    const editBtn = e.target.closest(\".edit-notification-btn\");\n    if (editBtn) {\n      const id = editBtn.dataset.id;\n      const rows = await window.aivicApi.list(0);\n      if (rows) {\n        const row = rows.find(r => (r.id || r.通知設定ID) === id);\n        if (row) {\n          container.querySelector(\"#select-notification-type\").value = row.通知種別 || \"\";\n          container.querySelector(\"#select-target-user-type\").value = row.通知対象者種別 || \"\";\n          container.querySelector(\"#select-notification-method\").value = row.通知方法 || \"\";\n          container.querySelector(\"#input-notification-name\").value = row.通知名 || \"\";\n          container.querySelector(\"#select-priority\").value = row.優先度 || \"\";\n          container.querySelector(\"#input-subject-template\").value = row.件名テンプレート || \"\";\n          container.querySelector(\"#textarea-body-template\").value = row.本文テンプレート || \"\";\n          container.querySelector(\"#textarea-condition\").value = row.発生条件 || \"\";\n          container.querySelector(\"#checkbox-active-flag\").checked = row.有効フラグ || false;\n          editingNotificationId = id;\n        }\n      }\n    }\n\n    // 通知設定削除\n    const deleteBtn = e.target.closest(\".delete-notification-btn\");\n    if (deleteBtn) {\n      if (!confirm(\"この通知設定を削除しますか？\")) return;\n      const id = deleteBtn.dataset.id;\n      await window.aivicApi.delete(0, id);\n      const rows = await window.aivicApi.list(0);\n      if (rows) renderNotificationSettings(rows);\n    }\n\n    // 通知再送\n    const resendBtn = e.target.closest(\".resend-btn\");\n    if (resendBtn) {\n      if (!confirm(\"この通知を再送しますか？\")) return;\n      const id = resendBtn.dataset.id;\n      const rows = await window.aivicApi.list(1);\n      if (rows) {\n        const row = rows.find(r => (r.id || r.通知履歴ID) === id);\n        if (row) {\n          const updatedData = {\n            ...row,\n            送信状態: \"送信完了\",\n            送信日時: new Date().toISOString(),\n            再送回数: (row.再送回数 || 0) + 1,\n            更新日時: new Date().toISOString()\n          };\n          await window.aivicApi.update(1, id, updatedData);\n          const updatedRows = await window.aivicApi.list(1);\n          if (updatedRows) renderNotificationHistory(updatedRows);\n        }\n      }\n    }\n  });\n\n  // 初期データ読み込み\n  window.aivicApi.list(0).then(rows => {\n    if (rows) renderNotificationSettings(rows);\n  });\n\n  window.aivicApi.list(1).then(rows => {\n    if (rows) renderNotificationHistory(rows);\n  });\n}";
 </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
@@ -85,194 +85,174 @@ canvas { display:block; max-height:280px !important; }
   </aside>
   <main class="main">
     <section class="card" data-aivic-panel="scr-1780291334265" style="margin-top:0">
-<div class="notification-management">
-  <!-- 通知設定セクション -->
-  <div class="card" style="margin-bottom: 16px;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-      <h2 style="font-size: 18px; font-weight: 600; color: var(--text); margin: 0;">通知設定管理</h2>
-      <button class="action-btn" data-testid="test-send-button" id="btn-test-send">テスト送信</button>
+<div class="system-notification-management">
+  <!-- ヘッダー -->
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h1 style="font-size: 20px; font-weight: 600; color: var(--text); margin: 0;">システム通知管理</h1>
+    <div style="display: flex; gap: 8px;">
+      <button class="action-btn" data-testid="test-notification-btn" id="btn-test-notification">
+        テスト送信
+      </button>
+      <button class="action-btn" data-testid="csv-export-btn" id="btn-csv-export">
+        CSVエクスポート
+      </button>
     </div>
-    
-    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px;">
-      <div>
-        <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">通知種別</label>
-        <select data-testid="notification-type-select" id="select-notification-type" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);">
-          <option value="">選択してください</option>
-          <option value="発注完了">発注完了</option>
-          <option value="連携エラー">連携エラー</option>
-          <option value="承認依頼">承認依頼</option>
-          <option value="期限切れ警告">期限切れ警告</option>
-          <option value="システムメンテナンス">システムメンテナンス</option>
-        </select>
-      </div>
+  </div>
+
+  <!-- 通知設定フォーム -->
+  <div class="card" style="margin-bottom: 20px;">
+    <div style="padding: 16px;">
+      <h2 style="font-size: 16px; font-weight: 600; color: var(--text); margin: 0 0 16px 0;">通知設定</h2>
       
-      <div>
-        <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">通知対象者種別</label>
-        <select data-testid="target-user-type-select" id="select-target-type" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);">
-          <option value="">選択してください</option>
-          <option value="発注者">発注者</option>
-          <option value="承認者">承認者</option>
-          <option value="システム管理者">システム管理者</option>
-          <option value="全ユーザー">全ユーザー</option>
-        </select>
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+        <div>
+          <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">通知種別</label>
+          <select data-testid="notification-type-select" id="select-notification-type" style="width: 100%; padding: 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);">
+            <option value="">選択してください</option>
+            <option value="発注完了">発注完了</option>
+            <option value="連携エラー">連携エラー</option>
+            <option value="承認依頼">承認依頼</option>
+            <option value="期限切れ警告">期限切れ警告</option>
+            <option value="システムメンテナンス">システムメンテナンス</option>
+          </select>
+        </div>
+        
+        <div>
+          <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">通知対象者種別</label>
+          <select data-testid="target-user-type-select" id="select-target-user-type" style="width: 100%; padding: 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);">
+            <option value="">選択してください</option>
+            <option value="発注者">発注者</option>
+            <option value="承認者">承認者</option>
+            <option value="システム管理者">システム管理者</option>
+            <option value="全ユーザー">全ユーザー</option>
+          </select>
+        </div>
+        
+        <div>
+          <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">通知方法</label>
+          <select data-testid="notification-method-select" id="select-notification-method" style="width: 100%; padding: 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);">
+            <option value="">選択してください</option>
+            <option value="メール">メール</option>
+            <option value="システム内通知">システム内通知</option>
+            <option value="両方">両方</option>
+          </select>
+        </div>
       </div>
-      
-      <div>
-        <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">通知方法</label>
-        <div style="display: flex; gap: 16px; align-items: center; margin-top: 8px;">
-          <label style="display: flex; align-items: center; gap: 4px; font-size: 14px; color: var(--text);">
-            <input type="radio" name="notification-method" value="メール" style="accent-color: var(--primary);">
-            メール
-          </label>
-          <label style="display: flex; align-items: center; gap: 4px; font-size: 14px; color: var(--text);">
-            <input type="radio" name="notification-method" value="システム内通知" style="accent-color: var(--primary);">
-            システム内
-          </label>
-          <label style="display: flex; align-items: center; gap: 4px; font-size: 14px; color: var(--text);">
-            <input type="radio" name="notification-method" value="両方" style="accent-color: var(--primary);">
-            両方
-          </label>
+
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 16px;">
+        <div>
+          <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">通知名</label>
+          <input data-testid="notification-name-input" id="input-notification-name" type="text" style="width: 100%; padding: 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);" placeholder="通知設定の名称を入力">
+        </div>
+        
+        <div>
+          <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">優先度</label>
+          <select data-testid="priority-select" id="select-priority" style="width: 100%; padding: 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);">
+            <option value="">選択してください</option>
+            <option value="1">高</option>
+            <option value="2">中</option>
+            <option value="3">低</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">件名テンプレート</label>
+        <input data-testid="subject-template-input" id="input-subject-template" type="text" style="width: 100%; padding: 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);" placeholder="通知メールの件名テンプレート">
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">本文テンプレート</label>
+        <textarea data-testid="body-template-textarea" id="textarea-body-template" rows="4" style="width: 100%; padding: 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); resize: vertical;" placeholder="通知メールの本文テンプレート"></textarea>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">発生条件</label>
+        <textarea data-testid="condition-textarea" id="textarea-condition" rows="3" style="width: 100%; padding: 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); resize: vertical;" placeholder="通知が発生する条件を記述"></textarea>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <input type="checkbox" data-testid="active-flag-checkbox" id="checkbox-active-flag" style="accent-color: var(--primary);">
+          <label for="checkbox-active-flag" style="font-size: 14px; color: var(--text);">有効</label>
+        </div>
+        
+        <div style="display: flex; gap: 8px;">
+          <button class="action-btn secondary" data-testid="clear-btn" id="btn-clear">クリア</button>
+          <button class="action-btn" data-testid="save-notification-btn" id="btn-save-notification">保存</button>
         </div>
       </div>
     </div>
-    
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
-      <div>
-        <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">通知名</label>
-        <input type="text" data-testid="notification-name-input" id="input-notification-name" placeholder="通知設定の名称を入力" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);">
-      </div>
-      
-      <div>
-        <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">優先度</label>
-        <select data-testid="priority-select" id="select-priority" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);">
-          <option value="">選択してください</option>
-          <option value="1">高</option>
-          <option value="2">中</option>
-          <option value="3">低</option>
-        </select>
-      </div>
-    </div>
-    
-    <div style="margin-bottom: 16px;">
-      <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">件名テンプレート</label>
-      <input type="text" data-testid="subject-template-input" id="input-subject-template" placeholder="通知メールの件名テンプレートを入力" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);">
-    </div>
-    
-    <div style="margin-bottom: 16px;">
-      <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">本文テンプレート</label>
-      <textarea data-testid="body-template-textarea" id="textarea-body-template" rows="4" placeholder="通知メールの本文テンプレートを入力" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); resize: vertical;"></textarea>
-    </div>
-    
-    <div style="margin-bottom: 16px;">
-      <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">発生条件</label>
-      <textarea data-testid="condition-textarea" id="textarea-condition" rows="3" placeholder="通知が発生する条件を入力" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); resize: vertical;"></textarea>
-    </div>
-    
-    <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 16px;">
-      <label style="display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--text);">
-        <input type="checkbox" data-testid="active-flag-checkbox" id="checkbox-active" style="accent-color: var(--primary);">
-        有効
-      </label>
-    </div>
-    
-    <div style="display: flex; gap: 8px;">
-      <button class="action-btn" data-testid="save-notification-button" id="btn-save-notification">保存</button>
-      <button class="action-btn secondary" data-testid="clear-form-button" id="btn-clear-form">クリア</button>
-    </div>
   </div>
-  
+
   <!-- 通知設定一覧 -->
-  <div class="card" style="margin-bottom: 16px;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-      <h3 style="font-size: 16px; font-weight: 600; color: var(--text); margin: 0;">通知設定一覧</h3>
-      <div style="display: flex; gap: 8px;">
-        <input type="text" data-testid="search-settings-input" id="input-search-settings" placeholder="通知設定を検索" style="padding: 4px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); width: 200px;">
-        <button class="action-btn secondary" data-testid="search-settings-button" id="btn-search-settings">検索</button>
+  <div class="card" style="margin-bottom: 20px;">
+    <div style="padding: 16px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h2 style="font-size: 16px; font-weight: 600; color: var(--text); margin: 0;">通知設定一覧</h2>
+        
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <input data-testid="search-notification-input" id="input-search-notification" type="text" placeholder="通知設定を検索" style="padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); width: 200px;">
+          <button class="action-btn secondary" data-testid="search-notification-btn" id="btn-search-notification">検索</button>
+        </div>
       </div>
-    </div>
-    
-    <div class="table-wrap">
-      <table data-testid="notification-settings-list">
-        <thead>
-          <tr>
-            <th>通知名</th>
-            <th>通知種別</th>
-            <th>対象者種別</th>
-            <th>通知方法</th>
-            <th>優先度</th>
-            <th>状態</th>
-            <th>作成日時</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody id="settings-tbody">
-        </tbody>
-      </table>
+
+      <div class="table-wrap">
+        <table data-testid="notification-settings-table">
+          <thead>
+            <tr>
+              <th style="color: var(--text);">通知名</th>
+              <th style="color: var(--text);">通知種別</th>
+              <th style="color: var(--text);">対象者種別</th>
+              <th style="color: var(--text);">通知方法</th>
+              <th style="color: var(--text);">優先度</th>
+              <th style="color: var(--text);">状態</th>
+              <th style="color: var(--text);">操作</th>
+            </tr>
+          </thead>
+          <tbody id="notification-settings-tbody">
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
-  
-  <!-- 通知履歴検索・一覧 -->
+
+  <!-- 通知履歴 -->
   <div class="card">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-      <h3 style="font-size: 16px; font-weight: 600; color: var(--text); margin: 0;">通知履歴</h3>
-      <button class="action-btn secondary" data-testid="export-history-button" id="btn-export-history">CSVエクスポート</button>
-    </div>
-    
-    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px;">
-      <div>
-        <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">通知種別</label>
-        <select data-testid="history-type-filter" id="select-history-type" style="width: 100%; padding: 4px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);">
-          <option value="">全て</option>
-          <option value="発注完了">発注完了</option>
-          <option value="連携エラー">連携エラー</option>
-          <option value="承認依頼">承認依頼</option>
-          <option value="期限切れ警告">期限切れ警告</option>
-        </select>
+    <div style="padding: 16px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h2 style="font-size: 16px; font-weight: 600; color: var(--text); margin: 0;">通知履歴</h2>
+        
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <select data-testid="history-status-filter" id="select-history-status" style="padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);">
+            <option value="">全ステータス</option>
+            <option value="送信完了">送信完了</option>
+            <option value="送信失敗">送信失敗</option>
+            <option value="送信待ち">送信待ち</option>
+          </select>
+          <input data-testid="search-history-input" id="input-search-history" type="text" placeholder="通知履歴を検索" style="padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); width: 200px;">
+          <button class="action-btn secondary" data-testid="search-history-btn" id="btn-search-history">検索</button>
+        </div>
       </div>
-      
-      <div>
-        <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">送信状態</label>
-        <select data-testid="send-status-filter" id="select-send-status" style="width: 100%; padding: 4px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);">
-          <option value="">全て</option>
-          <option value="送信完了">送信完了</option>
-          <option value="送信失敗">送信失敗</option>
-          <option value="送信待ち">送信待ち</option>
-        </select>
+
+      <div class="table-wrap">
+        <table data-testid="notification-history-table">
+          <thead>
+            <tr>
+              <th style="color: var(--text);">送信日時</th>
+              <th style="color: var(--text);">通知タイトル</th>
+              <th style="color: var(--text);">受信者</th>
+              <th style="color: var(--text);">通知種別</th>
+              <th style="color: var(--text);">送信方法</th>
+              <th style="color: var(--text);">送信状態</th>
+              <th style="color: var(--text);">既読</th>
+              <th style="color: var(--text);">操作</th>
+            </tr>
+          </thead>
+          <tbody id="notification-history-tbody">
+          </tbody>
+        </table>
       </div>
-      
-      <div>
-        <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">開始日</label>
-        <input type="date" data-testid="start-date-input" id="input-start-date" style="width: 100%; padding: 4px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);">
-      </div>
-      
-      <div>
-        <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">終了日</label>
-        <input type="date" data-testid="end-date-input" id="input-end-date" style="width: 100%; padding: 4px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);">
-      </div>
-    </div>
-    
-    <div style="margin-bottom: 12px;">
-      <button class="action-btn secondary" data-testid="search-history-button" id="btn-search-history">履歴検索</button>
-    </div>
-    
-    <div class="table-wrap">
-      <table data-testid="notification-history-list">
-        <thead>
-          <tr>
-            <th>通知タイトル</th>
-            <th>通知種別</th>
-            <th>受信者</th>
-            <th>送信方法</th>
-            <th>送信状態</th>
-            <th>優先度</th>
-            <th>既読</th>
-            <th>送信日時</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody id="history-tbody">
-        </tbody>
-      </table>
     </div>
   </div>
 </div>

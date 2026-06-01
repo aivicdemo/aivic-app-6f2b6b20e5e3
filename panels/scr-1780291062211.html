@@ -11,7 +11,7 @@ window.AIVIC_SYSTEM_NAME = "Web発注プラットフォームの構築";
 window.AIVIC_TABLES = [{"tableName":"顧客マスタ","purpose":"Web発注プラットフォームで発注を行う顧客の基本情報を管理する","columns":[{"name":"顧客ID","type":"uuid","required":true,"description":"顧客を一意に識別するID（主キー）"},{"name":"顧客コード","type":"varchar(100)","required":true,"description":"業務で使用する顧客識別コード"},{"name":"顧客名","type":"varchar(100)","required":true,"description":"顧客の正式名称"},{"name":"顧客名カナ","type":"varchar(100)","required":false,"description":"顧客名のカナ表記（検索・ソート用）"},{"name":"郵便番号","type":"varchar(100)","required":false,"description":"顧客の郵便番号"},{"name":"住所","type":"varchar(100)","required":false,"description":"顧客の住所"},{"name":"電話番号","type":"varchar(100)","required":false,"description":"顧客の電話番号"},{"name":"FAX番号","type":"varchar(100)","required":false,"description":"顧客のFAX番号"},{"name":"メールアドレス","type":"varchar(100)","required":false,"description":"顧客のメールアドレス"},{"name":"担当者名","type":"varchar(100)","required":false,"description":"顧客側の担当者名"},{"name":"有効フラグ","type":"boolean","required":true,"description":"顧客が有効かどうか（取引停止等の管理）"},{"name":"備考","type":"text","required":false,"description":"顧客に関する備考・特記事項"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者"},{"name":"更新者","type":"varchar(100)","required":true,"description":"レコード最終更新者"}]},{"tableName":"商品マスタ","purpose":"Web発注プラットフォームで販売する商品の基本情報を管理する","columns":[{"name":"商品ID","type":"uuid","required":true,"description":"商品の一意識別子（主キー）"},{"name":"商品コード","type":"varchar(100)","required":true,"description":"商品の業務用コード（検索・絞り込みで使用）"},{"name":"商品名","type":"varchar(100)","required":true,"description":"商品の名称（一覧・詳細画面で表示）"},{"name":"商品説明","type":"text","required":false,"description":"商品の詳細説明（詳細画面で表示）"},{"name":"カテゴリID","type":"uuid","required":true,"description":"商品カテゴリの識別子（検索・絞り込みで使用）"},{"name":"単価","type":"integer","required":true,"description":"商品の販売単価（発注計算で使用）"},{"name":"単位","type":"varchar(100)","required":true,"description":"商品の販売単位（個、箱、kg等）"},{"name":"在庫数","type":"integer","required":true,"description":"現在の在庫数量（発注可能数チェックで使用）"},{"name":"最小発注数","type":"integer","required":true,"description":"最小発注可能数量（入力チェックで使用）"},{"name":"販売状態","type":"varchar(100)","required":true,"description":"販売中、販売停止、廃番等のステータス"},{"name":"表示順","type":"integer","required":true,"description":"一覧画面での表示順序"},{"name":"公開フラグ","type":"boolean","required":true,"description":"Web画面での公開可否"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者"},{"name":"更新者","type":"varchar(100)","required":true,"description":"レコード最終更新者"}]},{"tableName":"商品カテゴリマスタ","purpose":"Web発注プラットフォームで商品を分類・整理するためのカテゴリ情報を管理する","columns":[{"name":"カテゴリID","type":"uuid","required":true,"description":"商品カテゴリの一意識別子（主キー）"},{"name":"カテゴリコード","type":"varchar(100)","required":true,"description":"カテゴリの業務コード（ユニーク）"},{"name":"カテゴリ名","type":"varchar(100)","required":true,"description":"カテゴリの表示名称"},{"name":"親カテゴリID","type":"uuid","required":false,"description":"階層構造の親カテゴリID（自己参照外部キー）"},{"name":"表示順序","type":"integer","required":true,"description":"画面表示時のソート順"},{"name":"説明","type":"text","required":false,"description":"カテゴリの詳細説明"},{"name":"有効フラグ","type":"boolean","required":true,"description":"カテゴリの有効/無効状態"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者の識別子"},{"name":"更新者ID","type":"uuid","required":true,"description":"レコード最終更新者の識別子"}]},{"tableName":"顧客別単価マスタ","purpose":"特定の顧客に対する商品の個別単価を管理し、Web発注時の価格計算に使用する","columns":[{"name":"顧客別単価ID","type":"uuid","required":true,"description":"顧客別単価の一意識別子（主キー）"},{"name":"顧客ID","type":"uuid","required":true,"description":"顧客マスタへの外部キー"},{"name":"商品ID","type":"uuid","required":true,"description":"商品マスタへの外部キー"},{"name":"単価","type":"integer","required":true,"description":"顧客別の商品単価（税抜）"},{"name":"適用開始日","type":"timestamp","required":true,"description":"この単価の適用開始日時"},{"name":"適用終了日","type":"timestamp","required":false,"description":"この単価の適用終了日時（NULLの場合は無期限）"},{"name":"最小発注数量","type":"integer","required":false,"description":"この単価が適用される最小発注数量"},{"name":"最大発注数量","type":"integer","required":false,"description":"この単価が適用される最大発注数量"},{"name":"有効フラグ","type":"boolean","required":true,"description":"単価設定の有効/無効状態"},{"name":"備考","type":"text","required":false,"description":"単価設定に関する備考や特記事項"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者の識別子"},{"name":"更新者ID","type":"uuid","required":true,"description":"レコード最終更新者の識別子"}]},{"tableName":"在庫マスタ","purpose":"Web発注プラットフォームにおける商品の在庫数量と在庫状況を管理し、発注可能数量の制御と在庫切れ通知を行う","columns":[{"name":"在庫ID","type":"uuid","required":true,"description":"在庫レコードの一意識別子（主キー）"},{"name":"商品ID","type":"uuid","required":true,"description":"商品マスタへの外部キー"},{"name":"倉庫コード","type":"varchar(100)","required":true,"description":"在庫を保管している倉庫・拠点の識別コード"},{"name":"現在在庫数","type":"integer","required":true,"description":"現時点での実際の在庫数量"},{"name":"引当済数量","type":"integer","required":true,"description":"受注により引当済みで出荷待ちの数量"},{"name":"発注可能数量","type":"integer","required":true,"description":"Web発注で注文可能な数量（現在在庫数-引当済数量-安全在庫数）"},{"name":"安全在庫数","type":"integer","required":true,"description":"最低限確保しておく在庫数量"},{"name":"在庫状態","type":"varchar(100)","required":true,"description":"在庫の状態（在庫あり/在庫僅少/在庫切れ/入荷待ち/販売停止）"},{"name":"入荷予定日","type":"timestamp","required":false,"description":"次回入荷予定日（在庫切れ時の入荷見込み表示用）"},{"name":"入荷予定数量","type":"integer","required":false,"description":"次回入荷予定の数量"},{"name":"最終入荷日","type":"timestamp","required":false,"description":"最後に入荷があった日付"},{"name":"最終出荷日","type":"timestamp","required":false,"description":"最後に出荷があった日付"},{"name":"在庫切れ通知フラグ","type":"boolean","required":true,"description":"在庫切れ時に通知を送信するかのフラグ"},{"name":"Web表示フラグ","type":"boolean","required":true,"description":"Web発注画面に表示するかのフラグ"},{"name":"備考","type":"text","required":false,"description":"在庫に関する特記事項やメモ"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者"},{"name":"更新者","type":"varchar(100)","required":true,"description":"レコード最終更新者"}]},{"tableName":"発注履歴","purpose":"Web発注プラットフォームにおける顧客からの発注情報を記録・管理し、受注処理、出荷指示、売上分析等の業務を支援する","columns":[{"name":"発注ID","type":"uuid","required":true,"description":"発注を一意に識別するID（主キー）"},{"name":"発注番号","type":"varchar(100)","required":true,"description":"顧客向け表示用の発注番号"},{"name":"顧客ID","type":"uuid","required":true,"description":"発注した顧客のID（顧客マスタへの外部キー）"},{"name":"商品ID","type":"uuid","required":true,"description":"発注された商品のID（商品マスタへの外部キー）"},{"name":"発注数量","type":"integer","required":true,"description":"発注された商品の数量"},{"name":"単価","type":"integer","required":true,"description":"発注時点での商品単価（顧客別単価を適用）"},{"name":"小計金額","type":"integer","required":true,"description":"発注数量×単価で算出される小計金額"},{"name":"発注ステータス","type":"varchar(100)","required":true,"description":"発注の処理状況（受注、出荷準備中、出荷済み、完了、キャンセル等）"},{"name":"発注日時","type":"timestamp","required":true,"description":"顧客が発注を行った日時"},{"name":"希望納期","type":"timestamp","required":false,"description":"顧客が指定した希望納期"},{"name":"出荷予定日","type":"timestamp","required":false,"description":"出荷予定として設定された日付"},{"name":"出荷日時","type":"timestamp","required":false,"description":"実際に出荷された日時"},{"name":"配送先名","type":"varchar(100)","required":false,"description":"配送先の名称"},{"name":"配送先住所","type":"text","required":false,"description":"配送先の住所"},{"name":"配送先電話番号","type":"varchar(100)","required":false,"description":"配送先の電話番号"},{"name":"備考","type":"text","required":false,"description":"発注に関する特記事項や要望"},{"name":"キャンセル理由","type":"text","required":false,"description":"発注がキャンセルされた場合の理由"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコードが作成された日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコードが最後に更新された日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコードを作成したユーザー"},{"name":"更新者","type":"varchar(100)","required":true,"description":"レコードを最後に更新したユーザー"}]},{"tableName":"発注明細","purpose":"発注の商品別明細情報を管理し、発注数量・単価・金額の詳細を記録する","columns":[{"name":"発注明細ID","type":"uuid","required":true,"description":"発注明細の一意識別子（主キー）"},{"name":"発注履歴ID","type":"uuid","required":true,"description":"発注履歴テーブルへの外部キー"},{"name":"商品ID","type":"uuid","required":true,"description":"商品マスタへの外部キー"},{"name":"発注数量","type":"integer","required":true,"description":"発注する商品の数量"},{"name":"単価","type":"integer","required":true,"description":"発注時点での商品単価（円）"},{"name":"小計金額","type":"integer","required":true,"description":"発注数量×単価の小計金額（円）"},{"name":"明細番号","type":"integer","required":true,"description":"発注内での明細の連番"},{"name":"備考","type":"text","required":false,"description":"明細に対する特記事項や要望"},{"name":"作成日時","type":"timestamp","required":true,"description":"明細レコードの作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"明細レコードの最終更新日時"}]},{"tableName":"商品仕様マスタ","purpose":"商品の詳細仕様情報を管理し、Web発注時の商品選択や仕様確認に使用する","columns":[{"name":"商品仕様ID","type":"uuid","required":true,"description":"商品仕様の一意識別子（主キー）"},{"name":"商品ID","type":"uuid","required":true,"description":"商品マスタへの外部キー"},{"name":"仕様名","type":"varchar(100)","required":true,"description":"仕様項目名（サイズ、色、材質等）"},{"name":"仕様値","type":"varchar(100)","required":true,"description":"仕様の具体的な値"},{"name":"表示順序","type":"integer","required":true,"description":"Web画面での仕様表示順序"},{"name":"必須選択フラグ","type":"boolean","required":true,"description":"発注時に必須選択が必要かどうか"},{"name":"Web表示フラグ","type":"boolean","required":true,"description":"Web発注画面に表示するかどうか"},{"name":"仕様説明","type":"text","required":false,"description":"仕様の詳細説明文"},{"name":"有効フラグ","type":"boolean","required":true,"description":"仕様が有効かどうか"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者"},{"name":"更新者","type":"varchar(100)","required":true,"description":"レコード最終更新者"}]},{"tableName":"ログインユーザー","purpose":"Web発注プラットフォームにログインするユーザーの認証情報と基本情報を管理する","columns":[{"name":"ユーザーID","type":"uuid","required":true,"description":"ログインユーザーの一意識別子（主キー）"},{"name":"顧客ID","type":"uuid","required":true,"description":"所属する顧客の識別子（顧客マスタへの外部キー）"},{"name":"ログインID","type":"varchar(100)","required":true,"description":"ログイン時に使用するユーザー識別子（ユニーク）"},{"name":"パスワードハッシュ","type":"varchar(100)","required":true,"description":"暗号化されたパスワード"},{"name":"ユーザー名","type":"varchar(100)","required":true,"description":"ユーザーの表示名"},{"name":"メールアドレス","type":"varchar(100)","required":true,"description":"通知送信先メールアドレス"},{"name":"権限レベル","type":"integer","required":true,"description":"ユーザーの権限レベル（1:一般、2:管理者等）"},{"name":"有効フラグ","type":"boolean","required":true,"description":"ユーザーアカウントの有効/無効状態"},{"name":"最終ログイン日時","type":"timestamp","required":false,"description":"最後にログインした日時"},{"name":"パスワード変更日時","type":"timestamp","required":false,"description":"パスワードを最後に変更した日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者"},{"name":"更新者","type":"varchar(100)","required":true,"description":"レコード最終更新者"}]}];
 window.AIVIC_PRESET_SEED = {};
 window.AIVIC_PAGE_SCREEN_ID = "scr-1780291062211";
-window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  let currentProducts = [];\n  let selectedProducts = new Set();\n  let currentView = 'grid';\n\n  // 商品データを取得（商品マスタ + 在庫マスタを結合）\n  function getProductsWithStock() {\n    const products = tables.find(t => t.tableName === '商品マスタ')?.records || [];\n    const stocks = tables.find(t => t.tableName === '在庫マスタ')?.records || [];\n    const categories = tables.find(t => t.tableName === '商品カテゴリマスタ')?.records || [];\n    \n    return products.map(product => {\n      const stock = stocks.find(s => s.商品ID === product.商品ID) || {};\n      const category = categories.find(c => c.カテゴリID === product.カテゴリID) || {};\n      \n      return {\n        ...product,\n        在庫数: stock.現在在庫数 || 0,\n        在庫状態: stock.在庫状態 || '在庫切れ',\n        カテゴリ名: category.カテゴリ名 || '未分類'\n      };\n    });\n  }\n\n  // グリッドビューの商品カード生成\n  function renderGridView(products) {\n    const gridView = container.querySelector('#grid-view');\n    gridView.innerHTML = products.map(product => `\n      <div class=\"bg-main rounded-lg p-4 border\" style=\"border-color: var(--border);\">\n        <div class=\"flex justify-between items-start mb-2\">\n          <input \n            type=\"checkbox\" \n            class=\"compare-checkbox\" \n            data-product-id=\"${product.商品ID}\"\n            style=\"accent-color: var(--primary);\"\n            ${selectedProducts.has(product.商品ID) ? 'checked' : ''}\n          />\n          <span class=\"text-xs px-2 py-1 rounded ${getStockBadgeClass(product.在庫状態)}\">${product.在庫状態}</span>\n        </div>\n        \n        <div class=\"w-full h-32 bg-gray-200 rounded mb-3 flex items-center justify-center\" style=\"background: rgba(0,0,0,0.1);\">\n          <span class=\"text-xs\" style=\"color: var(--text-muted);\">画像</span>\n        </div>\n        \n        <h4 class=\"font-medium text-sm mb-1 line-clamp-2\" style=\"color: var(--text);\">${product.商品名 || ''}</h4>\n        <p class=\"text-xs mb-2\" style=\"color: var(--text-muted);\">${product.商品コード || ''}</p>\n        <p class=\"text-xs mb-2\" style=\"color: var(--text-muted);\">${product.カテゴリ名}</p>\n        \n        <div class=\"flex justify-between items-center mb-3\">\n          <span class=\"font-bold\" style=\"color: var(--primary);\">¥${(product.単価 || 0).toLocaleString()}</span>\n          <span class=\"text-xs\" style=\"color: var(--text-muted);\">在庫: ${product.在庫数}${product.単位 || ''}</span>\n        </div>\n        \n        <button \n          class=\"w-full action-btn text-sm py-2 view-detail-btn\" \n          data-product-id=\"${product.商品ID}\"\n          style=\"background: var(--primary); color: #fff; border: none; border-radius: 4px;\"\n        >\n          詳細を見る\n        </button>\n      </div>\n    `).join('');\n  }\n\n  // リストビューのテーブル行生成\n  function renderListView(products) {\n    const tbody = container.querySelector('#product-tbody');\n    tbody.innerHTML = products.map(product => `\n      <tr data-product-id=\"${product.商品ID}\">\n        <td>\n          <input \n            type=\"checkbox\" \n            class=\"compare-checkbox\" \n            data-product-id=\"${product.商品ID}\"\n            style=\"accent-color: var(--primary);\"\n            ${selectedProducts.has(product.商品ID) ? 'checked' : ''}\n          />\n        </td>\n        <td>\n          <div class=\"w-12 h-12 bg-gray-200 rounded flex items-center justify-center\" style=\"background: rgba(0,0,0,0.1);\">\n            <span class=\"text-xs\" style=\"color: var(--text-muted);\">画像</span>\n          </div>\n        </td>\n        <td style=\"color: var(--text);\">${product.商品名 || ''}</td>\n        <td style=\"color: var(--text-muted);\">${product.商品コード || ''}</td>\n        <td style=\"color: var(--text-muted);\">${product.カテゴリ名}</td>\n        <td style=\"color: var(--primary); font-weight: bold;\">¥${(product.単価 || 0).toLocaleString()}</td>\n        <td style=\"color: var(--text);\">${product.在庫数}${product.単位 || ''}</td>\n        <td>\n          <span class=\"text-xs px-2 py-1 rounded ${getStockBadgeClass(product.在庫状態)}\">${product.在庫状態}</span>\n        </td>\n        <td>\n          <button \n            class=\"action-btn secondary text-sm px-3 py-1 view-detail-btn\" \n            data-product-id=\"${product.商品ID}\"\n            style=\"background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.18); border-radius: 4px;\"\n          >\n            詳細\n          </button>\n        </td>\n      </tr>\n    `).join('');\n  }\n\n  // 在庫状況のバッジクラス\n  function getStockBadgeClass(status) {\n    switch(status) {\n      case '在庫あり': return 'bg-green-100 text-green-800';\n      case '在庫僅少': return 'bg-yellow-100 text-yellow-800';\n      case '在庫切れ': return 'bg-red-100 text-red-800';\n      case '入荷待ち': return 'bg-blue-100 text-blue-800';\n      default: return 'bg-gray-100 text-gray-800';\n    }\n  }\n\n  // 商品一覧の再描画\n  function renderProducts(products) {\n    currentProducts = products;\n    container.querySelector('#result-count').textContent = products.length;\n    \n    if (currentView === 'grid') {\n      renderGridView(products);\n    } else {\n      renderListView(products);\n    }\n    \n    updateCompareButton();\n  }\n\n  // 比較ボタンの状態更新\n  function updateCompareButton() {\n    const compareBtn = container.querySelector('#btn-compare');\n    const count = selectedProducts.size;\n    container.querySelector('#compare-count').textContent = count;\n    compareBtn.disabled = count < 2;\n    \n    if (count >= 2) {\n      compareBtn.style.background = 'var(--primary)';\n      compareBtn.style.color = '#fff';\n    } else {\n      compareBtn.style.background = 'transparent';\n      compareBtn.style.color = 'var(--text)';\n    }\n  }\n\n  // 商品検索フィルタリング\n  function filterProducts() {\n    const keyword = container.querySelector('#search-keyword').value.toLowerCase();\n    const category = container.querySelector('#category-filter').value;\n    const priceMin = parseInt(container.querySelector('#price-min').value) || 0;\n    const priceMax = parseInt(container.querySelector('#price-max').value) || Infinity;\n    const stockFilter = container.querySelector('#stock-filter').value;\n    \n    const allProducts = getProductsWithStock();\n    \n    const filtered = allProducts.filter(product => {\n      const matchKeyword = !keyword || \n        (product.商品名 || '').toLowerCase().includes(keyword) ||\n        (product.商品コード || '').toLowerCase().includes(keyword);\n      \n      const matchCategory = !category || product.カテゴリ名 === category;\n      const matchPrice = (product.単価 || 0) >= priceMin && (product.単価 || 0) <= priceMax;\n      const matchStock = !stockFilter || product.在庫状態 === stockFilter;\n      \n      return matchKeyword && matchCategory && matchPrice && matchStock;\n    });\n    \n    renderProducts(filtered);\n  }\n\n  // 比較モーダル表示\n  function showCompareModal() {\n    const selectedProductData = currentProducts.filter(p => selectedProducts.has(p.商品ID));\n    const modal = container.querySelector('#compare-modal');\n    const content = container.querySelector('#compare-content');\n    \n    if (selectedProductData.length < 2) return;\n    \n    // 比較テーブル生成\n    content.innerHTML = `\n      <table class=\"w-full\">\n        <thead>\n          <tr>\n            <th class=\"text-left p-2\" style=\"color: var(--text);\">項目</th>\n            ${selectedProductData.map(p => `\n              <th class=\"text-left p-2\" style=\"color: var(--text);\">${p.商品名}</th>\n            `).join('')}\n          </tr>\n        </thead>\n        <tbody>\n          <tr>\n            <td class=\"p-2 font-medium\" style=\"color: var(--text);\">商品コード</td>\n            ${selectedProductData.map(p => `<td class=\"p-2\" style=\"color: var(--text-muted);\">${p.商品コード || ''}</td>`).join('')}\n          </tr>\n          <tr style=\"background: var(--bg-main);\">\n            <td class=\"p-2 font-medium\" style=\"color: var(--text);\">単価</td>\n            ${selectedProductData.map(p => `<td class=\"p-2 font-bold\" style=\"color: var(--primary);\">¥${(p.単価 || 0).toLocaleString()}</td>`).join('')}\n          </tr>\n          <tr>\n            <td class=\"p-2 font-medium\" style=\"color: var(--text);\">在庫数</td>\n            ${selectedProductData.map(p => `<td class=\"p-2\" style=\"color: var(--text);\">${p.在庫数}${p.単位 || ''}</td>`).join('')}\n          </tr>\n          <tr style=\"background: var(--bg-main);\">\n            <td class=\"p-2 font-medium\" style=\"color: var(--text);\">在庫状況</td>\n            ${selectedProductData.map(p => `\n              <td class=\"p-2\">\n                <span class=\"text-xs px-2 py-1 rounded ${getStockBadgeClass(p.在庫状態)}\">${p.在庫状態}</span>\n              </td>\n            `).join('')}\n          </tr>\n          <tr>\n            <td class=\"p-2 font-medium\" style=\"color: var(--text);\">カテゴリ</td>\n            ${selectedProductData.map(p => `<td class=\"p-2\" style=\"color: var(--text-muted);\">${p.カテゴリ名}</td>`).join('')}\n          </tr>\n          <tr style=\"background: var(--bg-main);\">\n            <td class=\"p-2 font-medium\" style=\"color: var(--text);\">最小発注数</td>\n            ${selectedProductData.map(p => `<td class=\"p-2\" style=\"color: var(--text);\">${p.最小発注数 || 1}${p.単位 || ''}</td>`).join('')}\n          </tr>\n        </tbody>\n      </table>\n    `;\n    \n    modal.style.display = 'flex';\n  }\n\n  // 初期データ読み込み\n  const allProducts = getProductsWithStock();\n  renderProducts(allProducts);\n\n  // 検索ボタン\n  container.querySelector('#btn-search').addEventListener('click', filterProducts);\n\n  // 検索フィールドでEnterキー\n  container.querySelector('#search-keyword').addEventListener('keypress', (e) => {\n    if (e.key === 'Enter') filterProducts();\n  });\n\n  // ビュー切り替え\n  container.querySelector('#btn-grid-view').addEventListener('click', () => {\n    currentView = 'grid';\n    container.querySelector('#grid-view').classList.remove('hidden');\n    container.querySelector('#list-view').classList.add('hidden');\n    container.querySelector('#btn-grid-view').style.background = 'var(--primary)';\n    container.querySelector('#btn-grid-view').style.color = '#fff';\n    container.querySelector('#btn-list-view').style.background = 'transparent';\n    container.querySelector('#btn-list-view').style.color = 'var(--text)';\n    renderProducts(currentProducts);\n  });\n\n  container.querySelector('#btn-list-view').addEventListener('click', () => {\n    currentView = 'list';\n    container.querySelector('#grid-view').classList.add('hidden');\n    container.querySelector('#list-view').classList.remove('hidden');\n    container.querySelector('#btn-list-view').style.background = 'var(--primary)';\n    container.querySelector('#btn-list-view').style.color = '#fff';\n    container.querySelector('#btn-grid-view').style.background = 'transparent';\n    container.querySelector('#btn-grid-view').style.color = 'var(--text)';\n    renderProducts(currentProducts);\n  });\n\n  // 比較チェックボックス\n  container.addEventListener('change', (e) => {\n    if (e.target.classList.contains('compare-checkbox')) {\n      const productId = e.target.dataset.productId;\n      if (e.target.checked) {\n        selectedProducts.add(productId);\n      } else {\n        selectedProducts.delete(productId);\n      }\n      updateCompareButton();\n    }\n  });\n\n  // 全選択チェックボックス\n  container.querySelector('#select-all').addEventListener('change', (e) => {\n    const checkboxes = container.querySelectorAll('.compare-checkbox');\n    checkboxes.forEach(cb => {\n      cb.checked = e.target.checked;\n      const productId = cb.dataset.productId;\n      if (e.target.checked) {\n        selectedProducts.add(productId);\n      } else {\n        selectedProducts.delete(productId);\n      }\n    });\n    updateCompareButton();\n  });\n\n  // 比較実行\n  container.querySelector('#btn-compare').addEventListener('click', showCompareModal);\n\n  // 比較モーダル閉じる\n  container.querySelector('#close-compare').addEventListener('click', () => {\n    container.querySelector('#compare-modal').style.display = 'none';\n  });\n\n  container.querySelector('#btn-close-compare').addEventListener('click', () => {\n    container.querySelector('#compare-modal').style.display = 'none';\n  });\n\n  // 選択した商品で発注\n  container.querySelector('#btn-select-for-order').addEventListener('click', () => {\n    // 選択された商品IDをセッションストレージに保存して発注画面へ\n    sessionStorage.setItem('selectedProducts', JSON.stringify(Array.from(selectedProducts)));\n    window.showScreen('scr-1780291074387');\n  });\n\n  // 商品詳細ボタン（プレースホルダー）\n  container.addEventListener('click', (e) => {\n    if (e.target.classList.contains('view-detail-btn')) {\n      const productId = e.target.dataset.productId;\n      const product = currentProducts.find(p => p.商品ID === productId);\n      if (product) {\n        alert(`商品詳細\\n\\n商品名: ${product.商品名}\\n商品コード: ${product.商品コード}\\n単価: ¥${(product.単価 || 0).toLocaleString()}\\n在庫: ${product.在庫数}${product.単位 || ''}\\n状況: ${product.在庫状態}`);\n      }\n    }\n  });\n}";
+window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  const productTable = tables.find(t => t.tableName === '商品マスタ') || tables[0];\n  const categoryTable = tables.find(t => t.tableName === '商品カテゴリマスタ') || tables[1];\n  const stockTable = tables.find(t => t.tableName === '在庫マスタ') || tables[4];\n  \n  let allProducts = [];\n  let compareList = [];\n  \n  // カテゴリマップを作成\n  const categoryMap = {};\n  if (categoryTable && categoryTable.records) {\n    categoryTable.records.forEach(cat => {\n      categoryMap[cat.id] = cat.カテゴリ名 || cat.categoryName || 'その他';\n    });\n  }\n  \n  // 在庫情報マップを作成\n  const stockMap = {};\n  if (stockTable && stockTable.records) {\n    stockTable.records.forEach(stock => {\n      stockMap[stock.商品ID || stock.productId] = {\n        currentStock: stock.現在在庫数 || stock.currentStock || 0,\n        status: stock.在庫状態 || stock.stockStatus || '在庫あり'\n      };\n    });\n  }\n  \n  // 商品一覧を描画\n  function renderProducts(products) {\n    const tbody = container.querySelector('#product-tbody');\n    const resultCount = container.querySelector('#result-count');\n    \n    if (!products || products.length === 0) {\n      tbody.innerHTML = '<tr><td colspan=\"8\" style=\"text-align: center; padding: 40px; color: var(--text-muted);\">該当する商品がありません</td></tr>';\n      resultCount.textContent = '0件';\n      return;\n    }\n    \n    resultCount.textContent = `${products.length}件`;\n    \n    tbody.innerHTML = products.map(product => {\n      const categoryName = categoryMap[product.カテゴリID || product.categoryId] || 'その他';\n      const stock = stockMap[product.id] || { currentStock: 0, status: '在庫切れ' };\n      const isComparing = compareList.some(p => p.id === product.id);\n      \n      return `\n        <tr data-id=\"${product.id}\">\n          <td style=\"text-align: center;\">\n            <input type=\"checkbox\" class=\"compare-checkbox\" data-product-id=\"${product.id}\" \n                   ${isComparing ? 'checked' : ''} \n                   style=\"accent-color: var(--primary);\">\n          </td>\n          <td style=\"text-align: center;\">\n            <div style=\"width: 60px; height: 45px; background: var(--bg-main); border: 1px solid var(--border); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--text-muted);\">\n              画像\n            </div>\n          </td>\n          <td>\n            <div style=\"font-weight: 500; color: var(--text); margin-bottom: 2px;\">${product.商品名 || product.productName || ''}</div>\n            <div style=\"font-size: 12px; color: var(--text-muted);\">${product.商品コード || product.productCode || ''}</div>\n          </td>\n          <td style=\"color: var(--text);\">${categoryName}</td>\n          <td style=\"text-align: right; color: var(--text);\">¥${(product.単価 || product.unitPrice || 0).toLocaleString()}</td>\n          <td style=\"text-align: right; color: var(--text);\">${stock.currentStock}</td>\n          <td>\n            <span style=\"padding: 2px 8px; border-radius: 12px; font-size: 12px; \n                         background: ${stock.status === '在庫あり' ? 'rgba(34, 197, 94, 0.1)' : \n                                    stock.status === '在庫僅少' ? 'rgba(251, 191, 36, 0.1)' : 'rgba(239, 68, 68, 0.1)'};\n                         color: ${stock.status === '在庫あり' ? '#22c55e' : \n                                 stock.status === '在庫僅少' ? '#fbbf24' : '#ef4444'};\">\n              ${stock.status}\n            </span>\n          </td>\n          <td>\n            <button class=\"action-btn secondary detail-btn\" data-id=\"${product.id}\" \n                    style=\"padding: 4px 8px; font-size: 12px;\">詳細</button>\n          </td>\n        </tr>\n      `;\n    }).join('');\n  }\n  \n  // 比較リストを描画\n  function renderCompareList() {\n    const compareContainer = container.querySelector('#compare-list');\n    const compareEmpty = container.querySelector('#compare-empty');\n    const compareBtn = container.querySelector('#btn-compare');\n    \n    if (compareList.length === 0) {\n      compareEmpty.style.display = 'block';\n      compareBtn.disabled = true;\n      return;\n    }\n    \n    compareEmpty.style.display = 'none';\n    compareBtn.disabled = false;\n    \n    const compareHtml = compareList.map(product => {\n      const categoryName = categoryMap[product.カテゴリID || product.categoryId] || 'その他';\n      const stock = stockMap[product.id] || { currentStock: 0, status: '在庫切れ' };\n      \n      return `\n        <div style=\"border: 1px solid var(--border); border-radius: 6px; padding: 12px; margin-bottom: 8px; background: var(--bg-main);\">\n          <div style=\"display: flex; justify-content: space-between; align-items: start;\">\n            <div style=\"flex: 1;\">\n              <div style=\"font-weight: 500; font-size: 14px; color: var(--text); margin-bottom: 4px;\">${product.商品名 || product.productName || ''}</div>\n              <div style=\"font-size: 12px; color: var(--text-muted); margin-bottom: 4px;\">${categoryName}</div>\n              <div style=\"font-size: 14px; color: var(--text);\">¥${(product.単価 || product.unitPrice || 0).toLocaleString()}</div>\n            </div>\n            <button class=\"remove-compare\" data-product-id=\"${product.id}\" \n                    style=\"background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 4px;\">×</button>\n          </div>\n        </div>\n      `;\n    }).join('');\n    \n    compareContainer.innerHTML = compareHtml + '<div id=\"compare-empty\" style=\"display: none;\"></div>';\n  }\n  \n  // 比較詳細モーダルを表示\n  function showCompareModal() {\n    if (compareList.length < 2) {\n      alert('比較するには2つ以上の商品を選択してください');\n      return;\n    }\n    \n    const modal = container.querySelector('#compare-modal');\n    const headers = container.querySelector('#compare-headers');\n    const tbody = container.querySelector('#compare-detail-tbody');\n    \n    // ヘッダー作成\n    headers.innerHTML = compareList.map(product => \n      `<th style=\"min-width: 150px;\">${product.商品名 || product.productName || ''}</th>`\n    ).join('');\n    \n    // 比較項目作成\n    const compareItems = [\n      { label: '商品コード', key: 'productCode' },\n      { label: 'カテゴリ', key: 'category' },\n      { label: '単価', key: 'unitPrice' },\n      { label: '単位', key: 'unit' },\n      { label: '在庫数', key: 'stock' },\n      { label: '在庫状況', key: 'stockStatus' },\n      { label: '最小発注数', key: 'minOrder' },\n      { label: '商品説明', key: 'description' }\n    ];\n    \n    tbody.innerHTML = compareItems.map(item => {\n      const cells = compareList.map(product => {\n        let value = '';\n        switch(item.key) {\n          case 'productCode':\n            value = product.商品コード || product.productCode || '';\n            break;\n          case 'category':\n            value = categoryMap[product.カテゴリID || product.categoryId] || 'その他';\n            break;\n          case 'unitPrice':\n            value = '¥' + (product.単価 || product.unitPrice || 0).toLocaleString();\n            break;\n          case 'unit':\n            value = product.単位 || product.unit || '';\n            break;\n          case 'stock':\n            const stock = stockMap[product.id] || { currentStock: 0 };\n            value = stock.currentStock.toString();\n            break;\n          case 'stockStatus':\n            const stockStatus = stockMap[product.id] || { status: '在庫切れ' };\n            value = stockStatus.status;\n            break;\n          case 'minOrder':\n            value = (product.最小発注数 || product.minOrderQty || 1).toString();\n            break;\n          case 'description':\n            value = product.商品説明 || product.description || '';\n            break;\n        }\n        return `<td style=\"color: var(--text);\">${value}</td>`;\n      }).join('');\n      \n      return `<tr><td style=\"font-weight: 500; color: var(--text); background: var(--bg-main);\">${item.label}</td>${cells}</tr>`;\n    }).join('');\n    \n    modal.style.display = 'block';\n  }\n  \n  // 検索実行\n  function performSearch() {\n    const keyword = container.querySelector('#search-keyword').value.toLowerCase();\n    const category = container.querySelector('#category-filter').value;\n    const priceMin = parseInt(container.querySelector('#price-min').value) || 0;\n    const priceMax = parseInt(container.querySelector('#price-max').value) || Infinity;\n    const stockFilter = container.querySelector('#stock-filter').value;\n    \n    let filtered = allProducts.filter(product => {\n      // キーワード検索\n      if (keyword) {\n        const productName = (product.商品名 || product.productName || '').toLowerCase();\n        const productCode = (product.商品コード || product.productCode || '').toLowerCase();\n        if (!productName.includes(keyword) && !productCode.includes(keyword)) {\n          return false;\n        }\n      }\n      \n      // カテゴリフィルター\n      if (category) {\n        const productCategory = categoryMap[product.カテゴリID || product.categoryId] || 'その他';\n        if (productCategory !== category) {\n          return false;\n        }\n      }\n      \n      // 価格フィルター\n      const price = product.単価 || product.unitPrice || 0;\n      if (price < priceMin || price > priceMax) {\n        return false;\n      }\n      \n      // 在庫フィルター\n      if (stockFilter) {\n        const stock = stockMap[product.id] || { status: '在庫切れ' };\n        if (stock.status !== stockFilter) {\n          return false;\n        }\n      }\n      \n      return true;\n    });\n    \n    renderProducts(filtered);\n  }\n  \n  // 初期データ読み込み\n  async function loadInitialData() {\n    try {\n      const products = await window.aivicApi.list(0);\n      if (products) {\n        allProducts = products;\n        renderProducts(allProducts);\n      }\n    } catch (error) {\n      console.error('商品データの読み込みに失敗しました:', error);\n      allProducts = productTable.records || [];\n      renderProducts(allProducts);\n    }\n  }\n  \n  // イベントリスナー\n  container.querySelector('#btn-search').addEventListener('click', performSearch);\n  \n  // 比較チェックボックス\n  container.addEventListener('change', (e) => {\n    if (e.target.classList.contains('compare-checkbox')) {\n      const productId = e.target.dataset.productId;\n      const product = allProducts.find(p => p.id === productId);\n      \n      if (e.target.checked) {\n        if (compareList.length >= 5) {\n          alert('比較できる商品は最大5つまでです');\n          e.target.checked = false;\n          return;\n        }\n        if (product && !compareList.some(p => p.id === productId)) {\n          compareList.push(product);\n        }\n      } else {\n        compareList = compareList.filter(p => p.id !== productId);\n      }\n      \n      renderCompareList();\n    }\n  });\n  \n  // 比較リストから削除\n  container.addEventListener('click', (e) => {\n    if (e.target.classList.contains('remove-compare')) {\n      const productId = e.target.dataset.productId;\n      compareList = compareList.filter(p => p.id !== productId);\n      \n      // チェックボックスも外す\n      const checkbox = container.querySelector(`input[data-product-id=\"${productId}\"]`);\n      if (checkbox) checkbox.checked = false;\n      \n      renderCompareList();\n    }\n  });\n  \n  // 比較クリア\n  container.querySelector('#btn-clear-compare').addEventListener('click', () => {\n    compareList = [];\n    container.querySelectorAll('.compare-checkbox').forEach(cb => cb.checked = false);\n    renderCompareList();\n  });\n  \n  // 比較表示\n  container.querySelector('#btn-compare').addEventListener('click', showCompareModal);\n  \n  // モーダル閉じる\n  container.querySelector('#btn-close-modal').addEventListener('click', () => {\n    container.querySelector('#compare-modal').style.display = 'none';\n  });\n  \n  // 発注画面へ\n  container.querySelector('#btn-order-selected').addEventListener('click', () => {\n    if (compareList.length === 0) {\n      alert('発注する商品を選択してください');\n      return;\n    }\n    // 選択商品のIDを発注画面に渡す\n    const productIds = compareList.map(p => p.id).join(',');\n    window.showScreen('scr-1780291074387', { selectedProducts: productIds });\n  });\n  \n  // 商品詳細\n  container.addEventListener('click', (e) => {\n    if (e.target.classList.contains('detail-btn')) {\n      const productId = e.target.dataset.id;\n      // 商品詳細画面があれば遷移\n      console.log('商品詳細:', productId);\n    }\n  });\n  \n  // Enter キーで検索\n  container.addEventListener('keypress', (e) => {\n    if (e.key === 'Enter' && e.target.matches('#search-keyword, #price-min, #price-max')) {\n      performSearch();\n    }\n  });\n  \n  // 初期化\n  loadInitialData();\n}";
 </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
@@ -82,219 +82,128 @@ canvas { display:block; max-height:280px !important; }
   </aside>
   <main class="main">
     <section class="card" data-aivic-panel="scr-1780291062211" style="margin-top:0">
-<div class="flex gap-3 h-full">
-  <!-- 検索フィルタサイドバー -->
-  <div class="w-80 bg-card rounded-lg p-4 h-fit">
-    <h3 class="text-lg font-semibold mb-4" style="color: var(--text);">商品検索</h3>
-    
-    <!-- 検索ボックス -->
-    <div class="mb-4">
-      <label class="block text-sm mb-1" style="color: var(--text-muted);">商品名・コード</label>
-      <input 
-        type="text" 
-        id="search-keyword" 
-        data-testid="search-keyword"
-        placeholder="商品名またはコードを入力"
-        class="w-full px-3 py-2 rounded-md text-sm"
-        style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);"
-      />
-    </div>
-
-    <!-- カテゴリ選択 -->
-    <div class="mb-4">
-      <label class="block text-sm mb-1" style="color: var(--text-muted);">カテゴリ</label>
-      <select 
-        id="category-filter" 
-        data-testid="category-filter"
-        class="w-full px-3 py-2 rounded-md text-sm"
-        style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);"
-      >
-        <option value="">すべてのカテゴリ</option>
-        <option value="電気部品">電気部品</option>
-        <option value="配管資材">配管資材</option>
-        <option value="工具類">工具類</option>
-        <option value="安全用品">安全用品</option>
-        <option value="消耗品">消耗品</option>
-      </select>
-    </div>
-
-    <!-- 価格帯 -->
-    <div class="mb-4">
-      <label class="block text-sm mb-1" style="color: var(--text-muted);">価格帯</label>
-      <div class="flex gap-2 items-center">
-        <input 
-          type="number" 
-          id="price-min" 
-          data-testid="price-min"
-          placeholder="最小"
-          class="flex-1 px-3 py-2 rounded-md text-sm"
-          style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);"
-        />
-        <span style="color: var(--text-muted);">〜</span>
-        <input 
-          type="number" 
-          id="price-max" 
-          data-testid="price-max"
-          placeholder="最大"
-          class="flex-1 px-3 py-2 rounded-md text-sm"
-          style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);"
-        />
+<div class="search-compare-container" style="padding: 16px; max-width: 1400px;">
+  <!-- 検索フィルター -->
+  <div class="card" style="margin-bottom: 16px; padding: 16px;">
+    <h2 style="margin: 0 0 16px 0; font-size: 18px; color: var(--text);">商品検索・絞り込み</h2>
+    <div style="display: grid; grid-template-columns: 1fr 200px 250px 150px auto; gap: 12px; align-items: end;">
+      <div>
+        <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">商品名・商品コード</label>
+        <input type="text" id="search-keyword" data-testid="search-keyword" placeholder="商品名または商品コードで検索" 
+               style="width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 14px;">
       </div>
+      <div>
+        <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">カテゴリ</label>
+        <select id="category-filter" data-testid="category-filter" 
+                style="width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 14px;">
+          <option value="">全カテゴリ</option>
+          <option value="電気部品">電気部品</option>
+          <option value="配管材料">配管材料</option>
+          <option value="工具類">工具類</option>
+          <option value="安全用品">安全用品</option>
+        </select>
+      </div>
+      <div>
+        <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">価格帯（円）</label>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <input type="number" id="price-min" data-testid="price-min" placeholder="最小" 
+                 style="width: 80px; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 14px;">
+          <span style="color: var(--text-muted);">〜</span>
+          <input type="number" id="price-max" data-testid="price-max" placeholder="最大" 
+                 style="width: 80px; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 14px;">
+        </div>
+      </div>
+      <div>
+        <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">在庫状況</label>
+        <select id="stock-filter" data-testid="stock-filter" 
+                style="width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 14px;">
+          <option value="">全て</option>
+          <option value="在庫あり">在庫あり</option>
+          <option value="在庫僅少">在庫僅少</option>
+          <option value="在庫切れ">在庫切れ</option>
+        </select>
+      </div>
+      <button id="btn-search" data-testid="search-button" class="action-btn" 
+              style="padding: 8px 16px; white-space: nowrap;">検索</button>
     </div>
-
-    <!-- 在庫状況 -->
-    <div class="mb-4">
-      <label class="block text-sm mb-1" style="color: var(--text-muted);">在庫状況</label>
-      <select 
-        id="stock-filter" 
-        data-testid="stock-filter"
-        class="w-full px-3 py-2 rounded-md text-sm"
-        style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);"
-      >
-        <option value="">すべて</option>
-        <option value="在庫あり">在庫あり</option>
-        <option value="在庫僅少">在庫僅少</option>
-        <option value="在庫切れ">在庫切れ</option>
-        <option value="入荷待ち">入荷待ち</option>
-      </select>
-    </div>
-
-    <!-- 検索ボタン -->
-    <button 
-      id="btn-search" 
-      data-testid="search-button"
-      class="action-btn w-full mb-3"
-      style="background: var(--primary); color: #fff; border: none; padding: 10px; border-radius: 6px; font-size: 14px;"
-    >
-      検索
-    </button>
-
-    <!-- 比較実行ボタン -->
-    <button 
-      id="btn-compare" 
-      data-testid="compare-button"
-      class="action-btn secondary w-full"
-      style="background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.18); padding: 10px; border-radius: 6px; font-size: 14px;"
-      disabled
-    >
-      比較する (<span id="compare-count">0</span>件)
-    </button>
   </div>
 
-  <!-- メインコンテンツ -->
-  <div class="flex-1">
-    <!-- ヘッダー -->
-    <div class="flex justify-between items-center mb-4">
-      <h2 class="text-xl font-bold" style="color: var(--text);">商品検索・比較</h2>
-      <div class="flex gap-2">
-        <button 
-          id="btn-order" 
-          data-testid="order-button"
-          class="action-btn"
-          style="background: var(--primary); color: #fff; border: none; padding: 8px 16px; border-radius: 6px; font-size: 14px;"
-          onclick="window.showScreen('scr-1780291074387')"
-        >
-          発注入力へ
-        </button>
-        <button 
-          id="btn-history" 
-          data-testid="history-button"
-          class="action-btn secondary"
-          style="background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.18); padding: 8px 16px; border-radius: 6px; font-size: 14px;"
-          onclick="window.showScreen('scr-1780291083221')"
-        >
-          発注履歴
-        </button>
-      </div>
-    </div>
-
+  <!-- 商品一覧と比較パネル -->
+  <div style="display: grid; grid-template-columns: 1fr 320px; gap: 16px;">
     <!-- 商品一覧 -->
-    <div class="bg-card rounded-lg p-4">
-      <div class="flex justify-between items-center mb-3">
-        <div class="text-sm" style="color: var(--text-muted);">
-          検索結果: <span id="result-count">0</span>件
-        </div>
-        <div class="flex gap-2">
-          <button 
-            id="btn-grid-view" 
-            data-testid="grid-view-button"
-            class="action-btn secondary px-3 py-1 text-sm active-view"
-            style="background: var(--primary); color: #fff; border: none; border-radius: 4px;"
-          >
-            グリッド
-          </button>
-          <button 
-            id="btn-list-view" 
-            data-testid="list-view-button"
-            class="action-btn secondary px-3 py-1 text-sm"
-            style="background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.18); border-radius: 4px;"
-          >
-            リスト
-          </button>
-        </div>
+    <div class="card" style="padding: 16px;">
+      <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 16px;">
+        <h3 style="margin: 0; font-size: 16px; color: var(--text);">商品一覧</h3>
+        <span id="result-count" style="font-size: 14px; color: var(--text-muted);">0件</span>
       </div>
+      
+      <div class="table-wrap">
+        <table data-testid="product-list">
+          <thead>
+            <tr>
+              <th style="width: 50px;">比較</th>
+              <th style="width: 80px;">画像</th>
+              <th>商品名</th>
+              <th style="width: 100px;">カテゴリ</th>
+              <th style="width: 80px;">単価</th>
+              <th style="width: 60px;">在庫数</th>
+              <th style="width: 80px;">在庫状況</th>
+              <th style="width: 100px;">操作</th>
+            </tr>
+          </thead>
+          <tbody id="product-tbody">
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-      <!-- グリッドビュー -->
-      <div id="grid-view" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        <!-- 商品カードがここに動的生成される -->
+    <!-- 比較パネル -->
+    <div class="card" style="padding: 16px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h3 style="margin: 0; font-size: 16px; color: var(--text);">商品比較</h3>
+        <button id="btn-clear-compare" data-testid="clear-compare" class="action-btn secondary" 
+                style="padding: 6px 12px; font-size: 12px;">クリア</button>
       </div>
-
-      <!-- リストビュー -->
-      <div id="list-view" class="hidden">
-        <div class="table-wrap">
-          <table data-testid="product-list">
-            <thead>
-              <tr>
-                <th style="width: 40px;">
-                  <input type="checkbox" id="select-all" style="accent-color: var(--primary);" />
-                </th>
-                <th>商品画像</th>
-                <th>商品名</th>
-                <th>商品コード</th>
-                <th>カテゴリ</th>
-                <th>単価</th>
-                <th>在庫数</th>
-                <th>在庫状況</th>
-                <th>操作</th>
-              </tr>
-            </thead>
-            <tbody id="product-tbody">
-              <!-- 商品行がここに動的生成される -->
-            </tbody>
-          </table>
+      
+      <div id="compare-list" style="min-height: 200px;">
+        <div id="compare-empty" style="text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 14px;">
+          商品を選択して比較してください
         </div>
       </div>
+      
+      <button id="btn-compare" data-testid="compare-button" class="action-btn" 
+              style="width: 100%; margin-top: 16px;" disabled>
+        比較表を表示
+      </button>
     </div>
   </div>
-</div>
 
-<!-- 商品比較モーダル -->
-<div id="compare-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" style="display: none;">
-  <div class="bg-card rounded-lg p-6 max-w-6xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-    <div class="flex justify-between items-center mb-4">
-      <h3 class="text-lg font-semibold" style="color: var(--text);">商品比較</h3>
-      <button id="close-compare" class="text-2xl" style="color: var(--text-muted);">&times;</button>
-    </div>
-    
-    <div id="compare-content" class="overflow-x-auto">
-      <!-- 比較テーブルがここに生成される -->
-    </div>
-    
-    <div class="flex justify-end gap-2 mt-4">
-      <button 
-        id="btn-select-for-order" 
-        class="action-btn"
-        style="background: var(--primary); color: #fff; border: none; padding: 8px 16px; border-radius: 6px;"
-      >
-        選択した商品で発注
-      </button>
-      <button 
-        id="btn-close-compare" 
-        class="action-btn secondary"
-        style="background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.18); padding: 8px 16px; border-radius: 6px;"
-      >
-        閉じる
-      </button>
+  <!-- 比較詳細モーダル -->
+  <div id="compare-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000;">
+    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--bg-card); border-radius: 8px; padding: 24px; width: 90%; max-width: 1000px; max-height: 80vh; overflow-y: auto;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h3 style="margin: 0; font-size: 18px; color: var(--text);">商品比較詳細</h3>
+        <button id="btn-close-modal" data-testid="close-modal" class="action-btn secondary" 
+                style="padding: 6px 12px;">閉じる</button>
+      </div>
+      
+      <div class="table-wrap">
+        <table id="compare-detail-table">
+          <thead>
+            <tr>
+              <th style="width: 120px;">項目</th>
+              <th id="compare-headers"></th>
+            </tr>
+          </thead>
+          <tbody id="compare-detail-tbody">
+          </tbody>
+        </table>
+      </div>
+      
+      <div style="margin-top: 20px; text-align: right;">
+        <button id="btn-order-selected" data-testid="order-selected" class="action-btn" 
+                style="padding: 10px 20px;">選択商品を発注画面へ</button>
+      </div>
     </div>
   </div>
 </div>

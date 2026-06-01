@@ -11,7 +11,7 @@ window.AIVIC_SYSTEM_NAME = "基幹システム連携管理システムの構築"
 window.AIVIC_TABLES = [{"tableName":"ログインユーザーマスタ","purpose":"Web発注プラットフォームにログインするユーザーの認証情報と基本属性を管理する","columns":[{"name":"ユーザーID","type":"uuid","required":true,"description":"ユーザーを一意に識別するID"},{"name":"ログインID","type":"varchar(100)","required":true,"description":"ログイン時に使用するID"},{"name":"パスワードハッシュ","type":"varchar(100)","required":true,"description":"暗号化されたパスワード"},{"name":"ユーザー名","type":"varchar(100)","required":true,"description":"画面表示用のユーザー名"},{"name":"メールアドレス","type":"varchar(100)","required":true,"description":"通知送信先メールアドレス"},{"name":"ユーザー種別","type":"varchar(100)","required":true,"description":"発注者、受注者、管理者等の区分"},{"name":"所属組織ID","type":"uuid","required":false,"description":"所属する組織のID"},{"name":"権限レベル","type":"integer","required":true,"description":"システム内での権限レベル"},{"name":"アカウント状態","type":"varchar(100)","required":true,"description":"有効、無効、停止等の状態"},{"name":"最終ログイン日時","type":"timestamp","required":false,"description":"最後にログインした日時"},{"name":"パスワード変更日時","type":"timestamp","required":false,"description":"パスワードを最後に変更した日時"},{"name":"有効フラグ","type":"boolean","required":true,"description":"レコードの有効性を示すフラグ"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者"},{"name":"更新者","type":"varchar(100)","required":true,"description":"レコード最終更新者"}]},{"tableName":"発注データ","purpose":"Web発注プラットフォームにおける発注情報を管理し、発注から承認・処理完了までの一連の業務フローを支援する","columns":[{"name":"発注ID","type":"uuid","required":true,"description":"発注データの一意識別子"},{"name":"発注番号","type":"varchar(100)","required":true,"description":"業務で使用する発注番号"},{"name":"発注者ID","type":"uuid","required":true,"description":"発注を行ったユーザーのID（ログインユーザーマスタ参照）"},{"name":"発注日","type":"timestamp","required":true,"description":"発注が行われた日時"},{"name":"希望納期","type":"timestamp","required":true,"description":"発注者が希望する納期"},{"name":"発注先名","type":"varchar(100)","required":true,"description":"発注先の会社名・店舗名"},{"name":"発注先担当者","type":"varchar(100)","required":false,"description":"発注先の担当者名"},{"name":"発注先連絡先","type":"varchar(100)","required":false,"description":"発注先の電話番号・メールアドレス等"},{"name":"発注金額","type":"integer","required":true,"description":"発注の総金額"},{"name":"発注ステータス","type":"varchar(100)","required":true,"description":"発注の処理状況（下書き・承認待ち・承認済み・発注済み・完了・キャンセル等）"},{"name":"承認者ID","type":"uuid","required":false,"description":"発注を承認したユーザーのID"},{"name":"承認日時","type":"timestamp","required":false,"description":"承認が行われた日時"},{"name":"発注理由","type":"text","required":false,"description":"発注の理由・目的"},{"name":"備考","type":"text","required":false,"description":"発注に関する補足情報"},{"name":"緊急フラグ","type":"boolean","required":true,"description":"緊急発注かどうかの判定"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"},{"name":"更新者ID","type":"uuid","required":true,"description":"レコード最終更新者のユーザーID"}]},{"tableName":"発注明細データ","purpose":"発注データに紐づく商品明細情報を管理し、Web発注プラットフォームでの明細単位での操作・表示・検索を実現する","columns":[{"name":"発注明細ID","type":"uuid","required":true,"description":"発注明細の一意識別子（主キー）"},{"name":"発注ID","type":"uuid","required":true,"description":"発注データテーブルへの外部キー"},{"name":"明細番号","type":"integer","required":true,"description":"発注内での明細の連番"},{"name":"商品コード","type":"varchar(100)","required":true,"description":"発注する商品の識別コード"},{"name":"商品名","type":"varchar(100)","required":true,"description":"発注する商品の名称"},{"name":"規格","type":"varchar(100)","required":false,"description":"商品の規格・仕様"},{"name":"発注数量","type":"integer","required":true,"description":"発注する数量"},{"name":"単位","type":"varchar(100)","required":true,"description":"数量の単位（個、箱、kg等）"},{"name":"単価","type":"integer","required":true,"description":"商品の単価（円）"},{"name":"金額","type":"integer","required":true,"description":"明細の合計金額（単価×数量）"},{"name":"希望納期","type":"timestamp","required":false,"description":"明細単位での希望納期"},{"name":"明細ステータス","type":"varchar(100)","required":true,"description":"明細の処理状況（未処理、処理中、完了等）"},{"name":"備考","type":"text","required":false,"description":"明細に関する特記事項"},{"name":"削除フラグ","type":"boolean","required":true,"description":"論理削除フラグ"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"},{"name":"更新者ID","type":"uuid","required":true,"description":"レコード最終更新者のユーザーID"}]},{"tableName":"基幹システム連携設定マスタ","purpose":"Web発注プラットフォームと基幹システム間のデータ連携設定を管理するマスタテーブル","columns":[{"name":"連携設定ID","type":"uuid","required":true,"description":"連携設定の一意識別子（主キー）"},{"name":"連携システム名","type":"varchar(100)","required":true,"description":"連携対象の基幹システム名"},{"name":"連携種別","type":"varchar(100)","required":true,"description":"連携の種別（発注データ送信、在庫データ受信等）"},{"name":"接続方式","type":"varchar(100)","required":true,"description":"連携方式（API、FTP、DB直接接続等）"},{"name":"接続先URL","type":"varchar(100)","required":false,"description":"API接続時のエンドポイントURL"},{"name":"認証方式","type":"varchar(100)","required":true,"description":"認証方式（API Key、OAuth、Basic認証等）"},{"name":"実行頻度","type":"varchar(100)","required":true,"description":"連携実行の頻度（リアルタイム、毎時、日次等）"},{"name":"データ形式","type":"varchar(100)","required":true,"description":"連携データの形式（JSON、XML、CSV等）"},{"name":"有効フラグ","type":"boolean","required":true,"description":"連携設定の有効/無効状態"},{"name":"優先順位","type":"integer","required":true,"description":"複数連携がある場合の実行優先順位"},{"name":"タイムアウト秒数","type":"integer","required":true,"description":"連携処理のタイムアウト時間（秒）"},{"name":"リトライ回数","type":"integer","required":true,"description":"連携失敗時の最大リトライ回数"},{"name":"エラー通知先","type":"varchar(100)","required":false,"description":"連携エラー時の通知先メールアドレス"},{"name":"備考","type":"text","required":false,"description":"連携設定に関する補足情報"},{"name":"作成者ID","type":"uuid","required":true,"description":"設定を作成したユーザーのID"},{"name":"更新者ID","type":"uuid","required":true,"description":"設定を最後に更新したユーザーのID"},{"name":"作成日時","type":"timestamp","required":true,"description":"設定の作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"設定の最終更新日時"}]},{"tableName":"データ検証ルールマスタ","purpose":"Web発注プラットフォームから基幹システムへのデータ連携時に適用する検証ルールを管理するマスタテーブル","columns":[{"name":"検証ルールID","type":"uuid","required":true,"description":"検証ルールの一意識別子（主キー）"},{"name":"ルール名","type":"varchar(100)","required":true,"description":"検証ルールの名称"},{"name":"対象テーブル名","type":"varchar(100)","required":true,"description":"検証対象となるテーブル名"},{"name":"対象カラム名","type":"varchar(100)","required":true,"description":"検証対象となるカラム名"},{"name":"検証タイプ","type":"varchar(100)","required":true,"description":"検証の種類（必須チェック、形式チェック、範囲チェック、重複チェック等）"},{"name":"検証条件","type":"text","required":true,"description":"具体的な検証条件の設定値"},{"name":"エラーメッセージ","type":"text","required":true,"description":"検証エラー時に表示するメッセージ"},{"name":"実行順序","type":"integer","required":true,"description":"同一カラムに複数ルールがある場合の実行順序"},{"name":"有効フラグ","type":"boolean","required":true,"description":"ルールの有効/無効状態"},{"name":"適用開始日","type":"timestamp","required":false,"description":"ルールの適用開始日時"},{"name":"適用終了日","type":"timestamp","required":false,"description":"ルールの適用終了日時"},{"name":"備考","type":"text","required":false,"description":"ルールに関する補足説明"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"更新者ID","type":"uuid","required":true,"description":"レコード最終更新者のユーザーID"}]},{"tableName":"連携処理履歴","purpose":"基幹システムとの連携処理の実行履歴を記録し、処理状況の監視、エラー対応、再処理判定を行うための履歴管理テーブル","columns":[{"name":"連携処理履歴ID","type":"uuid","required":true,"description":"連携処理履歴の一意識別子（主キー）"},{"name":"連携設定ID","type":"uuid","required":true,"description":"基幹システム連携設定マスタへの外部キー"},{"name":"処理種別","type":"varchar(100)","required":true,"description":"連携処理の種別（発注データ送信、在庫データ取得、受注データ送信等）"},{"name":"処理ステータス","type":"varchar(100)","required":true,"description":"処理の実行状況（実行中、成功、失敗、中断、再試行中）"},{"name":"対象データID","type":"uuid","required":false,"description":"連携対象となったデータのID（発注データID等）"},{"name":"処理開始日時","type":"timestamp","required":true,"description":"連携処理の開始日時"},{"name":"処理終了日時","type":"timestamp","required":false,"description":"連携処理の終了日時"},{"name":"処理件数","type":"integer","required":false,"description":"処理対象となったデータ件数"},{"name":"成功件数","type":"integer","required":false,"description":"正常に処理されたデータ件数"},{"name":"エラー件数","type":"integer","required":false,"description":"エラーが発生したデータ件数"},{"name":"エラーメッセージ","type":"text","required":false,"description":"処理中に発生したエラーの詳細メッセージ"},{"name":"リクエストデータ","type":"text","required":false,"description":"基幹システムに送信したリクエストデータの内容"},{"name":"レスポンスデータ","type":"text","required":false,"description":"基幹システムから受信したレスポンスデータの内容"},{"name":"再試行回数","type":"integer","required":true,"description":"処理の再試行実行回数（初回は0）"},{"name":"次回再試行日時","type":"timestamp","required":false,"description":"エラー時の次回再試行予定日時"},{"name":"処理実行者ID","type":"uuid","required":false,"description":"手動実行時の実行者（ログインユーザーマスタへの外部キー）"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"}]},{"tableName":"連携エラーログ","purpose":"基幹システム連携処理で発生したエラーの詳細情報を記録し、エラー分析・対応履歴管理・再処理判定を行うためのログテーブル","columns":[{"name":"エラーログID","type":"uuid","required":true,"description":"エラーログの一意識別子（主キー）"},{"name":"連携処理履歴ID","type":"uuid","required":true,"description":"連携処理履歴テーブルへの外部キー"},{"name":"発注データID","type":"uuid","required":false,"description":"エラー対象の発注データID（該当する場合）"},{"name":"エラー発生日時","type":"timestamp","required":true,"description":"エラーが発生した日時"},{"name":"エラー種別","type":"varchar(100)","required":true,"description":"システムエラー、データ検証エラー、通信エラー、認証エラー等"},{"name":"エラーコード","type":"varchar(100)","required":false,"description":"システム固有のエラーコード"},{"name":"エラーメッセージ","type":"text","required":true,"description":"エラーの詳細メッセージ"},{"name":"エラー発生箇所","type":"varchar(100)","required":true,"description":"データ変換処理、API送信、レスポンス受信等"},{"name":"処理対象データ","type":"text","required":false,"description":"エラー発生時の処理対象データの内容"},{"name":"スタックトレース","type":"text","required":false,"description":"システムエラー時の詳細なスタックトレース情報"},{"name":"重要度","type":"varchar(100)","required":true,"description":"緊急、高、中、低"},{"name":"対応状況","type":"varchar(100)","required":true,"description":"未対応、対応中、対応完了、保留"},{"name":"対応者ID","type":"uuid","required":false,"description":"エラー対応を行うユーザーのID"},{"name":"対応開始日時","type":"timestamp","required":false,"description":"エラー対応を開始した日時"},{"name":"対応完了日時","type":"timestamp","required":false,"description":"エラー対応が完了した日時"},{"name":"対応内容","type":"text","required":false,"description":"実施した対応内容の詳細"},{"name":"再処理要否","type":"boolean","required":true,"description":"エラー解決後に再処理が必要かどうか"},{"name":"再処理実行日時","type":"timestamp","required":false,"description":"再処理を実行した日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"}]},{"tableName":"データ検証結果","purpose":"発注データの基幹システム連携前後における各種検証処理の実行結果を記録し、データ品質管理と問題追跡を行う","columns":[{"name":"検証結果ID","type":"uuid","required":true,"description":"データ検証結果の一意識別子（主キー）"},{"name":"連携処理履歴ID","type":"uuid","required":true,"description":"関連する連携処理履歴への外部キー"},{"name":"発注データID","type":"uuid","required":false,"description":"検証対象の発注データへの外部キー"},{"name":"検証ルールID","type":"uuid","required":true,"description":"適用された検証ルールへの外部キー"},{"name":"検証種別","type":"varchar(100)","required":true,"description":"検証の種類（形式チェック、業務ルールチェック、整合性チェック等）"},{"name":"検証項目名","type":"varchar(100)","required":true,"description":"検証を行った具体的な項目名"},{"name":"検証結果","type":"varchar(100)","required":true,"description":"検証結果（成功、警告、エラー）"},{"name":"検証メッセージ","type":"text","required":false,"description":"検証結果の詳細メッセージ"},{"name":"検証前値","type":"text","required":false,"description":"検証前のデータ値"},{"name":"検証後値","type":"text","required":false,"description":"検証後のデータ値（補正された場合）"},{"name":"重要度","type":"varchar(100)","required":true,"description":"検証結果の重要度（高、中、低）"},{"name":"処理継続可否","type":"boolean","required":true,"description":"この検証結果で処理を継続可能かどうか"},{"name":"検証実行日時","type":"timestamp","required":true,"description":"検証を実行した日時"},{"name":"検証実行者ID","type":"uuid","required":false,"description":"検証を実行したユーザーID（自動実行の場合はnull）"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"}]},{"tableName":"発注ステータス履歴","purpose":"発注データのステータス変更履歴を時系列で管理し、発注処理の進捗状況と変更経緯を追跡する","columns":[{"name":"履歴ID","type":"uuid","required":true,"description":"発注ステータス履歴の一意識別子"},{"name":"発注ID","type":"uuid","required":true,"description":"対象発注データの識別子"},{"name":"変更前ステータス","type":"varchar(100)","required":false,"description":"変更前の発注ステータス（初回登録時はnull）"},{"name":"変更後ステータス","type":"varchar(100)","required":true,"description":"変更後の発注ステータス（下書き、承認待ち、承認済み、発注済み、完了、キャンセル等）"},{"name":"変更理由","type":"text","required":false,"description":"ステータス変更の理由やコメント"},{"name":"処理区分","type":"varchar(100)","required":true,"description":"変更処理の種別（手動変更、自動処理、基幹システム連携等）"},{"name":"連携処理ID","type":"uuid","required":false,"description":"基幹システム連携による変更の場合の連携処理履歴ID"},{"name":"変更者ID","type":"uuid","required":false,"description":"ステータスを変更したユーザーID（システム自動処理の場合はnull）"},{"name":"変更日時","type":"timestamp","required":true,"description":"ステータス変更が発生した日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"履歴レコードの作成日時"}]},{"tableName":"システム通知設定","purpose":"Web発注プラットフォームにおける各種通知の設定を管理し、発注処理や基幹システム連携の状況に応じた適切な通知を実現する","columns":[{"name":"通知設定ID","type":"uuid","required":true,"description":"通知設定の一意識別子（主キー）"},{"name":"通知種別","type":"varchar(100)","required":true,"description":"通知の種別（発注完了、連携エラー、承認依頼、期限切れ警告等）"},{"name":"通知名","type":"varchar(100)","required":true,"description":"通知設定の名称"},{"name":"通知対象者種別","type":"varchar(100)","required":true,"description":"通知対象者の種別（発注者、承認者、システム管理者、全ユーザー等）"},{"name":"通知方法","type":"varchar(100)","required":true,"description":"通知方法（メール、システム内通知、両方等）"},{"name":"件名テンプレート","type":"varchar(100)","required":false,"description":"通知メールの件名テンプレート"},{"name":"本文テンプレート","type":"text","required":false,"description":"通知メールの本文テンプレート"},{"name":"発生条件","type":"text","required":true,"description":"通知が発生する条件の説明"},{"name":"優先度","type":"integer","required":true,"description":"通知の優先度（1:高、2:中、3:低）"},{"name":"有効フラグ","type":"boolean","required":true,"description":"通知設定の有効/無効状態"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"更新者ID","type":"uuid","required":true,"description":"レコード最終更新者のユーザーID"}]},{"tableName":"通知履歴","purpose":"システムからユーザーへの通知送信履歴を管理し、通知の配信状況や既読状態を追跡する","columns":[{"name":"通知履歴ID","type":"uuid","required":true,"description":"通知履歴の一意識別子（主キー）"},{"name":"通知設定ID","type":"uuid","required":true,"description":"システム通知設定マスタへの外部キー"},{"name":"受信者ユーザーID","type":"uuid","required":true,"description":"通知を受信するユーザーのID（ログインユーザーマスタへの外部キー）"},{"name":"通知タイトル","type":"varchar(100)","required":true,"description":"通知のタイトル"},{"name":"通知内容","type":"text","required":true,"description":"通知の詳細メッセージ内容"},{"name":"通知種別","type":"varchar(100)","required":true,"description":"通知の種別（発注完了、エラー発生、システムメンテナンス等）"},{"name":"優先度","type":"varchar(100)","required":true,"description":"通知の優先度（高、中、低）"},{"name":"送信方法","type":"varchar(100)","required":true,"description":"通知の送信方法（画面通知、メール、両方）"},{"name":"送信状態","type":"varchar(100)","required":true,"description":"送信処理の状態（送信待ち、送信中、送信完了、送信失敗）"},{"name":"既読フラグ","type":"boolean","required":true,"description":"ユーザーが通知を既読したかどうか"},{"name":"関連データID","type":"uuid","required":false,"description":"通知に関連するデータのID（発注データID、連携処理履歴ID等）"},{"name":"関連データ種別","type":"varchar(100)","required":false,"description":"関連データの種別（発注データ、連携処理履歴等）"},{"name":"送信予定日時","type":"timestamp","required":true,"description":"通知の送信予定日時"},{"name":"送信日時","type":"timestamp","required":false,"description":"実際に通知が送信された日時"},{"name":"既読日時","type":"timestamp","required":false,"description":"ユーザーが通知を既読した日時"},{"name":"エラーメッセージ","type":"text","required":false,"description":"送信失敗時のエラーメッセージ"},{"name":"再送回数","type":"integer","required":true,"description":"通知の再送信回数"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"uuid","required":true,"description":"レコード作成者のユーザーID"}]}];
 window.AIVIC_PRESET_SEED = {};
 window.AIVIC_PAGE_SCREEN_ID = "scr-1780291305048";
-window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  let currentErrors = [];\n  let selectedErrorId = null;\n\n  // テーブル再描画関数\n  function renderErrors(errors) {\n    const tbody = container.querySelector('#error-tbody');\n    tbody.innerHTML = errors.map(error => `\n      <tr data-id=\"${error.id}\" class=\"cursor-pointer hover:bg-opacity-50\" style=\"background: var(--bg-card);\">\n        <td>${new Date(error.エラー発生日時).toLocaleString()}</td>\n        <td><span class=\"px-2 py-1 rounded text-xs\" style=\"background: ${getErrorTypeColor(error.エラー種別)}; color: #fff;\">${error.エラー種別}</span></td>\n        <td>${error.連携システム名 || '-'}</td>\n        <td>${error.発注データID ? `発注-${error.発注データID.slice(-8)}` : '-'}</td>\n        <td class=\"max-w-xs truncate\">${error.エラーメッセージ}</td>\n        <td><span class=\"px-2 py-1 rounded text-xs\" style=\"background: ${getPriorityColor(error.重要度)}; color: #fff;\">${error.重要度}</span></td>\n        <td><span class=\"px-2 py-1 rounded text-xs\" style=\"background: ${getStatusColor(error.対応状況)}; color: #fff;\">${error.対応状況}</span></td>\n        <td>${error.対応者名 || '-'}</td>\n        <td>\n          <button class=\"action-btn secondary text-xs px-2 py-1 detail-btn\" data-id=\"${error.id}\">詳細</button>\n          <button class=\"action-btn secondary text-xs px-2 py-1 reprocess-btn\" data-id=\"${error.id}\">再処理</button>\n        </td>\n      </tr>\n    `).join('');\n    \n    updateSummary(errors);\n    updateCharts(errors);\n  }\n\n  // サマリー更新\n  function updateSummary(errors) {\n    container.querySelector('#total-errors').textContent = errors.length;\n    container.querySelector('#pending-errors').textContent = errors.filter(e => e.対応状況 === '未対応').length;\n    container.querySelector('#processing-errors').textContent = errors.filter(e => e.対応状況 === '対応中').length;\n    container.querySelector('#completed-errors').textContent = errors.filter(e => e.対応状況 === '対応完了').length;\n  }\n\n  // グラフ更新\n  function updateCharts(errors) {\n    drawTrendChart(errors);\n    drawCategoryChart(errors);\n  }\n\n  // 時系列グラフ\n  function drawTrendChart(errors) {\n    const canvas = container.querySelector('#trend-chart');\n    const ctx = canvas.getContext('2d');\n    ctx.clearRect(0, 0, canvas.width, canvas.height);\n    \n    // 過去7日間のデータを集計\n    const days = [];\n    const counts = [];\n    for (let i = 6; i >= 0; i--) {\n      const date = new Date();\n      date.setDate(date.getDate() - i);\n      const dayStr = date.toISOString().split('T')[0];\n      days.push(date.getMonth() + 1 + '/' + date.getDate());\n      counts.push(errors.filter(e => e.エラー発生日時.startsWith(dayStr)).length);\n    }\n    \n    const maxCount = Math.max(...counts, 1);\n    const chartHeight = 150;\n    const chartWidth = 250;\n    const barWidth = chartWidth / days.length;\n    \n    // 軸線\n    ctx.strokeStyle = '#9fb0d1';\n    ctx.lineWidth = 1;\n    ctx.beginPath();\n    ctx.moveTo(30, 20);\n    ctx.lineTo(30, chartHeight + 20);\n    ctx.lineTo(chartWidth + 30, chartHeight + 20);\n    ctx.stroke();\n    \n    // バー描画\n    counts.forEach((count, i) => {\n      const barHeight = (count / maxCount) * chartHeight;\n      const x = 30 + i * barWidth + 5;\n      const y = chartHeight + 20 - barHeight;\n      \n      ctx.fillStyle = '#00aa44';\n      ctx.fillRect(x, y, barWidth - 10, barHeight);\n      \n      // ラベル\n      ctx.fillStyle = '#9fb0d1';\n      ctx.font = '10px sans-serif';\n      ctx.textAlign = 'center';\n      ctx.fillText(days[i], x + (barWidth - 10) / 2, chartHeight + 35);\n      ctx.fillText(count.toString(), x + (barWidth - 10) / 2, y - 5);\n    });\n  }\n\n  // 円グラフ\n  function drawCategoryChart(errors) {\n    const canvas = container.querySelector('#category-chart');\n    const ctx = canvas.getContext('2d');\n    ctx.clearRect(0, 0, canvas.width, canvas.height);\n    \n    const categories = {};\n    errors.forEach(error => {\n      categories[error.エラー種別] = (categories[error.エラー種別] || 0) + 1;\n    });\n    \n    const total = errors.length;\n    if (total === 0) return;\n    \n    const centerX = canvas.width / 2;\n    const centerY = canvas.height / 2;\n    const radius = 70;\n    \n    let startAngle = 0;\n    const colors = ['#ff6a00', '#0066cc', '#00aa44', '#cc0066'];\n    let colorIndex = 0;\n    \n    Object.entries(categories).forEach(([category, count]) => {\n      const sliceAngle = (count / total) * 2 * Math.PI;\n      \n      ctx.beginPath();\n      ctx.moveTo(centerX, centerY);\n      ctx.arc(centerX, centerY, radius, startAngle, startAngle + sliceAngle);\n      ctx.closePath();\n      ctx.fillStyle = colors[colorIndex % colors.length];\n      ctx.fill();\n      \n      // ラベル\n      const labelAngle = startAngle + sliceAngle / 2;\n      const labelX = centerX + Math.cos(labelAngle) * (radius + 20);\n      const labelY = centerY + Math.sin(labelAngle) * (radius + 20);\n      \n      ctx.fillStyle = '#9fb0d1';\n      ctx.font = '10px sans-serif';\n      ctx.textAlign = 'center';\n      ctx.fillText(category, labelX, labelY);\n      ctx.fillText(`${count}件`, labelX, labelY + 12);\n      \n      startAngle += sliceAngle;\n      colorIndex++;\n    });\n  }\n\n  // 色取得関数\n  function getErrorTypeColor(type) {\n    const colors = {\n      'データ検証エラー': '#ff6a00',\n      '通信エラー': '#0066cc', \n      'システムエラー': '#cc0066',\n      '認証エラー': '#aa6600'\n    };\n    return colors[type] || '#666666';\n  }\n\n  function getPriorityColor(priority) {\n    const colors = {\n      '緊急': '#cc0066',\n      '高': '#ff6a00',\n      '中': '#0066cc',\n      '低': '#00aa44'\n    };\n    return colors[priority] || '#666666';\n  }\n\n  function getStatusColor(status) {\n    const colors = {\n      '未対応': '#ff6a00',\n      '対応中': '#0066cc',\n      '対応完了': '#00aa44',\n      '保留': '#666666'\n    };\n    return colors[status] || '#666666';\n  }\n\n  // フィルター適用\n  function applyFilters() {\n    const startDate = container.querySelector('#start-date').value;\n    const endDate = container.querySelector('#end-date').value;\n    const errorType = container.querySelector('#error-type-filter').value;\n    const system = container.querySelector('#system-filter').value;\n    const status = container.querySelector('#status-filter').value;\n\n    let filtered = [...currentErrors];\n\n    if (startDate) {\n      filtered = filtered.filter(e => e.エラー発生日時 >= startDate);\n    }\n    if (endDate) {\n      filtered = filtered.filter(e => e.エラー発生日時 <= endDate + 'T23:59:59');\n    }\n    if (errorType) {\n      filtered = filtered.filter(e => e.エラー種別 === errorType);\n    }\n    if (system) {\n      filtered = filtered.filter(e => e.連携システム名 === system);\n    }\n    if (status) {\n      filtered = filtered.filter(e => e.対応状況 === status);\n    }\n\n    renderErrors(filtered);\n  }\n\n  // エラー詳細表示\n  function showErrorDetail(errorId) {\n    const error = currentErrors.find(e => e.id === errorId);\n    if (!error) return;\n\n    selectedErrorId = errorId;\n    const modal = container.querySelector('#error-detail-modal');\n    const content = container.querySelector('#error-detail-content');\n    \n    content.innerHTML = `\n      <div class=\"grid grid-cols-2 gap-3 text-sm\">\n        <div><span style=\"color: var(--text-muted);\">エラーID:</span> ${error.id}</div>\n        <div><span style=\"color: var(--text-muted);\">発生日時:</span> ${new Date(error.エラー発生日時).toLocaleString()}</div>\n        <div><span style=\"color: var(--text-muted);\">エラー種別:</span> ${error.エラー種別}</div>\n        <div><span style=\"color: var(--text-muted);\">重要度:</span> ${error.重要度}</div>\n        <div><span style=\"color: var(--text-muted);\">発生箇所:</span> ${error.エラー発生箇所}</div>\n        <div><span style=\"color: var(--text-muted);\">エラーコード:</span> ${error.エラーコード || '-'}</div>\n      </div>\n      <div class=\"mt-3\">\n        <div class=\"text-xs mb-1\" style=\"color: var(--text-muted);\">エラーメッセージ</div>\n        <div class=\"p-2 rounded text-sm\" style=\"background: rgba(255,106,0,0.1); color: var(--text);\">${error.エラーメッセージ}</div>\n      </div>\n      ${error.処理対象データ ? `\n      <div class=\"mt-3\">\n        <div class=\"text-xs mb-1\" style=\"color: var(--text-muted);\">処理対象データ</div>\n        <pre class=\"p-2 rounded text-xs overflow-x-auto\" style=\"background: rgba(0,0,0,0.25); color: var(--text);\">${error.処理対象データ}</pre>\n      </div>\n      ` : ''}\n      ${error.スタックトレース ? `\n      <div class=\"mt-3\">\n        <div class=\"text-xs mb-1\" style=\"color: var(--text-muted);\">スタックトレース</div>\n        <pre class=\"p-2 rounded text-xs overflow-x-auto max-h-32\" style=\"background: rgba(0,0,0,0.25); color: var(--text);\">${error.スタックトレース}</pre>\n      </div>\n      ` : ''}\n    `;\n\n    container.querySelector('#status-update').value = error.対応状況;\n    container.querySelector('#response-content').value = error.対応内容 || '';\n    \n    modal.style.display = 'flex';\n  }\n\n  // CSV出力\n  function exportCSV() {\n    const headers = ['発生日時', 'エラー種別', '連携システム', '対象データ', 'エラー内容', '重要度', '対応状況', '対応者'];\n    const rows = currentErrors.map(error => [\n      new Date(error.エラー発生日時).toLocaleString(),\n      error.エラー種別,\n      error.連携システム名 || '',\n      error.発注データID ? `発注-${error.発注データID.slice(-8)}` : '',\n      error.エラーメッセージ,\n      error.重要度,\n      error.対応状況,\n      error.対応者名 || ''\n    ]);\n\n    const csvContent = '\\uFEFF' + [headers, ...rows].map(row => \n      row.map(field => `\"${String(field).replace(/\"/g, '\"\"')}\"`).join(',')\n    ).join('\\n');\n\n    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });\n    const link = document.createElement('a');\n    link.href = URL.createObjectURL(blob);\n    link.download = `error_analysis_${new Date().toISOString().split('T')[0]}.csv`;\n    link.click();\n  }\n\n  // 初期データ読み込み\n  async function loadData() {\n    const errors = await window.aivicApi.list(6); // 連携エラーログ\n    if (errors) {\n      currentErrors = errors;\n      renderErrors(errors);\n    }\n  }\n\n  // イベントリスナー\n  container.querySelector('#btn-filter').addEventListener('click', applyFilters);\n  \n  container.querySelector('#btn-refresh').addEventListener('click', loadData);\n  \n  container.querySelector('#btn-csv-export').addEventListener('click', exportCSV);\n  \n  container.querySelector('#btn-export').addEventListener('click', exportCSV);\n  \n  container.querySelector('#btn-reprocess').addEventListener('click', async () => {\n    const unprocessedErrors = currentErrors.filter(e => e.対応状況 === '未対応' && e.再処理要否);\n    if (unprocessedErrors.length === 0) {\n      alert('再処理対象のエラーがありません。');\n      return;\n    }\n    \n    if (confirm(`${unprocessedErrors.length}件のエラーを再処理しますか？`)) {\n      // 再処理ロジック（実際の実装では連携処理を実行）\n      alert('再処理を開始しました。処理状況は連携処理履歴画面で確認してください。');\n      window.showScreen('scr-1780291323940'); // 連携処理履歴画面\n    }\n  });\n\n  container.querySelector('#btn-close-modal').addEventListener('click', () => {\n    container.querySelector('#error-detail-modal').style.display = 'none';\n  });\n\n  container.querySelector('#btn-update-status').addEventListener('click', async () => {\n    if (!selectedErrorId) return;\n    \n    const status = container.querySelector('#status-update').value;\n    const content = container.querySelector('#response-content').value;\n    \n    const updated = await window.aivicApi.update(6, selectedErrorId, {\n      対応状況: status,\n      対応内容: content,\n      対応者ID: 'current-user-id', // 実際の実装では現在のユーザーIDを使用\n      対応開始日時: status === '対応中' ? new Date().toISOString() : undefined,\n      対応完了日時: status === '対応完了' ? new Date().toISOString() : undefined\n    });\n    \n    if (updated) {\n      container.querySelector('#error-detail-modal').style.display = 'none';\n      loadData();\n    }\n  });\n\n  container.querySelector('#btn-view-order').addEventListener('click', () => {\n    const error = currentErrors.find(e => e.id === selectedErrorId);\n    if (error && error.発注データID) {\n      window.showScreen('scr-1780291283309'); // 発注データ管理画面\n    } else {\n      alert('関連する発注データがありません。');\n    }\n  });\n\n  // 行クリックイベント\n  container.addEventListener('click', (e) => {\n    const detailBtn = e.target.closest('.detail-btn');\n    if (detailBtn) {\n      showErrorDetail(detailBtn.dataset.id);\n      return;\n    }\n    \n    const reprocessBtn = e.target.closest('.reprocess-btn');\n    if (reprocessBtn) {\n      if (confirm('このエラーを再処理しますか？')) {\n        // 個別再処理ロジック\n        alert('再処理を開始しました。');\n      }\n      return;\n    }\n    \n    const row = e.target.closest('tr[data-id]');\n    if (row) {\n      showErrorDetail(row.dataset.id);\n    }\n  });\n\n  // モーダル外クリックで閉じる\n  container.querySelector('#error-detail-modal').addEventListener('click', (e) => {\n    if (e.target === e.currentTarget) {\n      e.currentTarget.style.display = 'none';\n    }\n  });\n\n  // 初期化\n  loadData();\n}";
+window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  let currentErrors = [];\n  let selectedErrorId = null;\n\n  // 再描画関数の定義\n  function renderErrors(errors) {\n    const tbody = container.querySelector(\"#error-tbody\");\n    tbody.innerHTML = errors.map(error => `\n      <tr data-id=\"${error.id}\">\n        <td><input type=\"checkbox\" class=\"error-checkbox\" data-id=\"${error.id}\"></td>\n        <td>${new Date(error.エラー発生日時).toLocaleString()}</td>\n        <td>\n          <span class=\"px-2 py-1 text-xs rounded\" style=\"background: ${getErrorTypeColor(error.エラー種別)}; color: #fff;\">\n            ${error.エラー種別}\n          </span>\n        </td>\n        <td>${error.連携システム || '-'}</td>\n        <td>${error.発注データID ? `発注-${error.発注データID.slice(0,8)}` : '-'}</td>\n        <td class=\"max-w-xs truncate\">${error.エラーメッセージ}</td>\n        <td>\n          <span class=\"px-2 py-1 text-xs rounded\" style=\"background: ${getSeverityColor(error.重要度)}; color: #fff;\">\n            ${error.重要度}\n          </span>\n        </td>\n        <td>\n          <span class=\"px-2 py-1 text-xs rounded\" style=\"background: ${getStatusColor(error.対応状況)}; color: #fff;\">\n            ${error.対応状況}\n          </span>\n        </td>\n        <td>${error.対応者名 || '-'}</td>\n        <td>\n          <button class=\"action-btn secondary detail-btn\" data-id=\"${error.id}\">詳細</button>\n        </td>\n      </tr>\n    `).join(\"\");\n    \n    updateSummary(errors);\n  }\n\n  function getErrorTypeColor(type) {\n    const colors = {\n      'システムエラー': '#dc3545',\n      'データ検証エラー': '#fd7e14',\n      '通信エラー': '#6f42c1',\n      '認証エラー': '#e83e8c'\n    };\n    return colors[type] || '#6c757d';\n  }\n\n  function getSeverityColor(severity) {\n    const colors = {\n      '緊急': '#dc3545',\n      '高': '#fd7e14',\n      '中': '#ffc107',\n      '低': '#28a745'\n    };\n    return colors[severity] || '#6c757d';\n  }\n\n  function getStatusColor(status) {\n    const colors = {\n      '未対応': '#dc3545',\n      '対応中': '#ffc107',\n      '対応完了': '#28a745',\n      '保留': '#6c757d'\n    };\n    return colors[status] || '#6c757d';\n  }\n\n  function updateSummary(errors) {\n    const total = errors.length;\n    const pending = errors.filter(e => e.対応状況 === '未対応').length;\n    const processing = errors.filter(e => e.対応状況 === '対応中').length;\n    const completed = errors.filter(e => e.対応状況 === '対応完了').length;\n\n    container.querySelector(\"#total-errors\").textContent = total;\n    container.querySelector(\"#pending-errors\").textContent = pending;\n    container.querySelector(\"#processing-errors\").textContent = processing;\n    container.querySelector(\"#completed-errors\").textContent = completed;\n  }\n\n  function drawTrendChart(errors) {\n    const canvas = container.querySelector(\"#trend-chart\");\n    const ctx = canvas.getContext(\"2d\");\n    \n    ctx.clearRect(0, 0, canvas.width, canvas.height);\n    \n    // 簡単な時系列グラフ\n    const days = 7;\n    const data = [];\n    const today = new Date();\n    \n    for (let i = days - 1; i >= 0; i--) {\n      const date = new Date(today);\n      date.setDate(date.getDate() - i);\n      const dayErrors = errors.filter(e => {\n        const errorDate = new Date(e.エラー発生日時);\n        return errorDate.toDateString() === date.toDateString();\n      }).length;\n      data.push({ date: date.getDate(), count: dayErrors });\n    }\n    \n    const maxCount = Math.max(...data.map(d => d.count), 1);\n    const chartHeight = 150;\n    const chartWidth = 350;\n    const barWidth = chartWidth / days;\n    \n    // グラフ描画\n    ctx.fillStyle = '#28a745';\n    data.forEach((d, i) => {\n      const height = (d.count / maxCount) * chartHeight;\n      ctx.fillRect(i * barWidth + 10, chartHeight - height + 20, barWidth - 2, height);\n    });\n    \n    // ラベル\n    ctx.fillStyle = '#9fb0d1';\n    ctx.font = '10px sans-serif';\n    data.forEach((d, i) => {\n      ctx.fillText(d.date.toString(), i * barWidth + 15, chartHeight + 40);\n      if (d.count > 0) {\n        ctx.fillText(d.count.toString(), i * barWidth + 15, chartHeight - (d.count / maxCount) * chartHeight + 15);\n      }\n    });\n  }\n\n  function drawCategoryChart(errors) {\n    const canvas = container.querySelector(\"#category-chart\");\n    const ctx = canvas.getContext(\"2d\");\n    \n    ctx.clearRect(0, 0, canvas.width, canvas.height);\n    \n    const categories = {};\n    errors.forEach(e => {\n      categories[e.エラー種別] = (categories[e.エラー種別] || 0) + 1;\n    });\n    \n    const total = errors.length;\n    if (total === 0) return;\n    \n    const centerX = 200;\n    const centerY = 100;\n    const radius = 80;\n    \n    let startAngle = 0;\n    const colors = ['#28a745', '#ffc107', '#dc3545', '#6f42c1'];\n    let colorIndex = 0;\n    \n    Object.entries(categories).forEach(([category, count]) => {\n      const sliceAngle = (count / total) * 2 * Math.PI;\n      \n      ctx.beginPath();\n      ctx.moveTo(centerX, centerY);\n      ctx.arc(centerX, centerY, radius, startAngle, startAngle + sliceAngle);\n      ctx.closePath();\n      ctx.fillStyle = colors[colorIndex % colors.length];\n      ctx.fill();\n      \n      // ラベル\n      const labelAngle = startAngle + sliceAngle / 2;\n      const labelX = centerX + Math.cos(labelAngle) * (radius + 20);\n      const labelY = centerY + Math.sin(labelAngle) * (radius + 20);\n      \n      ctx.fillStyle = '#9fb0d1';\n      ctx.font = '10px sans-serif';\n      ctx.fillText(`${category} (${count})`, labelX - 30, labelY);\n      \n      startAngle += sliceAngle;\n      colorIndex++;\n    });\n  }\n\n  // 初期データ読み込み\n  window.aivicApi.list(6).then(errors => {\n    if (errors) {\n      currentErrors = errors;\n      renderErrors(errors);\n      drawTrendChart(errors);\n      drawCategoryChart(errors);\n    }\n  });\n\n  // 検索機能\n  container.querySelector(\"#btn-search\").addEventListener(\"click\", async () => {\n    const dateFrom = container.querySelector(\"#date-from\").value;\n    const dateTo = container.querySelector(\"#date-to\").value;\n    const errorType = container.querySelector(\"#error-type-filter\").value;\n    const system = container.querySelector(\"#system-filter\").value;\n\n    const errors = await window.aivicApi.list(6);\n    if (!errors) return;\n\n    let filtered = errors.filter(error => {\n      if (dateFrom && new Date(error.エラー発生日時) < new Date(dateFrom)) return false;\n      if (dateTo && new Date(error.エラー発生日時) > new Date(dateTo + 'T23:59:59')) return false;\n      if (errorType && error.エラー種別 !== errorType) return false;\n      if (system && error.連携システム !== system) return false;\n      return true;\n    });\n\n    currentErrors = filtered;\n    renderErrors(filtered);\n    drawTrendChart(filtered);\n    drawCategoryChart(filtered);\n  });\n\n  // CSVエクスポート\n  container.querySelector(\"#btn-export\").addEventListener(\"click\", async () => {\n    const errors = await window.aivicApi.list(6);\n    if (!errors) return;\n\n    const headers = ['エラーログID', 'エラー発生日時', 'エラー種別', 'エラーメッセージ', '重要度', '対応状況', '対応者ID'];\n    const csvContent = '\\uFEFF' + [\n      headers.join(','),\n      ...errors.map(error => [\n        error.id,\n        error.エラー発生日時,\n        error.エラー種別,\n        `\"${error.エラーメッセージ.replace(/\"/g, '\"\"')}\"`,\n        error.重要度,\n        error.対応状況,\n        error.対応者ID || ''\n      ].join(','))\n    ].join('\\n');\n\n    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });\n    const link = document.createElement('a');\n    link.href = URL.createObjectURL(blob);\n    link.download = `連携エラー一覧_${new Date().toISOString().slice(0,10)}.csv`;\n    link.click();\n  });\n\n  // 全選択チェックボックス\n  container.querySelector(\"#select-all\").addEventListener(\"change\", (e) => {\n    const checkboxes = container.querySelectorAll(\".error-checkbox\");\n    checkboxes.forEach(cb => cb.checked = e.target.checked);\n  });\n\n  // 再処理実行\n  container.querySelector(\"#btn-reprocess\").addEventListener(\"click\", async () => {\n    const selectedIds = Array.from(container.querySelectorAll(\".error-checkbox:checked\"))\n      .map(cb => cb.dataset.id);\n    \n    if (selectedIds.length === 0) {\n      alert(\"再処理するエラーを選択してください\");\n      return;\n    }\n\n    if (!confirm(`選択した${selectedIds.length}件のエラーを再処理しますか？`)) return;\n\n    // 再処理フラグを更新\n    for (const id of selectedIds) {\n      await window.aivicApi.update(6, id, {\n        対応状況: '対応中',\n        再処理実行日時: new Date().toISOString()\n      });\n    }\n\n    // 一覧を再読み込み\n    const errors = await window.aivicApi.list(6);\n    if (errors) {\n      currentErrors = errors;\n      renderErrors(errors);\n    }\n  });\n\n  // ログダウンロード\n  container.querySelector(\"#btn-download-log\").addEventListener(\"click\", () => {\n    const selectedIds = Array.from(container.querySelectorAll(\".error-checkbox:checked\"))\n      .map(cb => cb.dataset.id);\n    \n    if (selectedIds.length === 0) {\n      alert(\"ダウンロードするエラーを選択してください\");\n      return;\n    }\n\n    const selectedErrors = currentErrors.filter(e => selectedIds.includes(e.id));\n    const logContent = selectedErrors.map(error => \n      `[${error.エラー発生日時}] ${error.エラー種別}: ${error.エラーメッセージ}\\n` +\n      `スタックトレース: ${error.スタックトレース || 'なし'}\\n` +\n      `処理対象データ: ${error.処理対象データ || 'なし'}\\n` +\n      '---\\n'\n    ).join('\\n');\n\n    const blob = new Blob([logContent], { type: 'text/plain;charset=utf-8;' });\n    const link = document.createElement('a');\n    link.href = URL.createObjectURL(blob);\n    link.download = `エラーログ_${new Date().toISOString().slice(0,10)}.txt`;\n    link.click();\n  });\n\n  // エラー詳細モーダル\n  container.addEventListener(\"click\", async (e) => {\n    const detailBtn = e.target.closest(\".detail-btn\");\n    if (detailBtn) {\n      const errorId = detailBtn.dataset.id;\n      const error = currentErrors.find(e => e.id === errorId);\n      if (!error) return;\n\n      selectedErrorId = errorId;\n      \n      // モーダルにデータを設定\n      container.querySelector(\"#modal-error-id\").textContent = error.id;\n      container.querySelector(\"#modal-error-date\").textContent = new Date(error.エラー発生日時).toLocaleString();\n      container.querySelector(\"#modal-error-type\").textContent = error.エラー種別;\n      container.querySelector(\"#modal-severity\").textContent = error.重要度;\n      container.querySelector(\"#modal-error-message\").textContent = error.エラーメッセージ;\n      container.querySelector(\"#modal-target-data\").textContent = error.処理対象データ || 'データなし';\n      container.querySelector(\"#modal-status\").value = error.対応状況;\n      container.querySelector(\"#modal-assignee\").value = error.対応者ID || '';\n      container.querySelector(\"#modal-response-content\").value = error.対応内容 || '';\n\n      // モーダルを表示\n      container.querySelector(\"#error-detail-modal\").style.display = \"flex\";\n    }\n  });\n\n  // モーダルを閉じる\n  container.querySelector(\"#close-modal\").addEventListener(\"click\", () => {\n    container.querySelector(\"#error-detail-modal\").style.display = \"none\";\n  });\n\n  // 対応状況更新\n  container.querySelector(\"#btn-update-status\").addEventListener(\"click\", async () => {\n    if (!selectedErrorId) return;\n\n    const status = container.querySelector(\"#modal-status\").value;\n    const assignee = container.querySelector(\"#modal-assignee\").value;\n    const content = container.querySelector(\"#modal-response-content\").value;\n\n    const updateData = {\n      対応状況: status,\n      対応者ID: assignee,\n      対応内容: content\n    };\n\n    if (status === '対応中' && !updateData.対応開始日時) {\n      updateData.対応開始日時 = new Date().toISOString();\n    }\n    if (status === '対応完了') {\n      updateData.対応完了日時 = new Date().toISOString();\n    }\n\n    const updated = await window.aivicApi.update(6, selectedErrorId, updateData);\n    if (updated) {\n      // 一覧を再読み込み\n      const errors = await window.aivicApi.list(6);\n      if (errors) {\n        currentErrors = errors;\n        renderErrors(errors);\n      }\n      container.querySelector(\"#error-detail-modal\").style.display = \"none\";\n    }\n  });\n\n  // 関連発注データ表示\n  container.querySelector(\"#btn-view-order\").addEventListener(\"click\", () => {\n    const error = currentErrors.find(e => e.id === selectedErrorId);\n    if (error && error.発注データID) {\n      window.showScreen(\"scr-1780291283309\");\n    } else {\n      alert(\"関連する発注データがありません\");\n    }\n  });\n\n  // モーダル外クリックで閉じる\n  container.querySelector(\"#error-detail-modal\").addEventListener(\"click\", (e) => {\n    if (e.target === e.currentTarget) {\n      container.querySelector(\"#error-detail-modal\").style.display = \"none\";\n    }\n  });\n}";
 </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
@@ -85,173 +85,180 @@ canvas { display:block; max-height:280px !important; }
   </aside>
   <main class="main">
     <section class="card" data-aivic-panel="scr-1780291305048" style="margin-top:0">
-<div class="flex gap-3 h-full">
-  <!-- 左側: フィルター・設定エリア -->
-  <div class="w-80 flex-shrink-0 space-y-3">
-    <!-- エラー発生期間 -->
-    <div class="card p-3">
-      <h3 class="text-sm font-medium mb-2" style="color: var(--text);">エラー発生期間</h3>
-      <div class="space-y-2">
-        <div>
-          <label class="block text-xs mb-1" style="color: var(--text-muted);">開始日</label>
-          <input type="date" id="start-date" data-testid="start-date" class="w-full px-2 py-1 text-sm rounded border" 
-                 style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
-        </div>
-        <div>
-          <label class="block text-xs mb-1" style="color: var(--text-muted);">終了日</label>
-          <input type="date" id="end-date" data-testid="end-date" class="w-full px-2 py-1 text-sm rounded border"
-                 style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
-        </div>
-      </div>
-    </div>
-
-    <!-- フィルター -->
-    <div class="card p-3">
-      <h3 class="text-sm font-medium mb-2" style="color: var(--text);">フィルター</h3>
-      <div class="space-y-2">
-        <div>
-          <label class="block text-xs mb-1" style="color: var(--text-muted);">エラー種別</label>
-          <select id="error-type-filter" data-testid="error-type-filter" class="w-full px-2 py-1 text-sm rounded border"
-                  style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
-            <option value="">すべて</option>
-            <option value="データ検証エラー">データ検証エラー</option>
-            <option value="通信エラー">通信エラー</option>
-            <option value="システムエラー">システムエラー</option>
-            <option value="認証エラー">認証エラー</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-xs mb-1" style="color: var(--text-muted);">連携システム</label>
-          <select id="system-filter" data-testid="system-filter" class="w-full px-2 py-1 text-sm rounded border"
-                  style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
-            <option value="">すべて</option>
-            <option value="販売管理システム">販売管理システム</option>
-            <option value="在庫管理システム">在庫管理システム</option>
-            <option value="会計システム">会計システム</option>
-            <option value="EDIシステム">EDIシステム</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-xs mb-1" style="color: var(--text-muted);">対応状況</label>
-          <select id="status-filter" data-testid="status-filter" class="w-full px-2 py-1 text-sm rounded border"
-                  style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
-            <option value="">すべて</option>
-            <option value="未対応">未対応</option>
-            <option value="対応中">対応中</option>
-            <option value="対応完了">対応完了</option>
-            <option value="保留">保留</option>
-          </select>
-        </div>
-        <button id="btn-filter" data-testid="filter-button" class="action-btn w-full text-sm py-1">フィルター適用</button>
-      </div>
-    </div>
-
-    <!-- アクション -->
-    <div class="card p-3">
-      <h3 class="text-sm font-medium mb-2" style="color: var(--text);">アクション</h3>
-      <div class="space-y-2">
-        <button id="btn-export" data-testid="export-button" class="action-btn secondary w-full text-sm py-1">エラーログダウンロード</button>
-        <button id="btn-reprocess" data-testid="reprocess-button" class="action-btn w-full text-sm py-1">再処理実行</button>
-      </div>
-    </div>
+<div class="p-4">
+  <!-- ページヘッダー -->
+  <div class="mb-4">
+    <h1 class="text-xl font-semibold" style="color: var(--text);">連携エラー分析</h1>
+    <p class="text-sm mt-1" style="color: var(--text-muted);">基幹システム連携エラーの詳細分析と対処状況管理</p>
   </div>
 
-  <!-- 右側: メインコンテンツ -->
-  <div class="flex-1 space-y-3">
-    <!-- サマリーカード -->
-    <div class="grid grid-cols-4 gap-3">
-      <div class="card p-3">
-        <div class="text-xs mb-1" style="color: var(--text-muted);">総エラー件数</div>
-        <div id="total-errors" class="text-lg font-bold" style="color: var(--text);">0</div>
-      </div>
-      <div class="card p-3">
-        <div class="text-xs mb-1" style="color: var(--text-muted);">未対応</div>
-        <div id="pending-errors" class="text-lg font-bold" style="color: #ff6a00;">0</div>
-      </div>
-      <div class="card p-3">
-        <div class="text-xs mb-1" style="color: var(--text-muted);">対応中</div>
-        <div id="processing-errors" class="text-lg font-bold" style="color: #0066cc;">0</div>
-      </div>
-      <div class="card p-3">
-        <div class="text-xs mb-1" style="color: var(--text-muted);">対応完了</div>
-        <div id="completed-errors" class="text-lg font-bold" style="color: #00aa44;">0</div>
-      </div>
-    </div>
-
-    <!-- グラフエリア -->
-    <div class="grid grid-cols-2 gap-3">
-      <div class="card p-3">
-        <h3 class="text-sm font-medium mb-2" style="color: var(--text);">エラー発生傾向</h3>
-        <canvas id="trend-chart" width="300" height="200"></canvas>
-      </div>
-      <div class="card p-3">
-        <h3 class="text-sm font-medium mb-2" style="color: var(--text);">エラー分類別</h3>
-        <canvas id="category-chart" width="300" height="200"></canvas>
-      </div>
-    </div>
-
-    <!-- エラー一覧 -->
-    <div class="card p-3">
-      <div class="flex justify-between items-center mb-3">
-        <h3 class="text-sm font-medium" style="color: var(--text);">エラー一覧</h3>
-        <div class="flex gap-2">
-          <button id="btn-refresh" data-testid="refresh-button" class="action-btn secondary text-sm px-3 py-1">更新</button>
-          <button id="btn-csv-export" data-testid="csv-export-button" class="action-btn secondary text-sm px-3 py-1">CSV出力</button>
-        </div>
-      </div>
-      <div class="table-wrap">
-        <table data-testid="error-list">
-          <thead>
-            <tr>
-              <th>発生日時</th>
-              <th>エラー種別</th>
-              <th>連携システム</th>
-              <th>対象データ</th>
-              <th>エラー内容</th>
-              <th>重要度</th>
-              <th>対応状況</th>
-              <th>対応者</th>
-              <th>操作</th>
-            </tr>
-          </thead>
-          <tbody id="error-tbody">
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- エラー詳細モーダル -->
-<div id="error-detail-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" style="display: none; z-index: 1000;">
-  <div class="card p-4 max-w-2xl w-full mx-4 max-h-[80vh] overflow-y-auto">
-    <div class="flex justify-between items-center mb-3">
-      <h3 class="text-lg font-medium" style="color: var(--text);">エラー詳細</h3>
-      <button id="btn-close-modal" class="text-xl" style="color: var(--text-muted);">×</button>
-    </div>
-    <div id="error-detail-content" class="space-y-3">
-      <!-- 詳細内容がここに動的に挿入される -->
-    </div>
-    <div class="mt-4 space-y-3">
+  <!-- フィルター・検索エリア -->
+  <div class="card mb-4">
+    <div class="grid grid-cols-4 gap-3 mb-3">
       <div>
-        <label class="block text-xs mb-1" style="color: var(--text-muted);">対応状況更新</label>
-        <select id="status-update" data-testid="status-update" class="w-full px-2 py-1 text-sm rounded border"
-                style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
-          <option value="未対応">未対応</option>
-          <option value="対応中">対応中</option>
-          <option value="対応完了">対応完了</option>
-          <option value="保留">保留</option>
+        <label class="block text-xs mb-1" style="color: var(--text-muted);">期間（開始）</label>
+        <input type="date" id="date-from" data-testid="date-from" class="input w-full" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text); padding: 6px 8px; border-radius: 4px;">
+      </div>
+      <div>
+        <label class="block text-xs mb-1" style="color: var(--text-muted);">期間（終了）</label>
+        <input type="date" id="date-to" data-testid="date-to" class="input w-full" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text); padding: 6px 8px; border-radius: 4px;">
+      </div>
+      <div>
+        <label class="block text-xs mb-1" style="color: var(--text-muted);">エラー種別</label>
+        <select id="error-type-filter" data-testid="error-type-filter" class="input w-full" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text); padding: 6px 8px; border-radius: 4px;">
+          <option value="">全て</option>
+          <option value="システムエラー">システムエラー</option>
+          <option value="データ検証エラー">データ検証エラー</option>
+          <option value="通信エラー">通信エラー</option>
+          <option value="認証エラー">認証エラー</option>
         </select>
       </div>
       <div>
-        <label class="block text-xs mb-1" style="color: var(--text-muted);">対応内容</label>
-        <textarea id="response-content" data-testid="response-content" rows="3" class="w-full px-2 py-1 text-sm rounded border"
-                  style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);"
-                  placeholder="対応内容を入力してください"></textarea>
+        <label class="block text-xs mb-1" style="color: var(--text-muted);">連携システム</label>
+        <select id="system-filter" data-testid="system-filter" class="input w-full" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text); padding: 6px 8px; border-radius: 4px;">
+          <option value="">全て</option>
+          <option value="基幹会計システム">基幹会計システム</option>
+          <option value="在庫管理システム">在庫管理システム</option>
+          <option value="受発注システム">受発注システム</option>
+        </select>
       </div>
-      <div class="flex gap-2 justify-end">
-        <button id="btn-update-status" data-testid="update-status-button" class="action-btn text-sm px-4 py-1">更新</button>
-        <button id="btn-view-order" data-testid="view-order-button" class="action-btn secondary text-sm px-4 py-1">関連発注データ</button>
+    </div>
+    <div class="flex gap-2">
+      <button id="btn-search" data-testid="search-button" class="action-btn">検索</button>
+      <button id="btn-export" data-testid="export-button" class="action-btn secondary">CSVエクスポート</button>
+    </div>
+  </div>
+
+  <!-- サマリーエリア -->
+  <div class="grid grid-cols-4 gap-3 mb-4">
+    <div class="card">
+      <div class="text-xs" style="color: var(--text-muted);">総エラー件数</div>
+      <div id="total-errors" class="text-lg font-semibold mt-1" style="color: var(--text);">0</div>
+    </div>
+    <div class="card">
+      <div class="text-xs" style="color: var(--text-muted);">未対応</div>
+      <div id="pending-errors" class="text-lg font-semibold mt-1" style="color: #ff6a00;">0</div>
+    </div>
+    <div class="card">
+      <div class="text-xs" style="color: var(--text-muted);">対応中</div>
+      <div id="processing-errors" class="text-lg font-semibold mt-1" style="color: #ffa500;">0</div>
+    </div>
+    <div class="card">
+      <div class="text-xs" style="color: var(--text-muted);">対応完了</div>
+      <div id="completed-errors" class="text-lg font-semibold mt-1" style="color: #28a745;">0</div>
+    </div>
+  </div>
+
+  <!-- グラフエリア -->
+  <div class="grid grid-cols-2 gap-4 mb-4">
+    <div class="card">
+      <h3 class="text-sm font-medium mb-3" style="color: var(--text);">エラー発生傾向（時系列）</h3>
+      <canvas id="trend-chart" width="400" height="200"></canvas>
+    </div>
+    <div class="card">
+      <h3 class="text-sm font-medium mb-3" style="color: var(--text);">エラー分類別割合</h3>
+      <canvas id="category-chart" width="400" height="200"></canvas>
+    </div>
+  </div>
+
+  <!-- エラー一覧テーブル -->
+  <div class="card">
+    <div class="flex justify-between items-center mb-3">
+      <h3 class="text-sm font-medium" style="color: var(--text);">エラー一覧</h3>
+      <div class="flex gap-2">
+        <button id="btn-reprocess" data-testid="reprocess-button" class="action-btn">再処理実行</button>
+        <button id="btn-download-log" data-testid="download-log-button" class="action-btn secondary">ログダウンロード</button>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table data-testid="error-list">
+        <thead>
+          <tr>
+            <th><input type="checkbox" id="select-all" data-testid="select-all-checkbox"></th>
+            <th>発生日時</th>
+            <th>エラー種別</th>
+            <th>連携システム</th>
+            <th>対象データ</th>
+            <th>エラー内容</th>
+            <th>重要度</th>
+            <th>対応状況</th>
+            <th>対応者</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody id="error-tbody">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- エラー詳細モーダル -->
+  <div id="error-detail-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" style="display: none; z-index: 1000;">
+    <div class="card max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold" style="color: var(--text);">エラー詳細</h3>
+        <button id="close-modal" class="text-xl" style="color: var(--text-muted);">×</button>
+      </div>
+      
+      <div class="grid grid-cols-2 gap-4 mb-4">
+        <div>
+          <label class="block text-xs mb-1" style="color: var(--text-muted);">エラーID</label>
+          <div id="modal-error-id" class="text-sm" style="color: var(--text);"></div>
+        </div>
+        <div>
+          <label class="block text-xs mb-1" style="color: var(--text-muted);">発生日時</label>
+          <div id="modal-error-date" class="text-sm" style="color: var(--text);"></div>
+        </div>
+        <div>
+          <label class="block text-xs mb-1" style="color: var(--text-muted);">エラー種別</label>
+          <div id="modal-error-type" class="text-sm" style="color: var(--text);"></div>
+        </div>
+        <div>
+          <label class="block text-xs mb-1" style="color: var(--text-muted);">重要度</label>
+          <div id="modal-severity" class="text-sm" style="color: var(--text);"></div>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-xs mb-1" style="color: var(--text-muted);">エラーメッセージ</label>
+        <div id="modal-error-message" class="text-sm p-2 rounded" style="background: rgba(0,0,0,0.25); color: var(--text);"></div>
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-xs mb-1" style="color: var(--text-muted);">処理対象データ</label>
+        <pre id="modal-target-data" class="text-xs p-2 rounded overflow-x-auto" style="background: rgba(0,0,0,0.25); color: var(--text);"></pre>
+      </div>
+
+      <div class="mb-4">
+        <h4 class="text-sm font-medium mb-2" style="color: var(--text);">対応状況更新</h4>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs mb-1" style="color: var(--text-muted);">対応状況</label>
+            <select id="modal-status" data-testid="modal-status-select" class="input w-full" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text); padding: 6px 8px; border-radius: 4px;">
+              <option value="未対応">未対応</option>
+              <option value="対応中">対応中</option>
+              <option value="対応完了">対応完了</option>
+              <option value="保留">保留</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs mb-1" style="color: var(--text-muted);">対応者</label>
+            <select id="modal-assignee" data-testid="modal-assignee-select" class="input w-full" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text); padding: 6px 8px; border-radius: 4px;">
+              <option value="">選択してください</option>
+              <option value="田中太郎">田中太郎</option>
+              <option value="佐藤花子">佐藤花子</option>
+              <option value="山田次郎">山田次郎</option>
+            </select>
+          </div>
+        </div>
+        <div class="mt-3">
+          <label class="block text-xs mb-1" style="color: var(--text-muted);">対応内容</label>
+          <textarea id="modal-response-content" data-testid="modal-response-content" rows="3" class="input w-full" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text); padding: 6px 8px; border-radius: 4px;" placeholder="対応内容を入力してください"></textarea>
+        </div>
+        <div class="mt-3 flex gap-2">
+          <button id="btn-update-status" data-testid="update-status-button" class="action-btn">更新</button>
+          <button id="btn-view-order" data-testid="view-order-button" class="action-btn secondary">関連発注データ表示</button>
+        </div>
       </div>
     </div>
   </div>

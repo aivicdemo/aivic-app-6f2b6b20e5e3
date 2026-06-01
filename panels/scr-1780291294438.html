@@ -11,7 +11,7 @@ window.AIVIC_SYSTEM_NAME = "基幹システム連携管理システムの構築"
 window.AIVIC_TABLES = [{"tableName":"ログインユーザーマスタ","purpose":"Web発注プラットフォームにログインするユーザーの認証情報と基本属性を管理する","columns":[{"name":"ユーザーID","type":"uuid","required":true,"description":"ユーザーを一意に識別するID"},{"name":"ログインID","type":"varchar(100)","required":true,"description":"ログイン時に使用するID"},{"name":"パスワードハッシュ","type":"varchar(100)","required":true,"description":"暗号化されたパスワード"},{"name":"ユーザー名","type":"varchar(100)","required":true,"description":"画面表示用のユーザー名"},{"name":"メールアドレス","type":"varchar(100)","required":true,"description":"通知送信先メールアドレス"},{"name":"ユーザー種別","type":"varchar(100)","required":true,"description":"発注者、受注者、管理者等の区分"},{"name":"所属組織ID","type":"uuid","required":false,"description":"所属する組織のID"},{"name":"権限レベル","type":"integer","required":true,"description":"システム内での権限レベル"},{"name":"アカウント状態","type":"varchar(100)","required":true,"description":"有効、無効、停止等の状態"},{"name":"最終ログイン日時","type":"timestamp","required":false,"description":"最後にログインした日時"},{"name":"パスワード変更日時","type":"timestamp","required":false,"description":"パスワードを最後に変更した日時"},{"name":"有効フラグ","type":"boolean","required":true,"description":"レコードの有効性を示すフラグ"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者"},{"name":"更新者","type":"varchar(100)","required":true,"description":"レコード最終更新者"}]},{"tableName":"発注データ","purpose":"Web発注プラットフォームにおける発注情報を管理し、発注から承認・処理完了までの一連の業務フローを支援する","columns":[{"name":"発注ID","type":"uuid","required":true,"description":"発注データの一意識別子"},{"name":"発注番号","type":"varchar(100)","required":true,"description":"業務で使用する発注番号"},{"name":"発注者ID","type":"uuid","required":true,"description":"発注を行ったユーザーのID（ログインユーザーマスタ参照）"},{"name":"発注日","type":"timestamp","required":true,"description":"発注が行われた日時"},{"name":"希望納期","type":"timestamp","required":true,"description":"発注者が希望する納期"},{"name":"発注先名","type":"varchar(100)","required":true,"description":"発注先の会社名・店舗名"},{"name":"発注先担当者","type":"varchar(100)","required":false,"description":"発注先の担当者名"},{"name":"発注先連絡先","type":"varchar(100)","required":false,"description":"発注先の電話番号・メールアドレス等"},{"name":"発注金額","type":"integer","required":true,"description":"発注の総金額"},{"name":"発注ステータス","type":"varchar(100)","required":true,"description":"発注の処理状況（下書き・承認待ち・承認済み・発注済み・完了・キャンセル等）"},{"name":"承認者ID","type":"uuid","required":false,"description":"発注を承認したユーザーのID"},{"name":"承認日時","type":"timestamp","required":false,"description":"承認が行われた日時"},{"name":"発注理由","type":"text","required":false,"description":"発注の理由・目的"},{"name":"備考","type":"text","required":false,"description":"発注に関する補足情報"},{"name":"緊急フラグ","type":"boolean","required":true,"description":"緊急発注かどうかの判定"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"},{"name":"更新者ID","type":"uuid","required":true,"description":"レコード最終更新者のユーザーID"}]},{"tableName":"発注明細データ","purpose":"発注データに紐づく商品明細情報を管理し、Web発注プラットフォームでの明細単位での操作・表示・検索を実現する","columns":[{"name":"発注明細ID","type":"uuid","required":true,"description":"発注明細の一意識別子（主キー）"},{"name":"発注ID","type":"uuid","required":true,"description":"発注データテーブルへの外部キー"},{"name":"明細番号","type":"integer","required":true,"description":"発注内での明細の連番"},{"name":"商品コード","type":"varchar(100)","required":true,"description":"発注する商品の識別コード"},{"name":"商品名","type":"varchar(100)","required":true,"description":"発注する商品の名称"},{"name":"規格","type":"varchar(100)","required":false,"description":"商品の規格・仕様"},{"name":"発注数量","type":"integer","required":true,"description":"発注する数量"},{"name":"単位","type":"varchar(100)","required":true,"description":"数量の単位（個、箱、kg等）"},{"name":"単価","type":"integer","required":true,"description":"商品の単価（円）"},{"name":"金額","type":"integer","required":true,"description":"明細の合計金額（単価×数量）"},{"name":"希望納期","type":"timestamp","required":false,"description":"明細単位での希望納期"},{"name":"明細ステータス","type":"varchar(100)","required":true,"description":"明細の処理状況（未処理、処理中、完了等）"},{"name":"備考","type":"text","required":false,"description":"明細に関する特記事項"},{"name":"削除フラグ","type":"boolean","required":true,"description":"論理削除フラグ"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"},{"name":"更新者ID","type":"uuid","required":true,"description":"レコード最終更新者のユーザーID"}]},{"tableName":"基幹システム連携設定マスタ","purpose":"Web発注プラットフォームと基幹システム間のデータ連携設定を管理するマスタテーブル","columns":[{"name":"連携設定ID","type":"uuid","required":true,"description":"連携設定の一意識別子（主キー）"},{"name":"連携システム名","type":"varchar(100)","required":true,"description":"連携対象の基幹システム名"},{"name":"連携種別","type":"varchar(100)","required":true,"description":"連携の種別（発注データ送信、在庫データ受信等）"},{"name":"接続方式","type":"varchar(100)","required":true,"description":"連携方式（API、FTP、DB直接接続等）"},{"name":"接続先URL","type":"varchar(100)","required":false,"description":"API接続時のエンドポイントURL"},{"name":"認証方式","type":"varchar(100)","required":true,"description":"認証方式（API Key、OAuth、Basic認証等）"},{"name":"実行頻度","type":"varchar(100)","required":true,"description":"連携実行の頻度（リアルタイム、毎時、日次等）"},{"name":"データ形式","type":"varchar(100)","required":true,"description":"連携データの形式（JSON、XML、CSV等）"},{"name":"有効フラグ","type":"boolean","required":true,"description":"連携設定の有効/無効状態"},{"name":"優先順位","type":"integer","required":true,"description":"複数連携がある場合の実行優先順位"},{"name":"タイムアウト秒数","type":"integer","required":true,"description":"連携処理のタイムアウト時間（秒）"},{"name":"リトライ回数","type":"integer","required":true,"description":"連携失敗時の最大リトライ回数"},{"name":"エラー通知先","type":"varchar(100)","required":false,"description":"連携エラー時の通知先メールアドレス"},{"name":"備考","type":"text","required":false,"description":"連携設定に関する補足情報"},{"name":"作成者ID","type":"uuid","required":true,"description":"設定を作成したユーザーのID"},{"name":"更新者ID","type":"uuid","required":true,"description":"設定を最後に更新したユーザーのID"},{"name":"作成日時","type":"timestamp","required":true,"description":"設定の作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"設定の最終更新日時"}]},{"tableName":"データ検証ルールマスタ","purpose":"Web発注プラットフォームから基幹システムへのデータ連携時に適用する検証ルールを管理するマスタテーブル","columns":[{"name":"検証ルールID","type":"uuid","required":true,"description":"検証ルールの一意識別子（主キー）"},{"name":"ルール名","type":"varchar(100)","required":true,"description":"検証ルールの名称"},{"name":"対象テーブル名","type":"varchar(100)","required":true,"description":"検証対象となるテーブル名"},{"name":"対象カラム名","type":"varchar(100)","required":true,"description":"検証対象となるカラム名"},{"name":"検証タイプ","type":"varchar(100)","required":true,"description":"検証の種類（必須チェック、形式チェック、範囲チェック、重複チェック等）"},{"name":"検証条件","type":"text","required":true,"description":"具体的な検証条件の設定値"},{"name":"エラーメッセージ","type":"text","required":true,"description":"検証エラー時に表示するメッセージ"},{"name":"実行順序","type":"integer","required":true,"description":"同一カラムに複数ルールがある場合の実行順序"},{"name":"有効フラグ","type":"boolean","required":true,"description":"ルールの有効/無効状態"},{"name":"適用開始日","type":"timestamp","required":false,"description":"ルールの適用開始日時"},{"name":"適用終了日","type":"timestamp","required":false,"description":"ルールの適用終了日時"},{"name":"備考","type":"text","required":false,"description":"ルールに関する補足説明"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"更新者ID","type":"uuid","required":true,"description":"レコード最終更新者のユーザーID"}]},{"tableName":"連携処理履歴","purpose":"基幹システムとの連携処理の実行履歴を記録し、処理状況の監視、エラー対応、再処理判定を行うための履歴管理テーブル","columns":[{"name":"連携処理履歴ID","type":"uuid","required":true,"description":"連携処理履歴の一意識別子（主キー）"},{"name":"連携設定ID","type":"uuid","required":true,"description":"基幹システム連携設定マスタへの外部キー"},{"name":"処理種別","type":"varchar(100)","required":true,"description":"連携処理の種別（発注データ送信、在庫データ取得、受注データ送信等）"},{"name":"処理ステータス","type":"varchar(100)","required":true,"description":"処理の実行状況（実行中、成功、失敗、中断、再試行中）"},{"name":"対象データID","type":"uuid","required":false,"description":"連携対象となったデータのID（発注データID等）"},{"name":"処理開始日時","type":"timestamp","required":true,"description":"連携処理の開始日時"},{"name":"処理終了日時","type":"timestamp","required":false,"description":"連携処理の終了日時"},{"name":"処理件数","type":"integer","required":false,"description":"処理対象となったデータ件数"},{"name":"成功件数","type":"integer","required":false,"description":"正常に処理されたデータ件数"},{"name":"エラー件数","type":"integer","required":false,"description":"エラーが発生したデータ件数"},{"name":"エラーメッセージ","type":"text","required":false,"description":"処理中に発生したエラーの詳細メッセージ"},{"name":"リクエストデータ","type":"text","required":false,"description":"基幹システムに送信したリクエストデータの内容"},{"name":"レスポンスデータ","type":"text","required":false,"description":"基幹システムから受信したレスポンスデータの内容"},{"name":"再試行回数","type":"integer","required":true,"description":"処理の再試行実行回数（初回は0）"},{"name":"次回再試行日時","type":"timestamp","required":false,"description":"エラー時の次回再試行予定日時"},{"name":"処理実行者ID","type":"uuid","required":false,"description":"手動実行時の実行者（ログインユーザーマスタへの外部キー）"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"}]},{"tableName":"連携エラーログ","purpose":"基幹システム連携処理で発生したエラーの詳細情報を記録し、エラー分析・対応履歴管理・再処理判定を行うためのログテーブル","columns":[{"name":"エラーログID","type":"uuid","required":true,"description":"エラーログの一意識別子（主キー）"},{"name":"連携処理履歴ID","type":"uuid","required":true,"description":"連携処理履歴テーブルへの外部キー"},{"name":"発注データID","type":"uuid","required":false,"description":"エラー対象の発注データID（該当する場合）"},{"name":"エラー発生日時","type":"timestamp","required":true,"description":"エラーが発生した日時"},{"name":"エラー種別","type":"varchar(100)","required":true,"description":"システムエラー、データ検証エラー、通信エラー、認証エラー等"},{"name":"エラーコード","type":"varchar(100)","required":false,"description":"システム固有のエラーコード"},{"name":"エラーメッセージ","type":"text","required":true,"description":"エラーの詳細メッセージ"},{"name":"エラー発生箇所","type":"varchar(100)","required":true,"description":"データ変換処理、API送信、レスポンス受信等"},{"name":"処理対象データ","type":"text","required":false,"description":"エラー発生時の処理対象データの内容"},{"name":"スタックトレース","type":"text","required":false,"description":"システムエラー時の詳細なスタックトレース情報"},{"name":"重要度","type":"varchar(100)","required":true,"description":"緊急、高、中、低"},{"name":"対応状況","type":"varchar(100)","required":true,"description":"未対応、対応中、対応完了、保留"},{"name":"対応者ID","type":"uuid","required":false,"description":"エラー対応を行うユーザーのID"},{"name":"対応開始日時","type":"timestamp","required":false,"description":"エラー対応を開始した日時"},{"name":"対応完了日時","type":"timestamp","required":false,"description":"エラー対応が完了した日時"},{"name":"対応内容","type":"text","required":false,"description":"実施した対応内容の詳細"},{"name":"再処理要否","type":"boolean","required":true,"description":"エラー解決後に再処理が必要かどうか"},{"name":"再処理実行日時","type":"timestamp","required":false,"description":"再処理を実行した日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"}]},{"tableName":"データ検証結果","purpose":"発注データの基幹システム連携前後における各種検証処理の実行結果を記録し、データ品質管理と問題追跡を行う","columns":[{"name":"検証結果ID","type":"uuid","required":true,"description":"データ検証結果の一意識別子（主キー）"},{"name":"連携処理履歴ID","type":"uuid","required":true,"description":"関連する連携処理履歴への外部キー"},{"name":"発注データID","type":"uuid","required":false,"description":"検証対象の発注データへの外部キー"},{"name":"検証ルールID","type":"uuid","required":true,"description":"適用された検証ルールへの外部キー"},{"name":"検証種別","type":"varchar(100)","required":true,"description":"検証の種類（形式チェック、業務ルールチェック、整合性チェック等）"},{"name":"検証項目名","type":"varchar(100)","required":true,"description":"検証を行った具体的な項目名"},{"name":"検証結果","type":"varchar(100)","required":true,"description":"検証結果（成功、警告、エラー）"},{"name":"検証メッセージ","type":"text","required":false,"description":"検証結果の詳細メッセージ"},{"name":"検証前値","type":"text","required":false,"description":"検証前のデータ値"},{"name":"検証後値","type":"text","required":false,"description":"検証後のデータ値（補正された場合）"},{"name":"重要度","type":"varchar(100)","required":true,"description":"検証結果の重要度（高、中、低）"},{"name":"処理継続可否","type":"boolean","required":true,"description":"この検証結果で処理を継続可能かどうか"},{"name":"検証実行日時","type":"timestamp","required":true,"description":"検証を実行した日時"},{"name":"検証実行者ID","type":"uuid","required":false,"description":"検証を実行したユーザーID（自動実行の場合はnull）"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"}]},{"tableName":"発注ステータス履歴","purpose":"発注データのステータス変更履歴を時系列で管理し、発注処理の進捗状況と変更経緯を追跡する","columns":[{"name":"履歴ID","type":"uuid","required":true,"description":"発注ステータス履歴の一意識別子"},{"name":"発注ID","type":"uuid","required":true,"description":"対象発注データの識別子"},{"name":"変更前ステータス","type":"varchar(100)","required":false,"description":"変更前の発注ステータス（初回登録時はnull）"},{"name":"変更後ステータス","type":"varchar(100)","required":true,"description":"変更後の発注ステータス（下書き、承認待ち、承認済み、発注済み、完了、キャンセル等）"},{"name":"変更理由","type":"text","required":false,"description":"ステータス変更の理由やコメント"},{"name":"処理区分","type":"varchar(100)","required":true,"description":"変更処理の種別（手動変更、自動処理、基幹システム連携等）"},{"name":"連携処理ID","type":"uuid","required":false,"description":"基幹システム連携による変更の場合の連携処理履歴ID"},{"name":"変更者ID","type":"uuid","required":false,"description":"ステータスを変更したユーザーID（システム自動処理の場合はnull）"},{"name":"変更日時","type":"timestamp","required":true,"description":"ステータス変更が発生した日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"履歴レコードの作成日時"}]},{"tableName":"システム通知設定","purpose":"Web発注プラットフォームにおける各種通知の設定を管理し、発注処理や基幹システム連携の状況に応じた適切な通知を実現する","columns":[{"name":"通知設定ID","type":"uuid","required":true,"description":"通知設定の一意識別子（主キー）"},{"name":"通知種別","type":"varchar(100)","required":true,"description":"通知の種別（発注完了、連携エラー、承認依頼、期限切れ警告等）"},{"name":"通知名","type":"varchar(100)","required":true,"description":"通知設定の名称"},{"name":"通知対象者種別","type":"varchar(100)","required":true,"description":"通知対象者の種別（発注者、承認者、システム管理者、全ユーザー等）"},{"name":"通知方法","type":"varchar(100)","required":true,"description":"通知方法（メール、システム内通知、両方等）"},{"name":"件名テンプレート","type":"varchar(100)","required":false,"description":"通知メールの件名テンプレート"},{"name":"本文テンプレート","type":"text","required":false,"description":"通知メールの本文テンプレート"},{"name":"発生条件","type":"text","required":true,"description":"通知が発生する条件の説明"},{"name":"優先度","type":"integer","required":true,"description":"通知の優先度（1:高、2:中、3:低）"},{"name":"有効フラグ","type":"boolean","required":true,"description":"通知設定の有効/無効状態"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"更新者ID","type":"uuid","required":true,"description":"レコード最終更新者のユーザーID"}]},{"tableName":"通知履歴","purpose":"システムからユーザーへの通知送信履歴を管理し、通知の配信状況や既読状態を追跡する","columns":[{"name":"通知履歴ID","type":"uuid","required":true,"description":"通知履歴の一意識別子（主キー）"},{"name":"通知設定ID","type":"uuid","required":true,"description":"システム通知設定マスタへの外部キー"},{"name":"受信者ユーザーID","type":"uuid","required":true,"description":"通知を受信するユーザーのID（ログインユーザーマスタへの外部キー）"},{"name":"通知タイトル","type":"varchar(100)","required":true,"description":"通知のタイトル"},{"name":"通知内容","type":"text","required":true,"description":"通知の詳細メッセージ内容"},{"name":"通知種別","type":"varchar(100)","required":true,"description":"通知の種別（発注完了、エラー発生、システムメンテナンス等）"},{"name":"優先度","type":"varchar(100)","required":true,"description":"通知の優先度（高、中、低）"},{"name":"送信方法","type":"varchar(100)","required":true,"description":"通知の送信方法（画面通知、メール、両方）"},{"name":"送信状態","type":"varchar(100)","required":true,"description":"送信処理の状態（送信待ち、送信中、送信完了、送信失敗）"},{"name":"既読フラグ","type":"boolean","required":true,"description":"ユーザーが通知を既読したかどうか"},{"name":"関連データID","type":"uuid","required":false,"description":"通知に関連するデータのID（発注データID、連携処理履歴ID等）"},{"name":"関連データ種別","type":"varchar(100)","required":false,"description":"関連データの種別（発注データ、連携処理履歴等）"},{"name":"送信予定日時","type":"timestamp","required":true,"description":"通知の送信予定日時"},{"name":"送信日時","type":"timestamp","required":false,"description":"実際に通知が送信された日時"},{"name":"既読日時","type":"timestamp","required":false,"description":"ユーザーが通知を既読した日時"},{"name":"エラーメッセージ","type":"text","required":false,"description":"送信失敗時のエラーメッセージ"},{"name":"再送回数","type":"integer","required":true,"description":"通知の再送信回数"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"uuid","required":true,"description":"レコード作成者のユーザーID"}]}];
 window.AIVIC_PRESET_SEED = {};
 window.AIVIC_PAGE_SCREEN_ID = "scr-1780291294438";
-window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  // テーブルインデックス定義\n  const INTEGRATION_HISTORY_TABLE = 5; // 連携処理履歴\n  const ERROR_LOG_TABLE = 6; // 連携エラーログ\n  const VALIDATION_RESULT_TABLE = 7; // データ検証結果\n\n  // 再描画関数の定義\n  function renderProcessingRows(rows) {\n    const tbody = container.querySelector(\"#processing-tbody\");\n    tbody.innerHTML = rows.map(r => `\n      <tr data-id=\"${r.id}\">\n        <td>${r.連携処理履歴ID?.substring(0, 8) || \"\"}</td>\n        <td>${r.処理種別 || \"\"}</td>\n        <td>${r.処理種別 || \"\"}</td>\n        <td>${r.処理開始日時 ? new Date(r.処理開始日時).toLocaleString() : \"\"}</td>\n        <td>\n          <div class=\"w-full bg-gray-200 rounded-full h-2\">\n            <div class=\"bg-blue-600 h-2 rounded-full\" style=\"width: ${Math.random() * 100}%\"></div>\n          </div>\n        </td>\n        <td>\n          <span class=\"px-2 py-1 text-xs rounded\" style=\"background: ${r.処理ステータス === '実行中' ? '#3b82f6' : '#6b7280'}; color: white;\">\n            ${r.処理ステータス || \"\"}\n          </span>\n        </td>\n        <td>\n          <button class=\"action-btn secondary view-detail-btn\" data-id=\"${r.id}\">詳細</button>\n        </td>\n      </tr>\n    `).join(\"\");\n  }\n\n  function renderHistoryRows(rows) {\n    const tbody = container.querySelector(\"#history-tbody\");\n    tbody.innerHTML = rows.map(r => `\n      <tr data-id=\"${r.id}\">\n        <td>${r.処理開始日時 ? new Date(r.処理開始日時).toLocaleString() : \"\"}</td>\n        <td>${r.処理種別 || \"\"}</td>\n        <td>${r.処理種別 || \"\"}</td>\n        <td>${r.処理件数 || 0}</td>\n        <td>${r.成功件数 || 0}</td>\n        <td>${r.エラー件数 || 0}</td>\n        <td>\n          <span class=\"px-2 py-1 text-xs rounded\" style=\"background: ${getStatusColor(r.処理ステータス)}; color: white;\">\n            ${r.処理ステータス || \"\"}\n          </span>\n        </td>\n        <td>\n          <button class=\"action-btn secondary view-detail-btn\" data-id=\"${r.id}\">詳細</button>\n          <button class=\"action-btn secondary retry-btn\" data-id=\"${r.id}\">再実行</button>\n        </td>\n      </tr>\n    `).join(\"\");\n  }\n\n  function renderErrorRows(rows) {\n    const tbody = container.querySelector(\"#error-tbody\");\n    tbody.innerHTML = rows.map(r => `\n      <tr data-id=\"${r.id}\">\n        <td>${r.エラー発生日時 ? new Date(r.エラー発生日時).toLocaleString() : \"\"}</td>\n        <td>${r.エラー種別 || \"\"}</td>\n        <td class=\"max-w-xs truncate\">${r.エラーメッセージ || \"\"}</td>\n        <td>\n          <span class=\"px-2 py-1 text-xs rounded\" style=\"background: ${getPriorityColor(r.重要度)}; color: white;\">\n            ${r.重要度 || \"\"}\n          </span>\n        </td>\n        <td>${r.対応状況 || \"\"}</td>\n        <td>\n          <button class=\"action-btn secondary view-error-btn\" data-id=\"${r.id}\">詳細</button>\n        </td>\n      </tr>\n    `).join(\"\");\n  }\n\n  function getStatusColor(status) {\n    switch(status) {\n      case '成功': return '#10b981';\n      case '失敗': return '#ef4444';\n      case '実行中': return '#3b82f6';\n      default: return '#6b7280';\n    }\n  }\n\n  function getPriorityColor(priority) {\n    switch(priority) {\n      case '高': return '#ef4444';\n      case '中': return '#f59e0b';\n      case '低': return '#10b981';\n      default: return '#6b7280';\n    }\n  }\n\n  function updateStatusCounts() {\n    Promise.all([\n      window.aivicApi.list(INTEGRATION_HISTORY_TABLE),\n      window.aivicApi.list(ERROR_LOG_TABLE)\n    ]).then(([historyRows, errorRows]) => {\n      const processingCount = historyRows.filter(r => r.処理ステータス === '実行中').length;\n      const successCount = historyRows.filter(r => r.処理ステータス === '成功').length;\n      const errorCount = errorRows.length;\n      const totalCount = historyRows.length;\n\n      container.querySelector(\"#processing-count\").textContent = processingCount;\n      container.querySelector(\"#success-count\").textContent = successCount;\n      container.querySelector(\"#error-count\").textContent = errorCount;\n      container.querySelector(\"#total-count\").textContent = totalCount;\n    });\n  }\n\n  // 初期データ読み込み\n  window.aivicApi.list(INTEGRATION_HISTORY_TABLE).then(rows => {\n    if (rows) {\n      const processingRows = rows.filter(r => r.処理ステータス === '実行中');\n      renderProcessingRows(processingRows);\n      renderHistoryRows(rows.slice(0, 10)); // 最新10件のみ表示\n      updateStatusCounts();\n    }\n  });\n\n  window.aivicApi.list(ERROR_LOG_TABLE).then(rows => {\n    if (rows) {\n      renderErrorRows(rows.slice(0, 10)); // 最新10件のみ表示\n      updateStatusCounts();\n    }\n  });\n\n  // 連携処理実行\n  container.querySelector(\"#btn-execute-sync\").addEventListener(\"click\", async () => {\n    const targetSystem = container.querySelector(\"#select-target-system\").value;\n    const processType = container.querySelector(\"#select-process-type\").value;\n    const startDateTime = container.querySelector(\"#input-start-datetime\").value;\n    const endDateTime = container.querySelector(\"#input-end-datetime\").value;\n\n    if (!targetSystem || !processType) {\n      alert(\"連携対象システムと処理種別を選択してください。\");\n      return;\n    }\n\n    const newProcess = {\n      連携設定ID: crypto.randomUUID(),\n      処理種別: `${targetSystem}_${processType}`,\n      処理ステータス: '実行中',\n      処理開始日時: new Date().toISOString(),\n      処理件数: 0,\n      成功件数: 0,\n      エラー件数: 0,\n      再試行回数: 0\n    };\n\n    const saved = await window.aivicApi.save(INTEGRATION_HISTORY_TABLE, newProcess);\n    if (saved) {\n      alert(\"連携処理を開始しました。\");\n      // データを再読み込み\n      window.aivicApi.list(INTEGRATION_HISTORY_TABLE).then(rows => {\n        if (rows) {\n          const processingRows = rows.filter(r => r.処理ステータス === '実行中');\n          renderProcessingRows(processingRows);\n          renderHistoryRows(rows.slice(0, 10));\n          updateStatusCounts();\n        }\n      });\n    }\n  });\n\n  // データ検証実行\n  container.querySelector(\"#btn-validate-data\").addEventListener(\"click\", () => {\n    window.showScreen(\"scr-1780291315061\"); // データ検証結果画面\n  });\n\n  // 履歴検索\n  container.querySelector(\"#btn-search-history\").addEventListener(\"click\", () => {\n    const keyword = container.querySelector(\"#input-history-search\").value;\n    window.aivicApi.list(INTEGRATION_HISTORY_TABLE).then(rows => {\n      if (rows) {\n        const filtered = rows.filter(r => \n          JSON.stringify(r).toLowerCase().includes(keyword.toLowerCase())\n        );\n        renderHistoryRows(filtered);\n      }\n    });\n  });\n\n  // 更新ボタン\n  container.querySelector(\"#btn-refresh\").addEventListener(\"click\", () => {\n    window.aivicApi.list(INTEGRATION_HISTORY_TABLE).then(rows => {\n      if (rows) {\n        const processingRows = rows.filter(r => r.処理ステータス === '実行中');\n        renderProcessingRows(processingRows);\n        renderHistoryRows(rows.slice(0, 10));\n        updateStatusCounts();\n      }\n    });\n  });\n\n  // 画面遷移\n  container.querySelector(\"#btn-history\").addEventListener(\"click\", () => {\n    window.showScreen(\"scr-1780291323940\"); // 連携処理履歴画面\n  });\n\n  container.querySelector(\"#btn-view-all-history\").addEventListener(\"click\", () => {\n    window.showScreen(\"scr-1780291323940\"); // 連携処理履歴画面\n  });\n\n  container.querySelector(\"#btn-error-analysis\").addEventListener(\"click\", () => {\n    window.showScreen(\"scr-1780291305048\"); // 連携エラー分析画面\n  });\n\n  // モーダル制御\n  container.querySelector(\"#btn-close-modal\").addEventListener(\"click\", () => {\n    container.querySelector(\"#process-detail-modal\").style.display = \"none\";\n  });\n\n  // イベントデリゲーション\n  container.addEventListener(\"click\", async (e) => {\n    const viewDetailBtn = e.target.closest(\".view-detail-btn\");\n    const retryBtn = e.target.closest(\".retry-btn\");\n    const viewErrorBtn = e.target.closest(\".view-error-btn\");\n\n    if (viewDetailBtn) {\n      const id = viewDetailBtn.dataset.id;\n      const modal = container.querySelector(\"#process-detail-modal\");\n      const content = container.querySelector(\"#process-detail-content\");\n      \n      // 詳細情報を取得して表示\n      const rows = await window.aivicApi.list(INTEGRATION_HISTORY_TABLE);\n      const record = rows?.find(r => r.id === id);\n      \n      if (record) {\n        content.innerHTML = `\n          <div class=\"space-y-3\">\n            <div><strong>処理ID:</strong> ${record.連携処理履歴ID || \"\"}</div>\n            <div><strong>処理種別:</strong> ${record.処理種別 || \"\"}</div>\n            <div><strong>開始日時:</strong> ${record.処理開始日時 ? new Date(record.処理開始日時).toLocaleString() : \"\"}</div>\n            <div><strong>終了日時:</strong> ${record.処理終了日時 ? new Date(record.処理終了日時).toLocaleString() : \"実行中\"}</div>\n            <div><strong>処理件数:</strong> ${record.処理件数 || 0}</div>\n            <div><strong>成功件数:</strong> ${record.成功件数 || 0}</div>\n            <div><strong>エラー件数:</strong> ${record.エラー件数 || 0}</div>\n            <div><strong>ステータス:</strong> ${record.処理ステータス || \"\"}</div>\n            ${record.エラーメッセージ ? `<div><strong>エラーメッセージ:</strong> ${record.エラーメッセージ}</div>` : \"\"}\n          </div>\n        `;\n        modal.style.display = \"flex\";\n      }\n    }\n\n    if (retryBtn) {\n      const id = retryBtn.dataset.id;\n      if (confirm(\"この処理を再実行しますか？\")) {\n        const updated = await window.aivicApi.update(INTEGRATION_HISTORY_TABLE, id, {\n          処理ステータス: '実行中',\n          再試行回数: 1,\n          処理開始日時: new Date().toISOString()\n        });\n        if (updated) {\n          alert(\"再処理を開始しました。\");\n          window.aivicApi.list(INTEGRATION_HISTORY_TABLE).then(rows => {\n            if (rows) {\n              renderHistoryRows(rows.slice(0, 10));\n              updateStatusCounts();\n            }\n          });\n        }\n      }\n    }\n\n    if (viewErrorBtn) {\n      window.showScreen(\"scr-1780291305048\"); // 連携エラー分析画面\n    }\n  });\n}";
+window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  // 各テーブルのインデックス\n  const HISTORY_TABLE = 5; // 連携処理履歴\n  const ERROR_TABLE = 6;   // 連携エラーログ\n  const VALIDATION_TABLE = 7; // データ検証結果\n\n  // 再描画関数の定義\n  function renderProcessingRows(rows) {\n    const tbody = container.querySelector(\"#processing-tbody\");\n    tbody.innerHTML = rows.map(r => `\n      <tr data-id=\"${r.id}\">\n        <td class=\"text-xs\">${r.連携処理履歴ID?.substring(0, 8) || \"\"}</td>\n        <td class=\"text-xs\">${r.連携設定ID || \"\"}</td>\n        <td class=\"text-xs\">${r.処理種別 || \"\"}</td>\n        <td class=\"text-xs\">${r.処理開始日時 ? new Date(r.処理開始日時).toLocaleString() : \"\"}</td>\n        <td class=\"text-xs\">\n          <div class=\"w-full bg-gray-200 rounded-full h-1.5\">\n            <div class=\"bg-blue-600 h-1.5 rounded-full\" style=\"width: ${Math.random() * 100}%\"></div>\n          </div>\n        </td>\n        <td class=\"text-xs\">\n          <span class=\"px-2 py-0.5 rounded text-xs\" style=\"background: ${r.処理ステータス === '実行中' ? '#fef3c7' : r.処理ステータス === '成功' ? '#d1fae5' : '#fee2e2'}; color: ${r.処理ステータス === '実行中' ? '#92400e' : r.処理ステータス === '成功' ? '#065f46' : '#991b1b'};\">\n            ${r.処理ステータス || \"\"}\n          </span>\n        </td>\n        <td class=\"text-xs\">\n          <button class=\"action-btn secondary text-xs px-2 py-1 cancel-btn\" data-id=\"${r.id}\">中断</button>\n        </td>\n      </tr>\n    `).join(\"\");\n  }\n\n  function renderHistoryRows(rows) {\n    const tbody = container.querySelector(\"#history-tbody\");\n    tbody.innerHTML = rows.map(r => `\n      <tr data-id=\"${r.id}\">\n        <td class=\"text-xs\">${r.処理開始日時 ? new Date(r.処理開始日時).toLocaleString() : \"\"}</td>\n        <td class=\"text-xs\">${r.連携設定ID || \"\"}</td>\n        <td class=\"text-xs\">${r.処理種別 || \"\"}</td>\n        <td class=\"text-xs\">\n          <span class=\"px-2 py-0.5 rounded text-xs\" style=\"background: ${r.処理ステータス === '成功' ? '#d1fae5' : '#fee2e2'}; color: ${r.処理ステータス === '成功' ? '#065f46' : '#991b1b'};\">\n            ${r.処理ステータス || \"\"}\n          </span>\n        </td>\n        <td class=\"text-xs\">${r.処理件数 || 0}</td>\n        <td class=\"text-xs\">${r.成功件数 || 0}</td>\n        <td class=\"text-xs\">${r.エラー件数 || 0}</td>\n        <td class=\"text-xs\">\n          <button class=\"action-btn secondary text-xs px-2 py-1 detail-btn\" data-id=\"${r.id}\">詳細</button>\n        </td>\n      </tr>\n    `).join(\"\");\n  }\n\n  function renderErrorRows(rows) {\n    const tbody = container.querySelector(\"#errors-tbody\");\n    tbody.innerHTML = rows.map(r => `\n      <tr data-id=\"${r.id}\">\n        <td class=\"text-xs\">${r.エラー発生日時 ? new Date(r.エラー発生日時).toLocaleString() : \"\"}</td>\n        <td class=\"text-xs\">${r.エラー種別 || \"\"}</td>\n        <td class=\"text-xs\" title=\"${r.エラーメッセージ || \"\"}\">${(r.エラーメッセージ || \"\").substring(0, 30)}${(r.エラーメッセージ || \"\").length > 30 ? \"...\" : \"\"}</td>\n        <td class=\"text-xs\">\n          <span class=\"px-2 py-0.5 rounded text-xs\" style=\"background: ${r.重要度 === '緊急' ? '#fee2e2' : r.重要度 === '高' ? '#fef3c7' : '#f3f4f6'}; color: ${r.重要度 === '緊急' ? '#991b1b' : r.重要度 === '高' ? '#92400e' : '#374151'};\">\n            ${r.重要度 || \"\"}\n          </span>\n        </td>\n        <td class=\"text-xs\">${r.対応状況 || \"\"}</td>\n        <td class=\"text-xs\">\n          <button class=\"action-btn secondary text-xs px-2 py-1 resolve-btn\" data-id=\"${r.id}\">対応</button>\n        </td>\n      </tr>\n    `).join(\"\");\n  }\n\n  function renderValidationRows(rows) {\n    const tbody = container.querySelector(\"#validation-tbody\");\n    tbody.innerHTML = rows.map(r => `\n      <tr data-id=\"${r.id}\">\n        <td class=\"text-xs\">${r.検証実行日時 ? new Date(r.検証実行日時).toLocaleString() : \"\"}</td>\n        <td class=\"text-xs\">${r.検証項目名 || \"\"}</td>\n        <td class=\"text-xs\">\n          <span class=\"px-2 py-0.5 rounded text-xs\" style=\"background: ${r.検証結果 === '成功' ? '#d1fae5' : r.検証結果 === '警告' ? '#fef3c7' : '#fee2e2'}; color: ${r.検証結果 === '成功' ? '#065f46' : r.検証結果 === '警告' ? '#92400e' : '#991b1b'};\">\n            ${r.検証結果 || \"\"}\n          </span>\n        </td>\n        <td class=\"text-xs\">${r.検証メッセージ || \"\"}</td>\n        <td class=\"text-xs\">${r.重要度 || \"\"}</td>\n        <td class=\"text-xs\">${r.処理継続可否 ? \"可\" : \"不可\"}</td>\n      </tr>\n    `).join(\"\");\n  }\n\n  // 統計情報の更新\n  function updateStats() {\n    window.aivicApi.list(HISTORY_TABLE).then(rows => {\n      if (rows) {\n        const completed = rows.filter(r => r.処理ステータス === '成功').length;\n        const errors = rows.filter(r => r.処理ステータス === '失敗').length;\n        const processing = rows.filter(r => r.処理ステータス === '実行中').length;\n        \n        container.querySelector(\"#completed-count\").textContent = completed;\n        container.querySelector(\"#error-count\").textContent = errors;\n        container.querySelector(\"#processing-count\").textContent = processing;\n      }\n    });\n  }\n\n  // 初期データ読み込み\n  window.aivicApi.list(HISTORY_TABLE).then(rows => {\n    if (rows) {\n      const processingRows = rows.filter(r => r.処理ステータス === '実行中');\n      renderProcessingRows(processingRows);\n      renderHistoryRows(rows);\n      updateStats();\n    }\n  });\n\n  window.aivicApi.list(ERROR_TABLE).then(rows => {\n    if (rows) renderErrorRows(rows);\n  });\n\n  window.aivicApi.list(VALIDATION_TABLE).then(rows => {\n    if (rows) renderValidationRows(rows);\n  });\n\n  // タブ切り替え\n  function switchTab(activeTabId) {\n    const tabs = ['history', 'errors', 'validation'];\n    tabs.forEach(tab => {\n      const tabBtn = container.querySelector(`#tab-${tab}`);\n      const panel = container.querySelector(`#${tab}-panel`);\n      \n      if (tab === activeTabId) {\n        tabBtn.style.color = 'var(--primary)';\n        tabBtn.style.borderColor = 'var(--primary)';\n        panel.style.display = 'block';\n      } else {\n        tabBtn.style.color = 'var(--text-muted)';\n        tabBtn.style.borderColor = 'transparent';\n        panel.style.display = 'none';\n      }\n    });\n  }\n\n  container.querySelector(\"#tab-history\").addEventListener(\"click\", () => switchTab('history'));\n  container.querySelector(\"#tab-errors\").addEventListener(\"click\", () => switchTab('errors'));\n  container.querySelector(\"#tab-validation\").addEventListener(\"click\", () => switchTab('validation'));\n\n  // 検索機能\n  container.querySelector(\"#btn-search\").addEventListener(\"click\", () => {\n    const keyword = container.querySelector(\"#search-input\").value.toLowerCase();\n    window.aivicApi.list(HISTORY_TABLE).then(rows => {\n      if (rows) {\n        const filtered = rows.filter(r => \n          JSON.stringify(r).toLowerCase().includes(keyword)\n        );\n        const processingRows = filtered.filter(r => r.処理ステータス === '実行中');\n        renderProcessingRows(processingRows);\n        renderHistoryRows(filtered);\n      }\n    });\n  });\n\n  // 連携処理実行\n  container.querySelector(\"#btn-execute\").addEventListener(\"click\", async () => {\n    const targetSystem = container.querySelector(\"#target-system\").value;\n    const processType = container.querySelector(\"#process-type\").value;\n    const startDateTime = container.querySelector(\"#start-datetime\").value;\n    const endDateTime = container.querySelector(\"#end-datetime\").value;\n\n    if (!targetSystem || !processType) {\n      alert(\"連携対象システムと処理種別を選択してください\");\n      return;\n    }\n\n    const newProcess = {\n      連携設定ID: targetSystem,\n      処理種別: processType === 'manual' ? '手動実行' : processType === 'auto' ? '自動処理' : 'スケジュール実行',\n      処理ステータス: '実行中',\n      処理開始日時: new Date().toISOString(),\n      処理件数: 0,\n      成功件数: 0,\n      エラー件数: 0,\n      再試行回数: 0\n    };\n\n    const saved = await window.aivicApi.save(HISTORY_TABLE, newProcess);\n    if (saved) {\n      window.aivicApi.list(HISTORY_TABLE).then(rows => {\n        if (rows) {\n          const processingRows = rows.filter(r => r.処理ステータス === '実行中');\n          renderProcessingRows(processingRows);\n          renderHistoryRows(rows);\n          updateStats();\n        }\n      });\n      \n      // フォームリセット\n      container.querySelector(\"#target-system\").value = \"\";\n      container.querySelector(\"#process-type\").value = \"\";\n      container.querySelector(\"#start-datetime\").value = \"\";\n      container.querySelector(\"#end-datetime\").value = \"\";\n    }\n  });\n\n  // 再処理実行\n  container.querySelector(\"#btn-retry\").addEventListener(\"click\", async () => {\n    if (!confirm(\"エラー分の再処理を実行しますか？\")) return;\n    \n    // エラー状態の処理を再実行状態に更新\n    window.aivicApi.list(HISTORY_TABLE).then(async rows => {\n      if (rows) {\n        const errorRows = rows.filter(r => r.処理ステータス === '失敗');\n        for (const row of errorRows) {\n          await window.aivicApi.update(HISTORY_TABLE, row.id, {\n            処理ステータス: '実行中',\n            再試行回数: (row.再試行回数 || 0) + 1\n          });\n        }\n        \n        // 再描画\n        window.aivicApi.list(HISTORY_TABLE).then(updatedRows => {\n          if (updatedRows) {\n            const processingRows = updatedRows.filter(r => r.処理ステータス === '実行中');\n            renderProcessingRows(processingRows);\n            renderHistoryRows(updatedRows);\n            updateStats();\n          }\n        });\n      }\n    });\n  });\n\n  // CSVエクスポート\n  container.querySelector(\"#btn-export-csv\").addEventListener(\"click\", () => {\n    window.aivicApi.list(HISTORY_TABLE).then(rows => {\n      if (rows) {\n        const headers = ['処理日時', 'システム名', '処理種別', 'ステータス', '処理件数', '成功件数', 'エラー件数'];\n        const csvData = [\n          headers.join(','),\n          ...rows.map(r => [\n            r.処理開始日時 ? new Date(r.処理開始日時).toLocaleString() : '',\n            r.連携設定ID || '',\n            r.処理種別 || '',\n            r.処理ステータス || '',\n            r.処理件数 || 0,\n            r.成功件数 || 0,\n            r.エラー件数 || 0\n          ].map(field => `\"${field}\"`).join(','))\n        ].join('\\n');\n\n        const blob = new Blob(['\\uFEFF' + csvData], { type: 'text/csv;charset=utf-8;' });\n        const link = document.createElement('a');\n        link.href = URL.createObjectURL(blob);\n        link.download = '連携処理履歴.csv';\n        link.click();\n      }\n    });\n  });\n\n  // 画面遷移\n  container.querySelector(\"#btn-view-history\").addEventListener(\"click\", () => {\n    window.showScreen(\"scr-1780291323940\");\n  });\n\n  container.querySelector(\"#btn-view-errors\").addEventListener(\"click\", () => {\n    window.showScreen(\"scr-1780291305048\");\n  });\n\n  container.querySelector(\"#btn-view-validation\").addEventListener(\"click\", () => {\n    window.showScreen(\"scr-1780291315061\");\n  });\n\n  // イベントデリゲーション\n  container.addEventListener(\"click\", async (e) => {\n    const cancelBtn = e.target.closest(\".cancel-btn\");\n    if (cancelBtn) {\n      if (!confirm(\"処理を中断しますか？\")) return;\n      await window.aivicApi.update(HISTORY_TABLE, cancelBtn.dataset.id, {\n        処理ステータス: '中断',\n        処理終了日時: new Date().toISOString()\n      });\n      \n      window.aivicApi.list(HISTORY_TABLE).then(rows => {\n        if (rows) {\n          const processingRows = rows.filter(r => r.処理ステータス === '実行中');\n          renderProcessingRows(processingRows);\n          renderHistoryRows(rows);\n          updateStats();\n        }\n      });\n    }\n\n    const detailBtn = e.target.closest(\".detail-btn\");\n    if (detailBtn) {\n      window.showScreen(\"scr-1780291323940\");\n    }\n\n    const resolveBtn = e.target.closest(\".resolve-btn\");\n    if (resolveBtn) {\n      await window.aivicApi.update(ERROR_TABLE, resolveBtn.dataset.id, {\n        対応状況: '対応中',\n        対応開始日時: new Date().toISOString()\n      });\n      \n      window.aivicApi.list(ERROR_TABLE).then(rows => {\n        if (rows) renderErrorRows(rows);\n      });\n    }\n  });\n}";
 </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
@@ -85,164 +85,211 @@ canvas { display:block; max-height:280px !important; }
   </aside>
   <main class="main">
     <section class="card" data-aivic-panel="scr-1780291294438" style="margin-top:0">
-<div class="p-4">
-  <!-- ヘッダー -->
-  <div class="flex items-center justify-between mb-4">
-    <h1 class="text-xl font-semibold" style="color: var(--text);">基幹システム連携処理</h1>
-    <div class="flex gap-2">
-      <button class="action-btn" data-testid="manual-sync-button" id="btn-manual-sync">手動連携実行</button>
-      <button class="action-btn secondary" data-testid="history-button" id="btn-history">履歴画面</button>
-    </div>
-  </div>
+<div class="flex gap-3 h-full">
+  <!-- 左側: 連携処理実行パネル -->
+  <div class="w-80 flex-shrink-0 space-y-3">
+    <!-- 連携処理実行 -->
+    <div class="card">
+      <h2 class="text-base font-medium mb-3" style="color: var(--text);">連携処理実行</h2>
+      
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs mb-1" style="color: var(--text-muted);">連携対象システム</label>
+          <select data-testid="target-system-select" id="target-system" class="w-full px-2 py-1.5 text-sm rounded border" style="background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);">
+            <option value="">選択してください</option>
+            <option value="erp">基幹ERP</option>
+            <option value="inventory">在庫管理システム</option>
+            <option value="accounting">会計システム</option>
+            <option value="crm">顧客管理システム</option>
+          </select>
+        </div>
 
-  <!-- 連携実行パネル -->
-  <div class="card mb-4">
-    <h2 class="text-lg font-medium mb-3" style="color: var(--text);">連携処理実行</h2>
-    <div class="grid grid-cols-4 gap-3 mb-4">
-      <div>
-        <label class="block text-sm mb-1" style="color: var(--text-muted);">連携対象システム</label>
-        <select data-testid="target-system-select" id="select-target-system" class="w-full px-2 py-1 text-sm border rounded" style="background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);">
-          <option value="">選択してください</option>
-          <option value="erp">基幹ERP</option>
-          <option value="inventory">在庫管理システム</option>
-          <option value="accounting">会計システム</option>
-          <option value="crm">CRMシステム</option>
-        </select>
-      </div>
-      <div>
-        <label class="block text-sm mb-1" style="color: var(--text-muted);">処理種別</label>
-        <select data-testid="process-type-select" id="select-process-type" class="w-full px-2 py-1 text-sm border rounded" style="background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);">
-          <option value="">選択してください</option>
-          <option value="manual">手動実行</option>
-          <option value="auto">自動実行</option>
-          <option value="schedule">スケジュール実行</option>
-        </select>
-      </div>
-      <div>
-        <label class="block text-sm mb-1" style="color: var(--text-muted);">開始日時</label>
-        <input type="datetime-local" data-testid="start-datetime-input" id="input-start-datetime" class="w-full px-2 py-1 text-sm border rounded" style="background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);">
-      </div>
-      <div>
-        <label class="block text-sm mb-1" style="color: var(--text-muted);">終了日時</label>
-        <input type="datetime-local" data-testid="end-datetime-input" id="input-end-datetime" class="w-full px-2 py-1 text-sm border rounded" style="background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);">
-      </div>
-    </div>
-    <div class="flex gap-2">
-      <button class="action-btn" data-testid="execute-sync-button" id="btn-execute-sync">連携処理実行</button>
-      <button class="action-btn secondary" data-testid="validate-data-button" id="btn-validate-data">データ検証</button>
-      <button class="action-btn secondary" data-testid="retry-process-button" id="btn-retry-process">再処理実行</button>
-    </div>
-  </div>
+        <div>
+          <label class="block text-xs mb-1" style="color: var(--text-muted);">処理種別</label>
+          <select data-testid="process-type-select" id="process-type" class="w-full px-2 py-1.5 text-sm rounded border" style="background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);">
+            <option value="">選択してください</option>
+            <option value="manual">手動実行</option>
+            <option value="auto">自動処理</option>
+            <option value="schedule">スケジュール実行</option>
+          </select>
+        </div>
 
-  <!-- ステータス表示 -->
-  <div class="grid grid-cols-4 gap-3 mb-4">
-    <div class="card text-center">
-      <div class="text-2xl font-bold mb-1" style="color: var(--primary);" id="processing-count">0</div>
-      <div class="text-sm" style="color: var(--text-muted);">処理中</div>
-    </div>
-    <div class="card text-center">
-      <div class="text-2xl font-bold mb-1" style="color: #10b981;" id="success-count">0</div>
-      <div class="text-sm" style="color: var(--text-muted);">処理完了</div>
-    </div>
-    <div class="card text-center">
-      <div class="text-2xl font-bold mb-1" style="color: #f59e0b;" id="error-count">0</div>
-      <div class="text-sm" style="color: var(--text-muted);">エラー件数</div>
-    </div>
-    <div class="card text-center">
-      <div class="text-2xl font-bold mb-1" style="color: var(--text);" id="total-count">0</div>
-      <div class="text-sm" style="color: var(--text-muted);">総処理件数</div>
-    </div>
-  </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-xs mb-1" style="color: var(--text-muted);">開始日時</label>
+            <input data-testid="start-datetime" type="datetime-local" id="start-datetime" class="w-full px-2 py-1.5 text-xs rounded border" style="background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);">
+          </div>
+          <div>
+            <label class="block text-xs mb-1" style="color: var(--text-muted);">終了日時</label>
+            <input data-testid="end-datetime" type="datetime-local" id="end-datetime" class="w-full px-2 py-1.5 text-xs rounded border" style="background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);">
+          </div>
+        </div>
 
-  <!-- 進行中処理一覧 -->
-  <div class="card mb-4">
-    <div class="flex items-center justify-between mb-3">
-      <h2 class="text-lg font-medium" style="color: var(--text);">進行中処理一覧</h2>
-      <button class="action-btn secondary" data-testid="refresh-button" id="btn-refresh">更新</button>
-    </div>
-    <div class="table-wrap">
-      <table data-testid="processing-list">
-        <thead>
-          <tr>
-            <th>処理ID</th>
-            <th>連携システム</th>
-            <th>処理種別</th>
-            <th>開始日時</th>
-            <th>進捗</th>
-            <th>ステータス</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody id="processing-tbody">
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- 連携処理履歴 -->
-  <div class="card mb-4">
-    <div class="flex items-center justify-between mb-3">
-      <h2 class="text-lg font-medium" style="color: var(--text);">連携処理履歴</h2>
-      <div class="flex gap-2">
-        <input type="text" placeholder="検索..." data-testid="history-search-input" id="input-history-search" class="px-2 py-1 text-sm border rounded" style="background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);">
-        <button class="action-btn secondary" data-testid="search-history-button" id="btn-search-history">検索</button>
-        <button class="action-btn secondary" data-testid="view-all-history-button" id="btn-view-all-history">履歴詳細</button>
+        <button data-testid="execute-button" id="btn-execute" class="action-btn w-full">
+          連携処理実行
+        </button>
       </div>
     </div>
-    <div class="table-wrap">
-      <table data-testid="history-list">
-        <thead>
-          <tr>
-            <th>処理日時</th>
-            <th>連携システム</th>
-            <th>処理種別</th>
-            <th>処理件数</th>
-            <th>成功件数</th>
-            <th>エラー件数</th>
-            <th>ステータス</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody id="history-tbody">
-        </tbody>
-      </table>
+
+    <!-- 処理状況サマリー -->
+    <div class="card">
+      <h3 class="text-sm font-medium mb-3" style="color: var(--text);">処理状況</h3>
+      
+      <div class="space-y-2">
+        <div class="flex justify-between items-center py-1">
+          <span class="text-xs" style="color: var(--text-muted);">処理完了件数</span>
+          <span data-testid="completed-count" id="completed-count" class="text-sm font-medium" style="color: var(--primary);">0</span>
+        </div>
+        <div class="flex justify-between items-center py-1">
+          <span class="text-xs" style="color: var(--text-muted);">エラー件数</span>
+          <span data-testid="error-count" id="error-count" class="text-sm font-medium" style="color: #dc2626;">0</span>
+        </div>
+        <div class="flex justify-between items-center py-1">
+          <span class="text-xs" style="color: var(--text-muted);">進行中件数</span>
+          <span data-testid="processing-count" id="processing-count" class="text-sm font-medium" style="color: #f59e0b;">0</span>
+        </div>
+      </div>
+
+      <div class="mt-3 pt-2" style="border-top: 1px solid var(--border);">
+        <button data-testid="retry-button" id="btn-retry" class="action-btn secondary w-full text-xs">
+          エラー分再処理
+        </button>
+      </div>
     </div>
   </div>
 
-  <!-- エラーログ詳細 -->
-  <div class="card">
-    <div class="flex items-center justify-between mb-3">
-      <h2 class="text-lg font-medium" style="color: var(--text);">エラーログ詳細</h2>
-      <button class="action-btn secondary" data-testid="error-analysis-button" id="btn-error-analysis">エラー分析画面</button>
-    </div>
-    <div class="table-wrap">
-      <table data-testid="error-list">
-        <thead>
-          <tr>
-            <th>発生日時</th>
-            <th>エラー種別</th>
-            <th>エラーメッセージ</th>
-            <th>重要度</th>
-            <th>対応状況</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody id="error-tbody">
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
+  <!-- 右側: メインコンテンツ -->
+  <div class="flex-1 space-y-3">
+    <!-- 進行中処理一覧 -->
+    <div class="card">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-base font-medium" style="color: var(--text);">進行中処理一覧</h2>
+        <div class="flex gap-2">
+          <input data-testid="search-input" type="text" id="search-input" placeholder="検索..." class="px-2 py-1 text-xs rounded border w-48" style="background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.18); color: var(--text);">
+          <button data-testid="search-button" id="btn-search" class="action-btn secondary text-xs px-3">検索</button>
+        </div>
+      </div>
 
-<!-- 処理詳細モーダル -->
-<div id="process-detail-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" style="display: none;">
-  <div class="card max-w-2xl w-full mx-4">
-    <div class="flex items-center justify-between mb-4">
-      <h3 class="text-lg font-medium" style="color: var(--text);">処理詳細</h3>
-      <button class="text-xl" style="color: var(--text-muted);" id="btn-close-modal">&times;</button>
+      <div class="table-wrap">
+        <table data-testid="processing-list">
+          <thead>
+            <tr>
+              <th class="text-left">処理ID</th>
+              <th class="text-left">システム名</th>
+              <th class="text-left">処理種別</th>
+              <th class="text-left">開始日時</th>
+              <th class="text-left">進捗</th>
+              <th class="text-left">ステータス</th>
+              <th class="text-left">操作</th>
+            </tr>
+          </thead>
+          <tbody id="processing-tbody">
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div id="process-detail-content">
-      <!-- 詳細内容がここに動的に挿入される -->
+
+    <!-- タブ切り替え -->
+    <div class="card">
+      <div class="flex border-b mb-3" style="border-color: var(--border);">
+        <button data-testid="history-tab" id="tab-history" class="px-4 py-2 text-sm border-b-2 font-medium" style="color: var(--primary); border-color: var(--primary);">
+          処理履歴
+        </button>
+        <button data-testid="errors-tab" id="tab-errors" class="px-4 py-2 text-sm border-b-2" style="color: var(--text-muted); border-color: transparent;">
+          エラーログ
+        </button>
+        <button data-testid="validation-tab" id="tab-validation" class="px-4 py-2 text-sm border-b-2" style="color: var(--text-muted); border-color: transparent;">
+          検証結果
+        </button>
+      </div>
+
+      <!-- 処理履歴タブ -->
+      <div id="history-panel">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-sm font-medium" style="color: var(--text);">連携処理履歴</h3>
+          <div class="flex gap-2">
+            <button data-testid="view-history-button" id="btn-view-history" class="action-btn secondary text-xs">
+              履歴詳細画面
+            </button>
+            <button data-testid="export-csv-button" id="btn-export-csv" class="action-btn secondary text-xs">
+              CSVエクスポート
+            </button>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table data-testid="history-list">
+            <thead>
+              <tr>
+                <th class="text-left">処理日時</th>
+                <th class="text-left">システム名</th>
+                <th class="text-left">処理種別</th>
+                <th class="text-left">ステータス</th>
+                <th class="text-left">処理件数</th>
+                <th class="text-left">成功件数</th>
+                <th class="text-left">エラー件数</th>
+                <th class="text-left">操作</th>
+              </tr>
+            </thead>
+            <tbody id="history-tbody">
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- エラーログタブ -->
+      <div id="errors-panel" style="display: none;">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-sm font-medium" style="color: var(--text);">エラーログ詳細</h3>
+          <button data-testid="view-errors-button" id="btn-view-errors" class="action-btn secondary text-xs">
+            エラー分析画面
+          </button>
+        </div>
+
+        <div class="table-wrap">
+          <table data-testid="errors-list">
+            <thead>
+              <tr>
+                <th class="text-left">発生日時</th>
+                <th class="text-left">エラー種別</th>
+                <th class="text-left">エラーメッセージ</th>
+                <th class="text-left">重要度</th>
+                <th class="text-left">対応状況</th>
+                <th class="text-left">操作</th>
+              </tr>
+            </thead>
+            <tbody id="errors-tbody">
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 検証結果タブ -->
+      <div id="validation-panel" style="display: none;">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-sm font-medium" style="color: var(--text);">データ検証結果</h3>
+          <button data-testid="view-validation-button" id="btn-view-validation" class="action-btn secondary text-xs">
+            検証結果詳細画面
+          </button>
+        </div>
+
+        <div class="table-wrap">
+          <table data-testid="validation-list">
+            <thead>
+              <tr>
+                <th class="text-left">検証日時</th>
+                <th class="text-left">検証項目</th>
+                <th class="text-left">検証結果</th>
+                <th class="text-left">検証メッセージ</th>
+                <th class="text-left">重要度</th>
+                <th class="text-left">継続可否</th>
+              </tr>
+            </thead>
+            <tbody id="validation-tbody">
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </div>
