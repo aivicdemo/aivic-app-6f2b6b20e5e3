@@ -16,16 +16,16 @@ window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
 :root {
-  --primary: #1b7f37;
-  --primary-hover: #155d2a;
+  --primary: #1b7f3d;
+  --primary-hover: #155d2e;
   --bg-main: #f8faf9;
   --bg-card: #ffffff;
-  --bg-sidebar: #f4f6f5;
-  --border: #d9e3dc;
-  --text: #181818;
+  --bg-sidebar: #f4f7f5;
+  --border: #d4e6d9;
+  --text: #1a1a1a;
   --text-muted: #4a4a4a;
   --top-bar-bg: #ffffff;
-  --top-bar-border: #d1ddd4;
+  --top-bar-border: #c9ddd0;
 }
 *, *::before, *::after { box-sizing: border-box; }
 body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:var(--bg-main); color:var(--text); display:flex; flex-direction:column; height:100vh; overflow:hidden; }
@@ -85,207 +85,192 @@ canvas { display:block; max-height:280px !important; }
   </aside>
   <main class="main">
     <section class="card" data-aivic-panel="scr-1780291929523" style="margin-top:0">
-<div class="order-management-screen">
-  <!-- KPI Cards -->
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 20px;">
-    <div class="card" style="padding: 16px;">
-      <div style="color: var(--text-muted); font-size: 12px; margin-bottom: 4px;">総発注件数</div>
-      <div data-testid="kpi-total-orders" style="font-size: 24px; font-weight: 600; color: var(--text);">0</div>
-    </div>
-    <div class="card" style="padding: 16px;">
-      <div style="color: var(--text-muted); font-size: 12px; margin-bottom: 4px;">今月発注額</div>
-      <div data-testid="kpi-monthly-amount" style="font-size: 24px; font-weight: 600; color: var(--text);">¥0</div>
-    </div>
-    <div class="card" style="padding: 16px;">
-      <div style="color: var(--text-muted); font-size: 12px; margin-bottom: 4px;">平均発注単価</div>
-      <div data-testid="kpi-avg-price" style="font-size: 24px; font-weight: 600; color: var(--text);">¥0</div>
-    </div>
-    <div class="card" style="padding: 16px;">
-      <div style="color: var(--text-muted); font-size: 12px; margin-bottom: 4px;">新規顧客数</div>
-      <div data-testid="kpi-new-customers" style="font-size: 24px; font-weight: 600; color: var(--text);">0</div>
+<div class="p-4">
+  <!-- ヘッダー -->
+  <div class="flex justify-between items-center mb-4">
+    <h1 class="text-xl font-semibold" style="color: var(--text);">発注データ管理</h1>
+    <div class="flex gap-2">
+      <button class="action-btn" data-testid="monthly-analysis-button">月次集計・分析</button>
+      <button class="action-btn" data-testid="purchase-pattern-button">購買パターン分析</button>
+      <button class="action-btn" data-testid="negotiation-history-button">交渉履歴</button>
+      <button class="action-btn" data-testid="new-order-button">新規発注登録</button>
+      <button class="action-btn secondary" data-testid="csv-export-button">CSVエクスポート</button>
     </div>
   </div>
 
-  <!-- Charts -->
-  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;">
-    <div class="card" style="padding: 16px;">
-      <h3 style="margin: 0 0 12px 0; font-size: 14px; color: var(--text);">月別発注推移</h3>
-      <div class="chart-wrap" style="position: relative; height: 260px; max-height: 280px;">
+  <!-- KPIカード -->
+  <div class="grid grid-cols-4 gap-3 mb-4">
+    <div class="card p-3" data-testid="kpi-total-orders">
+      <div class="text-sm" style="color: var(--text-muted);">総発注件数</div>
+      <div class="text-xl font-semibold" style="color: var(--text);" id="kpi-total-orders">0</div>
+    </div>
+    <div class="card p-3" data-testid="kpi-total-amount">
+      <div class="text-sm" style="color: var(--text-muted);">総発注金額</div>
+      <div class="text-xl font-semibold" style="color: var(--text);" id="kpi-total-amount">¥0</div>
+    </div>
+    <div class="card p-3" data-testid="kpi-avg-price">
+      <div class="text-sm" style="color: var(--text-muted);">平均単価</div>
+      <div class="text-xl font-semibold" style="color: var(--text);" id="kpi-avg-price">¥0</div>
+    </div>
+    <div class="card p-3" data-testid="kpi-active-suppliers">
+      <div class="text-sm" style="color: var(--text-muted);">アクティブ供給業者数</div>
+      <div class="text-xl font-semibold" style="color: var(--text);" id="kpi-active-suppliers">0</div>
+    </div>
+  </div>
+
+  <!-- グラフエリア -->
+  <div class="grid grid-cols-2 gap-4 mb-4">
+    <div class="card p-3">
+      <h3 class="text-sm font-medium mb-2" style="color: var(--text);">月別発注金額推移</h3>
+      <div class="chart-wrap" style="position:relative;height:260px;max-height:280px;">
         <canvas id="monthly-chart"></canvas>
       </div>
     </div>
-    <div class="card" style="padding: 16px;">
-      <h3 style="margin: 0 0 12px 0; font-size: 14px; color: var(--text);">発注ステータス分布</h3>
-      <div class="chart-wrap" style="position: relative; height: 260px; max-height: 280px;">
+    <div class="card p-3">
+      <h3 class="text-sm font-medium mb-2" style="color: var(--text);">価格ステータス別分布</h3>
+      <div class="chart-wrap" style="position:relative;height:260px;max-height:280px;">
         <canvas id="status-chart"></canvas>
       </div>
     </div>
   </div>
 
-  <!-- Search Filters -->
-  <div class="card" style="padding: 16px; margin-bottom: 16px;">
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 12px;">
+  <!-- 検索フィルター -->
+  <div class="card p-3 mb-4">
+    <h3 class="text-sm font-medium mb-3" style="color: var(--text);">検索・絞り込み</h3>
+    <div class="grid grid-cols-3 gap-3">
       <div>
-        <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">発注番号</label>
-        <input data-testid="order-number-input" id="input-order-number" type="text" placeholder="発注番号で検索" style="width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;">
+        <label class="text-xs" style="color: var(--text-muted);">商品コード</label>
+        <input type="text" class="input w-full" data-testid="product-code-input" id="filter-product-code" placeholder="商品コードを入力" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
       </div>
       <div>
-        <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">発注日（開始）</label>
-        <input data-testid="date-from-input" id="input-date-from" type="date" style="width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;">
+        <label class="text-xs" style="color: var(--text-muted);">供給業者</label>
+        <select class="input w-full" data-testid="supplier-select" id="filter-supplier" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+          <option value="">全ての供給業者</option>
+          <option value="サプライヤーA">サプライヤーA</option>
+          <option value="サプライヤーB">サプライヤーB</option>
+          <option value="サプライヤーC">サプライヤーC</option>
+        </select>
       </div>
       <div>
-        <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">発注日（終了）</label>
-        <input data-testid="date-to-input" id="input-date-to" type="date" style="width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;">
-      </div>
-      <div>
-        <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">発注ステータス</label>
-        <select data-testid="status-select" id="select-status" style="width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;">
-          <option value="">すべて</option>
+        <label class="text-xs" style="color: var(--text-muted);">価格ステータス</label>
+        <select class="input w-full" data-testid="status-select" id="filter-status" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+          <option value="">全てのステータス</option>
           <option value="有効">有効</option>
           <option value="無効">無効</option>
           <option value="期限切れ">期限切れ</option>
-          <option value="処理中">処理中</option>
         </select>
       </div>
       <div>
-        <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">顧客名</label>
-        <select data-testid="customer-select" id="select-customer" style="width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;">
-          <option value="">すべて</option>
-          <option value="株式会社A商事">株式会社A商事</option>
-          <option value="B工業株式会社">B工業株式会社</option>
-          <option value="C物産">C物産</option>
-          <option value="D商店">D商店</option>
-        </select>
+        <label class="text-xs" style="color: var(--text-muted);">価格適用開始日（開始）</label>
+        <input type="date" class="input w-full" data-testid="start-date-input" id="filter-start-date" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
       </div>
       <div>
-        <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">商品カテゴリ</label>
-        <select data-testid="category-select" id="select-category" style="width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;">
-          <option value="">すべて</option>
-          <option value="電子部品">電子部品</option>
-          <option value="機械部品">機械部品</option>
-          <option value="原材料">原材料</option>
-          <option value="工具">工具</option>
-        </select>
+        <label class="text-xs" style="color: var(--text-muted);">価格適用開始日（終了）</label>
+        <input type="date" class="input w-full" data-testid="end-date-input" id="filter-end-date" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
       </div>
-    </div>
-    <div style="display: flex; gap: 8px;">
-      <button data-testid="search-button" id="btn-search" class="action-btn" style="padding: 8px 16px;">検索</button>
-      <button data-testid="clear-button" id="btn-clear" class="action-btn secondary" style="padding: 8px 16px;">クリア</button>
-      <button data-testid="export-button" id="btn-export" class="action-btn secondary" style="padding: 8px 16px;">CSVエクスポート</button>
-    </div>
-  </div>
-
-  <!-- Action Buttons -->
-  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-    <h2 style="margin: 0; font-size: 18px; color: var(--text);">発注データ一覧</h2>
-    <div style="display: flex; gap: 8px;">
-      <button data-testid="new-order-button" id="btn-new-order" class="action-btn" style="padding: 8px 16px;">新規発注登録</button>
-      <button data-testid="monthly-analysis-button" id="btn-monthly-analysis" class="action-btn secondary" style="padding: 8px 16px;">月次集計・分析</button>
-      <button data-testid="purchase-pattern-button" id="btn-purchase-pattern" class="action-btn secondary" style="padding: 8px 16px;">購買パターン分析</button>
-      <button data-testid="negotiation-history-button" id="btn-negotiation-history" class="action-btn secondary" style="padding: 8px 16px;">交渉履歴</button>
-    </div>
-  </div>
-
-  <!-- Data Table -->
-  <div class="table-wrap">
-    <table data-testid="order-list">
-      <thead>
-        <tr>
-          <th style="color: var(--text);">商品コード</th>
-          <th style="color: var(--text);">商品名</th>
-          <th style="color: var(--text);">供給業者名</th>
-          <th style="color: var(--text);">単価</th>
-          <th style="color: var(--text);">単位</th>
-          <th style="color: var(--text);">最小発注数量</th>
-          <th style="color: var(--text);">価格適用開始日</th>
-          <th style="color: var(--text);">価格ステータス</th>
-          <th style="color: var(--text);">納期日数</th>
-          <th style="color: var(--text);">操作</th>
-        </tr>
-      </thead>
-      <tbody id="order-tbody"></tbody>
-    </table>
-  </div>
-
-  <!-- Order Detail Modal -->
-  <div id="order-detail-modal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000;">
-    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--bg-card); border-radius: 8px; padding: 24px; width: 90%; max-width: 600px; max-height: 80vh; overflow-y: auto;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <h3 style="margin: 0; color: var(--text);">発注データ詳細</h3>
-        <button id="btn-close-modal" style="background: none; border: none; font-size: 20px; color: var(--text); cursor: pointer;">×</button>
-      </div>
-      <div id="order-detail-content"></div>
-      <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px;">
-        <button data-testid="edit-order-button" id="btn-edit-order" class="action-btn" style="padding: 8px 16px;">編集</button>
-        <button data-testid="close-modal-button" id="btn-close-detail" class="action-btn secondary" style="padding: 8px 16px;">閉じる</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- New Order Form Modal -->
-  <div id="new-order-modal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000;">
-    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--bg-card); border-radius: 8px; padding: 24px; width: 90%; max-width: 700px; max-height: 80vh; overflow-y: auto;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <h3 style="margin: 0; color: var(--text);">新規発注登録</h3>
-        <button id="btn-close-new-modal" style="background: none; border: none; font-size: 20px; color: var(--text); cursor: pointer;">×</button>
-      </div>
-      <form id="new-order-form">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
-          <div>
-            <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">商品コード</label>
-            <input data-testid="product-code-input" name="商品コード" type="text" required style="width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;">
-          </div>
-          <div>
-            <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">商品名</label>
-            <input data-testid="product-name-input" name="商品名" type="text" required style="width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;">
-          </div>
-          <div>
-            <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">供給業者名</label>
-            <input data-testid="supplier-name-input" name="供給業者名" type="text" required style="width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;">
-          </div>
-          <div>
-            <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">単価</label>
-            <input data-testid="unit-price-input" name="単価" type="number" required style="width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;">
-          </div>
-          <div>
-            <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">単位</label>
-            <input data-testid="unit-input" name="単位" type="text" required style="width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;">
-          </div>
-          <div>
-            <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">最小発注数量</label>
-            <input data-testid="min-order-qty-input" name="最小発注数量" type="number" required style="width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;">
-          </div>
-          <div>
-            <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">価格適用開始日</label>
-            <input data-testid="price-start-date-input" name="価格適用開始日" type="datetime-local" required style="width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;">
-          </div>
-          <div>
-            <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">価格ステータス</label>
-            <select data-testid="price-status-select" name="価格ステータス" required style="width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;">
-              <option value="">選択してください</option>
-              <option value="有効">有効</option>
-              <option value="無効">無効</option>
-              <option value="期限切れ">期限切れ</option>
-            </select>
-          </div>
-          <div>
-            <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">納期日数</label>
-            <input data-testid="delivery-days-input" name="納期日数" type="number" required style="width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;">
-          </div>
-          <div>
-            <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">品質グレード</label>
-            <input data-testid="quality-grade-input" name="品質グレード" type="text" style="width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;">
-          </div>
+      <div>
+        <label class="text-xs" style="color: var(--text-muted);">単価範囲</label>
+        <div class="flex gap-2">
+          <input type="number" class="input w-full" data-testid="min-price-input" id="filter-min-price" placeholder="最小" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+          <input type="number" class="input w-full" data-testid="max-price-input" id="filter-max-price" placeholder="最大" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
         </div>
-        <div style="margin-bottom: 16px;">
-          <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">備考</label>
-          <textarea data-testid="remarks-input" name="備考" rows="3" style="width: 100%; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px; resize: vertical;"></textarea>
+      </div>
+    </div>
+    <div class="flex gap-2 mt-3">
+      <button class="action-btn" data-testid="search-button" id="btn-search">検索実行</button>
+      <button class="action-btn secondary" data-testid="clear-button" id="btn-clear">フィルタークリア</button>
+    </div>
+  </div>
+
+  <!-- データ一覧テーブル -->
+  <div class="card">
+    <div class="table-wrap">
+      <table data-testid="price-data-list">
+        <thead>
+          <tr>
+            <th style="color: var(--text);">商品コード</th>
+            <th style="color: var(--text);">商品名</th>
+            <th style="color: var(--text);">供給業者</th>
+            <th style="color: var(--text);">単価</th>
+            <th style="color: var(--text);">単位</th>
+            <th style="color: var(--text);">最小発注数量</th>
+            <th style="color: var(--text);">価格ステータス</th>
+            <th style="color: var(--text);">納期日数</th>
+            <th style="color: var(--text);">適用開始日</th>
+            <th style="color: var(--text);">操作</th>
+          </tr>
+        </thead>
+        <tbody id="price-data-tbody">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 詳細表示モーダル -->
+  <div id="detail-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" style="display:none;" data-testid="detail-modal">
+    <div class="card p-4 max-w-2xl w-full mx-4" style="background: var(--bg-card);">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold" style="color: var(--text);">価格データ詳細</h3>
+        <button class="action-btn secondary" id="close-modal">×</button>
+      </div>
+      <div id="detail-content" class="grid grid-cols-2 gap-3 text-sm">
+      </div>
+    </div>
+  </div>
+
+  <!-- 編集モーダル -->
+  <div id="edit-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" style="display:none;" data-testid="edit-modal">
+    <div class="card p-4 max-w-2xl w-full mx-4" style="background: var(--bg-card);">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold" style="color: var(--text);">価格データ編集</h3>
+        <button class="action-btn secondary" id="close-edit-modal">×</button>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="text-xs" style="color: var(--text-muted);">商品コード</label>
+          <input type="text" class="input w-full" id="edit-product-code" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
         </div>
-        <div style="display: flex; gap: 8px; justify-content: flex-end;">
-          <button data-testid="save-order-button" type="submit" class="action-btn" style="padding: 8px 16px;">保存</button>
-          <button data-testid="cancel-button" type="button" id="btn-cancel-new" class="action-btn secondary" style="padding: 8px 16px;">キャンセル</button>
+        <div>
+          <label class="text-xs" style="color: var(--text-muted);">商品名</label>
+          <input type="text" class="input w-full" id="edit-product-name" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
         </div>
-      </form>
+        <div>
+          <label class="text-xs" style="color: var(--text-muted);">供給業者名</label>
+          <input type="text" class="input w-full" id="edit-supplier-name" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+        </div>
+        <div>
+          <label class="text-xs" style="color: var(--text-muted);">単価</label>
+          <input type="number" class="input w-full" id="edit-unit-price" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+        </div>
+        <div>
+          <label class="text-xs" style="color: var(--text-muted);">単位</label>
+          <input type="text" class="input w-full" id="edit-unit" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+        </div>
+        <div>
+          <label class="text-xs" style="color: var(--text-muted);">最小発注数量</label>
+          <input type="number" class="input w-full" id="edit-min-quantity" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+        </div>
+        <div>
+          <label class="text-xs" style="color: var(--text-muted);">価格ステータス</label>
+          <select class="input w-full" id="edit-status" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+            <option value="有効">有効</option>
+            <option value="無効">無効</option>
+            <option value="期限切れ">期限切れ</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs" style="color: var(--text-muted);">納期日数</label>
+          <input type="number" class="input w-full" id="edit-delivery-days" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+        </div>
+        <div class="col-span-2">
+          <label class="text-xs" style="color: var(--text-muted);">備考</label>
+          <textarea class="input w-full" id="edit-notes" rows="3" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);"></textarea>
+        </div>
+      </div>
+      <div class="flex gap-2 mt-4">
+        <button class="action-btn" id="save-edit-button" data-testid="save-edit-button">保存</button>
+        <button class="action-btn secondary" id="cancel-edit-button">キャンセル</button>
+      </div>
     </div>
   </div>
 </div>

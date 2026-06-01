@@ -11,21 +11,21 @@ window.AIVIC_SYSTEM_NAME = "営業支援システムの構築";
 window.AIVIC_TABLES = [{"tableName":"市場価格データ","purpose":"営業支援システムにおける商品・サービスの市場価格情報を管理し、Web発注プラットフォームでの価格表示・比較・発注判断に活用する","columns":[{"name":"価格データID","type":"uuid","required":true,"description":"市場価格データの一意識別子"},{"name":"商品コード","type":"varchar(100)","required":true,"description":"価格対象商品の識別コード"},{"name":"商品名","type":"varchar(100)","required":true,"description":"価格対象商品の名称"},{"name":"供給業者ID","type":"uuid","required":true,"description":"価格を提供する業者の識別子"},{"name":"供給業者名","type":"varchar(100)","required":true,"description":"価格を提供する業者名"},{"name":"単価","type":"integer","required":true,"description":"商品の単価（円）"},{"name":"単位","type":"varchar(100)","required":true,"description":"価格の単位（個、kg、m等）"},{"name":"最小発注数量","type":"integer","required":true,"description":"発注可能な最小数量"},{"name":"価格適用開始日","type":"timestamp","required":true,"description":"この価格が有効になる開始日時"},{"name":"価格適用終了日","type":"timestamp","required":false,"description":"この価格が無効になる終了日時"},{"name":"価格ステータス","type":"varchar(100)","required":true,"description":"価格の状態（有効、無効、期限切れ等）"},{"name":"納期日数","type":"integer","required":true,"description":"発注から納品までの標準日数"},{"name":"品質グレード","type":"varchar(100)","required":false,"description":"商品の品質等級"},{"name":"備考","type":"text","required":false,"description":"価格に関する補足情報"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者の識別子"},{"name":"更新者ID","type":"uuid","required":true,"description":"レコード最終更新者の識別子"}]},{"tableName":"月次集計データ","purpose":"Web発注プラットフォームにおける月次の発注実績、売上、市場動向等を集計し、営業支援のための分析データを提供する","columns":[{"name":"集計ID","type":"uuid","required":true,"description":"月次集計データの一意識別子"},{"name":"集計年月","type":"varchar(100)","required":true,"description":"集計対象の年月（YYYY-MM形式）"},{"name":"顧客ID","type":"uuid","required":false,"description":"集計対象顧客の識別子（全体集計の場合はNULL）"},{"name":"商品カテゴリID","type":"uuid","required":false,"description":"集計対象商品カテゴリの識別子（全体集計の場合はNULL）"},{"name":"発注件数","type":"integer","required":true,"description":"当月の発注件数"},{"name":"発注総額","type":"integer","required":true,"description":"当月の発注総金額"},{"name":"平均発注単価","type":"integer","required":true,"description":"当月の平均発注単価"},{"name":"前月比発注件数","type":"integer","required":false,"description":"前月との発注件数比較（増減数）"},{"name":"前月比発注総額","type":"integer","required":false,"description":"前月との発注総額比較（増減額）"},{"name":"市場価格平均","type":"integer","required":false,"description":"当月の市場価格平均値"},{"name":"価格競争力指数","type":"integer","required":false,"description":"市場価格に対する自社価格の競争力指数"},{"name":"新規顧客数","type":"integer","required":true,"description":"当月の新規顧客獲得数"},{"name":"リピート顧客数","type":"integer","required":true,"description":"当月のリピート顧客数"},{"name":"集計ステータス","type":"varchar(100)","required":true,"description":"集計処理の状態（処理中/完了/エラー）"},{"name":"集計完了日時","type":"timestamp","required":false,"description":"集計処理が完了した日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者（システム自動集計の場合は'SYSTEM'）"}]},{"tableName":"購買パターン分析結果","purpose":"Web発注プラットフォームにおける購買パターンの分析結果を管理し、発注提案や在庫最適化の判断材料を提供する","columns":[{"name":"分析結果ID","type":"uuid","required":true,"description":"購買パターン分析結果の一意識別子"},{"name":"分析対象期間開始日","type":"timestamp","required":true,"description":"分析対象となる期間の開始日"},{"name":"分析対象期間終了日","type":"timestamp","required":true,"description":"分析対象となる期間の終了日"},{"name":"商品カテゴリ","type":"varchar(100)","required":true,"description":"分析対象の商品カテゴリ"},{"name":"商品コード","type":"varchar(100)","required":false,"description":"特定商品の分析の場合の商品コード"},{"name":"取引先コード","type":"varchar(100)","required":false,"description":"特定取引先の分析の場合の取引先コード"},{"name":"平均発注間隔日数","type":"integer","required":true,"description":"過去の発注データから算出した平均発注間隔"},{"name":"平均発注数量","type":"integer","required":true,"description":"過去の発注データから算出した平均発注数量"},{"name":"季節変動係数","type":"varchar(100)","required":true,"description":"季節による需要変動の係数（春夏秋冬別）"},{"name":"価格感度指数","type":"integer","required":true,"description":"市場価格変動に対する発注量の感度を数値化"},{"name":"推奨発注タイミング","type":"varchar(100)","required":true,"description":"分析結果に基づく推奨発注タイミング"},{"name":"推奨発注数量","type":"integer","required":true,"description":"分析結果に基づく推奨発注数量"},{"name":"信頼度スコア","type":"integer","required":true,"description":"分析結果の信頼度を0-100で表現"},{"name":"分析アルゴリズム","type":"varchar(100)","required":true,"description":"使用した分析アルゴリズムの種別"},{"name":"適用開始日","type":"timestamp","required":true,"description":"この分析結果を適用開始する日付"},{"name":"適用終了日","type":"timestamp","required":false,"description":"この分析結果の適用終了日（更新時に設定）"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"分析結果のステータス（有効/無効/検証中）"},{"name":"備考","type":"text","required":false,"description":"分析結果に関する補足情報や注意事項"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"分析を実行したユーザーまたはシステム"}]},{"tableName":"価格戦略分析結果","purpose":"Web発注プラットフォームにおける価格戦略の分析結果を管理し、営業支援システムでの価格決定や提案活動に活用する","columns":[{"name":"分析結果ID","type":"uuid","required":true,"description":"価格戦略分析結果の一意識別子"},{"name":"分析対象期間開始日","type":"timestamp","required":true,"description":"価格戦略分析の対象期間の開始日"},{"name":"分析対象期間終了日","type":"timestamp","required":true,"description":"価格戦略分析の対象期間の終了日"},{"name":"商品カテゴリ","type":"varchar(100)","required":true,"description":"分析対象の商品カテゴリ"},{"name":"顧客セグメント","type":"varchar(100)","required":true,"description":"分析対象の顧客セグメント"},{"name":"現在価格","type":"integer","required":true,"description":"現在の販売価格"},{"name":"推奨価格","type":"integer","required":true,"description":"分析結果に基づく推奨販売価格"},{"name":"市場平均価格","type":"integer","required":true,"description":"市場における平均価格"},{"name":"競合最低価格","type":"integer","required":true,"description":"競合他社の最低価格"},{"name":"価格弾力性","type":"varchar(100)","required":true,"description":"価格変動に対する需要の弾力性"},{"name":"売上予測増減率","type":"integer","required":true,"description":"推奨価格適用時の売上増減率（％）"},{"name":"利益率予測","type":"integer","required":true,"description":"推奨価格適用時の予測利益率（％）"},{"name":"分析手法","type":"varchar(100)","required":true,"description":"使用した価格分析手法"},{"name":"信頼度","type":"varchar(100)","required":true,"description":"分析結果の信頼度レベル"},{"name":"適用開始予定日","type":"timestamp","required":false,"description":"推奨価格の適用開始予定日"},{"name":"適用終了予定日","type":"timestamp","required":false,"description":"推奨価格の適用終了予定日"},{"name":"承認状況","type":"varchar(100)","required":true,"description":"価格戦略の承認状況"},{"name":"承認者ID","type":"uuid","required":false,"description":"価格戦略を承認した担当者ID"},{"name":"承認日時","type":"timestamp","required":false,"description":"価格戦略が承認された日時"},{"name":"備考","type":"text","required":false,"description":"価格戦略に関する補足情報や注意事項"},{"name":"作成者ID","type":"uuid","required":true,"description":"分析結果を作成した担当者ID"},{"name":"作成日時","type":"timestamp","required":true,"description":"分析結果の作成日時"},{"name":"更新者ID","type":"uuid","required":false,"description":"分析結果を最後に更新した担当者ID"},{"name":"更新日時","type":"timestamp","required":false,"description":"分析結果の最終更新日時"}]},{"tableName":"顧客別単価比較分析結果","purpose":"顧客ごとの単価を市場価格と比較分析し、価格戦略立案と営業活動に活用するための分析結果を管理する","columns":[{"name":"分析結果ID","type":"uuid","required":true,"description":"分析結果の一意識別子"},{"name":"顧客ID","type":"uuid","required":true,"description":"対象顧客の識別子"},{"name":"商品ID","type":"uuid","required":true,"description":"対象商品の識別子"},{"name":"分析対象期間開始日","type":"timestamp","required":true,"description":"分析対象とする期間の開始日"},{"name":"分析対象期間終了日","type":"timestamp","required":true,"description":"分析対象とする期間の終了日"},{"name":"顧客単価","type":"integer","required":true,"description":"該当顧客への販売単価"},{"name":"市場平均単価","type":"integer","required":true,"description":"市場における平均単価"},{"name":"単価差額","type":"integer","required":true,"description":"顧客単価と市場平均単価の差額"},{"name":"単価差率","type":"integer","required":true,"description":"市場平均単価に対する差額の割合（％）"},{"name":"取引数量","type":"integer","required":true,"description":"分析期間中の取引数量"},{"name":"売上金額","type":"integer","required":true,"description":"分析期間中の売上金額"},{"name":"価格競争力ランク","type":"varchar(100)","required":true,"description":"市場価格との比較による競争力ランク（高・中・低等）"},{"name":"価格改定推奨フラグ","type":"boolean","required":true,"description":"価格改定が推奨されるかどうか"},{"name":"推奨価格","type":"integer","required":false,"description":"分析結果に基づく推奨販売価格"},{"name":"分析コメント","type":"text","required":false,"description":"分析結果に対する補足コメント"},{"name":"営業担当者ID","type":"uuid","required":true,"description":"該当顧客の営業担当者"},{"name":"承認状態","type":"varchar(100)","required":true,"description":"分析結果の承認状態（未承認・承認済等）"},{"name":"承認者ID","type":"uuid","required":false,"description":"分析結果を承認した管理者"},{"name":"承認日時","type":"timestamp","required":false,"description":"承認された日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者"}]},{"tableName":"分析レポート","purpose":"Web発注プラットフォームで生成される各種分析レポートの管理と配信を行う","columns":[{"name":"レポートID","type":"uuid","required":true,"description":"分析レポートの一意識別子"},{"name":"レポート名","type":"varchar(100)","required":true,"description":"レポートの表示名"},{"name":"レポート種別","type":"varchar(100)","required":true,"description":"購買パターン分析、価格戦略分析、顧客別単価比較等の種別"},{"name":"対象期間開始日","type":"timestamp","required":true,"description":"分析対象期間の開始日"},{"name":"対象期間終了日","type":"timestamp","required":true,"description":"分析対象期間の終了日"},{"name":"顧客ID","type":"uuid","required":false,"description":"顧客別レポートの場合の対象顧客"},{"name":"レポート内容","type":"text","required":true,"description":"分析結果の詳細内容"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"作成中、完了、エラー等の処理状況"},{"name":"公開フラグ","type":"boolean","required":true,"description":"顧客への公開可否"},{"name":"通知済フラグ","type":"boolean","required":true,"description":"関係者への通知完了フラグ"},{"name":"作成者ID","type":"uuid","required":true,"description":"レポート作成者の識別子"},{"name":"作成日時","type":"timestamp","required":true,"description":"レポート作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"最終更新日時"}]},{"tableName":"システム操作履歴","purpose":"Web発注プラットフォームにおけるユーザーの操作履歴を記録し、システム利用状況の分析や監査証跡として活用する","columns":[{"name":"操作履歴ID","type":"uuid","required":true,"description":"操作履歴の一意識別子"},{"name":"ユーザーID","type":"varchar(100)","required":true,"description":"操作を実行したユーザーの識別子"},{"name":"ユーザー名","type":"varchar(100)","required":true,"description":"操作を実行したユーザーの名前"},{"name":"操作種別","type":"varchar(100)","required":true,"description":"実行された操作の種別（ログイン、発注、検索、詳細表示、データ更新等）"},{"name":"画面名","type":"varchar(100)","required":true,"description":"操作が実行された画面名"},{"name":"機能名","type":"varchar(100)","required":true,"description":"実行された機能名"},{"name":"対象データID","type":"varchar(100)","required":false,"description":"操作対象となったデータの識別子（発注ID、商品ID等）"},{"name":"操作内容","type":"text","required":false,"description":"操作の詳細内容や変更内容"},{"name":"IPアドレス","type":"varchar(100)","required":true,"description":"操作元のIPアドレス"},{"name":"ユーザーエージェント","type":"text","required":false,"description":"操作に使用されたブラウザ情報"},{"name":"処理結果","type":"varchar(100)","required":true,"description":"操作の処理結果（成功、失敗、エラー等）"},{"name":"エラーメッセージ","type":"text","required":false,"description":"エラー発生時のエラーメッセージ"},{"name":"処理時間","type":"integer","required":false,"description":"処理にかかった時間（ミリ秒）"},{"name":"操作日時","type":"timestamp","required":true,"description":"操作が実行された日時"}]}];
 window.AIVIC_PRESET_SEED = {};
 window.AIVIC_PAGE_SCREEN_ID = "scr-1780291989558";
-window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  let currentEditId = null;\n  \n  // ステータスバッジのスタイル\n  function getStatusBadge(status) {\n    const styles = {\n      '交渉中': 'background: #3b82f6; color: #fff;',\n      '合意済': 'background: #10b981; color: #fff;',\n      '決裂': 'background: #ef4444; color: #fff;',\n      '保留': 'background: #f59e0b; color: #fff;'\n    };\n    return `<span class=\"px-2 py-1 rounded text-xs\" style=\"${styles[status] || 'background: #6b7280; color: #fff;'}\">${status || '-'}</span>`;\n  }\n  \n  // 金額フォーマット\n  function formatPrice(price) {\n    return price ? `¥${parseInt(price).toLocaleString()}` : '-';\n  }\n  \n  // 差額計算\n  function calculateDiff(proposed, response) {\n    if (!proposed || !response) return '-';\n    const diff = parseInt(response) - parseInt(proposed);\n    const color = diff > 0 ? '#10b981' : diff < 0 ? '#ef4444' : '#6b7280';\n    return `<span style=\"color: ${color};\">${diff > 0 ? '+' : ''}${diff.toLocaleString()}</span>`;\n  }\n  \n  // テーブル再描画関数\n  function renderRows(rows) {\n    const tbody = container.querySelector('#negotiation-tbody');\n    tbody.innerHTML = rows.map(r => `\n      <tr data-id=\"${r.id || ''}\">\n        <td>${r.customer_name || '-'}</td>\n        <td>${r.product_name || '-'}</td>\n        <td>${r.category || '-'}</td>\n        <td>${formatPrice(r.current_price)}</td>\n        <td>${formatPrice(r.proposed_price)}</td>\n        <td>${formatPrice(r.response_price)}</td>\n        <td>${calculateDiff(r.proposed_price, r.response_price)}</td>\n        <td>${r.negotiation_date ? new Date(r.negotiation_date).toLocaleDateString() : '-'}</td>\n        <td>${getStatusBadge(r.status)}</td>\n        <td>${r.staff_name || '-'}</td>\n        <td>${r.follow_date ? new Date(r.follow_date).toLocaleDateString() : '-'}</td>\n        <td>\n          <button class=\"action-btn secondary edit-btn\" data-id=\"${r.id || ''}\" style=\"margin-right: 4px;\">編集</button>\n          <button class=\"action-btn secondary delete-btn\" data-id=\"${r.id || ''}\">削除</button>\n        </td>\n      </tr>\n    `).join('');\n  }\n  \n  // 初期データ描画\n  renderRows(tables[0]?.records || []);\n  \n  // フィルタリング関数\n  function filterRows() {\n    const customer = container.querySelector('#customer-search').value.toLowerCase();\n    const category = container.querySelector('#category-filter').value;\n    const dateFrom = container.querySelector('#date-from').value;\n    const dateTo = container.querySelector('#date-to').value;\n    const staff = container.querySelector('#staff-filter').value;\n    const statusFilters = Array.from(container.querySelectorAll('.status-filter:checked')).map(cb => cb.value);\n    \n    window.aivicApi.list(0).then(rows => {\n      if (!rows) return;\n      \n      const filtered = rows.filter(r => {\n        if (customer && !r.customer_name?.toLowerCase().includes(customer)) return false;\n        if (category && r.category !== category) return false;\n        if (staff && r.staff_name !== staff) return false;\n        if (statusFilters.length > 0 && !statusFilters.includes(r.status)) return false;\n        if (dateFrom && r.negotiation_date && new Date(r.negotiation_date) < new Date(dateFrom)) return false;\n        if (dateTo && r.negotiation_date && new Date(r.negotiation_date) > new Date(dateTo)) return false;\n        return true;\n      });\n      \n      renderRows(filtered);\n    });\n  }\n  \n  // 検索ボタン\n  container.querySelector('#btn-search').addEventListener('click', filterRows);\n  \n  // クリアボタン\n  container.querySelector('#btn-clear').addEventListener('click', () => {\n    container.querySelector('#customer-search').value = '';\n    container.querySelector('#category-filter').value = '';\n    container.querySelector('#date-from').value = '';\n    container.querySelector('#date-to').value = '';\n    container.querySelector('#staff-filter').value = '';\n    container.querySelectorAll('.status-filter').forEach(cb => cb.checked = false);\n    window.aivicApi.list(0).then(renderRows);\n  });\n  \n  // CSVエクスポート\n  container.querySelector('#btn-export').addEventListener('click', () => {\n    window.aivicApi.list(0).then(rows => {\n      if (!rows) return;\n      \n      const headers = ['顧客名', '商品名', 'カテゴリ', '現在単価', '提示単価', '回答単価', '交渉日', 'ステータス', '担当者', '次回フォロー日', '交渉経緯'];\n      const csvData = [headers.join(',')];\n      \n      rows.forEach(r => {\n        const row = [\n          r.customer_name || '',\n          r.product_name || '',\n          r.category || '',\n          r.current_price || '',\n          r.proposed_price || '',\n          r.response_price || '',\n          r.negotiation_date || '',\n          r.status || '',\n          r.staff_name || '',\n          r.follow_date || '',\n          (r.notes || '').replace(/\"/g, '\"\"')\n        ];\n        csvData.push(row.map(field => `\"${field}\"`).join(','));\n      });\n      \n      const blob = new Blob(['\\uFEFF' + csvData.join('\\n')], { type: 'text/csv;charset=utf-8;' });\n      const link = document.createElement('a');\n      link.href = URL.createObjectURL(blob);\n      link.download = '単価交渉履歴.csv';\n      link.click();\n    });\n  });\n  \n  // モーダル制御\n  const modal = container.querySelector('#negotiation-modal');\n  \n  function openModal(data = {}) {\n    currentEditId = data.id || null;\n    \n    container.querySelector('#modal-customer').value = data.customer_name || '';\n    container.querySelector('#modal-product').value = data.product_name || '';\n    container.querySelector('#modal-category').value = data.category || '';\n    container.querySelector('#modal-current-price').value = data.current_price || '';\n    container.querySelector('#modal-proposed-price').value = data.proposed_price || '';\n    container.querySelector('#modal-response-price').value = data.response_price || '';\n    container.querySelector('#modal-status').value = data.status || '';\n    container.querySelector('#modal-staff').value = data.staff_name || '';\n    container.querySelector('#modal-negotiation-date').value = data.negotiation_date ? data.negotiation_date.split('T')[0] : '';\n    container.querySelector('#modal-follow-date').value = data.follow_date ? data.follow_date.split('T')[0] : '';\n    container.querySelector('#modal-notes').value = data.notes || '';\n    \n    modal.style.display = 'flex';\n  }\n  \n  function closeModal() {\n    modal.style.display = 'none';\n    currentEditId = null;\n  }\n  \n  // 新規登録ボタン\n  container.querySelector('#btn-new').addEventListener('click', () => openModal());\n  \n  // モーダル閉じる\n  container.querySelector('#btn-close-modal').addEventListener('click', closeModal);\n  container.querySelector('#btn-cancel').addEventListener('click', closeModal);\n  \n  // 保存ボタン\n  container.querySelector('#btn-save').addEventListener('click', async () => {\n    const data = {\n      customer_name: container.querySelector('#modal-customer').value,\n      product_name: container.querySelector('#modal-product').value,\n      category: container.querySelector('#modal-category').value,\n      current_price: parseInt(container.querySelector('#modal-current-price').value) || 0,\n      proposed_price: parseInt(container.querySelector('#modal-proposed-price').value) || 0,\n      response_price: parseInt(container.querySelector('#modal-response-price').value) || 0,\n      status: container.querySelector('#modal-status').value,\n      staff_name: container.querySelector('#modal-staff').value,\n      negotiation_date: container.querySelector('#modal-negotiation-date').value,\n      follow_date: container.querySelector('#modal-follow-date').value,\n      notes: container.querySelector('#modal-notes').value\n    };\n    \n    if (!data.customer_name || !data.product_name) {\n      alert('顧客名と商品名は必須です');\n      return;\n    }\n    \n    let result;\n    if (currentEditId) {\n      result = await window.aivicApi.update(0, currentEditId, data);\n    } else {\n      result = await window.aivicApi.save(0, data);\n    }\n    \n    if (result) {\n      closeModal();\n      window.aivicApi.list(0).then(renderRows);\n    }\n  });\n  \n  // 行レベル操作（編集・削除）\n  container.addEventListener('click', async (e) => {\n    const editBtn = e.target.closest('.edit-btn');\n    const deleteBtn = e.target.closest('.delete-btn');\n    \n    if (editBtn) {\n      const id = editBtn.dataset.id;\n      window.aivicApi.list(0).then(rows => {\n        const record = rows?.find(r => r.id === id);\n        if (record) openModal(record);\n      });\n    }\n    \n    if (deleteBtn) {\n      if (!confirm('この交渉履歴を削除しますか？')) return;\n      const id = deleteBtn.dataset.id;\n      await window.aivicApi.delete(0, id);\n      window.aivicApi.list(0).then(renderRows);\n    }\n  });\n  \n  // 画面遷移ボタン\n  container.querySelector('#btn-analysis').addEventListener('click', () => {\n    window.showScreen(\"scr-1780291980452\");\n  });\n  \n  container.querySelector('#btn-order-data').addEventListener('click', () => {\n    window.showScreen(\"scr-1780291929523\");\n  });\n}";
+window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
 </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
 :root {
-  --primary: #1b7f37;
-  --primary-hover: #155d2a;
+  --primary: #1b7f3d;
+  --primary-hover: #155d2e;
   --bg-main: #f8faf9;
   --bg-card: #ffffff;
-  --bg-sidebar: #f4f6f5;
-  --border: #d9e3dc;
-  --text: #181818;
+  --bg-sidebar: #f4f7f5;
+  --border: #d4e6d9;
+  --text: #1a1a1a;
   --text-muted: #4a4a4a;
   --top-bar-bg: #ffffff;
-  --top-bar-border: #d1ddd4;
+  --top-bar-border: #c9ddd0;
 }
 *, *::before, *::after { box-sizing: border-box; }
 body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:var(--bg-main); color:var(--text); display:flex; flex-direction:column; height:100vh; overflow:hidden; }
@@ -86,22 +86,22 @@ canvas { display:block; max-height:280px !important; }
   <main class="main">
     <section class="card" data-aivic-panel="scr-1780291989558" style="margin-top:0">
 <div class="flex gap-3 h-full">
-  <!-- 左側: フィルタエリア -->
+  <!-- 左側: フィルタ・検索エリア -->
   <div class="w-80 bg-card rounded-lg p-4 h-fit">
     <h2 class="text-lg font-semibold mb-4" style="color: var(--text);">検索・絞り込み</h2>
     
     <div class="space-y-3">
       <div>
         <label class="block text-sm mb-1" style="color: var(--text-muted);">顧客名</label>
-        <input type="text" id="customer-search" data-testid="customer-search" placeholder="顧客名で検索" 
-               class="w-full px-3 py-2 rounded-md text-sm"
+        <input type="text" id="search-customer" data-testid="customer-search" placeholder="顧客名で検索" 
+               class="w-full px-3 py-2 rounded border text-sm" 
                style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
       </div>
       
       <div>
         <label class="block text-sm mb-1" style="color: var(--text-muted);">商品カテゴリ</label>
-        <select id="category-filter" data-testid="category-filter" 
-                class="w-full px-3 py-2 rounded-md text-sm"
+        <select id="filter-category" data-testid="category-filter" 
+                class="w-full px-3 py-2 rounded border text-sm"
                 style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
           <option value="">全てのカテゴリ</option>
           <option value="電子部品">電子部品</option>
@@ -115,11 +115,11 @@ canvas { display:block; max-height:280px !important; }
       <div>
         <label class="block text-sm mb-1" style="color: var(--text-muted);">交渉期間</label>
         <div class="flex gap-2">
-          <input type="date" id="date-from" data-testid="date-from"
-                 class="flex-1 px-3 py-2 rounded-md text-sm"
+          <input type="date" id="date-from" data-testid="date-from" 
+                 class="flex-1 px-2 py-2 rounded border text-sm"
                  style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
-          <input type="date" id="date-to" data-testid="date-to"
-                 class="flex-1 px-3 py-2 rounded-md text-sm"
+          <input type="date" id="date-to" data-testid="date-to" 
+                 class="flex-1 px-2 py-2 rounded border text-sm"
                  style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
         </div>
       </div>
@@ -128,58 +128,47 @@ canvas { display:block; max-height:280px !important; }
         <label class="block text-sm mb-1" style="color: var(--text-muted);">交渉ステータス</label>
         <div class="space-y-2">
           <label class="flex items-center text-sm" style="color: var(--text);">
-            <input type="checkbox" value="交渉中" class="status-filter mr-2" style="accent-color: var(--primary);">
+            <input type="checkbox" id="status-negotiating" data-testid="status-negotiating" 
+                   class="mr-2" style="accent-color: var(--primary);" checked>
             交渉中
           </label>
           <label class="flex items-center text-sm" style="color: var(--text);">
-            <input type="checkbox" value="合意済" class="status-filter mr-2" style="accent-color: var(--primary);">
-            合意済
+            <input type="checkbox" id="status-agreed" data-testid="status-agreed" 
+                   class="mr-2" style="accent-color: var(--primary);" checked>
+            合意済み
           </label>
           <label class="flex items-center text-sm" style="color: var(--text);">
-            <input type="checkbox" value="決裂" class="status-filter mr-2" style="accent-color: var(--primary);">
-            決裂
+            <input type="checkbox" id="status-rejected" data-testid="status-rejected" 
+                   class="mr-2" style="accent-color: var(--primary);" checked>
+            不成立
           </label>
           <label class="flex items-center text-sm" style="color: var(--text);">
-            <input type="checkbox" value="保留" class="status-filter mr-2" style="accent-color: var(--primary);">
-            保留
+            <input type="checkbox" id="status-pending" data-testid="status-pending" 
+                   class="mr-2" style="accent-color: var(--primary);" checked>
+            保留中
           </label>
         </div>
       </div>
       
-      <div>
-        <label class="block text-sm mb-1" style="color: var(--text-muted);">担当者</label>
-        <select id="staff-filter" data-testid="staff-filter"
-                class="w-full px-3 py-2 rounded-md text-sm"
-                style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
-          <option value="">全ての担当者</option>
-          <option value="田中太郎">田中太郎</option>
-          <option value="佐藤花子">佐藤花子</option>
-          <option value="鈴木一郎">鈴木一郎</option>
-          <option value="高橋美咲">高橋美咲</option>
-        </select>
+      <div class="flex gap-2 pt-2">
+        <button id="btn-search" data-testid="search-button" class="action-btn flex-1">
+          検索
+        </button>
+        <button id="btn-reset" data-testid="reset-button" class="action-btn secondary flex-1">
+          リセット
+        </button>
       </div>
-      
-      <button id="btn-search" data-testid="search-button" class="action-btn w-full">
-        検索
-      </button>
-      
-      <button id="btn-clear" data-testid="clear-button" class="action-btn secondary w-full">
-        クリア
-      </button>
     </div>
   </div>
-  
+
   <!-- 右側: メインコンテンツ -->
-  <div class="flex-1 space-y-4">
+  <div class="flex-1 flex flex-col">
     <!-- ヘッダー -->
-    <div class="flex justify-between items-center">
+    <div class="flex justify-between items-center mb-4">
       <h1 class="text-xl font-bold" style="color: var(--text);">単価交渉履歴管理</h1>
       <div class="flex gap-2">
         <button id="btn-export" data-testid="export-button" class="action-btn secondary">
           CSVエクスポート
-        </button>
-        <button id="btn-new" data-testid="new-negotiation-button" class="action-btn">
-          新規交渉登録
         </button>
         <button id="btn-analysis" data-testid="analysis-button" class="action-btn secondary">
           単価分析
@@ -187,27 +176,28 @@ canvas { display:block; max-height:280px !important; }
         <button id="btn-order-data" data-testid="order-data-button" class="action-btn secondary">
           関連発注データ
         </button>
+        <button id="btn-new" data-testid="new-button" class="action-btn">
+          新規交渉登録
+        </button>
       </div>
     </div>
-    
+
     <!-- 交渉履歴一覧 -->
-    <div class="card">
-      <div class="table-wrap">
-        <table data-testid="negotiation-list">
+    <div class="bg-card rounded-lg flex-1 overflow-hidden">
+      <div class="table-wrap h-full">
+        <table data-testid="negotiation-list" class="w-full">
           <thead>
             <tr>
-              <th>顧客名</th>
-              <th>商品名</th>
-              <th>カテゴリ</th>
-              <th>現在単価</th>
-              <th>提示単価</th>
-              <th>回答単価</th>
-              <th>差額</th>
-              <th>交渉日</th>
-              <th>ステータス</th>
-              <th>担当者</th>
-              <th>次回フォロー</th>
-              <th>操作</th>
+              <th class="text-left p-3" style="color: var(--text);">顧客名</th>
+              <th class="text-left p-3" style="color: var(--text);">商品名</th>
+              <th class="text-left p-3" style="color: var(--text);">カテゴリ</th>
+              <th class="text-left p-3" style="color: var(--text);">交渉開始日</th>
+              <th class="text-left p-3" style="color: var(--text);">提示単価</th>
+              <th class="text-left p-3" style="color: var(--text);">回答単価</th>
+              <th class="text-left p-3" style="color: var(--text);">ステータス</th>
+              <th class="text-left p-3" style="color: var(--text);">担当者</th>
+              <th class="text-left p-3" style="color: var(--text);">次回フォロー</th>
+              <th class="text-left p-3" style="color: var(--text);">操作</th>
             </tr>
           </thead>
           <tbody id="negotiation-tbody">
@@ -218,33 +208,30 @@ canvas { display:block; max-height:280px !important; }
   </div>
 </div>
 
-<!-- 交渉詳細モーダル -->
-<div id="negotiation-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" style="display: none;">
+<!-- 新規交渉登録モーダル -->
+<div id="new-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" style="display: none;">
   <div class="bg-card rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-    <div class="flex justify-between items-center mb-4">
-      <h3 class="text-lg font-semibold" style="color: var(--text);">交渉詳細</h3>
-      <button id="btn-close-modal" class="text-2xl" style="color: var(--text-muted);">&times;</button>
-    </div>
+    <h2 class="text-lg font-semibold mb-4" style="color: var(--text);">新規交渉登録</h2>
     
     <div class="grid grid-cols-2 gap-4">
       <div>
         <label class="block text-sm mb-1" style="color: var(--text-muted);">顧客名</label>
-        <input type="text" id="modal-customer" data-testid="modal-customer"
-               class="w-full px-3 py-2 rounded-md text-sm"
+        <input type="text" id="new-customer" data-testid="new-customer" 
+               class="w-full px-3 py-2 rounded border text-sm"
                style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
       </div>
       
       <div>
         <label class="block text-sm mb-1" style="color: var(--text-muted);">商品名</label>
-        <input type="text" id="modal-product" data-testid="modal-product"
-               class="w-full px-3 py-2 rounded-md text-sm"
+        <input type="text" id="new-product" data-testid="new-product" 
+               class="w-full px-3 py-2 rounded border text-sm"
                style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
       </div>
       
       <div>
         <label class="block text-sm mb-1" style="color: var(--text-muted);">商品カテゴリ</label>
-        <select id="modal-category" data-testid="modal-category"
-                class="w-full px-3 py-2 rounded-md text-sm"
+        <select id="new-category" data-testid="new-category" 
+                class="w-full px-3 py-2 rounded border text-sm"
                 style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
           <option value="">選択してください</option>
           <option value="電子部品">電子部品</option>
@@ -256,43 +243,9 @@ canvas { display:block; max-height:280px !important; }
       </div>
       
       <div>
-        <label class="block text-sm mb-1" style="color: var(--text-muted);">現在単価（円）</label>
-        <input type="number" id="modal-current-price" data-testid="modal-current-price"
-               class="w-full px-3 py-2 rounded-md text-sm"
-               style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
-      </div>
-      
-      <div>
-        <label class="block text-sm mb-1" style="color: var(--text-muted);">提示単価（円）</label>
-        <input type="number" id="modal-proposed-price" data-testid="modal-proposed-price"
-               class="w-full px-3 py-2 rounded-md text-sm"
-               style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
-      </div>
-      
-      <div>
-        <label class="block text-sm mb-1" style="color: var(--text-muted);">回答単価（円）</label>
-        <input type="number" id="modal-response-price" data-testid="modal-response-price"
-               class="w-full px-3 py-2 rounded-md text-sm"
-               style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
-      </div>
-      
-      <div>
-        <label class="block text-sm mb-1" style="color: var(--text-muted);">交渉ステータス</label>
-        <select id="modal-status" data-testid="modal-status"
-                class="w-full px-3 py-2 rounded-md text-sm"
-                style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
-          <option value="">選択してください</option>
-          <option value="交渉中">交渉中</option>
-          <option value="合意済">合意済</option>
-          <option value="決裂">決裂</option>
-          <option value="保留">保留</option>
-        </select>
-      </div>
-      
-      <div>
-        <label class="block text-sm mb-1" style="color: var(--text-muted);">担当者</label>
-        <select id="modal-staff" data-testid="modal-staff"
-                class="w-full px-3 py-2 rounded-md text-sm"
+        <label class="block text-sm mb-1" style="color: var(--text-muted);">交渉担当者</label>
+        <select id="new-assignee" data-testid="new-assignee" 
+                class="w-full px-3 py-2 rounded border text-sm"
                 style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
           <option value="">選択してください</option>
           <option value="田中太郎">田中太郎</option>
@@ -303,34 +256,70 @@ canvas { display:block; max-height:280px !important; }
       </div>
       
       <div>
-        <label class="block text-sm mb-1" style="color: var(--text-muted);">交渉日</label>
-        <input type="date" id="modal-negotiation-date" data-testid="modal-negotiation-date"
-               class="w-full px-3 py-2 rounded-md text-sm"
+        <label class="block text-sm mb-1" style="color: var(--text-muted);">提示単価（円）</label>
+        <input type="number" id="new-proposed-price" data-testid="new-proposed-price" 
+               class="w-full px-3 py-2 rounded border text-sm"
+               style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+      </div>
+      
+      <div>
+        <label class="block text-sm mb-1" style="color: var(--text-muted);">回答単価（円）</label>
+        <input type="number" id="new-response-price" data-testid="new-response-price" 
+               class="w-full px-3 py-2 rounded border text-sm"
                style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
       </div>
       
       <div>
         <label class="block text-sm mb-1" style="color: var(--text-muted);">次回フォロー日</label>
-        <input type="date" id="modal-follow-date" data-testid="modal-follow-date"
-               class="w-full px-3 py-2 rounded-md text-sm"
+        <input type="date" id="new-follow-date" data-testid="new-follow-date" 
+               class="w-full px-3 py-2 rounded border text-sm"
                style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
       </div>
       
-      <div class="col-span-2">
-        <label class="block text-sm mb-1" style="color: var(--text-muted);">交渉経緯</label>
-        <textarea id="modal-notes" data-testid="modal-notes" rows="4"
-                  class="w-full px-3 py-2 rounded-md text-sm"
-                  style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);"
-                  placeholder="交渉の経緯や詳細を入力してください"></textarea>
+      <div>
+        <label class="block text-sm mb-1" style="color: var(--text-muted);">ステータス</label>
+        <select id="new-status" data-testid="new-status" 
+                class="w-full px-3 py-2 rounded border text-sm"
+                style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+          <option value="">選択してください</option>
+          <option value="交渉中">交渉中</option>
+          <option value="合意済み">合意済み</option>
+          <option value="不成立">不成立</option>
+          <option value="保留中">保留中</option>
+        </select>
       </div>
     </div>
     
-    <div class="flex justify-end gap-2 mt-6">
-      <button id="btn-cancel" data-testid="cancel-button" class="action-btn secondary">
+    <div class="mt-4">
+      <label class="block text-sm mb-1" style="color: var(--text-muted);">交渉経緯</label>
+      <textarea id="new-notes" data-testid="new-notes" rows="4" 
+                class="w-full px-3 py-2 rounded border text-sm"
+                style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);"
+                placeholder="交渉の経緯や詳細を入力してください"></textarea>
+    </div>
+    
+    <div class="flex gap-2 mt-6">
+      <button id="btn-save" data-testid="save-button" class="action-btn flex-1">
+        保存
+      </button>
+      <button id="btn-cancel" data-testid="cancel-button" class="action-btn secondary flex-1">
         キャンセル
       </button>
-      <button id="btn-save" data-testid="save-button" class="action-btn">
-        保存
+    </div>
+  </div>
+</div>
+
+<!-- 交渉詳細表示モーダル -->
+<div id="detail-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" style="display: none;">
+  <div class="bg-card rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+    <h2 class="text-lg font-semibold mb-4" style="color: var(--text);">交渉詳細</h2>
+    <div id="detail-content"></div>
+    <div class="flex gap-2 mt-6">
+      <button id="btn-edit" data-testid="edit-button" class="action-btn">
+        編集
+      </button>
+      <button id="btn-close-detail" data-testid="close-detail-button" class="action-btn secondary">
+        閉じる
       </button>
     </div>
   </div>

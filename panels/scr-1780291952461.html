@@ -11,21 +11,21 @@ window.AIVIC_SYSTEM_NAME = "営業支援システムの構築";
 window.AIVIC_TABLES = [{"tableName":"市場価格データ","purpose":"営業支援システムにおける商品・サービスの市場価格情報を管理し、Web発注プラットフォームでの価格表示・比較・発注判断に活用する","columns":[{"name":"価格データID","type":"uuid","required":true,"description":"市場価格データの一意識別子"},{"name":"商品コード","type":"varchar(100)","required":true,"description":"価格対象商品の識別コード"},{"name":"商品名","type":"varchar(100)","required":true,"description":"価格対象商品の名称"},{"name":"供給業者ID","type":"uuid","required":true,"description":"価格を提供する業者の識別子"},{"name":"供給業者名","type":"varchar(100)","required":true,"description":"価格を提供する業者名"},{"name":"単価","type":"integer","required":true,"description":"商品の単価（円）"},{"name":"単位","type":"varchar(100)","required":true,"description":"価格の単位（個、kg、m等）"},{"name":"最小発注数量","type":"integer","required":true,"description":"発注可能な最小数量"},{"name":"価格適用開始日","type":"timestamp","required":true,"description":"この価格が有効になる開始日時"},{"name":"価格適用終了日","type":"timestamp","required":false,"description":"この価格が無効になる終了日時"},{"name":"価格ステータス","type":"varchar(100)","required":true,"description":"価格の状態（有効、無効、期限切れ等）"},{"name":"納期日数","type":"integer","required":true,"description":"発注から納品までの標準日数"},{"name":"品質グレード","type":"varchar(100)","required":false,"description":"商品の品質等級"},{"name":"備考","type":"text","required":false,"description":"価格に関する補足情報"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者の識別子"},{"name":"更新者ID","type":"uuid","required":true,"description":"レコード最終更新者の識別子"}]},{"tableName":"月次集計データ","purpose":"Web発注プラットフォームにおける月次の発注実績、売上、市場動向等を集計し、営業支援のための分析データを提供する","columns":[{"name":"集計ID","type":"uuid","required":true,"description":"月次集計データの一意識別子"},{"name":"集計年月","type":"varchar(100)","required":true,"description":"集計対象の年月（YYYY-MM形式）"},{"name":"顧客ID","type":"uuid","required":false,"description":"集計対象顧客の識別子（全体集計の場合はNULL）"},{"name":"商品カテゴリID","type":"uuid","required":false,"description":"集計対象商品カテゴリの識別子（全体集計の場合はNULL）"},{"name":"発注件数","type":"integer","required":true,"description":"当月の発注件数"},{"name":"発注総額","type":"integer","required":true,"description":"当月の発注総金額"},{"name":"平均発注単価","type":"integer","required":true,"description":"当月の平均発注単価"},{"name":"前月比発注件数","type":"integer","required":false,"description":"前月との発注件数比較（増減数）"},{"name":"前月比発注総額","type":"integer","required":false,"description":"前月との発注総額比較（増減額）"},{"name":"市場価格平均","type":"integer","required":false,"description":"当月の市場価格平均値"},{"name":"価格競争力指数","type":"integer","required":false,"description":"市場価格に対する自社価格の競争力指数"},{"name":"新規顧客数","type":"integer","required":true,"description":"当月の新規顧客獲得数"},{"name":"リピート顧客数","type":"integer","required":true,"description":"当月のリピート顧客数"},{"name":"集計ステータス","type":"varchar(100)","required":true,"description":"集計処理の状態（処理中/完了/エラー）"},{"name":"集計完了日時","type":"timestamp","required":false,"description":"集計処理が完了した日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者（システム自動集計の場合は'SYSTEM'）"}]},{"tableName":"購買パターン分析結果","purpose":"Web発注プラットフォームにおける購買パターンの分析結果を管理し、発注提案や在庫最適化の判断材料を提供する","columns":[{"name":"分析結果ID","type":"uuid","required":true,"description":"購買パターン分析結果の一意識別子"},{"name":"分析対象期間開始日","type":"timestamp","required":true,"description":"分析対象となる期間の開始日"},{"name":"分析対象期間終了日","type":"timestamp","required":true,"description":"分析対象となる期間の終了日"},{"name":"商品カテゴリ","type":"varchar(100)","required":true,"description":"分析対象の商品カテゴリ"},{"name":"商品コード","type":"varchar(100)","required":false,"description":"特定商品の分析の場合の商品コード"},{"name":"取引先コード","type":"varchar(100)","required":false,"description":"特定取引先の分析の場合の取引先コード"},{"name":"平均発注間隔日数","type":"integer","required":true,"description":"過去の発注データから算出した平均発注間隔"},{"name":"平均発注数量","type":"integer","required":true,"description":"過去の発注データから算出した平均発注数量"},{"name":"季節変動係数","type":"varchar(100)","required":true,"description":"季節による需要変動の係数（春夏秋冬別）"},{"name":"価格感度指数","type":"integer","required":true,"description":"市場価格変動に対する発注量の感度を数値化"},{"name":"推奨発注タイミング","type":"varchar(100)","required":true,"description":"分析結果に基づく推奨発注タイミング"},{"name":"推奨発注数量","type":"integer","required":true,"description":"分析結果に基づく推奨発注数量"},{"name":"信頼度スコア","type":"integer","required":true,"description":"分析結果の信頼度を0-100で表現"},{"name":"分析アルゴリズム","type":"varchar(100)","required":true,"description":"使用した分析アルゴリズムの種別"},{"name":"適用開始日","type":"timestamp","required":true,"description":"この分析結果を適用開始する日付"},{"name":"適用終了日","type":"timestamp","required":false,"description":"この分析結果の適用終了日（更新時に設定）"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"分析結果のステータス（有効/無効/検証中）"},{"name":"備考","type":"text","required":false,"description":"分析結果に関する補足情報や注意事項"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"分析を実行したユーザーまたはシステム"}]},{"tableName":"価格戦略分析結果","purpose":"Web発注プラットフォームにおける価格戦略の分析結果を管理し、営業支援システムでの価格決定や提案活動に活用する","columns":[{"name":"分析結果ID","type":"uuid","required":true,"description":"価格戦略分析結果の一意識別子"},{"name":"分析対象期間開始日","type":"timestamp","required":true,"description":"価格戦略分析の対象期間の開始日"},{"name":"分析対象期間終了日","type":"timestamp","required":true,"description":"価格戦略分析の対象期間の終了日"},{"name":"商品カテゴリ","type":"varchar(100)","required":true,"description":"分析対象の商品カテゴリ"},{"name":"顧客セグメント","type":"varchar(100)","required":true,"description":"分析対象の顧客セグメント"},{"name":"現在価格","type":"integer","required":true,"description":"現在の販売価格"},{"name":"推奨価格","type":"integer","required":true,"description":"分析結果に基づく推奨販売価格"},{"name":"市場平均価格","type":"integer","required":true,"description":"市場における平均価格"},{"name":"競合最低価格","type":"integer","required":true,"description":"競合他社の最低価格"},{"name":"価格弾力性","type":"varchar(100)","required":true,"description":"価格変動に対する需要の弾力性"},{"name":"売上予測増減率","type":"integer","required":true,"description":"推奨価格適用時の売上増減率（％）"},{"name":"利益率予測","type":"integer","required":true,"description":"推奨価格適用時の予測利益率（％）"},{"name":"分析手法","type":"varchar(100)","required":true,"description":"使用した価格分析手法"},{"name":"信頼度","type":"varchar(100)","required":true,"description":"分析結果の信頼度レベル"},{"name":"適用開始予定日","type":"timestamp","required":false,"description":"推奨価格の適用開始予定日"},{"name":"適用終了予定日","type":"timestamp","required":false,"description":"推奨価格の適用終了予定日"},{"name":"承認状況","type":"varchar(100)","required":true,"description":"価格戦略の承認状況"},{"name":"承認者ID","type":"uuid","required":false,"description":"価格戦略を承認した担当者ID"},{"name":"承認日時","type":"timestamp","required":false,"description":"価格戦略が承認された日時"},{"name":"備考","type":"text","required":false,"description":"価格戦略に関する補足情報や注意事項"},{"name":"作成者ID","type":"uuid","required":true,"description":"分析結果を作成した担当者ID"},{"name":"作成日時","type":"timestamp","required":true,"description":"分析結果の作成日時"},{"name":"更新者ID","type":"uuid","required":false,"description":"分析結果を最後に更新した担当者ID"},{"name":"更新日時","type":"timestamp","required":false,"description":"分析結果の最終更新日時"}]},{"tableName":"顧客別単価比較分析結果","purpose":"顧客ごとの単価を市場価格と比較分析し、価格戦略立案と営業活動に活用するための分析結果を管理する","columns":[{"name":"分析結果ID","type":"uuid","required":true,"description":"分析結果の一意識別子"},{"name":"顧客ID","type":"uuid","required":true,"description":"対象顧客の識別子"},{"name":"商品ID","type":"uuid","required":true,"description":"対象商品の識別子"},{"name":"分析対象期間開始日","type":"timestamp","required":true,"description":"分析対象とする期間の開始日"},{"name":"分析対象期間終了日","type":"timestamp","required":true,"description":"分析対象とする期間の終了日"},{"name":"顧客単価","type":"integer","required":true,"description":"該当顧客への販売単価"},{"name":"市場平均単価","type":"integer","required":true,"description":"市場における平均単価"},{"name":"単価差額","type":"integer","required":true,"description":"顧客単価と市場平均単価の差額"},{"name":"単価差率","type":"integer","required":true,"description":"市場平均単価に対する差額の割合（％）"},{"name":"取引数量","type":"integer","required":true,"description":"分析期間中の取引数量"},{"name":"売上金額","type":"integer","required":true,"description":"分析期間中の売上金額"},{"name":"価格競争力ランク","type":"varchar(100)","required":true,"description":"市場価格との比較による競争力ランク（高・中・低等）"},{"name":"価格改定推奨フラグ","type":"boolean","required":true,"description":"価格改定が推奨されるかどうか"},{"name":"推奨価格","type":"integer","required":false,"description":"分析結果に基づく推奨販売価格"},{"name":"分析コメント","type":"text","required":false,"description":"分析結果に対する補足コメント"},{"name":"営業担当者ID","type":"uuid","required":true,"description":"該当顧客の営業担当者"},{"name":"承認状態","type":"varchar(100)","required":true,"description":"分析結果の承認状態（未承認・承認済等）"},{"name":"承認者ID","type":"uuid","required":false,"description":"分析結果を承認した管理者"},{"name":"承認日時","type":"timestamp","required":false,"description":"承認された日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者"}]},{"tableName":"分析レポート","purpose":"Web発注プラットフォームで生成される各種分析レポートの管理と配信を行う","columns":[{"name":"レポートID","type":"uuid","required":true,"description":"分析レポートの一意識別子"},{"name":"レポート名","type":"varchar(100)","required":true,"description":"レポートの表示名"},{"name":"レポート種別","type":"varchar(100)","required":true,"description":"購買パターン分析、価格戦略分析、顧客別単価比較等の種別"},{"name":"対象期間開始日","type":"timestamp","required":true,"description":"分析対象期間の開始日"},{"name":"対象期間終了日","type":"timestamp","required":true,"description":"分析対象期間の終了日"},{"name":"顧客ID","type":"uuid","required":false,"description":"顧客別レポートの場合の対象顧客"},{"name":"レポート内容","type":"text","required":true,"description":"分析結果の詳細内容"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"作成中、完了、エラー等の処理状況"},{"name":"公開フラグ","type":"boolean","required":true,"description":"顧客への公開可否"},{"name":"通知済フラグ","type":"boolean","required":true,"description":"関係者への通知完了フラグ"},{"name":"作成者ID","type":"uuid","required":true,"description":"レポート作成者の識別子"},{"name":"作成日時","type":"timestamp","required":true,"description":"レポート作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"最終更新日時"}]},{"tableName":"システム操作履歴","purpose":"Web発注プラットフォームにおけるユーザーの操作履歴を記録し、システム利用状況の分析や監査証跡として活用する","columns":[{"name":"操作履歴ID","type":"uuid","required":true,"description":"操作履歴の一意識別子"},{"name":"ユーザーID","type":"varchar(100)","required":true,"description":"操作を実行したユーザーの識別子"},{"name":"ユーザー名","type":"varchar(100)","required":true,"description":"操作を実行したユーザーの名前"},{"name":"操作種別","type":"varchar(100)","required":true,"description":"実行された操作の種別（ログイン、発注、検索、詳細表示、データ更新等）"},{"name":"画面名","type":"varchar(100)","required":true,"description":"操作が実行された画面名"},{"name":"機能名","type":"varchar(100)","required":true,"description":"実行された機能名"},{"name":"対象データID","type":"varchar(100)","required":false,"description":"操作対象となったデータの識別子（発注ID、商品ID等）"},{"name":"操作内容","type":"text","required":false,"description":"操作の詳細内容や変更内容"},{"name":"IPアドレス","type":"varchar(100)","required":true,"description":"操作元のIPアドレス"},{"name":"ユーザーエージェント","type":"text","required":false,"description":"操作に使用されたブラウザ情報"},{"name":"処理結果","type":"varchar(100)","required":true,"description":"操作の処理結果（成功、失敗、エラー等）"},{"name":"エラーメッセージ","type":"text","required":false,"description":"エラー発生時のエラーメッセージ"},{"name":"処理時間","type":"integer","required":false,"description":"処理にかかった時間（ミリ秒）"},{"name":"操作日時","type":"timestamp","required":true,"description":"操作が実行された日時"}]}];
 window.AIVIC_PRESET_SEED = {};
 window.AIVIC_PAGE_SCREEN_ID = "scr-1780291952461";
-window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  // 1. 再描画関数の定義\n  function renderPatternRows(rows) {\n    const tbody = container.querySelector(\"#pattern-tbody\");\n    tbody.innerHTML = rows.map(r => `\n      <tr data-id=\"${r.id}\">\n        <td>${r.商品カテゴリ || \"\"}</td>\n        <td>${r.平均発注間隔日数 || \"\"}日</td>\n        <td>${r.推奨発注タイミング || \"\"}</td>\n        <td>${r.信頼度スコア || \"\"}%</td>\n      </tr>\n    `).join(\"\");\n  }\n\n  function renderRankingRows(rows) {\n    const tbody = container.querySelector(\"#ranking-tbody\");\n    tbody.innerHTML = rows.slice(0, 10).map((r, index) => `\n      <tr data-id=\"${r.id}\">\n        <td>${index + 1}</td>\n        <td>${r.顧客セグメント || \"\"}</td>\n        <td>¥${(r.発注総額 || 0).toLocaleString()}</td>\n        <td style=\"color: ${(r.前月比発注総額 || 0) >= 0 ? '#22c55e' : '#ef4444'};\">\n          ${(r.前月比発注総額 || 0) >= 0 ? '+' : ''}${((r.前月比発注総額 || 0) / 10000).toFixed(1)}%\n        </td>\n      </tr>\n    `).join(\"\");\n  }\n\n  // チャート描画関数\n  function drawFrequencyChart() {\n    const canvas = container.querySelector(\"#frequency-chart\");\n    const ctx = canvas.getContext(\"2d\");\n    \n    // 背景をクリア\n    ctx.fillStyle = '#1a2a40';\n    ctx.fillRect(0, 0, canvas.width, canvas.height);\n    \n    // 棒グラフを描画\n    const data = [25, 45, 35, 20, 30, 40, 28];\n    const labels = ['月', '火', '水', '木', '金', '土', '日'];\n    const maxValue = Math.max(...data);\n    \n    ctx.fillStyle = '#22c55e';\n    data.forEach((value, index) => {\n      const barHeight = (value / maxValue) * 150;\n      const x = 40 + index * 45;\n      const y = 170 - barHeight;\n      ctx.fillRect(x, y, 30, barHeight);\n    });\n    \n    // ラベル\n    ctx.fillStyle = '#9fb0d1';\n    ctx.font = '12px sans-serif';\n    labels.forEach((label, index) => {\n      ctx.fillText(label, 45 + index * 45, 190);\n    });\n  }\n\n  function drawSeasonalChart() {\n    const canvas = container.querySelector(\"#seasonal-chart\");\n    const ctx = canvas.getContext(\"2d\");\n    \n    // 背景をクリア\n    ctx.fillStyle = '#1a2a40';\n    ctx.fillRect(0, 0, canvas.width, canvas.height);\n    \n    // 折れ線グラフを描画\n    const data = [100, 120, 90, 110, 130, 95, 105, 125, 85, 115, 140, 100];\n    const maxValue = Math.max(...data);\n    const minValue = Math.min(...data);\n    \n    ctx.strokeStyle = '#22c55e';\n    ctx.lineWidth = 2;\n    ctx.beginPath();\n    \n    data.forEach((value, index) => {\n      const x = 30 + (index * 30);\n      const y = 30 + ((maxValue - value) / (maxValue - minValue)) * 140;\n      if (index === 0) {\n        ctx.moveTo(x, y);\n      } else {\n        ctx.lineTo(x, y);\n      }\n    });\n    ctx.stroke();\n    \n    // データポイント\n    ctx.fillStyle = '#22c55e';\n    data.forEach((value, index) => {\n      const x = 30 + (index * 30);\n      const y = 30 + ((maxValue - value) / (maxValue - minValue)) * 140;\n      ctx.beginPath();\n      ctx.arc(x, y, 3, 0, 2 * Math.PI);\n      ctx.fill();\n    });\n  }\n\n  // KPI更新関数\n  function updateKPIs(patternData, monthlyData) {\n    if (patternData && patternData.length > 0) {\n      const avgInterval = patternData.reduce((sum, r) => sum + (r.平均発注間隔日数 || 0), 0) / patternData.length;\n      container.querySelector(\"#kpi-interval\").textContent = avgInterval.toFixed(1) + \"日\";\n      \n      const avgConfidence = patternData.reduce((sum, r) => sum + (r.信頼度スコア || 0), 0) / patternData.length;\n      container.querySelector(\"#kpi-confidence\").textContent = avgConfidence.toFixed(0) + \"%\";\n    }\n    \n    if (monthlyData && monthlyData.length > 0) {\n      const totalCustomers = monthlyData.reduce((sum, r) => sum + (r.リピート顧客数 || 0) + (r.新規顧客数 || 0), 0);\n      const repeatCustomers = monthlyData.reduce((sum, r) => sum + (r.リピート顧客数 || 0), 0);\n      const repeatRate = totalCustomers > 0 ? (repeatCustomers / totalCustomers) * 100 : 0;\n      container.querySelector(\"#kpi-repeat\").textContent = repeatRate.toFixed(1) + \"%\";\n    }\n  }\n\n  // 2. 初期データ読み込み\n  Promise.all([\n    window.aivicApi.list(2), // 購買パターン分析結果\n    window.aivicApi.list(1)  // 月次集計データ\n  ]).then(([patternData, monthlyData]) => {\n    if (patternData) renderPatternRows(patternData);\n    if (monthlyData) renderRankingRows(monthlyData);\n    updateKPIs(patternData, monthlyData);\n    drawFrequencyChart();\n    drawSeasonalChart();\n    \n    // 異常値アラート表示判定\n    if (patternData && patternData.some(r => (r.信頼度スコア || 0) < 60)) {\n      container.querySelector(\"#alert-panel\").style.display = \"block\";\n    }\n  });\n\n  // 3. 分析実行ボタン\n  container.querySelector(\"#btn-analyze\").addEventListener(\"click\", async () => {\n    const startDate = container.querySelector(\"#input-start-date\").value;\n    const endDate = container.querySelector(\"#input-end-date\").value;\n    const segment = container.querySelector(\"#select-segment\").value;\n    \n    // フィルタリング条件でデータを再取得\n    const [patternData, monthlyData] = await Promise.all([\n      window.aivicApi.list(2),\n      window.aivicApi.list(1)\n    ]);\n    \n    let filteredPattern = patternData || [];\n    let filteredMonthly = monthlyData || [];\n    \n    if (startDate && endDate) {\n      filteredPattern = filteredPattern.filter(r => {\n        const targetStart = new Date(r.分析対象期間開始日);\n        return targetStart >= new Date(startDate) && targetStart <= new Date(endDate);\n      });\n    }\n    \n    if (segment) {\n      filteredMonthly = filteredMonthly.filter(r => \n        (r.顧客セグメント || \"\").includes(segment)\n      );\n    }\n    \n    renderPatternRows(filteredPattern);\n    renderRankingRows(filteredMonthly);\n    updateKPIs(filteredPattern, filteredMonthly);\n    drawFrequencyChart();\n    drawSeasonalChart();\n  });\n\n  // 4. 画面遷移ボタン\n  container.querySelector(\"#btn-order-data\").addEventListener(\"click\", () => {\n    window.showScreen(\"scr-1780291929523\");\n  });\n\n  container.querySelector(\"#btn-customer-price\").addEventListener(\"click\", () => {\n    window.showScreen(\"scr-1780291980452\");\n  });\n\n  // 5. 行クリックイベント（詳細表示）\n  container.addEventListener(\"click\", (e) => {\n    const row = e.target.closest(\"tr[data-id]\");\n    if (row && row.dataset.id) {\n      // 詳細情報をアラートで表示（簡易実装）\n      const id = row.dataset.id;\n      console.log(\"Selected pattern ID:\", id);\n    }\n  });\n}";
+window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  // チャート描画関数\n  function drawFrequencyChart(canvas, data) {\n    const ctx = canvas.getContext('2d');\n    const width = canvas.width;\n    const height = canvas.height;\n    \n    ctx.clearRect(0, 0, width, height);\n    ctx.fillStyle = '#22c55e';\n    \n    const barWidth = width / data.length;\n    const maxValue = Math.max(...data.map(d => d.value));\n    \n    data.forEach((item, index) => {\n      const barHeight = (item.value / maxValue) * (height - 40);\n      const x = index * barWidth;\n      const y = height - barHeight - 20;\n      \n      ctx.fillRect(x + 5, y, barWidth - 10, barHeight);\n      \n      ctx.fillStyle = '#9fb0d1';\n      ctx.font = '10px sans-serif';\n      ctx.fillText(item.label, x + 5, height - 5);\n      ctx.fillText(item.value.toString(), x + 5, y - 5);\n      ctx.fillStyle = '#22c55e';\n    });\n  }\n\n  function drawSeasonalChart(canvas, data) {\n    const ctx = canvas.getContext('2d');\n    const width = canvas.width;\n    const height = canvas.height;\n    \n    ctx.clearRect(0, 0, width, height);\n    ctx.strokeStyle = '#22c55e';\n    ctx.lineWidth = 2;\n    \n    const stepX = width / (data.length - 1);\n    const maxValue = Math.max(...data.map(d => d.value));\n    \n    ctx.beginPath();\n    data.forEach((item, index) => {\n      const x = index * stepX;\n      const y = height - 20 - ((item.value / maxValue) * (height - 40));\n      \n      if (index === 0) {\n        ctx.moveTo(x, y);\n      } else {\n        ctx.lineTo(x, y);\n      }\n      \n      ctx.fillStyle = '#22c55e';\n      ctx.fillRect(x - 2, y - 2, 4, 4);\n    });\n    ctx.stroke();\n    \n    // ラベル\n    ctx.fillStyle = '#9fb0d1';\n    ctx.font = '10px sans-serif';\n    data.forEach((item, index) => {\n      const x = index * stepX;\n      ctx.fillText(item.label, x - 10, height - 5);\n    });\n  }\n\n  function drawIntervalChart(canvas, data) {\n    const ctx = canvas.getContext('2d');\n    const width = canvas.width;\n    const height = canvas.height;\n    \n    ctx.clearRect(0, 0, width, height);\n    ctx.fillStyle = '#22c55e';\n    \n    const barWidth = width / data.length;\n    const maxValue = Math.max(...data.map(d => d.count));\n    \n    data.forEach((item, index) => {\n      const barHeight = (item.count / maxValue) * (height - 40);\n      const x = index * barWidth;\n      const y = height - barHeight - 20;\n      \n      ctx.fillRect(x + 2, y, barWidth - 4, barHeight);\n      \n      ctx.fillStyle = '#9fb0d1';\n      ctx.font = '9px sans-serif';\n      ctx.fillText(item.interval + '日', x + 2, height - 5);\n      ctx.fillStyle = '#22c55e';\n    });\n  }\n\n  function drawCompositionChart(canvas, data) {\n    const ctx = canvas.getContext('2d');\n    const width = canvas.width;\n    const height = canvas.height;\n    const centerX = width / 2;\n    const centerY = height / 2;\n    const radius = Math.min(width, height) / 2 - 20;\n    \n    ctx.clearRect(0, 0, width, height);\n    \n    const colors = ['#22c55e', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6'];\n    let currentAngle = 0;\n    const total = data.reduce((sum, item) => sum + item.value, 0);\n    \n    data.forEach((item, index) => {\n      const sliceAngle = (item.value / total) * 2 * Math.PI;\n      \n      ctx.beginPath();\n      ctx.moveTo(centerX, centerY);\n      ctx.arc(centerX, centerY, radius, currentAngle, currentAngle + sliceAngle);\n      ctx.closePath();\n      ctx.fillStyle = colors[index % colors.length];\n      ctx.fill();\n      \n      // ラベル\n      const labelAngle = currentAngle + sliceAngle / 2;\n      const labelX = centerX + Math.cos(labelAngle) * (radius * 0.7);\n      const labelY = centerY + Math.sin(labelAngle) * (radius * 0.7);\n      \n      ctx.fillStyle = '#ffffff';\n      ctx.font = '10px sans-serif';\n      ctx.textAlign = 'center';\n      ctx.fillText(item.label, labelX, labelY);\n      \n      currentAngle += sliceAngle;\n    });\n  }\n\n  function drawPriceSensitivityChart(canvas, data) {\n    const ctx = canvas.getContext('2d');\n    const width = canvas.width;\n    const height = canvas.height;\n    \n    ctx.clearRect(0, 0, width, height);\n    \n    const margin = 40;\n    const chartWidth = width - margin * 2;\n    const chartHeight = height - margin * 2;\n    \n    const maxPrice = Math.max(...data.map(d => d.price));\n    const maxQuantity = Math.max(...data.map(d => d.quantity));\n    \n    // 軸\n    ctx.strokeStyle = '#9fb0d1';\n    ctx.lineWidth = 1;\n    ctx.beginPath();\n    ctx.moveTo(margin, margin);\n    ctx.lineTo(margin, height - margin);\n    ctx.lineTo(width - margin, height - margin);\n    ctx.stroke();\n    \n    // データポイント\n    ctx.fillStyle = '#22c55e';\n    data.forEach(item => {\n      const x = margin + (item.price / maxPrice) * chartWidth;\n      const y = height - margin - (item.quantity / maxQuantity) * chartHeight;\n      \n      ctx.beginPath();\n      ctx.arc(x, y, 3, 0, 2 * Math.PI);\n      ctx.fill();\n    });\n    \n    // ラベル\n    ctx.fillStyle = '#9fb0d1';\n    ctx.font = '12px sans-serif';\n    ctx.fillText('価格', width - 30, height - 10);\n    ctx.save();\n    ctx.translate(15, height / 2);\n    ctx.rotate(-Math.PI / 2);\n    ctx.fillText('数量', 0, 0);\n    ctx.restore();\n  }\n\n  // テーブル再描画関数\n  function renderCustomerRanking(data) {\n    const tbody = container.querySelector('#customer-ranking-tbody');\n    tbody.innerHTML = data.map((item, index) => `\n      <tr>\n        <td>${index + 1}</td>\n        <td>${item.customerName || ''}</td>\n        <td>¥${(item.amount || 0).toLocaleString()}</td>\n        <td style=\"color: ${item.growth >= 0 ? '#22c55e' : '#ef4444'}\">${item.growth >= 0 ? '+' : ''}${item.growth || 0}%</td>\n      </tr>\n    `).join('');\n  }\n\n  function renderRepeatRate(data) {\n    const tbody = container.querySelector('#repeat-rate-tbody');\n    tbody.innerHTML = data.map(item => `\n      <tr>\n        <td>${item.category || ''}</td>\n        <td>${item.repeatRate || 0}%</td>\n        <td>${item.avgInterval || 0}日</td>\n        <td>\n          <span style=\"background: ${item.confidence >= 80 ? '#22c55e' : item.confidence >= 60 ? '#f59e0b' : '#ef4444'}; color: white; padding: 2px 6px; border-radius: 3px; font-size: 11px;\">\n            ${item.confidence || 0}%\n          </span>\n        </td>\n      </tr>\n    `).join('');\n  }\n\n  function renderPatternClassification(rows) {\n    const tbody = container.querySelector('#pattern-classification-tbody');\n    tbody.innerHTML = rows.map(r => `\n      <tr data-id=\"${r.分析結果ID || r.id}\">\n        <td>${r.分析結果ID || r.id || ''}</td>\n        <td>${r.分析対象期間開始日 ? new Date(r.分析対象期間開始日).toLocaleDateString() : ''} - ${r.分析対象期間終了日 ? new Date(r.分析対象期間終了日).toLocaleDateString() : ''}</td>\n        <td>${r.商品カテゴリ || ''}</td>\n        <td>${r.平均発注間隔日数 || 0}日</td>\n        <td>${(r.平均発注数量 || 0).toLocaleString()}</td>\n        <td>${r.季節変動係数 || ''}</td>\n        <td>${r.価格感度指数 || 0}</td>\n        <td>${r.推奨発注タイミング || ''}</td>\n        <td>\n          <span style=\"background: ${(r.信頼度スコア || 0) >= 80 ? '#22c55e' : (r.信頼度スコア || 0) >= 60 ? '#f59e0b' : '#ef4444'}; color: white; padding: 2px 6px; border-radius: 3px; font-size: 11px;\">\n            ${r.信頼度スコア || 0}%\n          </span>\n        </td>\n        <td>\n          <span style=\"background: ${r.ステータス === '有効' ? '#22c55e' : r.ステータス === '検証中' ? '#f59e0b' : '#6b7280'}; color: white; padding: 2px 6px; border-radius: 3px; font-size: 11px;\">\n            ${r.ステータス || ''}\n          </span>\n        </td>\n      </tr>\n    `).join('');\n  }\n\n  // 初期データ描画\n  const purchasePatternData = tables[2]?.records || [];\n  renderPatternClassification(purchasePatternData);\n\n  // サンプルデータでチャート描画\n  const frequencyData = [\n    {label: '週1回', value: 25},\n    {label: '月2回', value: 35},\n    {label: '月1回', value: 40},\n    {label: '不定期', value: 15}\n  ];\n\n  const seasonalData = [\n    {label: '春', value: 120},\n    {label: '夏', value: 95},\n    {label: '秋', value: 140},\n    {label: '冬', value: 85}\n  ];\n\n  const intervalData = [\n    {interval: '7', count: 15},\n    {interval: '14', count: 25},\n    {interval: '30', count: 35},\n    {interval: '60', count: 20},\n    {interval: '90+', count: 5}\n  ];\n\n  const compositionData = [\n    {label: '電子部品', value: 35},\n    {label: '機械部品', value: 28},\n    {label: '工具', value: 20},\n    {label: '材料', value: 17}\n  ];\n\n  const priceSensitivityData = [\n    {price: 100, quantity: 50},\n    {price: 120, quantity: 45},\n    {price: 150, quantity: 35},\n    {price: 180, quantity: 25},\n    {price: 200, quantity: 20}\n  ];\n\n  const customerRankingData = [\n    {customerName: 'ABC商事', amount: 5500000, growth: 12},\n    {customerName: 'XYZ工業', amount: 4200000, growth: -5},\n    {customerName: 'DEF製作所', amount: 3800000, growth: 8},\n    {customerName: 'GHI株式会社', amount: 2900000, growth: 15}\n  ];\n\n  const repeatRateData = [\n    {category: '電子部品', repeatRate: 85, avgInterval: 21, confidence: 92},\n    {category: '機械部品', repeatRate: 72, avgInterval: 35, confidence: 78},\n    {category: '工具', repeatRate: 65, avgInterval: 45, confidence: 65},\n    {category: '材料', repeatRate: 90, avgInterval: 14, confidence: 95}\n  ];\n\n  // チャート描画\n  setTimeout(() => {\n    drawFrequencyChart(container.querySelector('#frequency-chart'), frequencyData);\n    drawSeasonalChart(container.querySelector('#seasonal-chart'), seasonalData);\n    drawIntervalChart(container.querySelector('#interval-chart'), intervalData);\n    drawCompositionChart(container.querySelector('#composition-chart'), compositionData);\n    drawPriceSensitivityChart(container.querySelector('#price-sensitivity-chart'), priceSensitivityData);\n  }, 100);\n\n  renderCustomerRanking(customerRankingData);\n  renderRepeatRate(repeatRateData);\n\n  // 分析実行ボタン\n  container.querySelector('#btn-analyze').addEventListener('click', async () => {\n    const startDate = container.querySelector('#start-date').value;\n    const endDate = container.querySelector('#end-date').value;\n    const customerSegment = container.querySelector('#customer-segment').value;\n    const productCategory = container.querySelector('#product-category').value;\n\n    // 分析実行（実際のAPIコール）\n    const rows = await window.aivicApi.list(2);\n    if (rows) {\n      let filteredRows = rows;\n      \n      if (startDate) {\n        filteredRows = filteredRows.filter(r => new Date(r.分析対象期間開始日) >= new Date(startDate));\n      }\n      if (endDate) {\n        filteredRows = filteredRows.filter(r => new Date(r.分析対象期間終了日) <= new Date(endDate));\n      }\n      if (productCategory) {\n        filteredRows = filteredRows.filter(r => r.商品カテゴリ === productCategory);\n      }\n      \n      renderPatternClassification(filteredRows);\n      \n      // 異常値検知アラート表示\n      const lowConfidenceItems = filteredRows.filter(r => (r.信頼度スコア || 0) < 60);\n      if (lowConfidenceItems.length > 0) {\n        const alertPanel = container.querySelector('#alert-panel');\n        const alertContent = container.querySelector('#alert-content');\n        alertContent.textContent = `信頼度が低い分析結果が${lowConfidenceItems.length}件検出されました。データの見直しを推奨します。`;\n        alertPanel.classList.remove('hidden');\n      }\n    }\n  });\n\n  // CSVエクスポートボタン\n  container.querySelector('#btn-export').addEventListener('click', async () => {\n    const rows = await window.aivicApi.list(2);\n    if (!rows) return;\n\n    const headers = ['分析結果ID', '分析対象期間開始日', '分析対象期間終了日', '商品カテゴリ', '平均発注間隔日数', '平均発注数量', '季節変動係数', '価格感度指数', '推奨発注タイミング', '信頼度スコア', 'ステータス'];\n    const csvContent = '\\uFEFF' + [\n      headers.join(','),\n      ...rows.map(r => [\n        r.分析結果ID || '',\n        r.分析対象期間開始日 || '',\n        r.分析対象期間終了日 || '',\n        r.商品カテゴリ || '',\n        r.平均発注間隔日数 || '',\n        r.平均発注数量 || '',\n        r.季節変動係数 || '',\n        r.価格感度指数 || '',\n        r.推奨発注タイミング || '',\n        r.信頼度スコア || '',\n        r.ステータス || ''\n      ].map(field => `\"${field}\"`).join(','))\n    ].join('\\n');\n\n    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });\n    const link = document.createElement('a');\n    link.href = URL.createObjectURL(blob);\n    link.download = '購買パターン分析結果.csv';\n    link.click();\n  });\n\n  // 自動分析開始\n  setTimeout(() => {\n    container.querySelector('#btn-analyze').click();\n  }, 500);\n}";
 </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
 :root {
-  --primary: #1b7f37;
-  --primary-hover: #155d2a;
+  --primary: #1b7f3d;
+  --primary-hover: #155d2e;
   --bg-main: #f8faf9;
   --bg-card: #ffffff;
-  --bg-sidebar: #f4f6f5;
-  --border: #d9e3dc;
-  --text: #181818;
+  --bg-sidebar: #f4f7f5;
+  --border: #d4e6d9;
+  --text: #1a1a1a;
   --text-muted: #4a4a4a;
   --top-bar-bg: #ffffff;
-  --top-bar-border: #d1ddd4;
+  --top-bar-border: #c9ddd0;
 }
 *, *::before, *::after { box-sizing: border-box; }
 body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:var(--bg-main); color:var(--text); display:flex; flex-direction:column; height:100vh; overflow:hidden; }
@@ -87,131 +87,154 @@ canvas { display:block; max-height:280px !important; }
     <section class="card" data-aivic-panel="scr-1780291952461" style="margin-top:0">
 <div class="p-3">
   <!-- ヘッダー -->
-  <div class="mb-3 flex items-center justify-between">
+  <div class="flex items-center justify-between mb-3">
     <h1 class="text-xl font-semibold" style="color: var(--text);">購買パターン分析</h1>
     <div class="flex gap-2">
-      <button class="action-btn" data-testid="order-data-button" id="btn-order-data">発注データ確認</button>
-      <button class="action-btn" data-testid="customer-price-button" id="btn-customer-price">顧客別単価分析</button>
+      <button class="action-btn secondary" data-testid="order-data-button" onclick="window.showScreen('scr-1780291929523')">発注データ確認</button>
+      <button class="action-btn secondary" data-testid="customer-price-analysis-button" onclick="window.showScreen('scr-1780291980452')">顧客別単価分析</button>
     </div>
   </div>
 
   <!-- フィルター -->
   <div class="card mb-3">
-    <div class="p-3">
-      <div class="grid grid-cols-4 gap-3 items-end">
-        <div>
-          <label class="block text-xs mb-1" style="color: var(--text-muted);">分析期間（開始）</label>
-          <input type="date" class="input w-full" data-testid="start-date" id="input-start-date" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text); padding: 6px 8px; border-radius: 4px;">
-        </div>
-        <div>
-          <label class="block text-xs mb-1" style="color: var(--text-muted);">分析期間（終了）</label>
-          <input type="date" class="input w-full" data-testid="end-date" id="input-end-date" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text); padding: 6px 8px; border-radius: 4px;">
-        </div>
-        <div>
-          <label class="block text-xs mb-1" style="color: var(--text-muted);">顧客セグメント</label>
-          <select class="input w-full" data-testid="segment-select" id="select-segment" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text); padding: 6px 8px; border-radius: 4px;">
-            <option value="">全セグメント</option>
-            <option value="大企業">大企業</option>
-            <option value="中小企業">中小企業</option>
-            <option value="個人事業主">個人事業主</option>
-          </select>
-        </div>
-        <div>
-          <button class="action-btn" data-testid="analyze-button" id="btn-analyze">分析実行</button>
-        </div>
+    <div class="grid grid-cols-4 gap-3 mb-3">
+      <div>
+        <label class="block text-xs mb-1" style="color: var(--text-muted);">分析期間（開始）</label>
+        <input type="date" id="start-date" data-testid="start-date" class="input w-full" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+      </div>
+      <div>
+        <label class="block text-xs mb-1" style="color: var(--text-muted);">分析期間（終了）</label>
+        <input type="date" id="end-date" data-testid="end-date" class="input w-full" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+      </div>
+      <div>
+        <label class="block text-xs mb-1" style="color: var(--text-muted);">顧客セグメント</label>
+        <select id="customer-segment" data-testid="customer-segment-select" class="input w-full" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+          <option value="">全て</option>
+          <option value="大口顧客">大口顧客</option>
+          <option value="中規模顧客">中規模顧客</option>
+          <option value="小口顧客">小口顧客</option>
+          <option value="新規顧客">新規顧客</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs mb-1" style="color: var(--text-muted);">商品カテゴリ</label>
+        <select id="product-category" data-testid="product-category-select" class="input w-full" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); color: var(--text);">
+          <option value="">全て</option>
+          <option value="電子部品">電子部品</option>
+          <option value="機械部品">機械部品</option>
+          <option value="工具">工具</option>
+          <option value="材料">材料</option>
+        </select>
       </div>
     </div>
-  </div>
-
-  <!-- KPI カード -->
-  <div class="grid grid-cols-4 gap-3 mb-4">
-    <div class="card p-3" data-testid="kpi-avg-interval">
-      <div class="text-xs" style="color: var(--text-muted);">平均発注間隔</div>
-      <div class="text-lg font-semibold" style="color: var(--text);" id="kpi-interval">15.2日</div>
-    </div>
-    <div class="card p-3" data-testid="kpi-repeat-rate">
-      <div class="text-xs" style="color: var(--text-muted);">リピート率</div>
-      <div class="text-lg font-semibold" style="color: var(--text);" id="kpi-repeat">78.5%</div>
-    </div>
-    <div class="card p-3" data-testid="kpi-price-sensitivity">
-      <div class="text-xs" style="color: var(--text-muted);">価格感度指数</div>
-      <div class="text-lg font-semibold" style="color: var(--text);" id="kpi-sensitivity">2.3</div>
-    </div>
-    <div class="card p-3" data-testid="kpi-confidence">
-      <div class="text-xs" style="color: var(--text-muted);">分析信頼度</div>
-      <div class="text-lg font-semibold" style="color: var(--text);" id="kpi-confidence">85%</div>
-    </div>
-  </div>
-
-  <!-- チャートエリア -->
-  <div class="grid grid-cols-2 gap-3 mb-4">
-    <div class="card">
-      <div class="p-3 border-b" style="border-color: var(--border);">
-        <h3 class="text-sm font-medium" style="color: var(--text);">購買頻度分析</h3>
-      </div>
-      <div class="p-3">
-        <canvas id="frequency-chart" width="400" height="200"></canvas>
-      </div>
-    </div>
-    <div class="card">
-      <div class="p-3 border-b" style="border-color: var(--border);">
-        <h3 class="text-sm font-medium" style="color: var(--text);">季節性トレンド</h3>
-      </div>
-      <div class="p-3">
-        <canvas id="seasonal-chart" width="400" height="200"></canvas>
-      </div>
-    </div>
-  </div>
-
-  <!-- 分析結果テーブル -->
-  <div class="grid grid-cols-2 gap-3">
-    <div class="card">
-      <div class="p-3 border-b" style="border-color: var(--border);">
-        <h3 class="text-sm font-medium" style="color: var(--text);">購買パターン分析結果</h3>
-      </div>
-      <div class="table-wrap">
-        <table data-testid="pattern-list">
-          <thead>
-            <tr>
-              <th>商品カテゴリ</th>
-              <th>平均間隔</th>
-              <th>推奨タイミング</th>
-              <th>信頼度</th>
-            </tr>
-          </thead>
-          <tbody id="pattern-tbody"></tbody>
-        </table>
-      </div>
-    </div>
-    <div class="card">
-      <div class="p-3 border-b" style="border-color: var(--border);">
-        <h3 class="text-sm font-medium" style="color: var(--text);">顧客別購買金額ランキング</h3>
-      </div>
-      <div class="table-wrap">
-        <table data-testid="ranking-list">
-          <thead>
-            <tr>
-              <th>順位</th>
-              <th>顧客</th>
-              <th>購買金額</th>
-              <th>前月比</th>
-            </tr>
-          </thead>
-          <tbody id="ranking-tbody"></tbody>
-        </table>
-      </div>
+    <div class="flex gap-2">
+      <button id="btn-analyze" data-testid="analyze-button" class="action-btn">分析実行</button>
+      <button id="btn-export" data-testid="export-button" class="action-btn secondary">CSVエクスポート</button>
     </div>
   </div>
 
   <!-- 異常値アラート -->
-  <div class="mt-4 card" id="alert-panel" style="display: none;">
-    <div class="p-3" style="border-left: 3px solid #ff6a00; background: var(--bg-card);">
-      <div class="flex items-center gap-2">
-        <span class="text-sm font-medium" style="color: var(--text);">⚠️ 異常値検知</span>
+  <div id="alert-panel" class="hidden mb-3" style="background: var(--bg-card); border-left: 3px solid #ff6a00; padding: 12px; border-radius: 4px;">
+    <div class="flex items-center gap-2">
+      <span style="color: #ff6a00;">⚠</span>
+      <span style="color: var(--text); font-weight: 500;">異常値検知</span>
+    </div>
+    <div id="alert-content" style="color: var(--text-muted); font-size: 13px; margin-top: 4px;"></div>
+  </div>
+
+  <!-- 分析結果グリッド -->
+  <div class="grid grid-cols-2 gap-3 mb-3">
+    <!-- 購買頻度分析 -->
+    <div class="card">
+      <h3 class="text-sm font-medium mb-2" style="color: var(--text);">購買頻度分析</h3>
+      <canvas id="frequency-chart" width="300" height="200" style="width: 100%; max-height: 200px;"></canvas>
+    </div>
+
+    <!-- 季節性トレンド -->
+    <div class="card">
+      <h3 class="text-sm font-medium mb-2" style="color: var(--text);">季節性トレンド</h3>
+      <canvas id="seasonal-chart" width="300" height="200" style="width: 100%; max-height: 200px;"></canvas>
+    </div>
+
+    <!-- 購買間隔ヒストグラム -->
+    <div class="card">
+      <h3 class="text-sm font-medium mb-2" style="color: var(--text);">購買間隔分析</h3>
+      <canvas id="interval-chart" width="300" height="200" style="width: 100%; max-height: 200px;"></canvas>
+    </div>
+
+    <!-- 商品別売上構成比 -->
+    <div class="card">
+      <h3 class="text-sm font-medium mb-2" style="color: var(--text);">商品別売上構成比</h3>
+      <canvas id="composition-chart" width="300" height="200" style="width: 100%; max-height: 200px;"></canvas>
+    </div>
+  </div>
+
+  <!-- 価格感度分析 -->
+  <div class="card mb-3">
+    <h3 class="text-sm font-medium mb-2" style="color: var(--text);">価格感度分析</h3>
+    <canvas id="price-sensitivity-chart" width="600" height="300" style="width: 100%; max-height: 300px;"></canvas>
+  </div>
+
+  <!-- データテーブル -->
+  <div class="grid grid-cols-2 gap-3">
+    <!-- 顧客別購買金額ランキング -->
+    <div class="card">
+      <h3 class="text-sm font-medium mb-2" style="color: var(--text);">顧客別購買金額ランキング</h3>
+      <div class="table-wrap">
+        <table data-testid="customer-ranking-table">
+          <thead>
+            <tr>
+              <th>順位</th>
+              <th>顧客名</th>
+              <th>購買金額</th>
+              <th>前月比</th>
+            </tr>
+          </thead>
+          <tbody id="customer-ranking-tbody"></tbody>
+        </table>
       </div>
-      <div class="text-xs mt-1" style="color: var(--text-muted);" id="alert-message">
-        通常パターンから大きく逸脱した購買行動が検出されました。
+    </div>
+
+    <!-- リピート率分析 -->
+    <div class="card">
+      <h3 class="text-sm font-medium mb-2" style="color: var(--text);">リピート率分析</h3>
+      <div class="table-wrap">
+        <table data-testid="repeat-rate-table">
+          <thead>
+            <tr>
+              <th>商品カテゴリ</th>
+              <th>リピート率</th>
+              <th>平均間隔</th>
+              <th>信頼度</th>
+            </tr>
+          </thead>
+          <tbody id="repeat-rate-tbody"></tbody>
+        </table>
       </div>
+    </div>
+  </div>
+
+  <!-- 購買パターン分類結果 -->
+  <div class="card mt-3">
+    <h3 class="text-sm font-medium mb-2" style="color: var(--text);">購買パターン分類結果</h3>
+    <div class="table-wrap">
+      <table data-testid="pattern-classification-table">
+        <thead>
+          <tr>
+            <th>分析ID</th>
+            <th>対象期間</th>
+            <th>商品カテゴリ</th>
+            <th>平均発注間隔</th>
+            <th>平均発注数量</th>
+            <th>季節変動係数</th>
+            <th>価格感度指数</th>
+            <th>推奨タイミング</th>
+            <th>信頼度</th>
+            <th>ステータス</th>
+          </tr>
+        </thead>
+        <tbody id="pattern-classification-tbody"></tbody>
+      </table>
     </div>
   </div>
 </div>
