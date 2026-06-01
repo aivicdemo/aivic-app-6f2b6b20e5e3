@@ -4436,28 +4436,28 @@
     "systemName": "営業支援システムの構築",
     "screens": [
       {
-        "id": "scr-1780316116662",
-        "name": "発注データ登録・編集画面",
-        "purpose": "発注データの新規登録・既存データの編集を行い、単価交渉履歴や市場価格データを参照しながら最適な発注条件を設定する",
+        "id": "scr-1780317810582",
+        "name": "発注データ管理画面",
+        "purpose": "発注データの登録・編集・削除を行い、単価交渉履歴や市場価格データと連携して価格戦略分析や顧客別単価比較を実施する営業支援機能を提供する",
         "items": [
-          "発注番号入力フィールド",
-          "発注日付選択カレンダー",
-          "顧客選択ドロップダウン",
-          "商品コード入力フィールド",
-          "商品名表示エリア",
-          "発注数量入力フィールド",
-          "単価入力フィールド",
-          "合計金額表示エリア",
-          "納期日付選択カレンダー",
-          "配送先住所入力エリア",
-          "備考欄テキストエリア",
-          "単価交渉履歴参照ボタン"
+          "発注データ一覧表示テーブル",
+          "発注データ検索フィルター",
+          "新規発注登録ボタン",
+          "発注データ編集ボタン",
+          "発注データ削除ボタン",
+          "単価交渉履歴表示パネル",
+          "市場価格データ参照ボタン",
+          "月次集計結果表示グラフ",
+          "購買パターン分析結果表示エリア",
+          "価格戦略分析レポート表示ボタン",
+          "顧客別単価比較チャート",
+          "データエクスポートボタン"
         ]
       },
       {
-        "id": "scr-1780316125632",
+        "id": "scr-1780317824404",
         "name": "単価交渉履歴管理画面",
-        "purpose": "顧客との単価交渉の履歴を管理し、過去の交渉内容、価格推移、成功率を分析して今後の価格戦略立案を支援する",
+        "purpose": "顧客との単価交渉の履歴を管理し、過去の交渉内容、価格推移、市場価格との比較分析を通じて効果的な価格戦略の立案と交渉力向上を支援する",
         "items": [
           "交渉履歴検索フィルター",
           "顧客選択ドロップダウン",
@@ -4465,133 +4465,114 @@
           "交渉期間指定カレンダー",
           "交渉履歴一覧テーブル",
           "交渉詳細表示パネル",
-          "価格推移グラフ",
+          "単価推移グラフ",
           "市場価格比較チャート",
           "交渉成功率表示",
-          "新規交渉記録ボタン",
-          "交渉内容編集ボタン",
-          "添付ファイル管理エリア"
+          "新規交渉記録登録ボタン",
+          "交渉ステータス更新",
+          "価格提案計算機"
         ]
       },
       {
-        "id": "scr-1780316134617",
-        "name": "市場価格データ登録・更新画面",
-        "purpose": "市場価格データの新規登録、既存データの更新、価格変動の履歴管理を行い、営業戦略立案に必要な市場価格情報を維持管理する",
+        "id": "scr-1780317834607",
+        "name": "市場価格データ管場価格データの登録・更新・削除および価格動向の分析を行い、営業戦略立案を支援する",
+        "purpose": "市場価格データ管場価格データの登録・更新・削除および価格動向の分析を行い、営業戦略立案を支援するで行う業務",
         "items": [
-          "商品コード入力フィールド",
-          "商品名表示エリア",
-          "市場価格入力フィールド",
-          "価格適用開始日選択カレンダー",
-          "価格適用終了日選択カレンダー",
-          "価格情報取得元選択ドロップダウン",
-          "競合他社名入力フィールド",
-          "価格変動理由入力テキストエリア",
-          "登録ボタン",
-          "更新ボタン",
-          "削除ボタン",
-          "検索条件入力エリア"
+          "市場価格データ一覧表示テーブル",
+          "価格データ検索フィルター",
+          "商品カテゴリ選択ドロップダウン",
+          "価格データ登録ボタン",
+          "価格データ編集ボタン",
+          "価格データ削除ボタン",
+          "価格推移グラフ表示エリア",
+          "期間指定カレンダー",
+          "市場価格データ新規登録フォーム",
+          "単価・価格入力フィールド",
+          "データソース選択ラジオボタン",
+          "価格動向分析結果表示パネル"
         ]
       },
       {
-        "id": "scr-1780316143762",
+        "id": "scr-1780317846228",
         "name": "顧客別発注データ月次集計・分析画面",
-        "purpose": "顧客ごとの発注データを月次で集計し、購買パターンや価格動向を分析して営業戦略の立案を支援する",
+        "purpose": "顧客ごとの発注データを月次で集計し、購買パターンや価格戦略の分析を行い、営業戦略の最適化を支援する",
         "items": [
           "顧客選択ドロップダウン",
-          "対象年月選択カレンダー",
+          "対象月選択カレンダー",
           "集計期間指定フィールド",
-          "発注金額月次推移グラフ",
-          "商品別発注数量表",
-          "単価変動履歴チャート",
-          "市場価格比較グラフ",
-          "購買パターン分析結果表示エリア",
-          "価格戦略提案パネル",
-          "前年同月比較指標",
-          "顧客ランキング表示",
-          "利益率分析チャート"
+          "発注データ一覧テーブル",
+          "月次集計結果表示エリア",
+          "発注金額推移グラフ",
+          "商品別発注量チャート",
+          "購買パターン分析結果表示",
+          "単価変動履歴グラフ",
+          "市場価格比較チャート",
+          "顧客別単価比較表",
+          "価格戦略分析結果パネル"
         ]
       },
       {
-        "id": "scr-1780316152706",
+        "id": "scr-1780317855900",
         "name": "単価交渉成功・失敗要因分析画面",
-        "purpose": "単価交渉の成功・失敗パターンを分析し、交渉戦略の改善点を特定することで、今後の価格交渉における成功率向上を支援する",
+        "purpose": "単価交渉の成功・失敗パターンを分析し、交渉戦略の改善点を特定することで、今後の価格交渉の成功率向上を支援する",
         "items": [
-          "期間選択フィルター",
-          "顧客カテゴリ選択",
-          "商品分類選択",
-          "交渉結果フィルター（成功/失敗/保留）",
-          "成功率サマリーカード",
-          "交渉件数・金額サマリー",
-          "成功・失敗要因ランキング表",
-          "要因別成功率グラフ",
-          "顧客別交渉成功率一覧",
-          "商品別価格変動トレンド",
-          "市場価格との乖離分析チャート",
-          "交渉タイミング分析グラフ"
+          "交渉期間選択カレンダー",
+          "顧客・案件絞り込みフィルター",
+          "成功・失敗分類タブ",
+          "交渉結果サマリーカード",
+          "成功率推移グラフ",
+          "要因別成功・失敗分析チャート",
+          "市場価格との乖離率表示",
+          "顧客別交渉成功率ランキング",
+          "商品カテゴリ別分析表",
+          "交渉タイミング分析グラフ",
+          "競合他社価格比較表",
+          "交渉担当者別成績表"
         ]
       },
       {
-        "id": "scr-1780316163114",
+        "id": "scr-1780317869683",
         "name": "商品カテゴリ別購買パターン分析画面",
-        "purpose": "商品カテゴリごとの購買傾向、季節性、価格感度を分析し、効果的な営業戦略立案を支援する",
+        "purpose": "商品カテゴリごとの購買傾向、季節性、価格変動パターンを分析し、効果的な営業戦略立案を支援する",
         "items": [
           "商品カテゴリ選択ドロップダウン",
           "分析期間指定カレンダー",
-          "購買パターン推移グラフ",
-          "月別売上高棒グラフ",
-          "価格帯別購買量分布チャート",
-          "顧客セグメント別購買傾向表",
-          "季節性指数表示エリア",
-          "価格弾力性分析結果表",
-          "競合価格比較チャート",
-          "推奨価格戦略表示パネル",
-          "データエクスポートボタン",
-          "分析レポート生成ボタン"
+          "購買パターン分析実行ボタン",
+          "カテゴリ別売上推移グラフ",
+          "月別購買量チャート",
+          "季節性分析レーダーチャート",
+          "平均単価推移グラフ",
+          "価格変動率表示エリア",
+          "主要顧客別購買比率円グラフ",
+          "発注頻度分析テーブル",
+          "市場価格比較チャート",
+          "価格戦略提案表示パネル"
         ]
       },
       {
-        "id": "scr-1780316174750",
+        "id": "scr-1780317880614",
         "name": "顧客別単価・市場価格比較分析画面",
         "purpose": "顧客ごとの単価と市場価格を比較分析し、価格戦略の最適化と収益性向上を支援する",
         "items": [
           "顧客選択ドロップダウン",
-          "期間指定カレンダー",
-          "商品カテゴリフィルター",
+          "商品カテゴリ選択フィルタ",
+          "分析期間指定カレンダー",
           "顧客別単価一覧テーブル",
           "市場価格比較チャート",
-          "価格差分析グラフ",
-          "単価交渉履歴表示エリア",
-          "購買パターン分析結果表示",
-          "価格戦略推奨アラート",
-          "月次推移グラフ",
+          "単価乖離率表示エリア",
+          "価格推移グラフ",
           "競合他社価格比較表",
-          "収益性指標表示パネル"
-        ]
-      },
-      {
-        "id": "scr-1780316183885",
-        "name": "価格戦略改善提案画面",
-        "purpose": "市場価格データと購買パターン分析に基づいて、顧客別・商品別の最適な価格戦略を提案し、収益性向上を支援する",
-        "items": [
-          "価格戦略分析期間選択",
-          "顧客セグメント選択フィルター",
-          "商品カテゴリ選択",
-          "現在価格vs推奨価格比較表",
-          "価格改定シミュレーション",
-          "収益インパクト予測グラフ",
-          "競合価格比較チャート",
-          "顧客別価格感度分析",
-          "単価交渉履歴表示",
-          "価格戦略提案一覧",
-          "改善効果予測値表示",
-          "価格改定スケジュール設定"
+          "単価交渉履歴表示パネル",
+          "収益性分析指標",
+          "価格戦略提案ボックス",
+          "データエクスポートボタン"
         ]
       }
     ],
     "tableDefinitions": [
       {
         "tableName": "単価交渉履歴",
-        "purpose": "営業担当者と顧客間の単価交渉プロセスと結果を記録し、価格決定の経緯を管理する",
+        "purpose": "営業担当者と顧客間の単価交渉プロセスと結果を記録し、交渉経緯の追跡と分析を行う",
         "columns": [
           {
             "name": "交渉履歴ID",
@@ -4609,25 +4590,25 @@
             "name": "商品ID",
             "type": "uuid",
             "required": true,
-            "description": "交渉対象の商品識別子"
+            "description": "単価交渉対象の商品識別子"
           },
           {
-            "name": "交渉日",
+            "name": "交渉開始日",
             "type": "timestamp",
             "required": true,
-            "description": "交渉を実施した日時"
+            "description": "単価交渉を開始した日時"
           },
           {
-            "name": "交渉種別",
-            "type": "varchar(100)",
-            "required": true,
-            "description": "新規提案/再交渉/価格見直し等の交渉タイプ"
+            "name": "交渉終了日",
+            "type": "timestamp",
+            "required": false,
+            "description": "単価交渉が完了した日時"
           },
           {
             "name": "現在単価",
             "type": "integer",
             "required": true,
-            "description": "交渉前の現行単価"
+            "description": "交渉開始時点の現在単価"
           },
           {
             "name": "提案単価",
@@ -4651,37 +4632,43 @@
             "name": "交渉ステータス",
             "type": "varchar(100)",
             "required": true,
-            "description": "交渉中/合意/決裂/保留等の状況"
+            "description": "交渉の現在状況（交渉中/合意/決裂/保留）"
+          },
+          {
+            "name": "交渉理由",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "単価交渉を行う理由"
           },
           {
             "name": "交渉内容",
             "type": "text",
             "required": false,
-            "description": "交渉の詳細内容や条件"
-          },
-          {
-            "name": "次回アクション",
-            "type": "text",
-            "required": false,
-            "description": "次回の交渉予定や必要な対応"
-          },
-          {
-            "name": "営業担当者ID",
-            "type": "uuid",
-            "required": true,
-            "description": "交渉を担当した営業担当者"
+            "description": "交渉の詳細内容や経緯"
           },
           {
             "name": "承認者ID",
             "type": "uuid",
             "required": false,
-            "description": "単価変更を承認した管理者"
+            "description": "単価変更を承認した管理者のID"
           },
           {
             "name": "承認日時",
             "type": "timestamp",
             "required": false,
             "description": "単価変更が承認された日時"
+          },
+          {
+            "name": "適用開始日",
+            "type": "timestamp",
+            "required": false,
+            "description": "新単価の適用開始日"
+          },
+          {
+            "name": "営業担当者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "交渉を担当した営業担当者のID"
           },
           {
             "name": "作成日時",
@@ -4699,7 +4686,7 @@
             "name": "作成者ID",
             "type": "uuid",
             "required": true,
-            "description": "レコード作成者"
+            "description": "レコード作成者のユーザーID"
           }
         ]
       },
@@ -4735,7 +4722,7 @@
             "name": "価格取得日",
             "type": "timestamp",
             "required": true,
-            "description": "この価格情報を取得した日時"
+            "description": "この価格情報を取得した日付"
           },
           {
             "name": "価格情報源",
@@ -4782,296 +4769,32 @@
         ]
       },
       {
-        "tableName": "購買パターン分析結果",
-        "purpose": "顧客の購買行動パターンを分析し、営業戦略立案や提案活動に活用するための分析結果を管理する",
-        "columns": [
-          {
-            "name": "分析結果ID",
-            "type": "uuid",
-            "required": true,
-            "description": "購買パターン分析結果の一意識別子"
-          },
-          {
-            "name": "顧客ID",
-            "type": "uuid",
-            "required": true,
-            "description": "分析対象の顧客識別子"
-          },
-          {
-            "name": "分析期間開始日",
-            "type": "timestamp",
-            "required": true,
-            "description": "購買パターン分析の対象期間開始日"
-          },
-          {
-            "name": "分析期間終了日",
-            "type": "timestamp",
-            "required": true,
-            "description": "購買パターン分析の対象期間終了日"
-          },
-          {
-            "name": "購買頻度",
-            "type": "integer",
-            "required": true,
-            "description": "分析期間内の発注回数"
-          },
-          {
-            "name": "平均発注金額",
-            "type": "integer",
-            "required": true,
-            "description": "分析期間内の1回あたりの平均発注金額"
-          },
-          {
-            "name": "総購買金額",
-            "type": "integer",
-            "required": true,
-            "description": "分析期間内の総購買金額"
-          },
-          {
-            "name": "主要購買商品カテゴリ",
-            "type": "varchar(100)",
-            "required": true,
-            "description": "最も購買金額の多い商品カテゴリ"
-          },
-          {
-            "name": "購買季節性",
-            "type": "varchar(100)",
-            "required": false,
-            "description": "購買の季節的傾向（春夏秋冬、月次等）"
-          },
-          {
-            "name": "価格感度",
-            "type": "varchar(100)",
-            "required": true,
-            "description": "価格変動に対する反応度（高・中・低）"
-          },
-          {
-            "name": "交渉頻度",
-            "type": "integer",
-            "required": true,
-            "description": "分析期間内の単価交渉回数"
-          },
-          {
-            "name": "交渉成功率",
-            "type": "integer",
-            "required": false,
-            "description": "単価交渉の成功率（パーセント）"
-          },
-          {
-            "name": "市場価格との乖離率",
-            "type": "integer",
-            "required": false,
-            "description": "市場価格に対する購買価格の乖離率（パーセント）"
-          },
-          {
-            "name": "顧客ランク",
-            "type": "varchar(100)",
-            "required": true,
-            "description": "購買パターンに基づく顧客ランク（A・B・C等）"
-          },
-          {
-            "name": "推奨営業アプローチ",
-            "type": "text",
-            "required": false,
-            "description": "分析結果に基づく推奨営業戦略・アプローチ方法"
-          },
-          {
-            "name": "分析実行日時",
-            "type": "timestamp",
-            "required": true,
-            "description": "この分析を実行した日時"
-          },
-          {
-            "name": "作成日時",
-            "type": "timestamp",
-            "required": true,
-            "description": "レコード作成日時"
-          },
-          {
-            "name": "更新日時",
-            "type": "timestamp",
-            "required": true,
-            "description": "レコード最終更新日時"
-          },
-          {
-            "name": "作成者",
-            "type": "varchar(100)",
-            "required": true,
-            "description": "分析実行者・レコード作成者"
-          }
-        ]
-      },
-      {
-        "tableName": "価格戦略分析結果",
-        "purpose": "営業活動における価格戦略の分析結果を管理し、適切な価格設定と交渉戦略の立案を支援する",
-        "columns": [
-          {
-            "name": "分析結果ID",
-            "type": "uuid",
-            "required": true,
-            "description": "価格戦略分析結果の一意識別子"
-          },
-          {
-            "name": "分析対象商品コード",
-            "type": "varchar(100)",
-            "required": true,
-            "description": "分析対象となる商品の識別コード"
-          },
-          {
-            "name": "分析対象顧客ID",
-            "type": "uuid",
-            "required": false,
-            "description": "特定顧客向け分析の場合の顧客識別子"
-          },
-          {
-            "name": "分析期間開始日",
-            "type": "timestamp",
-            "required": true,
-            "description": "分析対象期間の開始日"
-          },
-          {
-            "name": "分析期間終了日",
-            "type": "timestamp",
-            "required": true,
-            "description": "分析対象期間の終了日"
-          },
-          {
-            "name": "現在単価",
-            "type": "integer",
-            "required": true,
-            "description": "分析時点での販売単価"
-          },
-          {
-            "name": "推奨単価",
-            "type": "integer",
-            "required": true,
-            "description": "分析結果に基づく推奨販売単価"
-          },
-          {
-            "name": "市場平均単価",
-            "type": "integer",
-            "required": true,
-            "description": "市場における平均単価"
-          },
-          {
-            "name": "競合最低単価",
-            "type": "integer",
-            "required": false,
-            "description": "競合他社の最低単価"
-          },
-          {
-            "name": "価格競争力スコア",
-            "type": "integer",
-            "required": true,
-            "description": "市場における価格競争力を数値化したスコア"
-          },
-          {
-            "name": "需要予測数量",
-            "type": "integer",
-            "required": true,
-            "description": "推奨単価での需要予測数量"
-          },
-          {
-            "name": "売上予測金額",
-            "type": "integer",
-            "required": true,
-            "description": "推奨単価での売上予測金額"
-          },
-          {
-            "name": "利益率",
-            "type": "integer",
-            "required": true,
-            "description": "推奨単価での利益率（百分率）"
-          },
-          {
-            "name": "価格弾力性",
-            "type": "integer",
-            "required": false,
-            "description": "価格変動に対する需要の弾力性"
-          },
-          {
-            "name": "戦略区分",
-            "type": "varchar(100)",
-            "required": true,
-            "description": "価格戦略の区分（プレミアム戦略、競争戦略、浸透戦略等）"
-          },
-          {
-            "name": "リスク評価",
-            "type": "varchar(100)",
-            "required": true,
-            "description": "価格戦略のリスク評価（高、中、低）"
-          },
-          {
-            "name": "実施推奨度",
-            "type": "varchar(100)",
-            "required": true,
-            "description": "戦略実施の推奨度（強く推奨、推奨、要検討、非推奨）"
-          },
-          {
-            "name": "分析手法",
-            "type": "varchar(100)",
-            "required": true,
-            "description": "使用した分析手法の種類"
-          },
-          {
-            "name": "備考",
-            "type": "text",
-            "required": false,
-            "description": "分析結果に関する補足情報や注意事項"
-          },
-          {
-            "name": "承認状況",
-            "type": "varchar(100)",
-            "required": true,
-            "description": "分析結果の承認状況（未承認、承認済み、却下）"
-          },
-          {
-            "name": "承認者ID",
-            "type": "uuid",
-            "required": false,
-            "description": "分析結果を承認した担当者の識別子"
-          },
-          {
-            "name": "承認日時",
-            "type": "timestamp",
-            "required": false,
-            "description": "分析結果が承認された日時"
-          },
-          {
-            "name": "作成者ID",
-            "type": "uuid",
-            "required": true,
-            "description": "分析を実行した担当者の識別子"
-          },
-          {
-            "name": "作成日時",
-            "type": "timestamp",
-            "required": true,
-            "description": "分析結果が作成された日時"
-          },
-          {
-            "name": "更新日時",
-            "type": "timestamp",
-            "required": true,
-            "description": "分析結果が最後に更新された日時"
-          }
-        ]
-      },
-      {
-        "tableName": "月次集計データ",
-        "purpose": "営業支援システムにおける月次の売上、発注、価格動向等の集計結果を管理し、営業戦略立案や業績分析に活用する",
+        "tableName": "月次集計結果",
+        "purpose": "営業活動の月次パフォーマンスを集計し、売上実績、発注状況、価格交渉効果などの営業KPIを管理する",
         "columns": [
           {
             "name": "集計ID",
             "type": "uuid",
             "required": true,
-            "description": "月次集計データの一意識別子"
+            "description": "月次集計結果の一意識別子"
           },
           {
-            "name": "集計年月",
+            "name": "対象年月",
             "type": "varchar(100)",
             "required": true,
             "description": "集計対象の年月（YYYY-MM形式）"
+          },
+          {
+            "name": "営業担当者ID",
+            "type": "uuid",
+            "required": false,
+            "description": "担当営業者の識別子（全社集計の場合はNULL）"
+          },
+          {
+            "name": "顧客ID",
+            "type": "uuid",
+            "required": false,
+            "description": "顧客の識別子（全顧客集計の場合はNULL）"
           },
           {
             "name": "商品カテゴリ",
@@ -5080,64 +4803,58 @@
             "description": "集計対象の商品カテゴリ"
           },
           {
-            "name": "顧客区分",
-            "type": "varchar(100)",
-            "required": false,
-            "description": "集計対象の顧客区分"
-          },
-          {
-            "name": "売上金額",
-            "type": "integer",
-            "required": true,
-            "description": "月次売上金額"
-          },
-          {
             "name": "発注件数",
             "type": "integer",
             "required": true,
-            "description": "月次発注件数"
+            "description": "当月の発注件数"
           },
           {
-            "name": "発注金額",
+            "name": "発注金額合計",
             "type": "integer",
             "required": true,
-            "description": "月次発注金額"
+            "description": "当月の発注金額合計"
           },
           {
-            "name": "平均単価",
+            "name": "平均発注単価",
             "type": "integer",
             "required": true,
-            "description": "月次平均単価"
+            "description": "当月の平均発注単価"
           },
           {
-            "name": "価格交渉成功率",
+            "name": "価格交渉件数",
             "type": "integer",
-            "required": false,
-            "description": "価格交渉の成功率（パーセント）"
-          },
-          {
-            "name": "市場価格差異率",
-            "type": "integer",
-            "required": false,
-            "description": "市場価格との差異率（パーセント）"
-          },
-          {
-            "name": "新規顧客数",
-            "type": "integer",
-            "required": false,
-            "description": "月次新規顧客獲得数"
-          },
-          {
-            "name": "リピート顧客数",
-            "type": "integer",
-            "required": false,
-            "description": "月次リピート顧客数"
-          },
-          {
-            "name": "集計完了フラグ",
-            "type": "boolean",
             "required": true,
-            "description": "月次集計処理の完了状態"
+            "description": "当月の価格交渉実施件数"
+          },
+          {
+            "name": "価格交渉成功件数",
+            "type": "integer",
+            "required": true,
+            "description": "当月の価格交渉成功件数"
+          },
+          {
+            "name": "コスト削減額",
+            "type": "integer",
+            "required": true,
+            "description": "価格交渉による削減金額"
+          },
+          {
+            "name": "市場価格との乖離率",
+            "type": "integer",
+            "required": true,
+            "description": "市場価格との乖離率（百分率、小数点以下2桁）"
+          },
+          {
+            "name": "前月比発注金額増減率",
+            "type": "integer",
+            "required": true,
+            "description": "前月比の発注金額増減率（百分率、小数点以下2桁）"
+          },
+          {
+            "name": "集計ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "集計処理のステータス（処理中/完了/エラー）"
           },
           {
             "name": "作成日時",
@@ -5160,20 +4877,266 @@
         ]
       },
       {
-        "tableName": "顧客別分析データ",
-        "purpose": "顧客ごとの購買行動、価格感度、収益性などを分析し、営業戦略立案に必要な情報を提供する",
+        "tableName": "購買パターン分析結果",
+        "purpose": "発注データと市場価格データを分析して得られた購買パターンの結果を保存し、営業戦略の立案や価格交渉の支援に活用する",
         "columns": [
           {
-            "name": "顧客別分析ID",
+            "name": "分析結果ID",
             "type": "uuid",
             "required": true,
-            "description": "顧客別分析データの一意識別子"
+            "description": "購買パターン分析結果の一意識別子"
+          },
+          {
+            "name": "分析対象期間開始日",
+            "type": "timestamp",
+            "required": true,
+            "description": "分析対象となる期間の開始日"
+          },
+          {
+            "name": "分析対象期間終了日",
+            "type": "timestamp",
+            "required": true,
+            "description": "分析対象となる期間の終了日"
+          },
+          {
+            "name": "顧客ID",
+            "type": "uuid",
+            "required": false,
+            "description": "特定顧客の分析の場合の顧客識別子"
+          },
+          {
+            "name": "商品カテゴリ",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "分析対象の商品カテゴリ"
+          },
+          {
+            "name": "購買頻度",
+            "type": "integer",
+            "required": true,
+            "description": "分析期間内の購買回数"
+          },
+          {
+            "name": "平均発注量",
+            "type": "integer",
+            "required": true,
+            "description": "1回あたりの平均発注数量"
+          },
+          {
+            "name": "平均単価",
+            "type": "integer",
+            "required": true,
+            "description": "分析期間内の平均購買単価"
+          },
+          {
+            "name": "市場価格との乖離率",
+            "type": "integer",
+            "required": true,
+            "description": "市場価格に対する購買価格の乖離率（パーセント）"
+          },
+          {
+            "name": "季節性パターン",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "季節による購買パターンの特徴"
+          },
+          {
+            "name": "価格感応度",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "価格変動に対する購買行動の反応度"
+          },
+          {
+            "name": "推奨アクション",
+            "type": "text",
+            "required": false,
+            "description": "分析結果に基づく営業戦略の推奨事項"
+          },
+          {
+            "name": "分析実行日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "この分析が実行された日時"
+          },
+          {
+            "name": "分析者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "分析を実行したユーザーの識別子"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          }
+        ]
+      },
+      {
+        "tableName": "価格戦略分析結果",
+        "purpose": "営業活動における価格戦略の分析結果を保存し、価格設定の意思決定を支援する",
+        "columns": [
+          {
+            "name": "分析結果ID",
+            "type": "uuid",
+            "required": true,
+            "description": "価格戦略分析結果の一意識別子"
+          },
+          {
+            "name": "分析対象商品コード",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "分析対象となる商品の識別コード"
+          },
+          {
+            "name": "分析対象商品名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "分析対象商品の名称"
+          },
+          {
+            "name": "分析期間開始日",
+            "type": "timestamp",
+            "required": true,
+            "description": "価格分析を行った期間の開始日"
+          },
+          {
+            "name": "分析期間終了日",
+            "type": "timestamp",
+            "required": true,
+            "description": "価格分析を行った期間の終了日"
+          },
+          {
+            "name": "現在単価",
+            "type": "integer",
+            "required": true,
+            "description": "分析時点での商品単価"
+          },
+          {
+            "name": "推奨単価",
+            "type": "integer",
+            "required": true,
+            "description": "分析結果に基づく推奨販売単価"
+          },
+          {
+            "name": "市場平均単価",
+            "type": "integer",
+            "required": true,
+            "description": "市場における同等商品の平均単価"
+          },
+          {
+            "name": "価格競争力指数",
+            "type": "integer",
+            "required": true,
+            "description": "市場における価格競争力を数値化した指標"
+          },
+          {
+            "name": "売上予測金額",
+            "type": "integer",
+            "required": true,
+            "description": "推奨単価適用時の売上予測額"
+          },
+          {
+            "name": "利益率",
+            "type": "integer",
+            "required": true,
+            "description": "推奨単価での利益率（パーセント）"
+          },
+          {
+            "name": "分析手法",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "使用した価格分析手法の種別"
+          },
+          {
+            "name": "戦略区分",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "価格戦略の区分（プレミアム戦略、コスト戦略等）"
+          },
+          {
+            "name": "リスク評価",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "価格変更に伴うリスクレベル"
+          },
+          {
+            "name": "実施推奨度",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "分析結果の実施推奨レベル"
+          },
+          {
+            "name": "分析コメント",
+            "type": "text",
+            "required": false,
+            "description": "分析結果に関する詳細コメントや注意事項"
+          },
+          {
+            "name": "承認状況",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "分析結果の承認状況"
+          },
+          {
+            "name": "承認者ID",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "分析結果を承認した担当者ID"
+          },
+          {
+            "name": "承認日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "分析結果が承認された日時"
+          },
+          {
+            "name": "作成者ID",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "分析を実行した担当者ID"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "分析結果が作成された日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "分析結果が最後に更新された日時"
+          }
+        ]
+      },
+      {
+        "tableName": "顧客別単価比較分析結果",
+        "purpose": "顧客ごとの単価水準を市場価格や他顧客と比較分析し、価格交渉や営業戦略立案に活用するための分析結果を管理",
+        "columns": [
+          {
+            "name": "分析結果ID",
+            "type": "uuid",
+            "required": true,
+            "description": "分析結果の一意識別子"
           },
           {
             "name": "顧客ID",
             "type": "uuid",
             "required": true,
             "description": "分析対象顧客の識別子"
+          },
+          {
+            "name": "商品ID",
+            "type": "uuid",
+            "required": true,
+            "description": "分析対象商品の識別子"
           },
           {
             "name": "分析期間開始日",
@@ -5188,70 +5151,76 @@
             "description": "分析対象期間の終了日"
           },
           {
-            "name": "総発注回数",
+            "name": "顧客単価",
             "type": "integer",
             "required": true,
-            "description": "期間内の総発注回数"
+            "description": "対象顧客の平均単価"
           },
           {
-            "name": "総発注金額",
+            "name": "市場平均単価",
             "type": "integer",
             "required": true,
-            "description": "期間内の総発注金額"
+            "description": "市場での平均単価"
           },
           {
-            "name": "平均発注金額",
+            "name": "全顧客平均単価",
             "type": "integer",
             "required": true,
-            "description": "1回あたりの平均発注金額"
+            "description": "全顧客での平均単価"
           },
           {
-            "name": "価格交渉回数",
+            "name": "市場比較差額",
             "type": "integer",
             "required": true,
-            "description": "期間内の価格交渉実施回数"
+            "description": "市場平均単価との差額"
           },
           {
-            "name": "価格交渉成功率",
+            "name": "市場比較率",
             "type": "integer",
             "required": true,
-            "description": "価格交渉の成功率（パーセント）"
+            "description": "市場平均単価との比較率（％）"
           },
           {
-            "name": "市場価格との乖離率",
+            "name": "全顧客比較差額",
             "type": "integer",
             "required": true,
-            "description": "市場価格に対する取引価格の乖離率（パーセント）"
+            "description": "全顧客平均単価との差額"
           },
           {
-            "name": "購買パターン分類",
+            "name": "全顧客比較率",
+            "type": "integer",
+            "required": true,
+            "description": "全顧客平均単価との比較率（％）"
+          },
+          {
+            "name": "価格ランク",
             "type": "varchar(100)",
             "required": true,
-            "description": "購買パターン分析結果による顧客分類"
+            "description": "単価水準のランク（高価格帯/標準価格帯/低価格帯等）"
           },
           {
-            "name": "収益性ランク",
-            "type": "varchar(100)",
+            "name": "取引数量",
+            "type": "integer",
             "required": true,
-            "description": "顧客の収益性によるランク分け"
+            "description": "分析期間中の取引数量"
           },
           {
-            "name": "推奨価格戦略",
-            "type": "varchar(100)",
+            "name": "取引回数",
+            "type": "integer",
             "required": true,
-            "description": "価格戦略分析結果に基づく推奨戦略"
+            "description": "分析期間中の取引回数"
           },
           {
-            "name": "リスク評価",
-            "type": "varchar(100)",
-            "required": true,
-            "description": "取引継続リスクの評価結果"
+            "name": "価格改善余地",
+            "type": "integer",
+            "required": false,
+            "description": "価格改善の余地金額"
           },
           {
-            "name": "営業優先度",
+            "name": "推奨アクション",
             "type": "varchar(100)",
-            "required": true,
-            "description": "営業活動における優先度"
+            "required": false,
+            "description": "営業への推奨アクション（価格交渉/現状維持/条件見直し等）"
           },
           {
             "name": "備考",
@@ -5275,7 +5244,7 @@
             "name": "作成者",
             "type": "varchar(100)",
             "required": true,
-            "description": "レコード作成者"
+            "description": "分析実行者"
           }
         ]
       }
