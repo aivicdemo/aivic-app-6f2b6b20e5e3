@@ -77,7 +77,7 @@ Resources:
         - Key: TableIndex
           Value: "2"
         - Key: TableName
-          Value: "購買パターン分析結果"
+          Value: "月次集計結果"
 
   DynamoDBTable3:
     Type: AWS::DynamoDB::Table
@@ -96,7 +96,7 @@ Resources:
         - Key: TableIndex
           Value: "3"
         - Key: TableName
-          Value: "価格戦略分析結果"
+          Value: "購買パターン分析結果"
 
   DynamoDBTable4:
     Type: AWS::DynamoDB::Table
@@ -115,7 +115,7 @@ Resources:
         - Key: TableIndex
           Value: "4"
         - Key: TableName
-          Value: "月次集計データ"
+          Value: "価格戦略分析結果"
 
   DynamoDBTable5:
     Type: AWS::DynamoDB::Table
@@ -134,7 +134,7 @@ Resources:
         - Key: TableIndex
           Value: "5"
         - Key: TableName
-          Value: "顧客別分析データ"
+          Value: "顧客別単価比較分析結果"
 
   # ── Lambda 関数 ───────────────────────────────────────────────
   AivicApiFunction:
@@ -214,17 +214,17 @@ Outputs:
     Value: !Ref DynamoDBTable1
 
   Table2Name:
-    Description: "DynamoDB table name for 購買パターン分析結果"
+    Description: "DynamoDB table name for 月次集計結果"
     Value: !Ref DynamoDBTable2
 
   Table3Name:
-    Description: "DynamoDB table name for 価格戦略分析結果"
+    Description: "DynamoDB table name for 購買パターン分析結果"
     Value: !Ref DynamoDBTable3
 
   Table4Name:
-    Description: "DynamoDB table name for 月次集計データ"
+    Description: "DynamoDB table name for 価格戦略分析結果"
     Value: !Ref DynamoDBTable4
 
   Table5Name:
-    Description: "DynamoDB table name for 顧客別分析データ"
+    Description: "DynamoDB table name for 顧客別単価比較分析結果"
     Value: !Ref DynamoDBTable5
